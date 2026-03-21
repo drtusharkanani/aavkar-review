@@ -548,7 +548,7 @@
 <!-- HERO -->
 <div class="hero">
   <div class="cross-icon">✚</div>
-  <div class="hospital-sub" id="heroHospital">Multi-Speciality Hospital</div>
+  <div class="hospital-sub" id="heroHospital" style="display:none"></div>
   <h1 class="hospital-name" id="heroHospitalName">Loading...</h1>
   <div class="divider-gold"></div>
   <div class="doctor-card">
@@ -580,11 +580,11 @@
   <!-- SUBMIT -->
   <button class="submit-btn" id="submitBtn">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+      <path d="M8 5H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-1M8 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M8 5a2 2 0 0 0-1-1h6a2 2 0 0 1 1 1m0 0h2a2 2 0 0 1 2 2v3"/>
     </svg>
-    Post Review on Google
+    <span id="submitBtnText">Copy Review for Google</span>
   </button>
-  <p class="hint">Tap above → review copies → Google opens → Long press &amp; Paste ✓</p>
+  <p class="hint" id="submitHint">Tap to copy → Google opens → Long press &amp; Paste ✓</p>
 </div>
 
 <!-- QR SECTION -->
@@ -595,7 +595,7 @@
   <div class="qr-url" id="pageUrl"></div>
 </div>
 
-<footer id="footerText">Doctor Review App</footer>
+<footer id="footerText">Powered by GoodReview Team · goodreview.in</footer>
 
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
@@ -618,59 +618,601 @@ const DOCTORS = {
   "101": {
     name:       "Dr. Tushar Kanani",
     degree:     "MD Medicine",
-    specialty:  "Physician Consultant",
+    specialty:  "general_physician",
     city:       "Keshod",
     hospital:   "Aavkar Multi-Speciality Hospital",
+    plan:       "premium",
+    customTags: [],
     gmb:        "https://search.google.com/local/writereview?placeid=ChIJa8KcAAlR_TsRCV8yQnD3jdQ&source=g.page.m._&laa=merchant-review-solicitation"
   },
-
-  // ── ADD MORE DOCTORS BELOW ──
-  // Copy one block, change the ID number and details
 
   "102": {
     name:       "Dr. Example Doctor",
     degree:     "MS Ortho",
-    specialty:  "Orthopedic Surgeon",
+    specialty:  "orthopedic",
     city:       "Ahmedabad",
     hospital:   "Example Hospital",
+    plan:       "starter",
+    customTags: [],
     gmb:        "https://g.page/r/YOUR_PLACE_ID/review"
   },
-
-  // "103": {
-  //   name:       "Dr. Another Doctor",
-  //   degree:     "DM Cardiology",
-  //   specialty:  "Cardiologist",
-  //   city:       "Surat",
-  //   hospital:   "Heart Care Hospital",
-  //   gmb:        "https://g.page/r/YOUR_PLACE_ID/review"
-  // },
 
 };
 
 // ═══════════════════════════════════════════════════════
-//  STATIC TAGS (always shown)
+//  QUALITY TAGS — shown for ALL specialties
 // ═══════════════════════════════════════════════════════
-const STATIC_TAGS = [
-  // ── Quality tags ──
+const QUALITY_TAGS = [
   { key: "excellent_doctor",   emoji: "👨‍⚕️", label: "Excellent Doctor" },
-  { key: "accurate_diagnosis", emoji: "🎯", label: "Accurate Diagnosis" },
-  { key: "very_caring",        emoji: "🤗", label: "Very Caring" },
-  { key: "knowledgeable",      emoji: "📚", label: "Knowledgeable" },
-  { key: "explained_clearly",  emoji: "💬", label: "Explained Clearly" },
-  { key: "clean_hospital",     emoji: "✨", label: "Clean Hospital" },
-  { key: "friendly_staff",     emoji: "😊", label: "Friendly Staff" },
-  { key: "quick_service",      emoji: "⚡", label: "Quick Service" },
-  { key: "good_followup",      emoji: "📞", label: "Good Follow-up" },
-  { key: "highly_recommended", emoji: "🏆", label: "Highly Recommended" },
-  { key: "affordable_fees",    emoji: "💰", label: "Affordable Fees" },
-  { key: "best_in_city",       emoji: "🌟", label: "Best in City" },
-  // ── Medical condition tags ──
-  { key: "diabetes",           emoji: "🩸", label: "Diabetes" },
-  { key: "hypertension",       emoji: "💊", label: "Hypertension" },
-  { key: "heart_attack",       emoji: "❤️", label: "Heart Attack" },
-  { key: "cardiac",            emoji: "🫀", label: "Cardiac Care" },
-  { key: "thyroid",            emoji: "🦋", label: "Thyroid" },
+  { key: "accurate_diagnosis", emoji: "🎯",  label: "Accurate Diagnosis" },
+  { key: "very_caring",        emoji: "🤗",  label: "Very Caring" },
+  { key: "knowledgeable",      emoji: "📚",  label: "Knowledgeable" },
+  { key: "explained_clearly",  emoji: "💬",  label: "Explained Clearly" },
+  { key: "clean_hospital",     emoji: "✨",  label: "Clean Hospital" },
+  { key: "friendly_staff",     emoji: "😊",  label: "Friendly Staff" },
+  { key: "quick_service",      emoji: "⚡",  label: "Quick Service" },
+  { key: "good_followup",      emoji: "📞",  label: "Good Follow-up" },
+  { key: "highly_recommended", emoji: "🏆",  label: "Highly Recommended" },
+  { key: "affordable_fees",    emoji: "💰",  label: "Affordable Fees" },
+  { key: "best_in_city",       emoji: "🌟",  label: "Best in City" },
 ];
+
+// ═══════════════════════════════════════════════════════
+//  SPECIALTY TAGS — shown based on doctor's specialty
+// ═══════════════════════════════════════════════════════
+const SPECIALTY_TAGS = {
+
+  ivf_specialist: [
+    { key: "ivf_treatment",     emoji: "🧬", label: "IVF Treatment" },
+    { key: "embryo_transfer",   emoji: "🔬", label: "Embryo Transfer" },
+    { key: "egg_freezing",      emoji: "❄️", label: "Egg Freezing" },
+    { key: "sperm_banking",     emoji: "🔬", label: "Sperm Banking" },
+    { key: "pcos_ivf",          emoji: "🔵", label: "PCOS Treatment" },
+    { key: "male_infert",       emoji: "🔬", label: "Male Infertility" },
+    { key: "iui",               emoji: "🧬", label: "IUI Treatment" },
+    { key: "surrogacy",         emoji: "🤰", label: "Surrogacy" },
+    { key: "recur_miscarriage", emoji: "💙", label: "Recurrent Miscarriage" },
+    { key: "fertility_consult", emoji: "👨‍⚕️", label: "Fertility Consultation" },
+  ],
+
+  cosmetic_surgeon: [
+    { key: "body_contouring",   emoji: "✨", label: "Body Contouring" },
+    { key: "tummy_tuck",        emoji: "✨", label: "Tummy Tuck" },
+    { key: "breast_augment",    emoji: "🔬", label: "Breast Augmentation" },
+    { key: "facelift",          emoji: "✨", label: "Facelift" },
+    { key: "liposuction",       emoji: "✨", label: "Liposuction" },
+    { key: "eyelid_surg",       emoji: "👁️", label: "Eyelid Surgery" },
+    { key: "nose_job",          emoji: "👃", label: "Nose Reshaping" },
+    { key: "scar_removal",      emoji: "✨", label: "Scar Removal" },
+    { key: "cosmetic_consult",  emoji: "💬", label: "Cosmetic Consultation" },
+  ],
+
+  cosmetic_dermatologist: [
+    { key: "botox",             emoji: "💉", label: "Botox" },
+    { key: "fillers",           emoji: "💉", label: "Dermal Fillers" },
+    { key: "laser_cosm",        emoji: "💡", label: "Laser Treatment" },
+    { key: "skin_bright",       emoji: "✨", label: "Skin Brightening" },
+    { key: "acne_scar",         emoji: "🔴", label: "Acne Scar Treatment" },
+    { key: "chemical_peel",     emoji: "✨", label: "Chemical Peel" },
+    { key: "prp_skin",          emoji: "🩸", label: "PRP Therapy" },
+    { key: "anti_aging_c",      emoji: "✨", label: "Anti-Aging Treatment" },
+    { key: "pigmentation",      emoji: "🌑", label: "Pigmentation Treatment" },
+    { key: "microneedling",     emoji: "🔬", label: "Microneedling" },
+  ],
+
+  hair_transplant: [
+    { key: "fue",               emoji: "💇", label: "FUE Hair Transplant" },
+    { key: "fut",               emoji: "💇", label: "FUT Hair Transplant" },
+    { key: "prp_hair",          emoji: "🩸", label: "PRP Hair Treatment" },
+    { key: "hair_loss_ht",      emoji: "💇", label: "Hair Loss Treatment" },
+    { key: "beard_transplant",  emoji: "🧔", label: "Beard Transplant" },
+    { key: "eyebrow_trans",     emoji: "✨", label: "Eyebrow Transplant" },
+    { key: "hair_consult",      emoji: "💬", label: "Hair Consultation" },
+    { key: "gfc_therapy",       emoji: "🧬", label: "GFC Therapy" },
+  ],
+
+  plastic_cosmetic: [
+    { key: "recon_surgery",     emoji: "🏥", label: "Reconstructive Surgery" },
+    { key: "burn_treatment",    emoji: "🔥", label: "Burn Treatment" },
+    { key: "cleft_lip",         emoji: "👶", label: "Cleft Lip Repair" },
+    { key: "hand_surgery",      emoji: "✋", label: "Hand Surgery" },
+    { key: "microsurgery",      emoji: "🔬", label: "Microsurgery" },
+    { key: "cosmetic_plastic",  emoji: "✨", label: "Cosmetic Procedures" },
+    { key: "skin_graft",        emoji: "🔬", label: "Skin Grafting" },
+    { key: "ear_reshape",       emoji: "👂", label: "Ear Reshaping" },
+  ],
+
+  smile_designer: [
+    { key: "smile_makeover",    emoji: "😊", label: "Smile Makeover" },
+    { key: "veneers",           emoji: "🦷", label: "Dental Veneers" },
+    { key: "teeth_whitening_s", emoji: "✨", label: "Teeth Whitening" },
+    { key: "composite_bond",    emoji: "🦷", label: "Composite Bonding" },
+    { key: "gum_contouring",    emoji: "🦷", label: "Gum Contouring" },
+    { key: "crown_bridge",      emoji: "👑", label: "Crown & Bridge" },
+    { key: "digital_smile",     emoji: "💻", label: "Digital Smile Design" },
+    { key: "full_mouth",        emoji: "🦷", label: "Full Mouth Rehab" },
+  ],
+
+  pediatric_dentist: [
+    { key: "kids_cavity",       emoji: "🦷", label: "Kids Cavity Treatment" },
+    { key: "kids_braces",       emoji: "😁", label: "Kids Braces" },
+    { key: "milk_teeth",        emoji: "🍼", label: "Milk Teeth Care" },
+    { key: "fluoride",          emoji: "🦷", label: "Fluoride Treatment" },
+    { key: "space_maintainer",  emoji: "🔬", label: "Space Maintainer" },
+    { key: "kids_extraction",   emoji: "🦷", label: "Gentle Extraction" },
+    { key: "kids_checkup",      emoji: "✅", label: "Kids Dental Checkup" },
+    { key: "pit_fissure",       emoji: "🦷", label: "Pit & Fissure Sealant" },
+  ],
+
+  geriatric_dentist: [
+    { key: "dentures_g",        emoji: "😁", label: "Dentures" },
+    { key: "implant_elderly",   emoji: "🔩", label: "Dental Implants" },
+    { key: "dry_mouth",         emoji: "💧", label: "Dry Mouth Treatment" },
+    { key: "gum_elderly",       emoji: "🦷", label: "Gum Disease" },
+    { key: "tooth_loss",        emoji: "🦷", label: "Tooth Loss" },
+    { key: "senior_checkup",    emoji: "✅", label: "Senior Dental Checkup" },
+    { key: "pain_free",         emoji: "😌", label: "Pain Free Dentistry" },
+    { key: "oral_cancer_scr",   emoji: "🎗️", label: "Oral Cancer Screening" },
+  ],
+
+  neonatologist: [
+    { key: "nicu",              emoji: "🍼", label: "NICU Care" },
+    { key: "premature_baby",    emoji: "👶", label: "Premature Baby" },
+    { key: "newborn_jaundice",  emoji: "🟡", label: "Newborn Jaundice" },
+    { key: "birth_defects",     emoji: "🔬", label: "Birth Defects" },
+    { key: "respiratory_neo",   emoji: "🫁", label: "Respiratory Distress" },
+    { key: "newborn_infection",  emoji: "🦠", label: "Newborn Infection" },
+    { key: "breastfeed_support", emoji: "🤱", label: "Breastfeeding Support" },
+    { key: "newborn_screen",    emoji: "🔬", label: "Newborn Screening" },
+  ],
+
+  spine_specialist: [
+    { key: "slip_disc_s",       emoji: "🔴", label: "Slip Disc" },
+    { key: "sciatica_s",        emoji: "⚡", label: "Sciatica" },
+    { key: "spondylosis",       emoji: "🦴", label: "Spondylosis" },
+    { key: "spine_surgery_s",   emoji: "🔬", label: "Spine Surgery" },
+    { key: "back_pain_s",       emoji: "🦴", label: "Back Pain" },
+    { key: "neck_pain_s",       emoji: "💆", label: "Neck Pain" },
+    { key: "kyphosis",          emoji: "🦴", label: "Kyphosis / Scoliosis" },
+    { key: "vertebral_frac",    emoji: "🦴", label: "Vertebral Fracture" },
+    { key: "minimally_inv",     emoji: "🔬", label: "Minimally Invasive Surgery" },
+  ],
+
+  dietitian: [
+    { key: "weight_loss_d",     emoji: "⚖️", label: "Weight Loss" },
+    { key: "weight_gain",       emoji: "💪", label: "Weight Gain" },
+    { key: "diabetic_diet",     emoji: "🩸", label: "Diabetic Diet" },
+    { key: "heart_diet",        emoji: "❤️", label: "Heart Healthy Diet" },
+    { key: "child_diet",        emoji: "👶", label: "Child Nutrition" },
+    { key: "sports_diet",       emoji: "⚽", label: "Sports Nutrition" },
+    { key: "pcos_diet",         emoji: "🔵", label: "PCOS Diet" },
+    { key: "thyroid_diet",      emoji: "🦋", label: "Thyroid Diet" },
+    { key: "gut_health",        emoji: "🫃", label: "Gut Health" },
+    { key: "meal_plan",         emoji: "🥗", label: "Meal Planning" },
+    { key: "pregnancy_diet",    emoji: "🤰", label: "Pregnancy Diet" },
+    { key: "senior_diet",       emoji: "👴", label: "Senior Nutrition" },
+  ],
+
+  nutritionist: [
+    { key: "nutrition_plan",    emoji: "🥗", label: "Nutrition Planning" },
+    { key: "immunity_n",        emoji: "🛡️", label: "Immunity Nutrition" },
+    { key: "weight_n",          emoji: "⚖️", label: "Weight Management" },
+    { key: "supplement",        emoji: "💊", label: "Supplement Advice" },
+    { key: "detox_n",           emoji: "✨", label: "Detox Diet" },
+    { key: "vegan_diet",        emoji: "🌱", label: "Vegan Diet" },
+    { key: "sports_n",          emoji: "🏃", label: "Sports Nutrition" },
+    { key: "anti_aging_n",      emoji: "✨", label: "Anti-Aging Nutrition" },
+    { key: "gut_n",             emoji: "🫃", label: "Gut Health" },
+    { key: "food_allergy",      emoji: "🌸", label: "Food Allergy" },
+  ],
+
+  yoga_therapist: [
+    { key: "stress_yoga",       emoji: "🧘", label: "Stress Relief" },
+    { key: "back_yoga",         emoji: "🦴", label: "Back Pain Yoga" },
+    { key: "bp_yoga",           emoji: "💊", label: "Blood Pressure Yoga" },
+    { key: "diabetes_yoga",     emoji: "🩸", label: "Diabetes Yoga" },
+    { key: "anxiety_yoga",      emoji: "😰", label: "Anxiety Relief" },
+    { key: "weight_yoga",       emoji: "⚖️", label: "Weight Management" },
+    { key: "prenatal_yoga",     emoji: "🤰", label: "Prenatal Yoga" },
+    { key: "meditation",        emoji: "🧘", label: "Meditation" },
+    { key: "pranayama",         emoji: "💨", label: "Pranayama" },
+    { key: "senior_yoga",       emoji: "👴", label: "Senior Yoga" },
+    { key: "kids_yoga",         emoji: "👶", label: "Kids Yoga" },
+    { key: "sleep_yoga",        emoji: "😴", label: "Sleep Improvement" },
+  ],
+
+  naturopath: [
+    { key: "detox_nat",         emoji: "✨", label: "Detox Therapy" },
+    { key: "herbal_nat",        emoji: "🌿", label: "Herbal Medicine" },
+    { key: "immunity_nat",      emoji: "🛡️", label: "Immunity Boost" },
+    { key: "chronic_nat",       emoji: "💊", label: "Chronic Disease" },
+    { key: "hydrotherapy",      emoji: "💧", label: "Hydrotherapy" },
+    { key: "diet_nat",          emoji: "🥗", label: "Therapeutic Diet" },
+    { key: "stress_nat",        emoji: "🧘", label: "Stress Management" },
+    { key: "skin_nat",          emoji: "🌸", label: "Skin Health" },
+  ],
+
+  wellness_coach: [
+    { key: "lifestyle",         emoji: "🌟", label: "Lifestyle Change" },
+    { key: "stress_wc",         emoji: "🧘", label: "Stress Management" },
+    { key: "sleep_wc",          emoji: "😴", label: "Sleep Improvement" },
+    { key: "mindfulness",       emoji: "💭", label: "Mindfulness" },
+    { key: "habit_coach",       emoji: "🎯", label: "Habit Building" },
+    { key: "corporate_well",    emoji: "💼", label: "Corporate Wellness" },
+    { key: "weight_wc",         emoji: "⚖️", label: "Weight Management" },
+    { key: "energy",            emoji: "⚡", label: "Energy & Vitality" },
+  ],
+
+  fitness_expert: [
+    { key: "weight_training",   emoji: "🏋️", label: "Weight Training" },
+    { key: "cardio_fit",        emoji: "🏃", label: "Cardio Fitness" },
+    { key: "rehab_fit",         emoji: "🏥", label: "Injury Rehab" },
+    { key: "post_surgery_fit",  emoji: "🩹", label: "Post Surgery Fitness" },
+    { key: "posture_fit",       emoji: "🧍", label: "Posture Correction" },
+    { key: "senior_fit",        emoji: "👴", label: "Senior Fitness" },
+    { key: "kids_fit",          emoji: "👶", label: "Kids Fitness" },
+    { key: "sports_fit",        emoji: "⚽", label: "Sports Performance" },
+  ],
+
+  general_practitioner: [
+    { key: "gp_fever",          emoji: "🤒", label: "Fever & Flu" },
+    { key: "gp_bp",             emoji: "💊", label: "Blood Pressure" },
+    { key: "gp_diabetes",       emoji: "🩸", label: "Diabetes" },
+    { key: "gp_thyroid",        emoji: "🦋", label: "Thyroid" },
+    { key: "gp_cholesterol",    emoji: "⚠️", label: "Cholesterol" },
+    { key: "gp_infection",      emoji: "🦠", label: "Infection" },
+    { key: "gp_stomach",        emoji: "🫃", label: "Stomach Issues" },
+    { key: "gp_allergy",        emoji: "🌸", label: "Allergy" },
+    { key: "gp_anemia",         emoji: "🔴", label: "Anemia" },
+    { key: "gp_general",        emoji: "🏥", label: "General Checkup" },
+    { key: "gp_senior",         emoji: "👴", label: "Senior Care" },
+    { key: "gp_preventive",     emoji: "🛡️", label: "Preventive Care" },
+  ],
+
+  family_medicine: [
+    { key: "fm_allages",        emoji: "👨‍👩‍👧‍👦", label: "All Age Groups" },
+    { key: "fm_chronic",        emoji: "💊", label: "Chronic Disease" },
+    { key: "fm_checkup",        emoji: "🏥", label: "Annual Checkup" },
+    { key: "fm_vaccination",    emoji: "💉", label: "Vaccination" },
+    { key: "fm_bp",             emoji: "❤️", label: "Blood Pressure" },
+    { key: "fm_diabetes",       emoji: "🩸", label: "Diabetes" },
+    { key: "fm_nutrition",      emoji: "🥗", label: "Nutrition Advice" },
+    { key: "fm_mental",         emoji: "🧠", label: "Mental Wellness" },
+  ],
+
+  general_surgeon: [
+    { key: "appendix",          emoji: "🔬", label: "Appendix Surgery" },
+    { key: "hernia_gen",        emoji: "🏥", label: "Hernia" },
+    { key: "gallbladder",       emoji: "🟡", label: "Gallbladder" },
+    { key: "hemorrhoids",       emoji: "🔴", label: "Hemorrhoids" },
+    { key: "thyroid_surg",      emoji: "🦋", label: "Thyroid Surgery" },
+    { key: "laparoscopy_gen",   emoji: "🔭", label: "Laparoscopy" },
+    { key: "wound_care",        emoji: "🩹", label: "Wound Care" },
+    { key: "cancer_surg",       emoji: "🎗️", label: "Cancer Surgery" },
+    { key: "obesity_surg",      emoji: "⚖️", label: "Obesity Surgery" },
+    { key: "abscess",           emoji: "🔴", label: "Abscess Drainage" },
+    { key: "fistula",           emoji: "🏥", label: "Fistula Surgery" },
+    { key: "breast_surg",       emoji: "🔬", label: "Breast Surgery" },
+  ],
+
+  cardiologist: [
+    { key: "heart_attack_c",    emoji: "❤️", label: "Heart Attack" },
+    { key: "angioplasty",       emoji: "🩺", label: "Angioplasty" },
+    { key: "bypass",            emoji: "🏥", label: "Bypass Surgery" },
+    { key: "ecg",               emoji: "📈", label: "ECG" },
+    { key: "echo",              emoji: "🔊", label: "Echocardiography" },
+    { key: "pacemaker",         emoji: "⚡", label: "Pacemaker" },
+    { key: "heart_failure",     emoji: "💔", label: "Heart Failure" },
+    { key: "cholesterol_c",     emoji: "⚠️", label: "Cholesterol" },
+    { key: "bp_cardio",         emoji: "💊", label: "Blood Pressure" },
+    { key: "arrhythmia",        emoji: "📉", label: "Arrhythmia" },
+    { key: "valve_disease",     emoji: "🫀", label: "Valve Disease" },
+    { key: "cardiac_rehab",     emoji: "🏃", label: "Cardiac Rehab" },
+  ],
+
+  neurologist: [
+    { key: "stroke",            emoji: "🧠", label: "Stroke" },
+    { key: "epilepsy",          emoji: "⚡", label: "Epilepsy" },
+    { key: "migraine_n",        emoji: "🤕", label: "Migraine" },
+    { key: "parkinsons",        emoji: "🤲", label: "Parkinson's" },
+    { key: "brain_tumor",       emoji: "🔬", label: "Brain Tumor" },
+    { key: "memory_loss",       emoji: "💭", label: "Memory Loss" },
+    { key: "nerve_pain",        emoji: "⚡", label: "Nerve Pain" },
+    { key: "vertigo",           emoji: "💫", label: "Vertigo" },
+    { key: "ms",                emoji: "🧬", label: "Multiple Sclerosis" },
+    { key: "neuropathy",        emoji: "🦵", label: "Neuropathy" },
+    { key: "dementia",          emoji: "🧠", label: "Dementia" },
+    { key: "headache",          emoji: "🤕", label: "Headache" },
+  ],
+
+  gastroenterologist: [
+    { key: "ibs",               emoji: "🫃", label: "IBS" },
+    { key: "acidity",           emoji: "🔥", label: "Acidity / GERD" },
+    { key: "colonoscopy",       emoji: "🔬", label: "Colonoscopy" },
+    { key: "liver_g",           emoji: "🟤", label: "Liver Disease" },
+    { key: "endoscopy",         emoji: "🔭", label: "Endoscopy" },
+    { key: "crohns",            emoji: "🏥", label: "Crohn's Disease" },
+    { key: "ulcer",             emoji: "🔴", label: "Ulcer" },
+    { key: "hepatitis",         emoji: "🟡", label: "Hepatitis" },
+    { key: "pancreas",          emoji: "🔬", label: "Pancreatitis" },
+    { key: "constipation",      emoji: "⚠️", label: "Constipation" },
+    { key: "jaundice",          emoji: "🟡", label: "Jaundice" },
+    { key: "colon_cancer",      emoji: "🎗️", label: "Colon Cancer" },
+  ],
+
+  pulmonologist: [
+    { key: "asthma_p",          emoji: "🫁", label: "Asthma" },
+    { key: "copd",              emoji: "💨", label: "COPD" },
+    { key: "pneumonia",         emoji: "🤒", label: "Pneumonia" },
+    { key: "tb",                emoji: "🦠", label: "Tuberculosis" },
+    { key: "sleep_apnea",       emoji: "😴", label: "Sleep Apnea" },
+    { key: "bronchitis",        emoji: "🫁", label: "Bronchitis" },
+    { key: "lung_cancer",       emoji: "🎗️", label: "Lung Cancer" },
+    { key: "breathing",         emoji: "💨", label: "Breathing Problems" },
+    { key: "allergy_p",         emoji: "🌸", label: "Respiratory Allergy" },
+    { key: "spirometry",        emoji: "📊", label: "Spirometry" },
+  ],
+
+  endocrinologist: [
+    { key: "diabetes_e",        emoji: "🩸", label: "Diabetes" },
+    { key: "thyroid_e",         emoji: "🦋", label: "Thyroid" },
+    { key: "pcos_e",            emoji: "🔵", label: "PCOS" },
+    { key: "obesity_e",         emoji: "⚖️", label: "Obesity" },
+    { key: "osteoporosis",      emoji: "🦴", label: "Osteoporosis" },
+    { key: "growth_disorder",   emoji: "📏", label: "Growth Disorder" },
+    { key: "adrenal",           emoji: "🔬", label: "Adrenal Disorder" },
+    { key: "hormone",           emoji: "⚗️", label: "Hormone Imbalance" },
+    { key: "insulin",           emoji: "💉", label: "Insulin Therapy" },
+    { key: "metabolic",         emoji: "🔄", label: "Metabolic Disorder" },
+  ],
+
+  nephrologist: [
+    { key: "kidney_stones",     emoji: "🫘", label: "Kidney Stones" },
+    { key: "ckd",               emoji: "🏥", label: "Chronic Kidney Disease" },
+    { key: "dialysis",          emoji: "🔬", label: "Dialysis" },
+    { key: "kidney_transplant", emoji: "🫘", label: "Kidney Transplant" },
+    { key: "uti",               emoji: "🦠", label: "UTI" },
+    { key: "proteinuria",       emoji: "🔬", label: "Proteinuria" },
+    { key: "hypertension_n",    emoji: "💊", label: "Hypertension" },
+    { key: "glomerulo",         emoji: "🔬", label: "Glomerulonephritis" },
+    { key: "electrolyte",       emoji: "⚗️", label: "Electrolyte Disorder" },
+  ],
+
+  oncologist: [
+    { key: "cancer_treat",      emoji: "🎗️", label: "Cancer Treatment" },
+    { key: "chemotherapy",      emoji: "💊", label: "Chemotherapy" },
+    { key: "radiation",         emoji: "☢️", label: "Radiation Therapy" },
+    { key: "immunotherapy",     emoji: "🛡️", label: "Immunotherapy" },
+    { key: "breast_cancer",     emoji: "🎗️", label: "Breast Cancer" },
+    { key: "lung_cancer_o",     emoji: "🎗️", label: "Lung Cancer" },
+    { key: "blood_cancer",      emoji: "🩸", label: "Blood Cancer" },
+    { key: "cancer_screening",  emoji: "🔬", label: "Cancer Screening" },
+    { key: "palliative",        emoji: "🤗", label: "Palliative Care" },
+  ],
+
+  ophthalmologist: [
+    { key: "cataract",          emoji: "👁️", label: "Cataract Surgery" },
+    { key: "lasik",             emoji: "💡", label: "LASIK Surgery" },
+    { key: "glaucoma",          emoji: "👁️", label: "Glaucoma" },
+    { key: "diabetic_retino",   emoji: "🩸", label: "Diabetic Retinopathy" },
+    { key: "dry_eyes",          emoji: "💧", label: "Dry Eyes" },
+    { key: "eye_infection",     emoji: "🦠", label: "Eye Infection" },
+    { key: "specs_power",       emoji: "👓", label: "Spectacle Power" },
+    { key: "retina",            emoji: "🔬", label: "Retina Treatment" },
+    { key: "child_eye",         emoji: "👶", label: "Child Eye Care" },
+    { key: "squint",            emoji: "👁️", label: "Squint" },
+    { key: "cornea",            emoji: "👁️", label: "Cornea Treatment" },
+  ],
+
+  ent_specialist: [
+    { key: "tonsils",           emoji: "👄", label: "Tonsil Surgery" },
+    { key: "sinus",             emoji: "😤", label: "Sinusitis" },
+    { key: "hearing_loss",      emoji: "👂", label: "Hearing Loss" },
+    { key: "ear_infection",     emoji: "👂", label: "Ear Infection" },
+    { key: "nose_bleed",        emoji: "🩸", label: "Nose Bleed" },
+    { key: "adenoid",           emoji: "🏥", label: "Adenoid" },
+    { key: "vertigo_ent",       emoji: "💫", label: "Vertigo" },
+    { key: "snoring",           emoji: "😴", label: "Snoring" },
+    { key: "throat_inf",        emoji: "😷", label: "Throat Infection" },
+    { key: "cochlear",          emoji: "👂", label: "Cochlear Implant" },
+    { key: "voice_disorder",    emoji: "🎤", label: "Voice Disorder" },
+  ],
+
+  psychiatrist: [
+    { key: "depression",        emoji: "😔", label: "Depression" },
+    { key: "anxiety_p",         emoji: "😰", label: "Anxiety" },
+    { key: "ocd",               emoji: "🔄", label: "OCD" },
+    { key: "bipolar",           emoji: "🔄", label: "Bipolar Disorder" },
+    { key: "schizophrenia",     emoji: "🧠", label: "Schizophrenia" },
+    { key: "addiction",         emoji: "🚫", label: "De-Addiction" },
+    { key: "ptsd",              emoji: "🧠", label: "PTSD" },
+    { key: "sleep_disorder",    emoji: "😴", label: "Sleep Disorder" },
+    { key: "child_psych",       emoji: "👶", label: "Child Psychiatry" },
+    { key: "counseling",        emoji: "💬", label: "Counseling" },
+  ],
+
+  urologist: [
+    { key: "kidney_stone_u",    emoji: "🫘", label: "Kidney Stones" },
+    { key: "prostate",          emoji: "🔬", label: "Prostate" },
+    { key: "uti_u",             emoji: "🦠", label: "UTI" },
+    { key: "male_infertility",  emoji: "🔬", label: "Male Infertility" },
+    { key: "bladder",           emoji: "🏥", label: "Bladder Issues" },
+    { key: "incontinence",      emoji: "💧", label: "Incontinence" },
+    { key: "uro_cancer",        emoji: "🎗️", label: "Urological Cancer" },
+    { key: "circumcision",      emoji: "🏥", label: "Circumcision" },
+    { key: "vasectomy",         emoji: "🔬", label: "Vasectomy" },
+  ],
+
+  neurosurgeon: [
+    { key: "brain_surgery",     emoji: "🧠", label: "Brain Surgery" },
+    { key: "spine_surgery_n",   emoji: "🔬", label: "Spine Surgery" },
+    { key: "tumor_ns",          emoji: "🎗️", label: "Brain Tumor" },
+    { key: "disc_ns",           emoji: "🔴", label: "Disc Problem" },
+    { key: "aneurysm",          emoji: "🫀", label: "Aneurysm" },
+    { key: "hydrocephalus",     emoji: "🧠", label: "Hydrocephalus" },
+    { key: "head_injury",       emoji: "🤕", label: "Head Injury" },
+    { key: "sciatica",          emoji: "⚡", label: "Sciatica" },
+  ],
+
+  dentist: [
+    { key: "root_canal",        emoji: "🦷", label: "Root Canal" },
+    { key: "whitening",         emoji: "✨", label: "Teeth Whitening" },
+    { key: "braces",            emoji: "😁", label: "Braces" },
+    { key: "implant",           emoji: "🔩", label: "Dental Implant" },
+    { key: "extraction",        emoji: "🦷", label: "Tooth Extraction" },
+    { key: "cavity",            emoji: "🕳️", label: "Cavity Filling" },
+    { key: "gum",               emoji: "🦷", label: "Gum Treatment" },
+    { key: "dentures",          emoji: "😁", label: "Dentures" },
+    { key: "scaling",           emoji: "✨", label: "Scaling & Cleaning" },
+    { key: "smile_makeover",    emoji: "😊", label: "Smile Makeover" },
+    { key: "kids_dental",       emoji: "👶", label: "Kids Dentistry" },
+    { key: "wisdom_tooth",      emoji: "🦷", label: "Wisdom Tooth" },
+  ],
+
+  physiotherapist: [
+    { key: "back_pain",         emoji: "🦴", label: "Back Pain" },
+    { key: "neck_pain",         emoji: "💆", label: "Neck Pain" },
+    { key: "sports_physio",     emoji: "⚽", label: "Sports Injury" },
+    { key: "post_surgery",      emoji: "🏥", label: "Post Surgery Rehab" },
+    { key: "stroke_physio",     emoji: "🧠", label: "Stroke Rehab" },
+    { key: "joint_physio",      emoji: "🦴", label: "Joint Pain" },
+    { key: "paralysis",         emoji: "🦽", label: "Paralysis Care" },
+    { key: "posture",           emoji: "🧍", label: "Posture Correction" },
+    { key: "electrotherapy",    emoji: "⚡", label: "Electrotherapy" },
+  ],
+
+  diabetologist: [
+    { key: "type1",             emoji: "🩸", label: "Type 1 Diabetes" },
+    { key: "type2",             emoji: "🩸", label: "Type 2 Diabetes" },
+    { key: "insulin_d",         emoji: "💉", label: "Insulin Management" },
+    { key: "hba1c",             emoji: "🔬", label: "HbA1c Control" },
+    { key: "diabetic_foot",     emoji: "🦶", label: "Diabetic Foot" },
+    { key: "diabetic_eye",      emoji: "👁️", label: "Diabetic Eye" },
+    { key: "diet_d",            emoji: "🥗", label: "Diabetic Diet" },
+    { key: "pump_therapy",      emoji: "⚙️", label: "Pump Therapy" },
+    { key: "prevention_d",      emoji: "🛡️", label: "Diabetes Prevention" },
+  ],
+
+  general_physician: [
+    { key: "diabetes",          emoji: "🩸", label: "Diabetes" },
+    { key: "hypertension",      emoji: "💊", label: "Hypertension" },
+    { key: "thyroid",           emoji: "🦋", label: "Thyroid" },
+    { key: "heart_disease",     emoji: "🫀", label: "Heart Disease" },
+    { key: "fever_viral",       emoji: "🤒", label: "Fever / Viral" },
+    { key: "kidney_disease",    emoji: "🫘", label: "Kidney Disease" },
+    { key: "liver_disease",     emoji: "🟤", label: "Liver Disease" },
+    { key: "asthma",            emoji: "🫁", label: "Asthma" },
+    { key: "anemia",            emoji: "🔴", label: "Anemia" },
+    { key: "cholesterol",       emoji: "⚠️", label: "Cholesterol" },
+    { key: "dengue_typhoid",    emoji: "🦟", label: "Dengue / Typhoid" },
+    { key: "arthritis",         emoji: "🦴", label: "Arthritis" },
+    { key: "weight_management", emoji: "⚖️", label: "Weight Management" },
+  ],
+
+  pediatrician: [
+    { key: "newborn_care",      emoji: "👶", label: "Newborn Care" },
+    { key: "vaccination",       emoji: "💉", label: "Vaccination" },
+    { key: "growth_monitoring", emoji: "📏", label: "Growth Monitoring" },
+    { key: "child_fever",       emoji: "🤒", label: "Child Fever" },
+    { key: "child_nutrition",   emoji: "🥗", label: "Child Nutrition" },
+    { key: "child_asthma",      emoji: "🫁", label: "Asthma in Child" },
+    { key: "skin_rash",         emoji: "🌡️", label: "Skin Rash" },
+    { key: "diarrhea",          emoji: "🏥", label: "Diarrhea" },
+    { key: "nicu_care",         emoji: "🍼", label: "NICU Care" },
+    { key: "developmental",     emoji: "🧠", label: "Development Care" },
+    { key: "child_infection",   emoji: "🦠", label: "Child Infection" },
+    { key: "child_allergy",     emoji: "🌸", label: "Child Allergy" },
+  ],
+
+  gynecologist: [
+    { key: "normal_delivery",   emoji: "👶", label: "Normal Delivery" },
+    { key: "c_section",         emoji: "🏥", label: "C-Section" },
+    { key: "pcos",              emoji: "🔵", label: "PCOS" },
+    { key: "pregnancy_care",    emoji: "🤰", label: "Pregnancy Care" },
+    { key: "infertility",       emoji: "💙", label: "Infertility" },
+    { key: "menstrual",         emoji: "📅", label: "Menstrual Problems" },
+    { key: "menopause",         emoji: "🌸", label: "Menopause" },
+    { key: "uterus_fibroid",    emoji: "🔬", label: "Uterus Fibroid" },
+    { key: "ovarian_cyst",      emoji: "🫧", label: "Ovarian Cyst" },
+    { key: "family_planning",   emoji: "👨‍👩‍👧", label: "Family Planning" },
+    { key: "high_risk_preg",    emoji: "⚠️", label: "High Risk Pregnancy" },
+    { key: "laparoscopy",       emoji: "🔭", label: "Laparoscopy" },
+  ],
+
+  orthopedic: [
+    { key: "fracture",          emoji: "🦴", label: "Fracture Treatment" },
+    { key: "knee_replacement",  emoji: "🦿", label: "Knee Replacement" },
+    { key: "hip_replacement",   emoji: "🦯", label: "Hip Replacement" },
+    { key: "spine_surgery",     emoji: "🔬", label: "Spine Surgery" },
+    { key: "sports_injury",     emoji: "⚽", label: "Sports Injury" },
+    { key: "joint_pain",        emoji: "😣", label: "Joint Pain" },
+    { key: "arthritis_ortho",   emoji: "🦴", label: "Arthritis" },
+    { key: "slip_disc",         emoji: "🔴", label: "Slip Disc" },
+    { key: "shoulder_pain",     emoji: "💪", label: "Shoulder Pain" },
+    { key: "physiotherapy",     emoji: "🏃", label: "Physiotherapy" },
+    { key: "ligament_tear",     emoji: "⚡", label: "Ligament Tear" },
+    { key: "bone_density",      emoji: "💪", label: "Bone Density" },
+  ],
+
+  dermatologist: [
+    { key: "acne",              emoji: "🔴", label: "Acne Treatment" },
+    { key: "hair_loss",         emoji: "💇", label: "Hair Loss" },
+    { key: "skin_allergy",      emoji: "🌸", label: "Skin Allergy" },
+    { key: "psoriasis",         emoji: "🔬", label: "Psoriasis" },
+    { key: "vitiligo",          emoji: "⬜", label: "Vitiligo" },
+    { key: "fungal",            emoji: "🍄", label: "Fungal Infection" },
+    { key: "anti_aging",        emoji: "✨", label: "Anti-Aging" },
+    { key: "laser",             emoji: "💡", label: "Laser Treatment" },
+    { key: "eczema",            emoji: "🔴", label: "Eczema" },
+    { key: "dark_spots",        emoji: "🌑", label: "Dark Spots" },
+    { key: "dandruff",          emoji: "❄️", label: "Dandruff" },
+    { key: "wart_removal",      emoji: "🔵", label: "Wart Removal" },
+  ],
+
+  ayurvedic: [
+    { key: "panchakarma",       emoji: "🌿", label: "Panchakarma" },
+    { key: "herbal_treatment",  emoji: "🌱", label: "Herbal Treatment" },
+    { key: "chronic_disease",   emoji: "💊", label: "Chronic Disease" },
+    { key: "digestion",         emoji: "🫃", label: "Digestion Issues" },
+    { key: "stress_anxiety",    emoji: "🧘", label: "Stress / Anxiety" },
+    { key: "joint_pain_ayu",    emoji: "🦴", label: "Joint Pain" },
+    { key: "skin_disease_ayu",  emoji: "🌸", label: "Skin Disease" },
+    { key: "immunity_boost",    emoji: "🛡️", label: "Immunity Boost" },
+    { key: "weight_loss_ayu",   emoji: "⚖️", label: "Weight Loss" },
+    { key: "diabetes_ayu",      emoji: "🩸", label: "Diabetes Care" },
+    { key: "detox",             emoji: "✨", label: "Detox Therapy" },
+    { key: "migraine_ayu",      emoji: "🧠", label: "Migraine Relief" },
+  ],
+
+  homeopathy: [
+    { key: "chronic_illness",   emoji: "💊", label: "Chronic Illness" },
+    { key: "allergy_homeo",     emoji: "🌼", label: "Allergy" },
+    { key: "skin_homeo",        emoji: "🌸", label: "Skin Problems" },
+    { key: "child_homeo",       emoji: "👶", label: "Child Diseases" },
+    { key: "hair_homeo",        emoji: "💇", label: "Hair Problems" },
+    { key: "migraine_homeo",    emoji: "🧠", label: "Migraine" },
+    { key: "thyroid_homeo",     emoji: "🦋", label: "Thyroid" },
+    { key: "pcos_homeo",        emoji: "🔵", label: "PCOS" },
+    { key: "joint_homeo",       emoji: "🦴", label: "Joint Pain" },
+    { key: "immunity_homeo",    emoji: "🛡️", label: "Immunity" },
+    { key: "anxiety_homeo",     emoji: "🧘", label: "Anxiety / Depression" },
+    { key: "kidney_homeo",      emoji: "🫘", label: "Kidney Stones" },
+  ],
+};
+
+// ═══════════════════════════════════════════════════════
+//  GET TAGS FOR A DOCTOR
+// ═══════════════════════════════════════════════════════
+function getTagsForDoctor(doc) {
+  const specialtyTags = SPECIALTY_TAGS[doc.specialty] || [];
+  const customTags = (doc.customTags || []).map(t => ({
+    key:   'custom_' + t.label.toLowerCase().replace(/\s+/g, '_'),
+    emoji: t.emoji || '🏷️',
+    label: t.label,
+    custom: true
+  }));
+  return [...QUALITY_TAGS, ...specialtyTags, ...customTags];
+}
 
 // ═══════════════════════════════════════════════════════
 //  LOAD DOCTOR FROM URL
@@ -700,7 +1242,7 @@ function initApp() {
   document.getElementById('heroAvatar').textContent = initials || 'DR';
   document.getElementById('heroDoctorName').textContent = DOC.name;
   document.getElementById('heroDoctorTitle').textContent = DOC.degree + ' · ' + DOC.specialty;
-  document.getElementById('footerText').textContent = DOC.hospital + ' · ' + DOC.name;
+  document.getElementById('footerText').textContent = DOC.hospital + ' · ' + DOC.city;
 
   // ── Hero badges ──
   const badgesEl = document.getElementById('heroBadges');
@@ -727,11 +1269,13 @@ function initApp() {
   cityTag.innerHTML = `<span class="emoji">📍</span> ${DOC.city}`;
   grid.appendChild(cityTag);
 
-  // Static tags
-  STATIC_TAGS.forEach(t => {
+  // Specialty + custom tags
+  const allTags = getTagsForDoctor(DOC);
+  allTags.forEach(t => {
     const el = document.createElement('div');
-    el.className = 'tag';
+    el.className = t.custom ? 'tag info-tag' : 'tag';
     el.dataset.tag = t.key;
+    el.dataset.label = t.label;
     el.innerHTML = `<span class="emoji">${t.emoji}</span> ${t.label}`;
     grid.appendChild(el);
   });
@@ -762,16 +1306,40 @@ function initApp() {
     correctLevel: QRCode.CorrectLevel.M
   });
 
-  // ═══ SUBMIT — copy + open GMB with text + 5 stars ═══
+  // ═══ SUBMIT — copy + show 2s message + open GMB ═══
   document.getElementById('submitBtn').addEventListener('click', function() {
     const text = document.getElementById('reviewBox').value.trim();
     if (!text) { showToast('⚠️ Please select tags or write a review first'); return; }
+
+    // Copy to clipboard
     copyToClipboard(text);
-    // Build URL with review text pre-filled + 5 stars pre-selected
-    const baseGmb = DOC.gmb.split('&text=')[0]; // strip old text param if any
-    const gmbWithText = baseGmb + '&rating=5&text=' + encodeURIComponent(text);
-    showToast('✅ Opening Google review...');
-    setTimeout(() => { window.open(gmbWithText, '_blank'); }, 400);
+
+    // Change button to "Copied! Now Paste" for 2 seconds
+    const btn = document.getElementById('submitBtn');
+    const btnText = document.getElementById('submitBtnText');
+    const hint = document.getElementById('submitHint');
+
+    btn.style.background = 'linear-gradient(135deg, #27ae60, #1e8449)';
+    btnText.textContent = '✅ Copied! Now Paste on Google';
+    hint.textContent = 'Opening Google in 2 seconds...';
+    hint.style.color = '#27ae60';
+    hint.style.fontWeight = '600';
+
+    // After 2 seconds — open Google
+    setTimeout(() => {
+      const baseGmb = DOC.gmb.split('&text=')[0];
+      const gmbWithText = baseGmb + '&rating=5&text=' + encodeURIComponent(text);
+      window.open(gmbWithText, '_blank');
+
+      // Reset button after opening
+      setTimeout(() => {
+        btn.style.background = '';
+        btnText.textContent = 'Copy Review for Google';
+        hint.textContent = 'Tap to copy → Google opens → Long press & Paste ✓';
+        hint.style.color = '';
+        hint.style.fontWeight = '';
+      }, 1000);
+    }, 2000);
   });
 }
 
@@ -790,7 +1358,7 @@ function buildTemplates(doc) {
       label: "🇬🇧 English",
       base: [
         `I visited ${H} and had a truly wonderful experience with ${N}.`,
-        `My visit to ${H} was excellent. ${N} is an outstanding ${SP}.`,
+        `My visit to ${H} was excellent. ${N} is an outstanding doctor.`,
         `I am so glad I chose ${H} in ${C}. ${N} gave me the best medical care.`,
         `Had a great experience at ${H}. ${N} is an exceptional doctor.`
       ],
@@ -813,7 +1381,89 @@ function buildTemplates(doc) {
         hypertension:       `my blood pressure is now well controlled thanks to ${N}`,
         heart_attack:       `${N} handled my cardiac emergency with exceptional skill and speed`,
         cardiac:            `${N} provided outstanding cardiac care and treatment`,
-        thyroid:            `my thyroid condition improved significantly under ${N}'s treatment`
+        thyroid:            `my thyroid condition improved significantly under ${N}'s treatment`,
+        heart_disease:      `${N} diagnosed and treated my heart condition with great expertise`,
+        fever_viral:        `${N} quickly diagnosed and treated my fever and viral infection`,
+        kidney_disease:     `${N} managed my kidney condition very effectively`,
+        liver_disease:      `${N} treated my liver problem with expertise and care`,
+        asthma:             `my breathing and asthma is much better after ${N}'s treatment`,
+        anemia:             `${N} identified and treated my anemia very effectively`,
+        cholesterol:        `my cholesterol levels are now under control thanks to ${N}`,
+        dengue_typhoid:     `${N} treated my dengue fever quickly and effectively`,
+        arthritis:          `my arthritis pain has reduced significantly under ${N}'s care`,
+        weight_management:  `${N} guided me very well in managing my weight`,
+        newborn_care:       `${N} took exceptional care of my newborn baby`,
+        vaccination:        `${N} followed the vaccination schedule perfectly for my child`,
+        growth_monitoring:  `${N} monitored my child's growth with great attention`,
+        child_fever:        `${N} treated my child's fever quickly and safely`,
+        child_nutrition:    `${N} gave excellent nutrition guidance for my child`,
+        child_asthma:       `my child's asthma improved greatly under ${N}'s treatment`,
+        skin_rash:          `${N} identified and treated my child's skin rash effectively`,
+        diarrhea:           `${N} treated my child's stomach issue quickly`,
+        nicu_care:          `the NICU care provided by ${N} was exceptional`,
+        developmental:      `${N} helped my child's development with expert guidance`,
+        child_infection:    `${N} treated my child's infection quickly and safely`,
+        child_allergy:      `${N} identified my child's allergy and treated it well`,
+        normal_delivery:    `${N} conducted my normal delivery with great care and skill`,
+        c_section:          `${N} performed my C-section with exceptional expertise`,
+        pcos:               `my PCOS condition improved greatly under ${N}'s treatment`,
+        pregnancy_care:     `${N} provided outstanding pregnancy care throughout my journey`,
+        infertility:        `${N} helped us overcome infertility with expert treatment`,
+        menstrual:          `my menstrual problems are now resolved thanks to ${N}`,
+        menopause:          `${N} helped me manage menopause symptoms very effectively`,
+        uterus_fibroid:     `${N} treated my uterine fibroid with great expertise`,
+        ovarian_cyst:       `${N} successfully treated my ovarian cyst`,
+        family_planning:    `${N} gave excellent family planning guidance`,
+        high_risk_preg:     `${N} managed my high-risk pregnancy with exceptional care`,
+        laparoscopy:        `${N} performed my laparoscopy with great skill`,
+        fracture:           `${N} treated my fracture with excellent care`,
+        knee_replacement:   `${N} performed my knee replacement surgery very successfully`,
+        hip_replacement:    `my hip replacement by ${N} was an excellent experience`,
+        spine_surgery:      `${N} performed my spine surgery with great expertise`,
+        sports_injury:      `${N} treated my sports injury very effectively`,
+        joint_pain:         `my joint pain has reduced greatly under ${N}'s treatment`,
+        arthritis_ortho:    `${N} is managing my arthritis very effectively`,
+        slip_disc:          `${N} treated my slip disc problem with great care`,
+        shoulder_pain:      `my shoulder pain is completely resolved thanks to ${N}`,
+        physiotherapy:      `the physiotherapy guidance from ${N} was excellent`,
+        ligament_tear:      `${N} treated my ligament tear very effectively`,
+        bone_density:       `${N} helped improve my bone density effectively`,
+        acne:               `my acne problem is completely resolved under ${N}'s treatment`,
+        hair_loss:          `my hair fall has reduced significantly thanks to ${N}`,
+        skin_allergy:       `${N} identified and treated my skin allergy very effectively`,
+        psoriasis:          `my psoriasis condition improved greatly under ${N}'s care`,
+        vitiligo:           `${N} is treating my vitiligo with great expertise`,
+        fungal:             `my fungal infection was treated quickly by ${N}`,
+        anti_aging:         `${N} provided excellent anti-aging skin treatment`,
+        laser:              `the laser treatment by ${N} gave me excellent results`,
+        eczema:             `my eczema is well controlled under ${N}'s treatment`,
+        dark_spots:         `${N} treated my dark spots and skin pigmentation very effectively`,
+        dandruff:           `my dandruff problem is resolved thanks to ${N}`,
+        wart_removal:       `${N} removed my wart safely and effectively`,
+        panchakarma:        `the Panchakarma therapy by ${N} gave me excellent results`,
+        herbal_treatment:   `${N}'s herbal treatment gave me natural and effective relief`,
+        chronic_disease:    `${N} is managing my chronic condition very effectively`,
+        digestion:          `my digestion problems are resolved with ${N}'s treatment`,
+        stress_anxiety:     `${N} helped me overcome stress and anxiety naturally`,
+        joint_pain_ayu:     `${N}'s Ayurvedic treatment for joint pain gave great relief`,
+        skin_disease_ayu:   `${N} treated my skin condition with excellent Ayurvedic remedies`,
+        immunity_boost:     `${N} helped me improve my immunity significantly`,
+        weight_loss_ayu:    `${N}'s weight loss treatment gave me excellent results`,
+        diabetes_ayu:       `${N}'s Ayurvedic care for diabetes has been very effective`,
+        detox:              `the detox therapy by ${N} was a wonderful experience`,
+        migraine_ayu:       `my migraine has reduced greatly under ${N}'s Ayurvedic care`,
+        chronic_illness:    `${N}'s homeopathic treatment for my chronic illness has been excellent`,
+        allergy_homeo:      `${N} treated my allergy very effectively with homeopathy`,
+        skin_homeo:         `my skin problem improved greatly with ${N}'s homeopathic treatment`,
+        child_homeo:        `${N} treated my child's health issues very effectively`,
+        hair_homeo:         `my hair problem improved significantly with ${N}'s treatment`,
+        migraine_homeo:     `my migraine frequency has reduced greatly under ${N}'s care`,
+        thyroid_homeo:      `${N} is managing my thyroid condition very effectively`,
+        pcos_homeo:         `my PCOS improved greatly with ${N}'s homeopathic treatment`,
+        joint_homeo:        `${N}'s homeopathic treatment gave great relief for my joint pain`,
+        immunity_homeo:     `my immunity has improved significantly under ${N}'s care`,
+        anxiety_homeo:      `${N} helped me overcome anxiety naturally with homeopathy`,
+        kidney_homeo:       `${N} treated my kidney stones effectively with homeopathy`
       },
       closing: [
         `Thank you ${N} and the entire ${H} team!`,
@@ -850,7 +1500,89 @@ function buildTemplates(doc) {
         hypertension:       `${N} ki dawai se mera blood pressure bilkul theek ho gaya`,
         heart_attack:       `${N} ne meri cardiac emergency mein bahut tezi se aur kushalta se ilaaj kiya`,
         cardiac:            `${N} ne mujhe heart ki bimari mein bahut behtareen ilaaj diya`,
-        thyroid:            `${N} ke ilaaj se meri thyroid ki takleef mein bahut sudhaar aaya`
+        thyroid:            `${N} ke ilaaj se meri thyroid ki takleef mein bahut sudhaar aaya`,
+        heart_disease:      `${N} ne meri dil ki bimari ka bahut achha ilaaj kiya`,
+        fever_viral:        `${N} ne meri bukhaar aur viral infection ko bahut jaldi theek kiya`,
+        kidney_disease:     `${N} meri kidney problem ko bahut achhe se manage kar rahe hain`,
+        liver_disease:      `${N} ne meri liver ki takleef mein bahut achha ilaaj diya`,
+        asthma:             `${N} ke ilaaj se meri saans ki takleef bahut kam ho gayi`,
+        anemia:             `${N} ne meri khoon ki kami ko bahut achhe se theek kiya`,
+        cholesterol:        `${N} ki dawai se mera cholesterol bilkul control ho gaya`,
+        dengue_typhoid:     `${N} ne mujhe dengue bukhar se bahut jaldi theek kiya`,
+        arthritis:          `${N} ke ilaaj se meri haddiyon ka dard bahut kam hua`,
+        weight_management:  `${N} ne mujhe wajan control karne mein bahut achhi madad ki`,
+        newborn_care:       `${N} ne mere naye bachche ka bahut achha dhyan rakha`,
+        vaccination:        `${N} ne mere bachche ka tikaakaran bilkul sahi se kiya`,
+        growth_monitoring:  `${N} mere bachche ke vikaas ka bahut dhyan rakhte hain`,
+        child_fever:        `${N} ne mere bachche ka bukhaar bahut jaldi theek kiya`,
+        child_nutrition:    `${N} ne bachche ke poshan ke baare mein bahut achhi salah di`,
+        child_asthma:       `${N} ke ilaaj se mere bachche ki saans ki takleef theek hui`,
+        skin_rash:          `${N} ne mere bachche ki skin rash ka bahut achha ilaaj kiya`,
+        diarrhea:           `${N} ne mere bachche ki pet ki takleef bahut jaldi theek ki`,
+        nicu_care:          `${N} ne NICU mein mere bachche ki bahut achhi dekhbhal ki`,
+        developmental:      `${N} ne mere bachche ke vikaas mein bahut madad ki`,
+        child_infection:    `${N} ne mere bachche ke infection ka bahut jaldi ilaaj kiya`,
+        child_allergy:      `${N} ne mere bachche ki allergy pahchaani aur bahut achha ilaaj kiya`,
+        normal_delivery:    `${N} ne meri normal delivery bahut kushalta se karvayi`,
+        c_section:          `${N} ne mera C-section operation bahut kushalta se kiya`,
+        pcos:               `${N} ke ilaaj se meri PCOS ki takleef mein bahut sudhaar aaya`,
+        pregnancy_care:     `${N} ne meri pregnancy mein poori dekhbhal bahut achhe se ki`,
+        infertility:        `${N} ki madad se hamari infertility ki samasya door hui`,
+        menstrual:          `${N} ke ilaaj se meri masik dharm ki takleef theek hui`,
+        menopause:          `${N} ne menopause ke lakshan manage karne mein bahut madad ki`,
+        uterus_fibroid:     `${N} ne meri bachi ki gandaagi ka bahut achha ilaaj kiya`,
+        ovarian_cyst:       `${N} ne meri ovarian cyst ka bahut safaltapoorvak ilaaj kiya`,
+        family_planning:    `${N} ne parivar niyojan ke baare mein bahut achhi salah di`,
+        high_risk_preg:     `${N} ne meri high-risk pregnancy bahut dhyan se manage ki`,
+        laparoscopy:        `${N} ne mera laparoscopy operation bahut kushalta se kiya`,
+        fracture:           `${N} ne meri haddi tooti ka bahut achha ilaaj kiya`,
+        knee_replacement:   `${N} ne mera ghutne ka operation bahut safaltapoorvak kiya`,
+        hip_replacement:    `${N} ne mera hip replacement bahut achhe se kiya`,
+        spine_surgery:      `${N} ne meri reedh ki haddi ka operation bahut kushalta se kiya`,
+        sports_injury:      `${N} ne meri sports injury bahut jaldi theek ki`,
+        joint_pain:         `${N} ke ilaaj se mere jodon ka dard bahut kam hua`,
+        arthritis_ortho:    `${N} meri gathiya ki bimari bahut achhe se manage kar rahe hain`,
+        slip_disc:          `${N} ne meri slip disc ki samasya ka bahut achha ilaaj kiya`,
+        shoulder_pain:      `${N} ke ilaaj se mera kandhe ka dard bilkul theek ho gaya`,
+        physiotherapy:      `${N} ki physiotherapy se mujhe bahut achha fayda hua`,
+        ligament_tear:      `${N} ne meri ligament injury bahut achhe se theek ki`,
+        bone_density:       `${N} ne meri haddiyon ki mazbooti mein bahut madad ki`,
+        acne:               `${N} ke ilaaj se meri muhaasey ki samasya bilkul khatam ho gayi`,
+        hair_loss:          `${N} ki dawai se mera baal jhadna bahut kam hua`,
+        skin_allergy:       `${N} ne meri skin allergy pehchaani aur bahut achha ilaaj kiya`,
+        psoriasis:          `${N} ke ilaaj se meri psoriasis ki bimari mein bahut sudhaar hua`,
+        vitiligo:           `${N} meri safed daag ki bimari ka bahut kushalta se ilaaj kar rahe hain`,
+        fungal:             `${N} ne meri fungal infection bahut jaldi theek ki`,
+        anti_aging:         `${N} ne bahut achha anti-aging skin treatment diya`,
+        laser:              `${N} ka laser treatment bahut achha result diya`,
+        eczema:             `${N} ke ilaaj se meri eczema ki takleef bahut control mein hai`,
+        dark_spots:         `${N} ne meri skin ke kaale dhabbe bahut achhe se theek kiye`,
+        dandruff:           `${N} ke ilaaj se meri dandruff ki samasya khatam ho gayi`,
+        wart_removal:       `${N} ne mera wart bahut safely aur achhe se hataya`,
+        panchakarma:        `${N} ka Panchakarma ilaaj bahut hi laabhdayak raha`,
+        herbal_treatment:   `${N} ka herbal ilaaj bahut natural aur prabhavshali raha`,
+        chronic_disease:    `${N} meri purani bimari ko bahut achhe se manage kar rahe hain`,
+        digestion:          `${N} ke ilaaj se meri pachan shakti ki samasya theek ho gayi`,
+        stress_anxiety:     `${N} ne mujhe tanaav aur chinta se naturally mukti dilayi`,
+        joint_pain_ayu:     `${N} ka Ayurvedic ilaaj jodon ke dard mein bahut laabhdayak raha`,
+        skin_disease_ayu:   `${N} ke Ayurvedic upay se meri skin bimari mein sudhaar aaya`,
+        immunity_boost:     `${N} ne meri rog pratirodhak shakti bahut badha di`,
+        weight_loss_ayu:    `${N} ka wajan ghatane ka ilaaj bahut achha raha`,
+        diabetes_ayu:       `${N} ka Ayurvedic diabetes ilaaj bahut prabhavshali hai`,
+        detox:              `${N} ki detox therapy bahut achha anubhav raha`,
+        migraine_ayu:       `${N} ke Ayurvedic ilaaj se mera migraine bahut kam hua`,
+        chronic_illness:    `${N} ka homeopathic ilaaj meri purani bimari mein bahut prabhavshali raha`,
+        allergy_homeo:      `${N} ne meri allergy ka homeopathy se bahut achha ilaaj kiya`,
+        skin_homeo:         `${N} ke homeopathic ilaaj se meri skin samasya mein bahut sudhaar hua`,
+        child_homeo:        `${N} ne mere bachche ki bimari ka bahut achha ilaaj kiya`,
+        hair_homeo:         `${N} ke ilaaj se mere baalon ki samasya mein bahut sudhaar aaya`,
+        migraine_homeo:     `${N} ke care se mera migraine bahut kam ho gaya`,
+        thyroid_homeo:      `${N} meri thyroid ko bahut achhe se manage kar rahe hain`,
+        pcos_homeo:         `${N} ke homeopathic ilaaj se meri PCOS mein bahut sudhaar aaya`,
+        joint_homeo:        `${N} ka homeopathic ilaaj jodon ke dard mein bahut laabhdayak raha`,
+        immunity_homeo:     `${N} ke ilaaj se meri immunity bahut badhgayi`,
+        anxiety_homeo:      `${N} ne mujhe homeopathy se chinta se naturally mukti dilayi`,
+        kidney_homeo:       `${N} ne meri gurde ki pathri ka homeopathy se bahut achha ilaaj kiya`
       },
       closing: [
         `${N} aur poore ${H} team ka bahut bahut shukriya!`,
@@ -887,7 +1619,89 @@ function buildTemplates(doc) {
         hypertension:       `mere blood pressure ka issue ${N} ne bahut effectively treat kiya`,
         heart_attack:       `heart attack ke time ${N} ne jo quick action liya woh life saving tha`,
         cardiac:            `${N} ki cardiac care really outstanding hai`,
-        thyroid:            `${N} ke treatment se meri thyroid problem mein bahut improvement aaya`
+        thyroid:            `${N} ke treatment se meri thyroid problem mein bahut improvement aaya`,
+        heart_disease:      `${N} ne meri heart condition ko bahut effectively treat kiya`,
+        fever_viral:        `${N} ne meri fever aur viral infection bahut quickly theek ki`,
+        kidney_disease:     `${N} meri kidney problem ko really well manage kar rahe hain`,
+        liver_disease:      `${N} ne meri liver problem ka bahut achha treatment diya`,
+        asthma:             `${N} ke treatment se meri breathing problem bahut better ho gayi`,
+        anemia:             `${N} ne meri anemia ko bahut effectively diagnose aur treat kiya`,
+        cholesterol:        `${N} ki help se mera cholesterol level perfectly control mein hai`,
+        dengue_typhoid:     `${N} ne mujhe dengue se bahut quickly recover karaya`,
+        arthritis:          `${N} ke treatment se mera joint pain bahut kam hua`,
+        weight_management:  `${N} ne mujhe weight management mein really helpful guidance di`,
+        newborn_care:       `${N} ne mere newborn baby ka bahut achha care kiya`,
+        vaccination:        `${N} ne mere baby ka vaccination schedule perfectly follow kiya`,
+        growth_monitoring:  `${N} mere child ki growth ko bahut carefully monitor karte hain`,
+        child_fever:        `${N} ne mere child ki fever bahut quickly theek ki`,
+        child_nutrition:    `${N} ne child nutrition ke baare mein really helpful advice di`,
+        child_asthma:       `${N} ke treatment se mere child ki asthma bahut better hai`,
+        skin_rash:          `${N} ne mere child ki skin rash ka bahut achha treatment kiya`,
+        diarrhea:           `${N} ne mere child ki stomach problem bahut quickly theek ki`,
+        nicu_care:          `${N} ne NICU mein mere baby ka exceptional care kiya`,
+        developmental:      `${N} ne mere child ke development mein bahut help ki`,
+        child_infection:    `${N} ne mere child ka infection bahut quickly treat kiya`,
+        child_allergy:      `${N} ne mere child ki allergy identify karke bahut achha treat kiya`,
+        normal_delivery:    `${N} ne meri normal delivery bahut smoothly aur safely karvayi`,
+        c_section:          `${N} ne mera C-section operation bahut skillfully kiya`,
+        pcos:               `${N} ke treatment se meri PCOS problem mein bahut improvement aaya`,
+        pregnancy_care:     `${N} ne meri pregnancy mein excellent care provide ki`,
+        infertility:        `${N} ki help se hamari infertility problem solve hui`,
+        menstrual:          `${N} ke treatment se meri periods ki problem theek hui`,
+        menopause:          `${N} ne menopause symptoms manage karne mein really help ki`,
+        uterus_fibroid:     `${N} ne meri uterine problem ka bahut effectively treatment kiya`,
+        ovarian_cyst:       `${N} ne meri ovarian cyst successfully treat ki`,
+        family_planning:    `${N} ne family planning ke baare mein bahut achhi guidance di`,
+        high_risk_preg:     `${N} ne meri high-risk pregnancy bahut carefully manage ki`,
+        laparoscopy:        `${N} ne mera laparoscopy operation bahut skillfully perform kiya`,
+        fracture:           `${N} ne meri fracture ka bahut achha treatment kiya`,
+        knee_replacement:   `${N} ne mera knee replacement surgery bahut successfully kiya`,
+        hip_replacement:    `${N} ne mera hip replacement bahut well perform kiya`,
+        spine_surgery:      `${N} ne meri spine surgery bahut skillfully perform ki`,
+        sports_injury:      `${N} ne meri sports injury bahut quickly theek ki`,
+        joint_pain:         `${N} ke treatment se mera joint pain bahut reduce hua`,
+        arthritis_ortho:    `${N} meri arthritis ko bahut effectively manage kar rahe hain`,
+        slip_disc:          `${N} ne meri slip disc problem ka bahut achha treatment kiya`,
+        shoulder_pain:      `${N} ke treatment se mera shoulder pain completely theek ho gaya`,
+        physiotherapy:      `${N} ki physiotherapy guidance se mujhe bahut benefit mila`,
+        ligament_tear:      `${N} ne meri ligament injury bahut effectively treat ki`,
+        bone_density:       `${N} ne meri bone density improve karne mein bahut help ki`,
+        acne:               `${N} ke treatment se meri acne problem completely solve ho gayi`,
+        hair_loss:          `${N} ke treatment se mera hair fall significantly reduce hua`,
+        skin_allergy:       `${N} ne meri skin allergy identify karke bahut effectively treat ki`,
+        psoriasis:          `${N} ke care se meri psoriasis condition mein bahut improvement aaya`,
+        vitiligo:           `${N} meri vitiligo condition ko bahut expertly treat kar rahe hain`,
+        fungal:             `${N} ne meri fungal infection bahut quickly theek ki`,
+        anti_aging:         `${N} ne bahut excellent anti-aging skin treatment diya`,
+        laser:              `${N} ka laser treatment really outstanding results diya`,
+        eczema:             `${N} ke treatment se meri eczema well controlled hai`,
+        dark_spots:         `${N} ne meri skin pigmentation bahut effectively treat ki`,
+        dandruff:           `${N} ke treatment se meri dandruff problem khatam ho gayi`,
+        wart_removal:       `${N} ne mera wart bahut safely remove kiya`,
+        panchakarma:        `${N} ka Panchakarma therapy really wonderful experience tha`,
+        herbal_treatment:   `${N} ka herbal treatment bahut natural aur effective tha`,
+        chronic_disease:    `${N} meri chronic condition ko really well manage kar rahe hain`,
+        digestion:          `${N} ke treatment se meri digestion problem solve ho gayi`,
+        stress_anxiety:     `${N} ne mujhe stress aur anxiety se naturally recover karaya`,
+        joint_pain_ayu:     `${N} ka Ayurvedic joint pain treatment really effective tha`,
+        skin_disease_ayu:   `${N} ke Ayurvedic remedies se meri skin problem mein improvement aaya`,
+        immunity_boost:     `${N} ne meri immunity significantly boost ki`,
+        weight_loss_ayu:    `${N} ka weight loss treatment bahut effective tha`,
+        diabetes_ayu:       `${N} ka Ayurvedic diabetes care really effective hai`,
+        detox:              `${N} ki detox therapy bahut wonderful experience tha`,
+        migraine_ayu:       `${N} ke Ayurvedic care se mera migraine bahut reduce hua`,
+        chronic_illness:    `${N} ka homeopathic treatment meri chronic illness mein really effective raha`,
+        allergy_homeo:      `${N} ne meri allergy ko homeopathy se bahut effectively treat kiya`,
+        skin_homeo:         `${N} ke homeopathic treatment se meri skin problem mein bahut improvement aaya`,
+        child_homeo:        `${N} ne mere child ki health problems bahut effectively treat ki`,
+        hair_homeo:         `${N} ke treatment se mere hair problem mein bahut improvement aaya`,
+        migraine_homeo:     `${N} ke care se mera migraine frequency bahut reduce hua`,
+        thyroid_homeo:      `${N} meri thyroid condition ko really well manage kar rahe hain`,
+        pcos_homeo:         `${N} ke homeopathic treatment se meri PCOS mein bahut improvement aaya`,
+        joint_homeo:        `${N} ka homeopathic treatment joint pain mein really helpful tha`,
+        immunity_homeo:     `${N} ke care se meri immunity bahut improve hui`,
+        anxiety_homeo:      `${N} ne mujhe anxiety se naturally homeopathy se help ki`,
+        kidney_homeo:       `${N} ne meri kidney stones ko homeopathy se effectively treat kiya`
       },
       closing: [
         `${N} aur poori ${H} team ko bahut bahut thanks!`,
@@ -924,7 +1738,89 @@ function buildTemplates(doc) {
         hypertension:       `${N} ni dawai thi maro blood pressure bilkul theek thayo chhe`,
         heart_attack:       `cardiac emergency ma ${N} e khub j jhaldi ane kushaltathi sarvar karyu`,
         cardiac:            `${N} e hruday rogni sारvar maa atishay uttam seva api`,
-        thyroid:            `${N} na ilaaj thi mari thyroid ni takleef maa khub j sudhaaro aavyo`
+        thyroid:            `${N} na ilaaj thi mari thyroid ni takleef maa khub j sudhaaro aavyo`,
+        heart_disease:      `${N} e mara hruday roga nu khub j saras sarvar karyu`,
+        fever_viral:        `${N} e maro bukhaar ane viral infection khub j jhaldi theek karyo`,
+        kidney_disease:     `${N} mara kidney na roga ne khub j saras rite manage kare chhe`,
+        liver_disease:      `${N} e mara liver ni takleef nu khub j saras ilaaj karyu`,
+        asthma:             `${N} na ilaaj thi maro saans ni takleef khub j ochi thayi`,
+        anemia:             `${N} e mara lohini okaat ni kami ne khub j saras theek kari`,
+        cholesterol:        `${N} ni dawai thi maro cholesterol bilkul control maa chhe`,
+        dengue_typhoid:     `${N} e mane dengue tavo thi khub j jhaldi savas karyaa`,
+        arthritis:          `${N} na ilaaj thi mara haad na dard maa khub j rahat thai`,
+        weight_management:  `${N} e mane vajan niyantrit karvama khub j saras margdarshan aapyu`,
+        newborn_care:       `${N} e mara nava janmela bachcha ni khub j saras kaaljy rakhi`,
+        vaccination:        `${N} e mara bachcha nu vaccination schedule bilkul sahi rite purn karyu`,
+        growth_monitoring:  `${N} mara bachcha ni vadhti ne khub j dhyan thi monitor kare chhe`,
+        child_fever:        `${N} e mara bachcha no bukhaar khub j jhaldi utaaryo`,
+        child_nutrition:    `${N} e bachcha na poshat ange khub j saras salah aapi`,
+        child_asthma:       `${N} na ilaaj thi mara bachcha ni saans ni takleef saari thayi`,
+        skin_rash:          `${N} e mara bachcha ni skin rash nu khub j saras ilaaj karyu`,
+        diarrhea:           `${N} e mara bachcha ni pet ni takleef khub j jhaldi theek kari`,
+        nicu_care:          `${N} e NICU maa mara bachcha ni khub j uttam kaalji rakhi`,
+        developmental:      `${N} e mara bachcha na vikaasmaa khub j madad kari`,
+        child_infection:    `${N} e mara bachcha no infection khub j jhaldi theek karyo`,
+        child_allergy:      `${N} e mara bachcha ni allergy paarkhine khub j saras ilaaj karyu`,
+        normal_delivery:    `${N} e mari normal delivery khub j kushaltathi karavi`,
+        c_section:          `${N} e maro C-section operation khub j nishnatpoorvak karyo`,
+        pcos:               `${N} na ilaaj thi mara PCOS ni takleef maa khub j sudhaaro aavyo`,
+        pregnancy_care:     `${N} e mara garbhakal maa khub j saras kaalji rakhel chhe`,
+        infertility:        `${N} ni madad thi ame santaan prapti kari shaky`,
+        menstrual:          `${N} na ilaaj thi mara masik dharm ni takleef theek thayi`,
+        menopause:          `${N} e menopause na lakshano manage karvamaa khub j saras madad kari`,
+        uterus_fibroid:     `${N} e mari uterus ni takleef nu khub j saras ilaaj karyu`,
+        ovarian_cyst:       `${N} e maro ovarian cyst safaltapoorvak theek karyo`,
+        family_planning:    `${N} e parivar niyojan ange khub j saras margdarshan aapyu`,
+        high_risk_preg:     `${N} e maro high-risk garbhakal khub j dhyanthi manage karyo`,
+        laparoscopy:        `${N} e maro laparoscopy operation khub j kushaltathi karyo`,
+        fracture:           `${N} e mara had bhangna nu khub j saras ilaaj karyu`,
+        knee_replacement:   `${N} e maro ghutna badlava no operation khub j safaltathi karyo`,
+        hip_replacement:    `${N} e maro hip replacement khub j saras rite karyo`,
+        spine_surgery:      `${N} e mara rerh ni haddi no operation khub j nishnatpoorvak karyo`,
+        sports_injury:      `${N} e maro sports injury khub j jhaldi theek karyo`,
+        joint_pain:         `${N} na ilaaj thi mara sandhaa no dard khub j ochi gayo`,
+        arthritis_ortho:    `${N} mara gathiya na roga ne khub j saras manage kare chhe`,
+        slip_disc:          `${N} e mara slip disc ni samasyaa nu khub j saras ilaaj karyu`,
+        shoulder_pain:      `${N} na ilaaj thi maro khandha no dard bilkul theek thayo`,
+        physiotherapy:      `${N} ni physiotherapy guidance thi mane khub j faydo thayo`,
+        ligament_tear:      `${N} e maro ligament injury khub j saras theek karyo`,
+        bone_density:       `${N} e mara haad ni mazbooti vadharvamaa khub j madad kari`,
+        acne:               `${N} na ilaaj thi mara muhasa ni samasya bilkul khatam thayi`,
+        hair_loss:          `${N} na ilaaj thi mara vaaL jadva maa khub j ghatto thayo`,
+        skin_allergy:       `${N} e mari skin allergy ne paarkhine khub j saras theek kari`,
+        psoriasis:          `${N} na kaalji thi mara psoriasis ni bimari maa khub j sudhaaro aavyo`,
+        vitiligo:           `${N} mara vitiligo ne khub j nishnatpoorvak theek kare chhe`,
+        fungal:             `${N} e maro fungal infection khub j jhaldi theek karyo`,
+        anti_aging:         `${N} e khub j uttam anti-aging skin treatment aapyu`,
+        laser:              `${N} no laser treatment khub j saras result aapyu`,
+        eczema:             `${N} na ilaaj thi maro eczema khub j control maa chhe`,
+        dark_spots:         `${N} e mara kala dag ne khub j saras theek karya`,
+        dandruff:           `${N} na ilaaj thi mara dandruff ni samasya khatam thayi`,
+        wart_removal:       `${N} e maro wart khub j safely ne saras rite duur karyo`,
+        panchakarma:        `${N} no Panchakarma ilaaj khub j laabhdaayak anubhav raho`,
+        herbal_treatment:   `${N} no herbal ilaaj khub j prakrutik ane prabhavshali raho`,
+        chronic_disease:    `${N} mara juna roga ne khub j saras manage kare chhe`,
+        digestion:          `${N} na ilaaj thi mara pachantantra ni samasya theek thayi`,
+        stress_anxiety:     `${N} e mane tanaav ane chintaa thi prakrutik rite mukti aapavdi`,
+        joint_pain_ayu:     `${N} no Ayurvedic sandhaa no dard no ilaaj khub j prabhavshali raho`,
+        skin_disease_ayu:   `${N} na Ayurvedic upayo thi mara skin roga maa sudhaaro aavyo`,
+        immunity_boost:     `${N} e mari rog pratikarak shakti ne khub j vadhari`,
+        weight_loss_ayu:    `${N} no vajan ghatadavano ilaaj khub j prabhavshali raho`,
+        diabetes_ayu:       `${N} no Ayurvedic diabetes kaalji khub j prabhavshali chhe`,
+        detox:              `${N} ni detox therapy khub j shandaar anubhav rahi`,
+        migraine_ayu:       `${N} na Ayurvedic kaalji thi maro migraine khub j ochi gayo`,
+        chronic_illness:    `${N} no homeopathic ilaaj mara juna roga maa khub j prabhavshali raho`,
+        allergy_homeo:      `${N} e mari allergy ne homeopathy thi khub j saras theek kari`,
+        skin_homeo:         `${N} na homeopathic ilaaj thi mara skin ni samasya maa khub j sudhaaro aavyo`,
+        child_homeo:        `${N} e mara bachcha na roga ne khub j saras theek karya`,
+        hair_homeo:         `${N} na ilaaj thi mara vaaL ni samasya maa khub j sudhaaro aavyo`,
+        migraine_homeo:     `${N} na kaalji thi maro migraine khub j ochi gayo`,
+        thyroid_homeo:      `${N} mara thyroid ne khub j saras manage kare chhe`,
+        pcos_homeo:         `${N} na homeopathic ilaaj thi mara PCOS maa khub j sudhaaro aavyo`,
+        joint_homeo:        `${N} no homeopathic sandhaa no dard no ilaaj khub j laabhdaayak raho`,
+        immunity_homeo:     `${N} na kaalji thi mari immunity khub j sudhari`,
+        anxiety_homeo:      `${N} e mane chintaa thi homeopathy dwara prakrutik rite madad kari`,
+        kidney_homeo:       `${N} e mara kidney na pathara ne homeopathy thi khub j saras theek karya`
       },
       closing: [
         `${N} ane poori ${H} team no khub khub aabhar!`,
@@ -961,22 +1857,36 @@ function generateReview(selectedTags) {
   const lang = pickLang(templates);
   const base    = rand(lang.base);
   const closing = rand(lang.closing);
-  const phrases = selectedTags.map(t => lang.phrases[t]).filter(Boolean);
 
-  let middle = '';
-  if (phrases.length === 1) {
-    middle = ' ' + phrases[0].charAt(0).toUpperCase() + phrases[0].slice(1) + '.';
-  } else if (phrases.length <= 3) {
-    const joined = phrases.slice(0,-1).join(', ') + ', and ' + phrases[phrases.length-1];
-    middle = ' ' + joined.charAt(0).toUpperCase() + joined.slice(1) + '.';
+  // For each tag: use phrase from template, or fall back to tag label naturally
+  const phrases = selectedTags.map(t => {
+    if (lang.phrases[t]) return lang.phrases[t];
+    // Custom tag fallback — use the label text naturally
+    const tagEl = document.querySelector(`[data-tag="${t}"]`);
+    if (tagEl) {
+      const label = tagEl.dataset.label || tagEl.textContent.trim();
+      return `${DOC.name} provided excellent care for ${label}`;
+    }
+    return null;
+  }).filter(Boolean);
+
+  if (phrases.length === 0) {
+    reviewBox.value = base + ' ' + closing;
   } else {
-    const half = Math.ceil(phrases.length / 2);
-    const s1 = phrases.slice(0, half).join(', ');
-    const s2 = phrases.slice(half).join(', ');
-    middle = ' ' + s1.charAt(0).toUpperCase() + s1.slice(1) + '. Also, ' + s2 + '.';
+    let middle = '';
+    if (phrases.length === 1) {
+      middle = ' ' + phrases[0].charAt(0).toUpperCase() + phrases[0].slice(1) + '.';
+    } else if (phrases.length <= 3) {
+      const joined = phrases.slice(0,-1).join(', ') + ', and ' + phrases[phrases.length-1];
+      middle = ' ' + joined.charAt(0).toUpperCase() + joined.slice(1) + '.';
+    } else {
+      const half = Math.ceil(phrases.length / 2);
+      const s1 = phrases.slice(0, half).join(', ');
+      const s2 = phrases.slice(half).join(', ');
+      middle = ' ' + s1.charAt(0).toUpperCase() + s1.slice(1) + '. Also, ' + s2 + '.';
+    }
+    reviewBox.value = base + middle + ' ' + closing;
   }
-
-  reviewBox.value = base + middle + ' ' + closing;
 
   const badge = document.getElementById('langBadge');
   badge.textContent = lang.label;
