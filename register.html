@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>GoodReview — Doctor Registration</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<style>
+:root {
+  --teal: #0a7c6e;
+  --teal-light: #0fa390;
+  --teal-pale: #e8f7f5;
+  --gold: #c9993a;
+  --gold-light: #fdf6e3;
+  --navy: #0d2340;
+  --text: #1a2e3b;
+  --muted: #6b8191;
+  --bg: #f4f9f8;
+  --white: #fff;
+  --red: #e74c3c;
+  --radius: 16px;
+  --shadow: 0 4px 24px rgba(10,124,110,0.10);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(145deg, var(--navy) 0%, #104a5e 55%, var(--teal) 100%);
+  padding: 40px 20px 60px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute;
+  width: 360px; height: 360px; border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+  top: -100px; right: -80px; pointer-events: none;
+}
+.hero::after {
+  content: ''; position: absolute;
+  width: 220px; height: 220px; border-radius: 50%;
+  background: rgba(201,153,58,0.07);
+  bottom: -60px; left: -50px; pointer-events: none;
+}
+.brand {
+  display: inline-flex; align-items: center; gap: 10px;
+  margin-bottom: 20px; position: relative; z-index: 1;
+}
+.brand-icon {
+  width: 48px; height: 48px; background: var(--gold);
+  border-radius: 50%; display: flex; align-items: center;
+  justify-content: center; font-size: 20px;
+  box-shadow: 0 0 0 8px rgba(201,153,58,0.2);
+}
+.brand-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px; color: white; font-weight: 800;
+  letter-spacing: 1px;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(22px, 5vw, 30px);
+  color: white; margin-bottom: 8px;
+  position: relative; z-index: 1;
+}
+.hero p {
+  font-size: 13.5px; color: rgba(255,255,255,0.7);
+  position: relative; z-index: 1; line-height: 1.6;
+}
+.hero-badges {
+  display: flex; gap: 8px; justify-content: center;
+  flex-wrap: wrap; margin-top: 16px;
+  position: relative; z-index: 1;
+}
+.hero-badge {
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.85);
+  padding: 4px 14px; border-radius: 20px;
+  font-size: 11.5px; font-weight: 500;
+}
+
+/* ── PROGRESS BAR ── */
+.progress-wrap {
+  max-width: 520px; margin: -12px auto 0;
+  padding: 0 16px; position: relative; z-index: 2;
+}
+.progress-bar {
+  background: white; border-radius: 50px;
+  padding: 4px; display: flex; gap: 4px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+.prog-step {
+  flex: 1; height: 6px; border-radius: 50px;
+  background: #e0e0e0; transition: background 0.3s;
+}
+.prog-step.active { background: var(--teal); }
+.prog-step.done { background: var(--gold); }
+
+/* ── CONTAINER ── */
+.container {
+  max-width: 520px;
+  margin: 20px auto 60px;
+  padding: 0 16px;
+}
+
+/* ── SECTION CARD ── */
+.section-card {
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 26px 22px;
+  margin-bottom: 16px;
+  animation: fadeUp 0.4s ease both;
+  display: none;
+}
+.section-card.active { display: block; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px; color: var(--navy);
+  margin-bottom: 4px;
+}
+.section-sub {
+  font-size: 12.5px; color: var(--muted);
+  margin-bottom: 22px; line-height: 1.5;
+}
+
+/* ── FORM FIELDS ── */
+.field { margin-bottom: 18px; }
+label {
+  display: block; font-size: 12px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 1.2px;
+  color: var(--muted); margin-bottom: 6px;
+}
+label .req { color: var(--red); margin-left: 2px; }
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="url"],
+select, textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid #d4e8e5;
+  border-radius: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px; color: var(--text);
+  background: #fafdfc;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  -webkit-appearance: none;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: var(--teal);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(10,124,110,0.1);
+}
+input.error { border-color: var(--red); }
+select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b8191' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; cursor: pointer; }
+textarea { min-height: 80px; resize: vertical; }
+
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+/* ── PLAN CARDS ── */
+.plans-grid {
+  display: flex; flex-direction: column; gap: 10px;
+  margin-bottom: 6px;
+}
+.plan-card {
+  border: 2px solid #d4e8e5;
+  border-radius: 14px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
+  background: white;
+}
+.plan-card:hover { border-color: var(--teal); background: var(--teal-pale); }
+.plan-card.selected {
+  border-color: var(--teal);
+  background: var(--teal-pale);
+  box-shadow: 0 2px 16px rgba(10,124,110,0.15);
+}
+.plan-card.popular::before {
+  content: '⭐ MOST POPULAR';
+  position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
+  background: var(--gold); color: white;
+  font-size: 9px; font-weight: 700;
+  padding: 3px 12px; border-radius: 20px;
+  letter-spacing: 1px; white-space: nowrap;
+}
+.plan-top {
+  display: flex; align-items: center;
+  justify-content: space-between; margin-bottom: 8px;
+}
+.plan-name {
+  font-size: 15px; font-weight: 700; color: var(--navy);
+}
+.plan-price {
+  text-align: right;
+}
+.plan-amount {
+  font-size: 20px; font-weight: 800; color: var(--teal);
+}
+.plan-period {
+  font-size: 10px; color: var(--muted); display: block;
+}
+.plan-savings {
+  font-size: 10px; color: var(--gold); font-weight: 600;
+  display: block;
+}
+.plan-features {
+  display: flex; flex-wrap: wrap; gap: 5px;
+}
+.plan-feat {
+  font-size: 11px; color: var(--teal);
+  background: rgba(10,124,110,0.08);
+  padding: 2px 8px; border-radius: 20px;
+}
+.plan-radio {
+  position: absolute; top: 16px; right: 16px;
+  width: 20px; height: 20px;
+  border: 2px solid #d4e8e5; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s; background: white;
+}
+.plan-card.selected .plan-radio {
+  border-color: var(--teal); background: var(--teal);
+}
+.plan-card.selected .plan-radio::after {
+  content: ''; width: 8px; height: 8px;
+  background: white; border-radius: 50%;
+}
+
+/* ── CUSTOM TAGS ── */
+.custom-tags-section {
+  display: none; /* shown only for premium plan */
+}
+.custom-tags-section.visible { display: block; }
+.tag-input-row {
+  display: flex; gap: 8px; margin-bottom: 8px;
+}
+.tag-input-row input { flex: 1; }
+.tag-input-row .emoji-input { width: 60px; text-align: center; font-size: 18px; }
+.add-tag-btn {
+  padding: 10px 16px;
+  background: var(--teal);
+  color: white; border: none;
+  border-radius: 10px; font-size: 18px;
+  cursor: pointer; flex-shrink: 0;
+}
+.tags-preview {
+  display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px;
+}
+.tag-chip {
+  display: flex; align-items: center; gap: 5px;
+  background: var(--gold-light);
+  border: 1px solid var(--gold);
+  border-radius: 20px; padding: 4px 10px 4px 8px;
+  font-size: 12px; color: #8a6010; font-weight: 500;
+}
+.tag-chip .remove-tag {
+  font-size: 14px; cursor: pointer; color: var(--red);
+  margin-left: 2px; line-height: 1;
+}
+.tag-count { font-size: 11px; color: var(--muted); margin-top: 6px; }
+
+/* ── GMB HELP ── */
+.gmb-help {
+  background: var(--gold-light);
+  border: 1px solid #e8c87a;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 12.5px; color: #8a6010;
+  line-height: 1.6; margin-top: 8px;
+  display: flex; gap: 8px;
+}
+.gmb-help .icon { font-size: 16px; flex-shrink: 0; }
+
+/* ── NEXT / SUBMIT BUTTON ── */
+.next-btn, .submit-btn {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, var(--teal), var(--teal-light));
+  color: white; border: none;
+  border-radius: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px; font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(10,124,110,0.30);
+  transition: all 0.2s; margin-top: 8px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.next-btn:hover, .submit-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 22px rgba(10,124,110,0.38); }
+.back-btn {
+  width: 100%; padding: 13px;
+  background: transparent; color: var(--muted);
+  border: 1.5px solid #d4e8e5; border-radius: 12px;
+  font-family: 'DM Sans', sans-serif; font-size: 14px;
+  cursor: pointer; margin-top: 8px;
+}
+
+/* ── SUMMARY CARD ── */
+.summary-item {
+  display: flex; justify-content: space-between;
+  padding: 10px 0; border-bottom: 1px solid #f0f0f0;
+  font-size: 13.5px;
+}
+.summary-item:last-child { border-bottom: none; }
+.summary-label { color: var(--muted); }
+.summary-value { font-weight: 600; color: var(--navy); text-align: right; max-width: 60%; }
+.summary-total {
+  background: var(--teal-pale);
+  border-radius: 10px; padding: 14px;
+  margin-top: 14px; text-align: center;
+}
+.summary-total .amount {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px; color: var(--teal); font-weight: 700;
+}
+.summary-total .label { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+/* ── SUCCESS ── */
+.success-screen {
+  display: none;
+  text-align: center; padding: 40px 20px;
+}
+.success-screen.show { display: block; }
+.success-icon-wrap {
+  width: 80px; height: 80px;
+  background: linear-gradient(135deg, #27ae60, #1e8449);
+  border-radius: 50%; margin: 0 auto 20px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 36px;
+  box-shadow: 0 4px 24px rgba(39,174,96,0.35);
+  animation: popIn 0.5s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes popIn {
+  from { transform: scale(0); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+.success-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px; color: var(--navy); margin-bottom: 10px;
+}
+.success-sub { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 24px; }
+.success-link-box {
+  background: var(--navy);
+  border-radius: 12px; padding: 16px;
+  margin-bottom: 16px;
+}
+.success-link-label { font-size: 10px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 6px; }
+.success-link {
+  font-size: 14px; color: var(--gold);
+  font-weight: 600; word-break: break-all;
+}
+
+/* ── TOAST ── */
+.toast {
+  position: fixed; bottom: 24px; left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--navy); color: white;
+  padding: 12px 22px; border-radius: 50px;
+  font-size: 13px; font-weight: 500;
+  transition: transform 0.35s cubic-bezier(.34,1.56,.64,1);
+  z-index: 999; white-space: nowrap;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* ── RAZORPAY NOTE ── */
+.razorpay-note {
+  text-align: center; font-size: 11.5px; color: var(--muted);
+  margin-top: 10px; line-height: 1.6;
+}
+.razorpay-note img { height: 18px; vertical-align: middle; margin-right: 4px; }
+
+footer { text-align: center; font-size: 11px; color: #aac3be; padding: 20px 16px 40px; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="brand">
+    <div class="brand-icon">✚</div>
+    <div class="brand-name">GoodReview</div>
+  </div>
+  <h1>Doctor Registration</h1>
+  <p>Get your smart review page live in minutes<br>Patients tap → review generates → posts on Google</p>
+  <div class="hero-badges">
+    <span class="hero-badge">🌐 4 Languages</span>
+    <span class="hero-badge">📱 QR + NFC</span>
+    <span class="hero-badge">🔒 Secure</span>
+    <span class="hero-badge">⚡ Live in 24hrs</span>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-wrap">
+  <div class="progress-bar">
+    <div class="prog-step active" id="p1"></div>
+    <div class="prog-step" id="p2"></div>
+    <div class="prog-step" id="p3"></div>
+    <div class="prog-step" id="p4"></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ═══ STEP 1 — Basic Details ═══ -->
+  <div class="section-card active" id="step1">
+    <div class="section-title">👨‍⚕️ Your Details</div>
+    <div class="section-sub">Step 1 of 4 — Basic information about you</div>
+
+    <div class="field">
+      <label>Full Name <span class="req">*</span></label>
+      <input type="text" id="f_name" placeholder="Dr. Firstname Lastname" autocomplete="name">
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label>Degree <span class="req">*</span></label>
+        <input type="text" id="f_degree" placeholder="MD, MS, MBBS...">
+      </div>
+      <div class="field">
+        <label>Specialty <span class="req">*</span></label>
+        <select id="f_specialty">
+          <option value="">Select Specialty</option>
+
+          <optgroup label="── Level 1 — Bachelor Degree ──">
+            <option value="homeopathy">General Practitioner (Homeopathy)</option>
+            <option value="ayurvedic">General Practitioner (Ayurveda)</option>
+            <option value="physiotherapist">Physiotherapist</option>
+            <option value="occupational_therapist">Occupational Therapist</option>
+            <option value="dentist">General Dentist</option>
+            <option value="orthodontist">Orthodontist</option>
+            <option value="oral_maxillofacial">Oral & Maxillofacial Surgeon</option>
+            <option value="pediatric_dentist">Pediatric Dentist</option>
+            <option value="geriatric_dentist">Geriatric Dentist</option>
+            <option value="dietitian">Dietitian / Nutritionist</option>
+            <option value="yoga_therapist">Yoga Therapist</option>
+            <option value="wellness_coach">Wellness Coach</option>
+          </optgroup>
+
+          <optgroup label="── Level 2 — MBBS ──">
+            <option value="general_practitioner">General Practitioner (MBBS)</option>
+            <option value="family_medicine">Family Doctor</option>
+          </optgroup>
+
+          <optgroup label="── Level 3 — MD ──">
+            <option value="general_physician">MD Medicine — General Physician</option>
+            <option value="pediatrician">MD Pediatrics</option>
+            <option value="psychiatrist">MD Psychiatry</option>
+            <option value="dermatologist">MD Dermatology</option>
+            <option value="radiologist">MD Radiology</option>
+            <option value="pathologist">MD Pathology</option>
+          </optgroup>
+
+          <optgroup label="── Level 3 — MS ──">
+            <option value="general_surgeon">MS General Surgery</option>
+            <option value="orthopedic">MS Orthopedic</option>
+            <option value="ophthalmologist">MS Ophthalmology</option>
+            <option value="ent_specialist">MS ENT</option>
+            <option value="gynecologist">MS Obstetrics & Gynecology</option>
+          </optgroup>
+
+          <optgroup label="── Level 4 — DM (Super Specialty) ──">
+            <option value="cardiologist">DM Cardiology</option>
+            <option value="neurologist">DM Neurology</option>
+            <option value="gastroenterologist">DM Gastroenterology</option>
+            <option value="nephrologist">DM Nephrology</option>
+            <option value="endocrinologist">DM Endocrinology</option>
+            <option value="pulmonologist">DM Pulmonology</option>
+            <option value="rheumatologist">DM Rheumatology</option>
+            <option value="hematologist">DM Hematology</option>
+            <option value="oncologist">DM Oncology</option>
+            <option value="infectious_disease">DM Infectious Disease</option>
+            <option value="neonatologist">DM Neonatology</option>
+            <option value="geriatrician">DM Geriatrics</option>
+          </optgroup>
+
+          <optgroup label="── Level 4 — MCh (Super Specialty) ──">
+            <option value="neurosurgeon">MCh Neurosurgery</option>
+            <option value="cardiothoracic">MCh Cardiothoracic Surgery</option>
+            <option value="plastic_surgeon">MCh Plastic Surgery</option>
+            <option value="urologist">MCh Urology</option>
+            <option value="vascular_surgeon">MCh Vascular Surgery</option>
+            <option value="pediatric_surgeon">MCh Pediatric Surgery</option>
+          </optgroup>
+
+          <optgroup label="── Level 5 — Fellowship / Special ──">
+            <option value="infertility">Infertility Specialist</option>
+            <option value="ivf_specialist">IVF Specialist</option>
+            <option value="diabetologist">Diabetologist</option>
+            <option value="pain_management">Pain Management Specialist</option>
+            <option value="spine_specialist">Spine Specialist</option>
+            <option value="sports_medicine">Sports Medicine</option>
+            <option value="laparoscopic">Laparoscopic Surgeon</option>
+            <option value="nuclear_medicine">Nuclear Medicine</option>
+          </optgroup>
+
+          <optgroup label="── Level 6 — Advanced Cosmetic ──">
+            <option value="cosmetic_surgeon">Cosmetic Surgeon</option>
+            <option value="cosmetic_dermatologist">Cosmetic Dermatologist</option>
+            <option value="hair_transplant">Hair Transplant Surgeon</option>
+            <option value="plastic_cosmetic">Plastic Surgeon</option>
+            <option value="smile_designer">Smile Designer (Cosmetic Dentist)</option>
+          </optgroup>
+
+        </select>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Hospital / Clinic Name <span class="req">*</span></label>
+      <input type="text" id="f_hospital" placeholder="Hospital or Clinic name">
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label>City <span class="req">*</span></label>
+        <input type="text" id="f_city" placeholder="e.g. Keshod">
+      </div>
+      <div class="field">
+        <label>State</label>
+        <input type="text" id="f_state" placeholder="Gujarat">
+      </div>
+    </div>
+
+    <button class="next-btn" onclick="goStep(2)">
+      Continue → <span style="font-size:18px;">👆</span>
+    </button>
+  </div>
+
+  <!-- ═══ STEP 2 — Contact + GMB ═══ -->
+  <div class="section-card" id="step2">
+    <div class="section-title">📱 Contact & Google Link</div>
+    <div class="section-sub">Step 2 of 4 — Contact details and your Google review link</div>
+
+    <div class="field">
+      <label>WhatsApp Number <span class="req">*</span></label>
+      <input type="tel" id="f_phone" placeholder="+91 98765 43210" autocomplete="tel">
+    </div>
+
+    <div class="field">
+      <label>Email Address <span class="req">*</span></label>
+      <input type="email" id="f_email" placeholder="doctor@example.com" autocomplete="email">
+    </div>
+
+    <div class="field">
+      <label>Google Review Link <span class="req">*</span></label>
+      <input type="url" id="f_gmb" placeholder="https://search.google.com/local/writereview?...">
+      <div class="gmb-help">
+        <span class="icon">💡</span>
+        <span>Open Google Maps → Search your hospital → Tap Write a Review → Copy the URL from browser bar and paste here</span>
+      </div>
+    </div>
+
+    <button class="next-btn" onclick="goStep(3)">Continue →</button>
+    <button class="back-btn" onclick="goStep(1)">← Back</button>
+  </div>
+
+  <!-- ═══ STEP 3 — Plan + Custom Tags ═══ -->
+  <div class="section-card" id="step3">
+    <div class="section-title">🎯 Choose Your Plan</div>
+    <div class="section-sub">Step 3 of 4 — Select plan and add custom tags</div>
+
+    <div class="plans-grid" id="plansGrid">
+
+      <!-- FREE -->
+      <div class="plan-card" data-plan="free" data-price="0" data-label="Free" onclick="selectPlan(this)">
+        <div class="plan-radio"></div>
+        <div class="plan-top">
+          <div class="plan-name">🆓 Free</div>
+          <div class="plan-price">
+            <div class="plan-amount">₹0</div>
+            <span class="plan-period">3 reviews only</span>
+          </div>
+        </div>
+        <div class="plan-features">
+          <span class="plan-feat">Review page</span>
+          <span class="plan-feat">QR code</span>
+          <span class="plan-feat">4 languages</span>
+        </div>
+      </div>
+
+      <!-- STARTER 1yr -->
+      <div class="plan-card" data-plan="starter_1yr" data-price="999" data-label="Starter — 1 Year" onclick="selectPlan(this)">
+        <div class="plan-radio"></div>
+        <div class="plan-top">
+          <div class="plan-name">⚡ Starter</div>
+          <div class="plan-price">
+            <div class="plan-amount">₹999</div>
+            <span class="plan-period">1 year</span>
+          </div>
+        </div>
+        <div class="plan-features">
+          <span class="plan-feat">Unlimited reviews</span>
+          <span class="plan-feat">QR code</span>
+          <span class="plan-feat">4 languages</span>
+          <span class="plan-feat">WhatsApp support</span>
+        </div>
+      </div>
+
+      <!-- STARTER 2yr -->
+      <div class="plan-card" data-plan="starter_2yr" data-price="1699" data-label="Starter — 2 Years" onclick="selectPlan(this)">
+        <div class="plan-radio"></div>
+        <div class="plan-top">
+          <div class="plan-name">⚡ Starter</div>
+          <div class="plan-price">
+            <div class="plan-amount">₹1,699</div>
+            <span class="plan-period">2 years</span>
+            <span class="plan-savings">Save ₹299</span>
+          </div>
+        </div>
+        <div class="plan-features">
+          <span class="plan-feat">Unlimited reviews</span>
+          <span class="plan-feat">QR code</span>
+          <span class="plan-feat">4 languages</span>
+        </div>
+      </div>
+
+      <!-- STARTER 5yr -->
+      <div class="plan-card" data-plan="starter_5yr" data-price="3499" data-label="Starter — 5 Years" onclick="selectPlan(this)">
+        <div class="plan-radio"></div>
+        <div class="plan-top">
+          <div class="plan-name">⚡ Starter</div>
+          <div class="plan-price">
+            <div class="plan-amount">₹3,499</div>
+            <span class="plan-period">5 years</span>
+            <span class="plan-savings">Save ₹1,496</span>
+          </div>
+        </div>
+        <div class="plan-features">
+          <span class="plan-feat">Unlimited reviews</span>
+          <span class="plan-feat">QR code</span>
+          <span class="plan-feat">4 languages</span>
+        </div>
+      </div>
+
+      <!-- PREMIUM 1yr -->
+      <div class="plan-card popular" data-plan="premium_1yr" data-price="1999" data-label="Premium — 1 Year" data-physical="true" onclick="selectPlan(this)">
+        <div class="plan-radio"></div>
+        <div class="plan-top">
+          <div class="plan-name">🏆 Premium</div>
+          <div class="plan-price">
+            <div class="plan-amount">₹1,999</div>
+            <span class="plan-period">1 year</span>
+          </div>
+        </div>
+        <div class="plan-features">
+          <span class="plan-feat">Everything in Starter</span>
+          <span class="plan-feat">NFC Card</span>
+          <span class="plan-feat">5 QR Stickers</span>
+          <span class="plan-feat">10 custom tags</span>
+        </div>
+      </div>
+
+      <!-- PREMIUM 2yr -->
+      <div class="plan-card" data-plan="premium_2yr" data-price="3499" data-label="Premium — 2 Years" data-physical="true" onclick="selectPlan(this)">
+        <div class="plan-radio"></div>
+        <div class="plan-top">
+          <div class="plan-name">🏆 Premium</div>
+          <div class="plan-price">
+            <div class="plan-amount">₹3,499</div>
+            <span class="plan-period">2 years</span>
+            <span class="plan-savings">Save ₹499 + Free shipping</span>
+          </div>
+        </div>
+        <div class="plan-features">
+          <span class="plan-feat">Everything in Starter</span>
+          <span class="plan-feat">NFC Card</span>
+          <span class="plan-feat">5 QR Stickers</span>
+          <span class="plan-feat">10 custom tags</span>
+        </div>
+      </div>
+
+      <!-- PREMIUM 5yr -->
+      <div class="plan-card" data-plan="premium_5yr" data-price="6999" data-label="Premium — 5 Years" data-physical="true" onclick="selectPlan(this)">
+        <div class="plan-radio"></div>
+        <div class="plan-top">
+          <div class="plan-name">🏆 Premium</div>
+          <div class="plan-price">
+            <div class="plan-amount">₹6,999</div>
+            <span class="plan-period">5 years</span>
+            <span class="plan-savings">Save ₹2,996 + Free shipping</span>
+          </div>
+        </div>
+        <div class="plan-features">
+          <span class="plan-feat">Everything in Starter</span>
+          <span class="plan-feat">NFC Card</span>
+          <span class="plan-feat">5 QR Stickers</span>
+          <span class="plan-feat">10 custom tags</span>
+        </div>
+      </div>
+
+      <!-- ULTIMATE 1yr -->
+      <div class="plan-card" data-plan="ultimate_1yr" data-price="2999" data-label="Ultimate — 1 Year" data-physical="true" onclick="selectPlan(this)">
+        <div class="plan-radio"></div>
+        <div class="plan-top">
+          <div class="plan-name">💎 Ultimate</div>
+          <div class="plan-price">
+            <div class="plan-amount">₹2,999</div>
+            <span class="plan-period">1 year</span>
+          </div>
+        </div>
+        <div class="plan-features">
+          <span class="plan-feat">NFC Card</span>
+          <span class="plan-feat">Table Standee</span>
+          <span class="plan-feat">5 QR Stickers</span>
+          <span class="plan-feat">10 custom tags</span>
+        </div>
+      </div>
+
+      <!-- ULTIMATE 2yr -->
+      <div class="plan-card" data-plan="ultimate_2yr" data-price="4999" data-label="Ultimate — 2 Years" data-physical="true" onclick="selectPlan(this)">
+        <div class="plan-radio"></div>
+        <div class="plan-top">
+          <div class="plan-name">💎 Ultimate</div>
+          <div class="plan-price">
+            <div class="plan-amount">₹4,999</div>
+            <span class="plan-period">2 years</span>
+            <span class="plan-savings">Save ₹999 + Free shipping</span>
+          </div>
+        </div>
+        <div class="plan-features">
+          <span class="plan-feat">NFC Card</span>
+          <span class="plan-feat">Table Standee</span>
+          <span class="plan-feat">5 QR Stickers</span>
+          <span class="plan-feat">10 custom tags</span>
+        </div>
+      </div>
+
+      <!-- ULTIMATE 5yr -->
+      <div class="plan-card" data-plan="ultimate_5yr" data-price="9999" data-label="Ultimate — 5 Years" data-physical="true" onclick="selectPlan(this)">
+        <div class="plan-radio"></div>
+        <div class="plan-top">
+          <div class="plan-name">💎 Ultimate</div>
+          <div class="plan-price">
+            <div class="plan-amount">₹9,999</div>
+            <span class="plan-period">5 years</span>
+            <span class="plan-savings">Save ₹4,996 + Free shipping</span>
+          </div>
+        </div>
+        <div class="plan-features">
+          <span class="plan-feat">NFC Card</span>
+          <span class="plan-feat">Table Standee</span>
+          <span class="plan-feat">5 QR Stickers</span>
+          <span class="plan-feat">10 custom tags</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SHIPPING ADDRESS — shown for physical plans -->
+    <div id="shippingSection" style="display:none; margin-top:18px;">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:14px;">📦 Delivery Address</div>
+      <div class="field">
+        <label>Full Address <span class="req">*</span></label>
+        <textarea id="f_address" placeholder="Clinic address for NFC card / standee delivery..." rows="3"></textarea>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Pincode <span class="req">*</span></label>
+          <input type="text" id="f_pincode" placeholder="362220" maxlength="6">
+        </div>
+        <div class="field">
+          <label>Shipping</label>
+          <input type="text" id="f_shipping_display" value="Included" readonly style="background:#e8f7f5;color:var(--teal);font-weight:600;">
+        </div>
+      </div>
+    </div>
+
+    <!-- CUSTOM TAGS — shown for premium/ultimate plans -->
+    <div class="custom-tags-section" id="customTagSection" style="margin-top:18px;">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:10px;">🏷️ Custom Tags (Max 10)</div>
+      <div style="font-size:12.5px;color:var(--muted);margin-bottom:12px;line-height:1.5;">Add your own medical conditions or services. These appear as gold tags on your review page.</div>
+      <div class="tag-input-row">
+        <input type="text" class="emoji-input" id="tagEmoji" placeholder="🏷️" maxlength="2">
+        <input type="text" id="tagLabel" placeholder="e.g. Dengue Treatment, Skin Allergy..." maxlength="30">
+        <button class="add-tag-btn" onclick="addCustomTag()">+</button>
+      </div>
+      <div class="tags-preview" id="tagsPreview"></div>
+      <div class="tag-count" id="tagCount">0 / 10 tags added</div>
+    </div>
+
+    <button class="next-btn" onclick="goStep(4)" style="margin-top:20px;">Review & Pay →</button>
+    <button class="back-btn" onclick="goStep(2)">← Back</button>
+  </div>
+
+  <!-- ═══ STEP 4 — Summary + Pay ═══ -->
+  <div class="section-card" id="step4">
+    <div class="section-title">✅ Review & Pay</div>
+    <div class="section-sub">Step 4 of 4 — Confirm details and complete payment</div>
+
+    <div id="summaryContent"></div>
+
+    <div class="summary-total">
+      <div class="amount" id="summaryTotal">₹0</div>
+      <div class="label" id="summaryPlanLabel">Free Plan</div>
+    </div>
+
+    <button class="submit-btn" id="payBtn" onclick="initiatePayment()">
+      🔒 Pay Securely & Register
+    </button>
+    <div class="razorpay-note">
+      Secured by Razorpay · UPI · Cards · Net Banking
+    </div>
+    <button class="back-btn" onclick="goStep(3)">← Back</button>
+  </div>
+
+  <!-- ═══ SUCCESS ═══ -->
+  <div class="success-screen" id="successScreen">
+    <div class="success-icon-wrap">🎉</div>
+    <div class="success-title">You're Registered!</div>
+    <div class="success-sub">
+      Your review page will be live within <strong>24 hours</strong>.<br>
+      You will receive your link on WhatsApp.<br>
+      <span id="physicalKitNote"></span>
+    </div>
+    <div class="success-link-box">
+      <div class="success-link-label">Your Review Page Link (after activation)</div>
+      <div class="success-link" id="successLink">goodreview.in/?id=---</div>
+    </div>
+    <div style="font-size:12.5px;color:var(--muted);line-height:1.8;">
+      ⏰ Your review page will be <strong>live within 24 hours</strong>.<br>
+      <span id="physicalKitNote"></span>
+      <strong style="color:var(--navy);">🟢 Link not live after 24 hours?</strong><br>
+      WhatsApp us — we fix it within 2 hours, guaranteed.<br><br>
+      <a href="https://wa.me/917984939486?text=Hi%20GoodReview%20Team%2C%20my%20review%20page%20is%20not%20live%20yet%20after%2024%20hours."
+         target="_blank"
+         style="display:inline-flex;align-items:center;gap:8px;background:#25d366;color:white;padding:12px 22px;border-radius:12px;text-decoration:none;font-weight:700;font-size:14px;margin-top:4px;">
+        💬 WhatsApp Support
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<footer>Powered by GoodReview Team · goodreview.in</footer>
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════
+//  🔴 REPLACE WITH YOUR RAZORPAY KEY ID
+// ═══════════════════════════════════════════════
+const RAZORPAY_KEY = 'rzp_test_STzk1i9xNLM9Qi';
+
+// ═══════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════
+let currentStep = 1;
+let selectedPlanEl = null;
+let customTags = [];
+
+// ═══════════════════════════════════════════════
+//  STEP NAVIGATION
+// ═══════════════════════════════════════════════
+function goStep(step) {
+  // Validate before moving forward
+  if (step > currentStep) {
+    if (!validateStep(currentStep)) return;
+  }
+
+  // Hide all
+  document.querySelectorAll('.section-card').forEach(c => c.classList.remove('active'));
+
+  // Show target
+  document.getElementById('step' + step).classList.add('active');
+  document.getElementById('step' + step).style.animation = 'none';
+  setTimeout(() => document.getElementById('step' + step).style.animation = '', 10);
+
+  // Progress bar
+  for (let i = 1; i <= 4; i++) {
+    const el = document.getElementById('p' + i);
+    if (i < step) { el.className = 'prog-step done'; }
+    else if (i === step) { el.className = 'prog-step active'; }
+    else { el.className = 'prog-step'; }
+  }
+
+  // Build summary on step 4
+  if (step === 4) buildSummary();
+
+  currentStep = step;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ═══════════════════════════════════════════════
+//  VALIDATION
+// ═══════════════════════════════════════════════
+function validateStep(step) {
+  const checks = {
+    1: [
+      { id: 'f_name', msg: 'Please enter your full name' },
+      { id: 'f_degree', msg: 'Please enter your degree' },
+      { id: 'f_specialty', msg: 'Please select your specialty' },
+      { id: 'f_hospital', msg: 'Please enter hospital/clinic name' },
+      { id: 'f_city', msg: 'Please enter your city' },
+    ],
+    2: [
+      { id: 'f_phone', msg: 'Please enter your WhatsApp number' },
+      { id: 'f_email', msg: 'Please enter your email address' },
+      { id: 'f_gmb', msg: 'Please enter your Google review link' },
+    ],
+    3: [],
+  };
+
+  const fields = checks[step] || [];
+  for (const f of fields) {
+    const el = document.getElementById(f.id);
+    if (!el.value.trim()) {
+      el.classList.add('error');
+      el.focus();
+      showToast('⚠️ ' + f.msg);
+      setTimeout(() => el.classList.remove('error'), 3000);
+      return false;
+    }
+  }
+
+  // Step 3 — check plan selected
+  if (step === 3 && !selectedPlanEl) {
+    showToast('⚠️ Please select a plan');
+    return false;
+  }
+
+  // Step 3 — check address if physical plan
+  if (step === 3 && selectedPlanEl) {
+    const isPhysical = selectedPlanEl.dataset.physical === 'true';
+    const price = parseInt(selectedPlanEl.dataset.price);
+    if (isPhysical && price > 0) {
+      const addr = document.getElementById('f_address').value.trim();
+      const pin = document.getElementById('f_pincode').value.trim();
+      if (!addr) { showToast('⚠️ Please enter delivery address'); return false; }
+      if (!pin || pin.length !== 6) { showToast('⚠️ Please enter valid 6-digit pincode'); return false; }
+    }
+  }
+
+  return true;
+}
+
+// ═══════════════════════════════════════════════
+//  PLAN SELECTION
+// ═══════════════════════════════════════════════
+function selectPlan(el) {
+  document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedPlanEl = el;
+
+  const isPhysical = el.dataset.physical === 'true';
+  const price = parseInt(el.dataset.price);
+  const isPremiumOrUltimate = el.dataset.plan.startsWith('premium') || el.dataset.plan.startsWith('ultimate');
+
+  // Show/hide shipping
+  document.getElementById('shippingSection').style.display =
+    (isPhysical && price > 0) ? 'block' : 'none';
+
+  // Show/hide custom tags
+  const customSection = document.getElementById('customTagSection');
+  if (isPremiumOrUltimate && price > 0) {
+    customSection.classList.add('visible');
+    customSection.style.display = 'block';
+  } else {
+    customSection.classList.remove('visible');
+    customSection.style.display = 'none';
+  }
+}
+
+// ═══════════════════════════════════════════════
+//  CUSTOM TAGS
+// ═══════════════════════════════════════════════
+function addCustomTag() {
+  if (customTags.length >= 10) {
+    showToast('⚠️ Maximum 10 custom tags allowed');
+    return;
+  }
+  const emoji = document.getElementById('tagEmoji').value.trim() || '🏷️';
+  const label = document.getElementById('tagLabel').value.trim();
+  if (!label) { showToast('⚠️ Please enter a tag name'); return; }
+
+  customTags.push({ emoji, label });
+  renderTags();
+  document.getElementById('tagEmoji').value = '';
+  document.getElementById('tagLabel').value = '';
+  document.getElementById('tagLabel').focus();
+}
+
+function removeTag(idx) {
+  customTags.splice(idx, 1);
+  renderTags();
+}
+
+function renderTags() {
+  const container = document.getElementById('tagsPreview');
+  container.innerHTML = customTags.map((t, i) =>
+    `<div class="tag-chip">
+      <span>${t.emoji}</span>
+      <span>${t.label}</span>
+      <span class="remove-tag" onclick="removeTag(${i})">×</span>
+    </div>`
+  ).join('');
+  document.getElementById('tagCount').textContent = customTags.length + ' / 10 tags added';
+}
+
+// Allow Enter key to add tag
+document.getElementById('tagLabel').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') { e.preventDefault(); addCustomTag(); }
+});
+
+// ═══════════════════════════════════════════════
+//  SUMMARY
+// ═══════════════════════════════════════════════
+function buildSummary() {
+  const plan = selectedPlanEl;
+  const price = parseInt(plan.dataset.price);
+  const isPhysical = plan.dataset.physical === 'true';
+
+  const data = {
+    'Doctor Name': document.getElementById('f_name').value,
+    'Degree': document.getElementById('f_degree').value,
+    'Specialty': document.getElementById('f_specialty').options[document.getElementById('f_specialty').selectedIndex].text,
+    'Hospital': document.getElementById('f_hospital').value,
+    'City': document.getElementById('f_city').value,
+    'WhatsApp': document.getElementById('f_phone').value,
+    'Email': document.getElementById('f_email').value,
+    'Plan': plan.dataset.label,
+    'Custom Tags': customTags.length > 0 ? customTags.map(t => t.emoji + ' ' + t.label).join(', ') : 'None',
+  };
+
+  if (isPhysical && price > 0) {
+    data['Delivery Address'] = document.getElementById('f_address').value;
+    data['Pincode'] = document.getElementById('f_pincode').value;
+    data['Shipping'] = 'Included';
+  }
+
+  const html = Object.entries(data).map(([k, v]) =>
+    `<div class="summary-item">
+      <span class="summary-label">${k}</span>
+      <span class="summary-value">${v || '—'}</span>
+    </div>`
+  ).join('');
+
+  document.getElementById('summaryContent').innerHTML = html;
+  document.getElementById('summaryTotal').textContent = price === 0 ? 'FREE' : '₹' + price.toLocaleString('en-IN');
+  document.getElementById('summaryPlanLabel').textContent = plan.dataset.label;
+  document.getElementById('payBtn').textContent = price === 0 ? '✅ Register Free' : '🔒 Pay ₹' + price.toLocaleString('en-IN') + ' & Register';
+}
+
+// ═══════════════════════════════════════════════
+//  PAYMENT
+// ═══════════════════════════════════════════════
+function initiatePayment() {
+  const price = parseInt(selectedPlanEl.dataset.price);
+
+  // Free plan — direct register
+  if (price === 0) {
+    submitRegistration('FREE', 'FREE_PLAN');
+    return;
+  }
+
+  const options = {
+    key: RAZORPAY_KEY,
+    amount: price * 100, // paise
+    currency: 'INR',
+    name: 'GoodReview',
+    description: selectedPlanEl.dataset.label,
+    image: '',
+    prefill: {
+      name:  document.getElementById('f_name').value,
+      email: document.getElementById('f_email').value,
+      contact: document.getElementById('f_phone').value.replace(/\D/g, ''),
+    },
+    theme: { color: '#0a7c6e' },
+    handler: function(response) {
+      submitRegistration(response.razorpay_payment_id, response.razorpay_order_id || 'N/A');
+    },
+    modal: {
+      ondismiss: function() {
+        showToast('Payment cancelled. You can try again.');
+      }
+    }
+  };
+
+  try {
+    const rzp = new Razorpay(options);
+    rzp.open();
+  } catch(e) {
+    showToast('⚠️ Payment gateway not configured yet. Coming soon!');
+  }
+}
+
+// ═══════════════════════════════════════════════
+//  SUBMIT REGISTRATION
+// ═══════════════════════════════════════════════
+function submitRegistration(paymentId, orderId) {
+  // Collect all data
+  const regData = {
+    name:      document.getElementById('f_name').value,
+    degree:    document.getElementById('f_degree').value,
+    specialty: document.getElementById('f_specialty').value,
+    hospital:  document.getElementById('f_hospital').value,
+    city:      document.getElementById('f_city').value,
+    state:     document.getElementById('f_state').value,
+    phone:     document.getElementById('f_phone').value,
+    email:     document.getElementById('f_email').value,
+    gmb:       document.getElementById('f_gmb').value,
+    plan:      selectedPlanEl.dataset.plan,
+    price:     selectedPlanEl.dataset.price,
+    customTags: JSON.stringify(customTags),
+    address:   document.getElementById('f_address')?.value || '',
+    pincode:   document.getElementById('f_pincode')?.value || '',
+    paymentId,
+    orderId,
+    timestamp: new Date().toISOString(),
+  };
+
+  // 🔴 TODO: Send to Airtable via Make.com webhook
+  // fetch('YOUR_MAKE_COM_WEBHOOK_URL', { method:'POST', body: JSON.stringify(regData) })
+
+  console.log('Registration data:', regData);
+
+  // Show/hide physical kit note
+  const isPhysical = selectedPlanEl.dataset.physical === 'true';
+  const physicalNote = document.getElementById('physicalKitNote');
+  if (physicalNote) {
+    physicalNote.innerHTML = isPhysical
+      ? '<br><br>📦 Your <strong>NFC card, standee & QR stickers</strong> will be delivered in <strong>5-7 working days</strong>.'
+      : '';
+  }
+
+  // Show success
+  document.querySelectorAll('.section-card').forEach(c => c.classList.remove('active'));
+  document.getElementById('successScreen').classList.add('show');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  showToast('🎉 Registration successful!');
+}
+
+// Expose all functions to window — fixes onclick="goStep()" errors on GitHub Pages
+window.goStep           = goStep;
+window.selectPlan       = selectPlan;
+window.addCustomTag     = addCustomTag;
+window.removeTag        = removeTag;
+window.initiatePayment  = initiatePayment;
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+</script>
+</body>
+</html>
