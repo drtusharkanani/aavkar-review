@@ -1129,8 +1129,13 @@ function submitRegistration(paymentId, orderId) {
     timestamp: new Date().toISOString(),
   };
 
-  // 🔴 TODO: Send to Airtable via Make.com webhook
-  // fetch('YOUR_MAKE_COM_WEBHOOK_URL', { method:'POST', body: JSON.stringify(regData) })
+  // ✅ Make.com Webhook — auto sends to Airtable
+  fetch('https://hook.eu1.make.com/mxmdkav7gfojkap9blwyuwryql6gqb95', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(regData)
+  }).then(() => console.log('✅ Make.com notified'))
+    .catch(e => console.log('Make.com error:', e));
 
   console.log('Registration data:', regData);
 
