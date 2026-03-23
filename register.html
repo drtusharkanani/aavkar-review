@@ -535,11 +535,19 @@ footer { text-align: center; font-size: 11px; color: #aac3be; padding: 20px 16px
     <div class="field-row">
       <div class="field">
         <label>City <span class="req">*</span></label>
-        <input type="text" id="f_city" placeholder="e.g. Keshod">
+        <input type="text" id="f_city" placeholder="e.g. Surat">
       </div>
       <div class="field">
         <label>State</label>
         <input type="text" id="f_state" placeholder="Gujarat">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Local Area / Locality</label>
+      <input type="text" id="f_area" placeholder="e.g. Katargam, Adajan, Vesu, Satellite...">
+      <div style="font-size:11px;color:var(--muted);margin-top:5px;">
+        💡 Patients searching nearby will find you faster — e.g. "Doctor in Katargam Surat"
       </div>
     </div>
 
@@ -954,6 +962,17 @@ footer { text-align: center; font-size: 11px; color: #aac3be; padding: 20px 16px
         💬 WhatsApp Support
       </a>
     </div>
+
+    <!-- EDIT PROFILE LINK -->
+    <div style="margin-top:20px;background:#f8fffe;border:1.5px solid #b0ddd8;border-radius:12px;padding:14px;text-align:center;">
+      <div style="font-size:12px;font-weight:700;color:var(--teal);margin-bottom:6px;">✏️ Need to update your details later?</div>
+      <div style="font-size:11.5px;color:var(--muted);margin-bottom:10px;">Change your GMB link, hospital name, custom tags anytime</div>
+      <a href="https://goodreview.in/edit.html"
+         target="_blank"
+         style="display:inline-block;background:var(--teal);color:white;padding:10px 22px;border-radius:10px;text-decoration:none;font-weight:700;font-size:13px;">
+        ✏️ Edit My Profile → goodreview.in/edit.html
+      </a>
+    </div>
   </div>
 
 </div>
@@ -1141,6 +1160,7 @@ function buildSummary() {
     'Specialty': document.getElementById('f_specialty').options[document.getElementById('f_specialty').selectedIndex].text,
     'Hospital': document.getElementById('f_hospital').value,
     'City': document.getElementById('f_city').value,
+    'Area': document.getElementById('f_area').value || '—',
     'WhatsApp': document.getElementById('f_phone').value,
     'Email': document.getElementById('f_email').value,
     'Plan': plan.dataset.label,
@@ -1227,6 +1247,7 @@ function submitRegistration(paymentId, orderId) {
     specialty: document.getElementById('f_specialty').value,
     hospital:  document.getElementById('f_hospital').value,
     city:      document.getElementById('f_city').value,
+    area:      document.getElementById('f_area').value,
     state:     document.getElementById('f_state').value,
     phone:     document.getElementById('f_phone').value,
     email:     document.getElementById('f_email').value,
