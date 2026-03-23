@@ -565,10 +565,56 @@ footer { text-align: center; font-size: 11px; color: #aac3be; padding: 20px 16px
 
     <div class="field">
       <label>Google Review Link <span class="req">*</span></label>
-      <input type="url" id="f_gmb" placeholder="https://search.google.com/local/writereview?...">
-      <div class="gmb-help">
-        <span class="icon">💡</span>
-        <span>Open Google Maps → Search your hospital → Tap Write a Review → Copy the URL from browser bar and paste here</span>
+      <input type="url" id="f_gmb" placeholder="https://search.google.com/local/writereview?placeid=...">
+
+      <!-- GMB INSTRUCTIONS -->
+      <div style="background:#f8fffe;border:1.5px solid #b0ddd8;border-radius:12px;padding:14px;margin-top:10px;">
+        <div style="font-size:12px;font-weight:700;color:#0a7c6e;margin-bottom:10px;display:flex;align-items:center;gap:6px;">
+          📋 How to find your Google Review Link
+        </div>
+
+        <!-- Step by step -->
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;gap:10px;align-items:flex-start;">
+            <div style="width:22px;height:22px;background:#0a7c6e;border-radius:50%;color:white;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">1</div>
+            <div style="font-size:12px;color:#1a2e3b;line-height:1.5;">Open <strong>Google Maps</strong> on your computer (maps.google.com)</div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:flex-start;">
+            <div style="width:22px;height:22px;background:#0a7c6e;border-radius:50%;color:white;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">2</div>
+            <div style="font-size:12px;color:#1a2e3b;line-height:1.5;">Search your <strong>clinic or hospital name</strong></div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:flex-start;">
+            <div style="width:22px;height:22px;background:#0a7c6e;border-radius:50%;color:white;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">3</div>
+            <div style="font-size:12px;color:#1a2e3b;line-height:1.5;">Click <strong>"Write a Review"</strong> button on your business panel</div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:flex-start;">
+            <div style="width:22px;height:22px;background:#0a7c6e;border-radius:50%;color:white;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">4</div>
+            <div style="font-size:12px;color:#1a2e3b;line-height:1.5;">Copy the <strong>full URL</strong> from browser address bar</div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:flex-start;">
+            <div style="width:22px;height:22px;background:#0a7c6e;border-radius:50%;color:white;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">5</div>
+            <div style="font-size:12px;color:#1a2e3b;line-height:1.5;">Paste it above ☝️</div>
+          </div>
+        </div>
+
+        <!-- URL Preview tip -->
+        <div style="background:#e8f7f5;border-radius:8px;padding:8px 10px;margin-top:10px;font-size:11px;color:#0a7c6e;">
+          <strong>✅ Correct URL looks like:</strong><br>
+          <span style="font-family:monospace;font-size:10px;word-break:break-all;">https://search.google.com/local/writereview?placeid=ChIJ...</span>
+        </div>
+
+        <div style="background:#fff8f0;border-radius:8px;padding:8px 10px;margin-top:6px;font-size:11px;color:#9a3412;">
+          <strong>❌ Avoid short links like:</strong><br>
+          <span style="font-family:monospace;font-size:10px;">https://g.page/r/... or maps.app.goo.gl/...</span>
+        </div>
+
+        <!-- Video help -->
+        <div style="margin-top:10px;text-align:center;">
+          <a href="https://wa.me/917984939486?text=Hi%2C%20I%20need%20help%20finding%20my%20Google%20Review%20link" target="_blank"
+             style="font-size:11.5px;color:#25d366;font-weight:600;text-decoration:none;">
+            💬 Need help? WhatsApp us — we find it for you in 5 minutes!
+          </a>
+        </div>
       </div>
     </div>
 
