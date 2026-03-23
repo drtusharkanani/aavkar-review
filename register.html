@@ -563,12 +563,18 @@ footer { text-align: center; font-size: 11px; color: #aac3be; padding: 20px 16px
 
     <div class="field">
       <label>WhatsApp Number <span class="req">*</span></label>
-      <input type="tel" id="f_phone" placeholder="+91 98765 43210" autocomplete="tel">
+      <input type="tel" id="f_phone" placeholder="10-digit mobile number" autocomplete="tel" maxlength="10" inputmode="numeric" oninput="this.value=this.value.replace(/\D/g,'').slice(0,10)">
     </div>
 
     <div class="field">
       <label>Email Address <span class="req">*</span></label>
       <input type="email" id="f_email" placeholder="doctor@example.com" autocomplete="email">
+    </div>
+
+    <div class="field">
+      <label>Referral Code <span style="font-size:10px;color:var(--gold);font-weight:600;">(Optional — Get 1 month FREE!)</span></label>
+      <input type="text" id="f_referral" placeholder="Enter referral code if you have one" style="text-transform:uppercase;" oninput="this.value=this.value.toUpperCase()">
+      <div style="font-size:11px;color:var(--muted);margin-top:4px;">💡 Got referred by a doctor? Enter their code — both of you get rewarded!</div>
     </div>
 
     <div class="field">
@@ -1038,7 +1044,7 @@ function validateStep(step) {
       { id: 'f_city', msg: 'Please enter your city' },
     ],
     2: [
-      { id: 'f_phone', msg: 'Please enter your WhatsApp number' },
+      { id: 'f_phone', msg: 'Please enter your 10-digit WhatsApp number' },
       { id: 'f_email', msg: 'Please enter your email address' },
       { id: 'f_gmb', msg: 'Please enter your Google review link' },
     ],
@@ -1053,6 +1059,17 @@ function validateStep(step) {
       el.focus();
       showToast('⚠️ ' + f.msg);
       setTimeout(() => el.classList.remove('error'), 3000);
+      return false;
+    }
+  }
+
+  // Step 2 — phone must be exactly 10 digits
+  if (step === 2) {
+    const phone = document.getElementById('f_phone').value.replace(/\D/g,'');
+    if (phone.length !== 10) {
+      document.getElementById('f_phone').classList.add('error');
+      showToast('⚠️ Phone must be exactly 10 digits');
+      setTimeout(() => document.getElementById('f_phone').classList.remove('error'), 3000);
       return false;
     }
   }
@@ -1251,6 +1268,7 @@ function submitRegistration(paymentId, orderId) {
     state:     document.getElementById('f_state').value,
     phone:     document.getElementById('f_phone').value,
     email:     document.getElementById('f_email').value,
+    referral:  document.getElementById('f_referral').value.toUpperCase().trim(),
     gmb:       document.getElementById('f_gmb').value,
     plan:      selectedPlanEl.dataset.plan,
     price:     selectedPlanEl.dataset.price,
