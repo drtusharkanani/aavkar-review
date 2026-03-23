@@ -1106,7 +1106,14 @@ function initiatePayment() {
 // ═══════════════════════════════════════════════
 //  SUBMIT REGISTRATION
 // ═══════════════════════════════════════════════
+let registrationSubmitted = false;
+
 function submitRegistration(paymentId, orderId) {
+  if (registrationSubmitted) {
+    console.log('Already submitted — ignoring duplicate');
+    return;
+  }
+  registrationSubmitted = true;
   // Collect all data
   const regData = {
     name:      document.getElementById('f_name').value,
