@@ -613,31 +613,132 @@
 //  URL to use: yoursite.com/?id=101
 // ═══════════════════════════════════════════════════════
 
-const DOCTORS = {
+// ═══════════════════════════════════════════════════════
+//  AIRTABLE CONFIGURATION
+// ═══════════════════════════════════════════════════════
+const AIRTABLE_TOKEN   = 'patudFcQ5799EkkZ0.af77c9f9a3a45f2d66482db161ceca865c58003ac745d06104769e9a6ab2e602';
+const AIRTABLE_BASE_ID = 'apppCUPgl9647WTMY';
+const AIRTABLE_TABLE   = 'Doctors';
 
+// ═══════════════════════════════════════════════════════
+//  LOAD DOCTOR FROM AIRTABLE
+// ═══════════════════════════════════════════════════════
+const params   = new URLSearchParams(window.location.search);
+const doctorId = params.get('id') || '101';
+let DOC        = null;
+
+async function loadDoctor() {
+  try {
+    // Show loading state
+    document.getElementById('heroDoctorName').textContent = 'Loading...';
+    document.getElementById('heroHospitalName').textContent = 'GoodReview';
+
+    // Fetch from Airtable — filter by DoctorID
+    const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(AIRTABLE_TABLE)}?filterByFormula=${encodeURIComponent(`{DoctorID}=${doctorId}`)}&maxRecords=1`;
+
+    const res = await fetch(url, {
+      headers: { 'Authorization': `Bearer ${AIRTABLE_TOKEN}` }
+    });
+
+    if (!res.ok) throw new Error('API error: ' + res.status);
+
+    const data = await res.json();
+
+    if (!data.records || data.records.length === 0) {
+      showNotFound();
+      return;
+    }
+
+    const r = data.records[0].fields;
+
+    // Check if Active (handles boolean true, string "true", string "Yes", number 1)
+    const isActive = r.Active === true || r.Active === 'true' || r.Active === 'Yes' || r.Active === 1 || r.Active === '1';
+    if (!isActive) {
+      showExpired();
+      return;
+    }
+
+    // Check if expired
+    if (r.ExpiryDate) {
+      const expiry = new Date(r.ExpiryDate);
+      const today  = new Date();
+      if (expiry < today) {
+        showExpired();
+        return;
+      }
+    }
+
+    // Build DOC object from Airtable fields
+    DOC = {
+      name:       r.DoctorName   || 'Doctor',
+      degree:     r.Degree       || '',
+      specialty:  r.Specialty    || 'general_physician',
+      city:       r.City         || '',
+      hospital:   r.Hospital     || '',
+      plan:       r.Plan         || 'free',
+      gmb:        r.GMB          || '',
+      customTags: parseCustomTags(r.CustomTags),
+    };
+
+    initApp();
+
+  } catch(err) {
+    console.error('Airtable error:', err);
+    // Fallback to hardcoded if API fails
+    DOC = FALLBACK_DOCTORS[doctorId];
+    if (DOC) {
+      initApp();
+    } else {
+      showNotFound();
+    }
+  }
+}
+
+function parseCustomTags(raw) {
+  if (!raw) return [];
+  try { return JSON.parse(raw); } catch(e) { return []; }
+}
+
+function showNotFound() {
+  document.getElementById('mainCard').innerHTML = `
+    <div class="not-found">
+      <div class="icon">🏥</div>
+      <h2>Doctor Not Found</h2>
+      <p>No doctor found with ID <strong>${doctorId}</strong>.<br>Please check the link or QR code.</p>
+    </div>`;
+  document.querySelector('.hero').style.display = 'none';
+  document.querySelector('.qr-section').style.display = 'none';
+}
+
+function showExpired() {
+  document.getElementById('mainCard').innerHTML = `
+    <div class="not-found">
+      <div class="icon">⏰</div>
+      <h2>Subscription Expired</h2>
+      <p>This doctor's GoodReview subscription has expired.<br>Please contact the doctor to renew.</p>
+    </div>`;
+  document.querySelector('.hero').style.display = 'none';
+  document.querySelector('.qr-section').style.display = 'none';
+}
+
+// ═══════════════════════════════════════════════════════
+//  FALLBACK — used if Airtable is unreachable
+// ═══════════════════════════════════════════════════════
+const FALLBACK_DOCTORS = {
   "101": {
     name:       "Dr. Tushar Kanani",
     degree:     "MD Medicine",
     specialty:  "general_physician",
     city:       "Keshod",
-    hospital:   "Aavkar Multi-Speciality Hospital",
+    hospital:   "Aavkar Hospital",
     plan:       "premium",
     customTags: [],
     gmb:        "https://search.google.com/local/writereview?placeid=ChIJa8KcAAlR_TsRCV8yQnD3jdQ&source=g.page.m._&laa=merchant-review-solicitation"
   },
-
-  "102": {
-    name:       "Dr. Example Doctor",
-    degree:     "MS Ortho",
-    specialty:  "orthopedic",
-    city:       "Ahmedabad",
-    hospital:   "Example Hospital",
-    plan:       "starter",
-    customTags: [],
-    gmb:        "https://g.page/r/YOUR_PLACE_ID/review"
-  },
-
 };
+
+// Start loading
+loadDoctor();
 
 // ═══════════════════════════════════════════════════════
 //  QUALITY TAGS — shown for ALL specialties
@@ -1212,26 +1313,6 @@ function getTagsForDoctor(doc) {
     custom: true
   }));
   return [...QUALITY_TAGS, ...specialtyTags, ...customTags];
-}
-
-// ═══════════════════════════════════════════════════════
-//  LOAD DOCTOR FROM URL
-// ═══════════════════════════════════════════════════════
-const params = new URLSearchParams(window.location.search);
-const doctorId = params.get('id') || '101';
-const DOC = DOCTORS[doctorId];
-
-if (!DOC) {
-  document.getElementById('mainCard').innerHTML = `
-    <div class="not-found">
-      <div class="icon">🏥</div>
-      <h2>Doctor Not Found</h2>
-      <p>No doctor found with ID <strong>${doctorId}</strong>.<br>Please check the link or QR code.</p>
-    </div>`;
-  document.querySelector('.hero').style.display = 'none';
-  document.querySelector('.qr-section').style.display = 'none';
-} else {
-  initApp();
 }
 
 function initApp() {
