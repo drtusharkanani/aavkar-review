@@ -565,13 +565,20 @@
 
 <script>
 // ═══════════════════════════════════════════════
+//  CONFIG
+// ═══════════════════════════════════════════════
+const AIRTABLE_TOKEN   = 'patudFcQ5799EkkZ0.af77c9f9a3a45f2d66482db161ceca865c58003ac745d06104769e9a6ab2e602';
+const AIRTABLE_BASE_ID = 'apppCUPgl9647WTMY';
+const AIRTABLE_TABLE   = 'Doctors';
+
+// ═══════════════════════════════════════════════
 //  READ URL PARAMETERS
 // ═══════════════════════════════════════════════
 const p = new URLSearchParams(window.location.search);
 
-const DATA = {
+let DATA = {
   doctorId:    p.get('id')          || '---',
-  name:        p.get('name')        || 'Doctor Name',
+  name:        p.get('name')        || '',
   degree:      p.get('degree')      || '',
   specialty:   p.get('specialty')   || '',
   hospital:    p.get('hospital')    || '',
@@ -586,9 +593,47 @@ const DATA = {
 };
 
 // ═══════════════════════════════════════════════
+//  LOAD FROM AIRTABLE IF NAME MISSING
+// ═══════════════════════════════════════════════
+async function loadAndRender() {
+  // If name is missing → fetch from Airtable using id
+  if (!DATA.name && DATA.doctorId !== '---') {
+    try {
+      const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(AIRTABLE_TABLE)}?filterByFormula=${encodeURIComponent(`{DoctorID}=${DATA.doctorId}`)}&maxRecords=1`;
+      const res  = await fetch(url, { headers: { 'Authorization': `Bearer ${AIRTABLE_TOKEN}` } });
+      const data = await res.json();
+
+      if (data.records && data.records.length > 0) {
+        const r = data.records[0].fields;
+        DATA = {
+          doctorId: r.DoctorID    || DATA.doctorId,
+          name:     r.DoctorName  || 'Doctor Name',
+          degree:   r.Degree      || '',
+          specialty:r.Specialty   || '',
+          hospital: r.Hospital    || '',
+          city:     r.City        || '',
+          phone:    r.Phone       || '',
+          email:    r.Email       || '',
+          plan:     r.Plan        || 'free',
+          payment:  r.PaymentType || 'Cash',
+          address:  r.Address     || '',
+          pincode:  r.Pincode     || '',
+          expiry:   r.ExpiryDate  || '',
+        };
+      }
+    } catch(e) {
+      console.log('Airtable fetch error:', e);
+    }
+  }
+
+  renderPage();
+}
+
+// ═══════════════════════════════════════════════
 //  BUILD REVIEW URL
 // ═══════════════════════════════════════════════
-const reviewUrl = `https://goodreview.in/?id=${DATA.doctorId}`;
+function renderPage() {
+const reviewUrl = `https://goodreview.in/review.html?id=${DATA.doctorId}`;
 
 // ═══════════════════════════════════════════════
 //  FILL PAGE
@@ -682,6 +727,11 @@ new QRCode(document.getElementById('qrcode'), {
   colorLight: '#ffffff',
   correctLevel: QRCode.CorrectLevel.H
 });
+
+} // end renderPage()
+
+// ── Start ──
+loadAndRender();
 </script>
 </body>
 </html>
