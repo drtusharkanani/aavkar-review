@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>GoodReview — Doctor Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --teal:#0a7c6e;--teal-pale:#e8f7f5;--gold:#c9993a;--gold-light:#fdf6e3;
+  --navy:#0d2340;--text:#1a2e3b;--muted:#6b8191;--bg:#f4f9f8;--white:#fff;
+  --red:#e74c3c;--radius:16px;--shadow:0 4px 24px rgba(10,124,110,0.10);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+.hero{background:linear-gradient(145deg,var(--navy) 0%,#104a5e 55%,var(--teal) 100%);padding:32px 20px 48px;text-align:center;}
+.brand-name{font-family:'Playfair Display',serif;font-size:22px;color:var(--gold);font-weight:800;}
+.hero h1{font-family:'Playfair Display',serif;font-size:20px;color:white;margin:12px 0 4px;}
+.hero p{font-size:12px;color:rgba(255,255,255,0.65);}
+
+.container{max-width:520px;margin:-16px auto 60px;padding:0 16px;}
+.card{background:white;border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin-bottom:14px;}
+
+/* LOGIN */
+.field{margin-bottom:14px;}
+label{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);margin-bottom:5px;}
+input{width:100%;padding:12px 14px;border:1.5px solid #d4e8e5;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);background:#fafdfc;outline:none;transition:border-color 0.2s;-webkit-appearance:none;}
+input:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(10,124,110,0.1);}
+
+.btn-primary{width:100%;padding:14px;background:linear-gradient(135deg,var(--teal),#0fa390);color:white;border:none;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(10,124,110,0.25);transition:all 0.2s;}
+.btn-sm{padding:8px 16px;background:var(--teal);color:white;border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.stat-card{background:white;border-radius:12px;box-shadow:var(--shadow);padding:16px;text-align:center;}
+.stat-number{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:var(--teal);}
+.stat-label{font-size:11px;color:var(--muted);margin-top:2px;}
+.stat-card.gold .stat-number{color:var(--gold);}
+.stat-card.navy .stat-number{color:var(--navy);}
+.stat-card.red .stat-number{color:var(--red);}
+
+/* PROGRESS BAR */
+.prog-wrap{background:#f0f0f0;border-radius:6px;height:8px;margin-top:6px;}
+.prog-bar{height:100%;border-radius:6px;transition:width 0.6s ease;}
+
+/* INFO ROW */
+.info-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f0f0f0;font-size:13px;}
+.info-row:last-child{border-bottom:none;}
+.info-label{color:var(--muted);font-weight:500;}
+.info-value{font-weight:600;color:var(--navy);text-align:right;}
+.badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:10px;font-weight:700;}
+.badge.active{background:#e8f7f5;color:#0a7c6e;}
+.badge.free{background:#f5f5f5;color:#999;}
+.badge.expired{background:#ffebee;color:#c0392b;}
+
+/* REFERRAL */
+.referral-box{background:var(--gold-light);border:1.5px solid #e8c87a;border-radius:12px;padding:16px;text-align:center;}
+.referral-code{font-size:28px;font-weight:900;color:var(--navy);letter-spacing:4px;font-family:'Playfair Display',serif;margin:8px 0;}
+.copy-btn{background:var(--gold);color:white;border:none;border-radius:8px;padding:8px 20px;font-size:12px;font-weight:700;cursor:pointer;}
+
+/* ACTIONS */
+.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.action-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;background:white;border:1.5px solid #d4e8e5;border-radius:12px;padding:14px;cursor:pointer;text-decoration:none;transition:all 0.2s;gap:6px;}
+.action-btn:hover{border-color:var(--teal);background:var(--teal-pale);}
+.action-icon{font-size:24px;}
+.action-label{font-size:12px;font-weight:600;color:var(--navy);text-align:center;}
+
+/* SCREEN */
+.screen{display:none;}
+.screen.active{display:block;}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--navy);color:white;padding:12px 22px;border-radius:50px;font-size:13px;font-weight:500;transition:transform 0.35s cubic-bezier(.34,1.56,.64,1);z-index:999;white-space:nowrap;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+footer{text-align:center;font-size:11px;color:#aac3be;padding:10px 16px 40px;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="brand-name">GoodReview</div>
+  <h1>Doctor Dashboard</h1>
+  <p>Track your reviews, manage your profile</p>
+</div>
+
+<div class="container">
+
+  <!-- LOGIN -->
+  <div class="card screen active" id="loginScreen">
+    <div style="font-size:36px;text-align:center;margin-bottom:14px;">📊</div>
+    <div style="font-family:'Playfair Display',serif;font-size:18px;color:var(--navy);text-align:center;margin-bottom:4px;">Login to Dashboard</div>
+    <div style="font-size:12px;color:var(--muted);text-align:center;margin-bottom:20px;">Enter your Doctor ID and phone number</div>
+    <div class="field">
+      <label>Doctor ID</label>
+      <input type="text" id="loginId" placeholder="e.g. 101" inputmode="numeric">
+    </div>
+    <div class="field">
+      <label>Registered Phone</label>
+      <input type="tel" id="loginPhone" placeholder="10-digit number" maxlength="10" inputmode="numeric" oninput="this.value=this.value.replace(/\D/g,'').slice(0,10)">
+    </div>
+    <button class="btn-primary" onclick="login()">🔍 View My Dashboard</button>
+  </div>
+
+  <!-- LOADING -->
+  <div class="card screen" id="loadingScreen" style="text-align:center;padding:40px;">
+    <div style="font-size:36px;margin-bottom:12px;">⏳</div>
+    <div style="font-size:15px;font-weight:600;color:var(--navy);">Loading...</div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="screen" id="dashScreen">
+
+    <!-- WELCOME -->
+    <div class="card" id="welcomeCard">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+        <div>
+          <div style="font-family:'Playfair Display',serif;font-size:18px;color:var(--navy);" id="d_name">Dr. Name</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px;" id="d_spec">Specialty · City</div>
+        </div>
+        <span class="badge active" id="d_status">ACTIVE</span>
+      </div>
+      <div style="margin-top:12px;padding-top:12px;border-top:1px solid #f0f0f0;display:flex;gap:12px;">
+        <a id="d_reviewLink" href="#" target="_blank" class="btn-sm">🔗 My Review Page</a>
+        <a href="https://goodreview.in/edit.html" class="btn-sm" style="background:var(--gold);">✏️ Edit Profile</a>
+      </div>
+    </div>
+
+    <!-- STATS GRID -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number" id="d_reviewCount">0</div>
+        <div class="stat-label">Total Reviews Sent</div>
+      </div>
+      <div class="stat-card gold">
+        <div class="stat-number" id="d_rating">—</div>
+        <div class="stat-label">Google Rating</div>
+      </div>
+      <div class="stat-card navy">
+        <div class="stat-number" id="d_daysLeft">—</div>
+        <div class="stat-label">Days Until Expiry</div>
+      </div>
+      <div class="stat-card red">
+        <div class="stat-number" id="d_referrals">0</div>
+        <div class="stat-label">Referrals Made</div>
+      </div>
+    </div>
+
+    <!-- PLAN INFO -->
+    <div class="card">
+      <div style="font-family:'Playfair Display',serif;font-size:16px;color:var(--navy);margin-bottom:14px;">📋 Subscription</div>
+      <div class="info-row">
+        <span class="info-label">Plan</span>
+        <span class="info-value" id="d_plan">—</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Payment Type</span>
+        <span class="info-value" id="d_payment">—</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Paid Date</span>
+        <span class="info-value" id="d_paidDate">—</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Expiry Date</span>
+        <span class="info-value" id="d_expiry">—</span>
+      </div>
+
+      <!-- Free plan progress bar -->
+      <div id="freePlanSection" style="display:none;margin-top:14px;">
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:6px;">
+          <span>Free plan reviews used</span>
+          <span id="freeCount">0 / 3</span>
+        </div>
+        <div class="prog-wrap">
+          <div class="prog-bar" id="freeBar" style="width:0%;background:var(--teal);"></div>
+        </div>
+        <div style="margin-top:10px;text-align:center;">
+          <a href="https://goodreview.in/register.html" style="font-size:12px;color:var(--teal);font-weight:700;text-decoration:none;">⬆️ Upgrade Plan →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- REFERRAL CARD -->
+    <div class="card">
+      <div style="font-family:'Playfair Display',serif;font-size:16px;color:var(--navy);margin-bottom:6px;">🎁 Your Referral Code</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:14px;">Share with other doctors — they get discount, you get 1 month FREE!</div>
+      <div class="referral-box">
+        <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;">Your Code</div>
+        <div class="referral-code" id="d_refCode">GR101</div>
+        <div style="font-size:11px;color:#8a6010;margin-bottom:10px;">Share this code with doctor friends</div>
+        <button class="copy-btn" onclick="copyReferral()">📋 Copy & Share</button>
+      </div>
+      <div style="margin-top:12px;background:#f8fffe;border-radius:10px;padding:12px;font-size:12px;color:var(--muted);line-height:1.7;">
+        ✅ When a doctor pays using your code → you get <strong>1 month plan extension FREE</strong><br>
+        ✅ They get <strong>₹100 off</strong> their plan
+      </div>
+    </div>
+
+    <!-- QUICK ACTIONS -->
+    <div class="card">
+      <div style="font-family:'Playfair Display',serif;font-size:16px;color:var(--navy);margin-bottom:14px;">⚡ Quick Actions</div>
+      <div class="action-grid">
+        <a id="d_reviewPageLink" href="#" target="_blank" class="action-btn">
+          <span class="action-icon">🔗</span>
+          <span class="action-label">Open Review Page</span>
+        </a>
+        <a href="https://goodreview.in/edit.html" class="action-btn">
+          <span class="action-icon">✏️</span>
+          <span class="action-label">Edit Profile</span>
+        </a>
+        <a id="d_printLink" href="#" target="_blank" class="action-btn">
+          <span class="action-icon">🖨️</span>
+          <span class="action-label">Print QR Kit</span>
+        </a>
+        <a href="https://wa.me/917984939486" target="_blank" class="action-btn">
+          <span class="action-icon">💬</span>
+          <span class="action-label">WhatsApp Support</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- LOGOUT -->
+    <button class="btn-primary" onclick="logout()" style="background:transparent;color:var(--muted);border:1.5px solid #d4e8e5;box-shadow:none;">← Logout</button>
+
+  </div>
+
+</div>
+
+<footer>Powered by GoodReview Team · goodreview.in</footer>
+<div class="toast" id="toast"></div>
+
+<script>
+const AIRTABLE_TOKEN   = 'patudFcQ5799EkkZ0.af77c9f9a3a45f2d66482db161ceca865c58003ac745d06104769e9a6ab2e602';
+const AIRTABLE_BASE_ID = 'apppCUPgl9647WTMY';
+const AIRTABLE_TABLE   = 'Doctors';
+
+let DOC = null;
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+async function login() {
+  const id    = document.getElementById('loginId').value.trim();
+  const phone = document.getElementById('loginPhone').value.trim().replace(/\D/g,'');
+
+  if (!id || !phone) { showToast('⚠️ Please enter Doctor ID and phone'); return; }
+
+  showScreen('loadingScreen');
+
+  try {
+    const url  = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(AIRTABLE_TABLE)}?filterByFormula=${encodeURIComponent(`{DoctorID}=${id}`)}&maxRecords=1`;
+    const res  = await fetch(url, { headers: { 'Authorization': `Bearer ${AIRTABLE_TOKEN}` } });
+    const data = await res.json();
+
+    if (!data.records || !data.records.length) {
+      showToast('❌ Doctor ID not found'); showScreen('loginScreen'); return;
+    }
+
+    const r           = data.records[0].fields;
+    const storedPhone = (r.Phone || '').replace(/\D/g,'');
+
+    if (!storedPhone.endsWith(phone.slice(-10))) {
+      showToast('❌ Phone number does not match'); showScreen('loginScreen'); return;
+    }
+
+    DOC = r;
+    DOC.id = id;
+    buildDashboard(r);
+    showScreen('dashScreen');
+
+  } catch(e) {
+    showToast('⚠️ Error loading profile'); showScreen('loginScreen');
+  }
+}
+
+function buildDashboard(r) {
+  const plan       = (r.Plan || 'free');
+  const isActive   = r.Active === true || r.Active === 'true' || r.Active === 'Yes';
+  const reviewCount= parseInt(r.ReviewCount) || 0;
+  const rating     = parseFloat(r.Rating) || 0;
+  const doctorId   = r.DoctorID || DOC.id;
+
+  // Welcome card
+  document.getElementById('d_name').textContent    = r.DoctorName || 'Doctor';
+  document.getElementById('d_spec').textContent    = (r.Specialty || '') + ' · ' + (r.City || '');
+  document.getElementById('d_status').textContent  = isActive ? 'ACTIVE ✅' : 'INACTIVE ❌';
+  document.getElementById('d_status').className    = 'badge ' + (isActive ? 'active' : 'expired');
+  document.getElementById('d_reviewLink').href     = `https://goodreview.in/?id=${doctorId}`;
+  document.getElementById('d_reviewPageLink').href = `https://goodreview.in/?id=${doctorId}`;
+
+  // Stats
+  document.getElementById('d_reviewCount').textContent = reviewCount;
+  document.getElementById('d_rating').textContent      = rating > 0 ? rating.toFixed(1) + '⭐' : '—';
+  document.getElementById('d_referrals').textContent   = r.ReferralCount || 0;
+
+  // Days left
+  if (r.ExpiryDate) {
+    const days = Math.ceil((new Date(r.ExpiryDate) - new Date()) / (1000*60*60*24));
+    document.getElementById('d_daysLeft').textContent = days > 0 ? days : '0';
+    document.getElementById('d_daysLeft').style.color = days < 30 ? '#e74c3c' : '#0a7c6e';
+  } else {
+    document.getElementById('d_daysLeft').textContent = plan === 'free' ? '∞' : '—';
+  }
+
+  // Plan info
+  document.getElementById('d_plan').textContent    = plan.replace(/_/g,' ').toUpperCase();
+  document.getElementById('d_payment').textContent = r.PaymentType || '—';
+  document.getElementById('d_paidDate').textContent = r.PaidDate || '—';
+  document.getElementById('d_expiry').textContent   = r.ExpiryDate || 'As per plan';
+
+  // Free plan bar
+  if (plan === 'free') {
+    document.getElementById('freePlanSection').style.display = 'block';
+    document.getElementById('freeCount').textContent = `${reviewCount} / 3`;
+    document.getElementById('freeBar').style.width   = Math.min(100, (reviewCount/3)*100) + '%';
+    document.getElementById('freeBar').style.background = reviewCount >= 3 ? '#e74c3c' : '#0a7c6e';
+  }
+
+  // Referral code — GR + DoctorID
+  const refCode = 'GR' + doctorId;
+  document.getElementById('d_refCode').textContent = refCode;
+
+  // Print link
+  document.getElementById('d_printLink').href = `https://goodreview.in/print.html?id=${doctorId}&name=${encodeURIComponent(r.DoctorName||'')}&degree=${encodeURIComponent(r.Degree||'')}&specialty=${encodeURIComponent(r.Specialty||'')}&hospital=${encodeURIComponent(r.Hospital||'')}&city=${encodeURIComponent(r.City||'')}&phone=${encodeURIComponent(r.Phone||'')}&plan=${encodeURIComponent(plan)}`;
+}
+
+function copyReferral() {
+  const code = document.getElementById('d_refCode').textContent;
+  const msg  = `I am using GoodReview for getting Google reviews from patients. Use my referral code ${code} to get ₹100 off! Register at goodreview.in/register.html`;
+  navigator.clipboard.writeText(msg).then(() => showToast('✅ Copied! Share with doctor friends'));
+}
+
+function logout() {
+  DOC = null;
+  document.getElementById('loginId').value = '';
+  document.getElementById('loginPhone').value = '';
+  showScreen('loginScreen');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+window.login        = login;
+window.logout       = logout;
+window.copyReferral = copyReferral;
+</script>
+</body>
+</html>
