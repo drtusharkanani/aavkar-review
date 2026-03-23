@@ -670,14 +670,20 @@ async function loadDoctor() {
 
     // Build DOC object from Airtable fields
     DOC = {
-      name:       r.DoctorName   || 'Doctor',
-      degree:     r.Degree       || '',
-      specialty:  r.Specialty    || 'general_physician',
-      city:       r.City         || '',
-      hospital:   r.Hospital     || '',
-      plan:       r.Plan         || 'free',
-      gmb:        r.GMB          || '',
-      customTags: parseCustomTags(r.CustomTags),
+      name:         r.DoctorName    || 'Doctor',
+      degree:       r.Degree        || '',
+      specialty:    r.Specialty     || 'general_physician',
+      city:         r.City          || '',
+      area:         r.Area          || '',
+      hospital:     r.Hospital      || '',
+      plan:         r.Plan          || 'free',
+      gmb:          r.GMB           || '',
+      customTags:   parseCustomTags(r.CustomTags),
+      reviewCount:  r.ReviewCount   || 0,
+      rating:       r.Rating        || 0,
+      referralCode: r.ReferralCode  || '',
+      expiryDate:   r.ExpiryDate    || '',
+      airtableId:   data.records[0].id,
     };
 
     initApp();
@@ -1327,10 +1333,55 @@ function initApp() {
 
   // ── Hero badges ──
   const badgesEl = document.getElementById('heroBadges');
-  badgesEl.innerHTML = `
+  let badgesHTML = `
     <span class="hero-badge">🎓 ${DOC.degree}</span>
-    <span class="hero-badge">📍 ${DOC.city}</span>
+    <span class="hero-badge">📍 ${DOC.city}${DOC.area ? ', ' + DOC.area : ''}</span>
   `;
+  // ⭐ Rating badge
+  if (DOC.rating && parseFloat(DOC.rating) > 0) {
+    const stars = parseFloat(DOC.rating).toFixed(1);
+    badgesHTML += `<span class="hero-badge" style="background:rgba(201,153,58,0.25);border-color:#c9993a;">⭐ ${stars} Google Rating</span>`;
+  }
+  badgesEl.innerHTML = badgesHTML;
+
+  // ── Free plan review counter ──
+  if (DOC.plan === 'free') {
+    const used    = parseInt(DOC.reviewCount) || 0;
+    const limit   = 3;
+    const left    = Math.max(0, limit - used);
+    const pct     = Math.min(100, (used / limit) * 100);
+    const color   = left === 0 ? '#e74c3c' : left === 1 ? '#e67e22' : '#0a7c6e';
+
+    const banner  = document.createElement('div');
+    banner.id     = 'freeBanner';
+    banner.style.cssText = `margin:12px 16px 0;background:white;border-radius:12px;padding:12px 14px;border:1.5px solid ${color};`;
+    banner.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+        <span style="font-size:12px;font-weight:700;color:${color};">
+          ${left === 0 ? '🔒 Free plan limit reached' : `⚡ Free Plan — ${left} review${left>1?'s':''} remaining`}
+        </span>
+        <span style="font-size:11px;color:#aaa;">${used}/${limit}</span>
+      </div>
+      <div style="height:6px;background:#f0f0f0;border-radius:3px;">
+        <div style="width:${pct}%;height:100%;background:${color};border-radius:3px;transition:width 0.5s;"></div>
+      </div>
+      ${left === 0 ? '<div style="font-size:11px;color:#e74c3c;margin-top:6px;text-align:center;">Upgrade to continue getting reviews → <a href="https://goodreview.in/register.html" style="color:#0a7c6e;font-weight:700;">Upgrade Now</a></div>' : ''}
+    `;
+    document.getElementById('mainCard').before(banner);
+
+    // Block submit if limit reached
+    if (left === 0) {
+      setTimeout(() => {
+        const btn = document.getElementById('submitBtn');
+        if (btn) {
+          btn.disabled = true;
+          btn.style.opacity = '0.5';
+          btn.style.cursor  = 'not-allowed';
+          document.getElementById('submitBtnText').textContent = '🔒 Free limit reached — Upgrade plan';
+        }
+      }, 500);
+    }
+  }
 
   // ── Build Tags ──
   const grid = document.getElementById('tagsGrid');
@@ -1347,7 +1398,7 @@ function initApp() {
   const cityTag = document.createElement('div');
   cityTag.className = 'tag info-tag';
   cityTag.dataset.tag = 'city';
-  cityTag.innerHTML = `<span class="emoji">📍</span> ${DOC.city}`;
+  cityTag.innerHTML = `<span class="emoji">📍</span> ${DOC.city}${DOC.area ? ' · ' + DOC.area : ''}`;
   grid.appendChild(cityTag);
 
   // Specialty + custom tags
@@ -1387,6 +1438,52 @@ function initApp() {
     correctLevel: QRCode.CorrectLevel.M
   });
 
+// ═══════════════════════════════════════════════
+//  SMART GMB URL CONVERTER
+//  Converts any GMB link format to correct review URL
+// ═══════════════════════════════════════════════
+function getReviewUrl(rawUrl) {
+  if (!rawUrl) return '';
+
+  // Already correct format
+  if (rawUrl.includes('search.google.com/local/writereview')) {
+    const base = rawUrl.split('&text=')[0];
+    if (!base.includes('laa=')) {
+      return base + '&source=g.page.m._&laa=merchant-review-solicitation';
+    }
+    return base;
+  }
+
+  // Extract Place ID from various formats
+  let placeId = '';
+
+  // Format: g.page/r/XXXXX/review or g.page/r/XXXXX
+  const gPageMatch = rawUrl.match(/g\.page\/r\/([A-Za-z0-9_-]+)/);
+  if (gPageMatch) {
+    // g.page short URL — use as-is with review suffix
+    const shortBase = 'https://g.page/r/' + gPageMatch[1] + '/review';
+    return shortBase;
+  }
+
+  // Format: maps.google.com/maps?cid=XXXXX
+  const cidMatch = rawUrl.match(/[?&]cid=(\d+)/);
+  if (cidMatch) {
+    return 'https://search.google.com/local/writereview?cid=' + cidMatch[1] +
+           '&source=g.page.m._&laa=merchant-review-solicitation';
+  }
+
+  // Format: already has placeid
+  const placeIdMatch = rawUrl.match(/placeid=([A-Za-z0-9_-]+)/);
+  if (placeIdMatch) {
+    placeId = placeIdMatch[1];
+    return 'https://search.google.com/local/writereview?placeid=' + placeId +
+           '&source=g.page.m._&laa=merchant-review-solicitation';
+  }
+
+  // Fallback — use as-is
+  return rawUrl;
+}
+
   // ═══ SUBMIT — copy + show 2s message + open GMB ═══
   document.getElementById('submitBtn').addEventListener('click', function() {
     const text = document.getElementById('reviewBox').value.trim();
@@ -1408,9 +1505,22 @@ function initApp() {
 
     // After 2 seconds — open Google
     setTimeout(() => {
-      const baseGmb = DOC.gmb.split('&text=')[0];
-      const gmbWithText = baseGmb + '&rating=5&text=' + encodeURIComponent(text);
-      window.open(gmbWithText, '_blank');
+      const reviewUrl = getReviewUrl(DOC.gmb);
+      window.open(reviewUrl, '_blank');
+
+      // Increment review count in Airtable for free plan
+      if (DOC.plan === 'free' && DOC.airtableId) {
+        const newCount = (parseInt(DOC.reviewCount) || 0) + 1;
+        DOC.reviewCount = newCount;
+        fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(AIRTABLE_TABLE)}/${DOC.airtableId}`, {
+          method: 'PATCH',
+          headers: {
+            'Authorization': `Bearer ${AIRTABLE_TOKEN}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ fields: { ReviewCount: newCount } })
+        }).catch(e => console.log('Count update error:', e));
+      }
 
       // Reset button after opening
       setTimeout(() => {
