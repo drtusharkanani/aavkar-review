@@ -110,22 +110,44 @@ footer { text-align: center; font-size: 11px; color: #aac3be; padding: 10px 16px
   <div class="card screen active" id="loginScreen">
     <div class="login-icon">🔐</div>
     <div class="section-title" style="text-align:center;">Verify Your Identity</div>
-    <div class="section-sub" style="text-align:center;margin-bottom:24px;">Enter your registered phone number + Doctor ID</div>
+    <div class="section-sub" style="text-align:center;margin-bottom:24px;">Enter your Doctor ID and registered email</div>
 
     <div class="field">
       <label>Doctor ID <span class="req">*</span></label>
       <input type="text" id="loginId" placeholder="e.g. 101" inputmode="numeric">
     </div>
     <div class="field">
-      <label>Registered Phone Number <span class="req">*</span></label>
-      <input type="tel" id="loginPhone" placeholder="+91 98765 43210">
+      <label>Registered Email <span class="req">*</span></label>
+      <input type="email" id="loginEmail" placeholder="doctor@example.com">
     </div>
 
-    <button class="btn-primary" onclick="verifyDoctor()">🔍 Find My Profile</button>
+    <button class="btn-primary" onclick="sendOTP()" id="sendOtpBtn">📧 Send OTP to Email</button>
 
     <div style="text-align:center;margin-top:14px;font-size:12px;color:var(--muted);">
       Don't know your Doctor ID?
       <a href="https://wa.me/917984939486?text=Hi%2C%20I%20need%20my%20GoodReview%20Doctor%20ID" target="_blank" style="color:var(--teal);font-weight:600;">WhatsApp us</a>
+    </div>
+  </div>
+
+  <!-- ═══ OTP SCREEN ═══ -->
+  <div class="card screen" id="otpScreen">
+    <div class="login-icon">📨</div>
+    <div class="section-title" style="text-align:center;">Enter OTP</div>
+    <div class="section-sub" style="text-align:center;margin-bottom:24px;" id="otpSubtext">OTP sent to your email</div>
+
+    <div class="field">
+      <label>6-Digit OTP <span class="req">*</span></label>
+      <input type="text" id="otpInput" placeholder="Enter 6-digit OTP" maxlength="6" inputmode="numeric"
+             oninput="this.value=this.value.replace(/\D/g,'').slice(0,6)"
+             style="font-size:24px;letter-spacing:8px;text-align:center;font-weight:700;">
+    </div>
+
+    <button class="btn-primary" onclick="verifyOTP()">✅ Verify OTP</button>
+    <button class="btn-secondary" onclick="showScreen('loginScreen')">← Back</button>
+
+    <div style="text-align:center;margin-top:12px;font-size:12px;color:var(--muted);">
+      Didn't receive? Check spam folder or
+      <span onclick="sendOTP()" style="color:var(--teal);cursor:pointer;font-weight:600;">Resend OTP</span>
     </div>
   </div>
 
@@ -171,7 +193,8 @@ footer { text-align: center; font-size: 11px; color: #aac3be; padding: 10px 16px
 
       <div class="field">
         <label>Full Name</label>
-        <input type="text" id="e_name" placeholder="Dr. Firstname Lastname">
+        <input type="text" id="e_name" placeholder="Dr. Firstname Lastname" readonly style="background:#f0f4f8;color:var(--muted);cursor:not-allowed;">
+        <div style="font-size:11px;color:#e74c3c;margin-top:4px;">⚠️ Name cannot be changed. Contact support if needed.</div>
       </div>
       <div class="field-row">
         <div class="field">
@@ -258,7 +281,7 @@ footer { text-align: center; font-size: 11px; color: #aac3be; padding: 10px 16px
         </div>
         <div class="field">
           <label>Phone</label>
-          <input type="tel" id="e_phone" placeholder="+91 98765...">
+          <input type="tel" id="e_phone" placeholder="10-digit number" maxlength="10" inputmode="numeric" oninput="this.value=this.value.replace(/\D/g,'').slice(0,10)">
         </div>
       </div>
     </div>
@@ -341,19 +364,25 @@ function showScreen(id) {
 }
 
 // ═══════════════════════════════════════════════
-//  VERIFY DOCTOR
+//  OTP FLOW
 // ═══════════════════════════════════════════════
-async function verifyDoctor() {
-  const id    = document.getElementById('loginId').value.trim();
-  const phone = document.getElementById('loginPhone').value.trim().replace(/\D/g, '');
+const MAKE_OTP_WEBHOOK = 'https://hook.eu1.make.com/mxmdkav7gfojkap9blwyuwryql6gqb95';
+let generatedOTP = '';
+let verifiedRecord = null;
 
-  if (!id || !phone) { showToast('⚠️ Please enter Doctor ID and phone'); return; }
+async function sendOTP() {
+  const id    = document.getElementById('loginId').value.trim();
+  const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+
+  if (!id) { showToast('⚠️ Please enter your Doctor ID'); return; }
+  if (!email) { showToast('⚠️ Please enter your email'); return; }
 
   showScreen('loadingScreen');
 
   try {
+    // Fetch doctor from Airtable
     const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(AIRTABLE_TABLE)}?filterByFormula=${encodeURIComponent(`{DoctorID}=${id}`)}&maxRecords=1`;
-    const res = await fetch(url, { headers: { 'Authorization': `Bearer ${AIRTABLE_TOKEN}` } });
+    const res  = await fetch(url, { headers: { 'Authorization': `Bearer ${AIRTABLE_TOKEN}` } });
     const data = await res.json();
 
     if (!data.records || data.records.length === 0) {
@@ -362,26 +391,61 @@ async function verifyDoctor() {
       return;
     }
 
-    const r = data.records[0].fields;
-    const storedPhone = (r.Phone || '').replace(/\D/g, '');
+    const r            = data.records[0].fields;
+    const storedEmail  = (r.Email || '').toLowerCase().trim();
 
-    if (!storedPhone.endsWith(phone.slice(-10))) {
-      showToast('❌ Phone number does not match');
+    if (storedEmail !== email) {
+      showToast('❌ Email does not match our records');
       showScreen('loginScreen');
       return;
     }
 
-    // ✅ Verified
-    currentRecordId = data.records[0].id;
-    currentDoctorId = id;
-    loadProfile(r);
-    showScreen('profileScreen');
-    showToast('✅ Profile loaded!');
+    // Generate 6-digit OTP
+    generatedOTP   = Math.floor(100000 + Math.random() * 900000).toString();
+    verifiedRecord = data.records[0];
+
+    // Send OTP via Make.com webhook → Gmail
+    await fetch(MAKE_OTP_WEBHOOK, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type:       'OTP',
+        email:      email,
+        otp:        generatedOTP,
+        doctorName: r.DoctorName || 'Doctor',
+        doctorId:   id,
+      })
+    });
+
+    document.getElementById('otpSubtext').textContent = `OTP sent to ${email}`;
+    showScreen('otpScreen');
+    showToast('📧 OTP sent! Check your email');
 
   } catch(e) {
-    showToast('⚠️ Network error. Try again.');
+    showToast('⚠️ Error. Try again.');
     showScreen('loginScreen');
   }
+}
+
+async function verifyOTP() {
+  const entered = document.getElementById('otpInput').value.trim();
+
+  if (!entered || entered.length !== 6) {
+    showToast('⚠️ Please enter 6-digit OTP');
+    return;
+  }
+
+  if (entered !== generatedOTP) {
+    showToast('❌ Wrong OTP. Try again.');
+    return;
+  }
+
+  // ✅ OTP correct
+  currentRecordId  = verifiedRecord.id;
+  currentDoctorId  = document.getElementById('loginId').value.trim();
+  loadProfile(verifiedRecord.fields);
+  showScreen('profileScreen');
+  showToast('✅ Verified! Profile loaded.');
 }
 
 // ═══════════════════════════════════════════════
@@ -451,7 +515,6 @@ async function saveChanges() {
   if (!currentRecordId) { showToast('⚠️ Not logged in'); return; }
 
   const updates = {
-    DoctorName:  document.getElementById('e_name').value.trim(),
     Degree:      document.getElementById('e_degree').value.trim(),
     Specialty:   document.getElementById('e_specialty').value,
     Hospital:    document.getElementById('e_hospital').value.trim(),
@@ -515,7 +578,8 @@ document.getElementById('e_tagLabel').addEventListener('keypress', e => {
   if (e.key === 'Enter') { e.preventDefault(); addEditTag(); }
 });
 
-window.verifyDoctor  = verifyDoctor;
+window.sendOTP       = sendOTP;
+window.verifyOTP     = verifyOTP;
 window.saveChanges   = saveChanges;
 window.logout        = logout;
 window.addEditTag    = addEditTag;
