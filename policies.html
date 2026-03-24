@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GoodReview — Policies</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --teal: #0a7c6e;
+  --teal-light: #0fa390;
+  --teal-pale: #e8f7f5;
+  --gold: #c9993a;
+  --gold-light: #fdf6e3;
+  --navy: #0d2340;
+  --text: #1a2e3b;
+  --muted: #6b8191;
+  --bg: #f4f9f8;
+  --white: #fff;
+  --radius: 16px;
+  --shadow: 0 4px 24px rgba(10,124,110,0.10);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(145deg, var(--navy) 0%, #104a5e 55%, var(--teal) 100%);
+  padding: 40px 20px 60px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute;
+  width: 360px; height: 360px; border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+  top: -100px; right: -80px; pointer-events: none;
+}
+.brand {
+  display: inline-flex; align-items: center; gap: 10px;
+  margin-bottom: 16px; position: relative; z-index: 1;
+  text-decoration: none;
+}
+.brand-icon {
+  width: 44px; height: 44px; background: var(--gold);
+  border-radius: 50%; display: flex; align-items: center;
+  justify-content: center; font-size: 18px;
+  box-shadow: 0 0 0 8px rgba(201,153,58,0.2);
+}
+.brand-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px; color: white; font-weight: 800;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(20px, 5vw, 28px);
+  color: white; margin-bottom: 8px;
+  position: relative; z-index: 1;
+}
+.hero p {
+  font-size: 13px; color: rgba(255,255,255,0.65);
+  position: relative; z-index: 1;
+}
+
+/* ── TABS ── */
+.tabs-wrap {
+  max-width: 700px; margin: -18px auto 0;
+  padding: 0 16px; position: relative; z-index: 2;
+}
+.tabs {
+  background: white;
+  border-radius: 50px;
+  padding: 4px;
+  display: flex;
+  gap: 4px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+.tab-btn {
+  flex: 1; padding: 10px 6px;
+  border: none; border-radius: 50px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px; font-weight: 700;
+  cursor: pointer;
+  background: transparent;
+  color: var(--muted);
+  transition: all 0.2s;
+}
+.tab-btn.active {
+  background: var(--teal);
+  color: white;
+  box-shadow: 0 2px 10px rgba(10,124,110,0.3);
+}
+
+/* ── CONTAINER ── */
+.container {
+  max-width: 700px;
+  margin: 24px auto 60px;
+  padding: 0 16px;
+}
+
+/* ── POLICY CARD ── */
+.policy-card {
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 32px 28px;
+  display: none;
+  animation: fadeUp 0.3s ease both;
+}
+.policy-card.active { display: block; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.policy-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px; color: var(--navy);
+  margin-bottom: 4px;
+}
+.policy-date {
+  font-size: 11px; color: var(--muted);
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1.5px solid #f0f0f0;
+}
+
+/* ── SECTIONS ── */
+.section {
+  margin-bottom: 28px;
+}
+.section-title {
+  font-size: 14px; font-weight: 700;
+  color: var(--navy);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+  display: flex; align-items: center; gap: 8px;
+}
+.section-title .dot {
+  width: 8px; height: 8px;
+  background: var(--teal);
+  border-radius: 50%; flex-shrink: 0;
+}
+p {
+  font-size: 14px; color: #3a4f5c;
+  line-height: 1.8; margin-bottom: 10px;
+}
+ul {
+  padding-left: 0; list-style: none;
+  display: flex; flex-direction: column; gap: 8px;
+  margin-bottom: 10px;
+}
+ul li {
+  font-size: 14px; color: #3a4f5c;
+  line-height: 1.7;
+  padding-left: 20px;
+  position: relative;
+}
+ul li::before {
+  content: '→';
+  position: absolute; left: 0;
+  color: var(--teal); font-weight: 700;
+}
+
+/* ── HIGHLIGHT BOX ── */
+.highlight {
+  background: var(--teal-pale);
+  border-left: 4px solid var(--teal);
+  border-radius: 0 10px 10px 0;
+  padding: 14px 16px;
+  margin: 14px 0;
+  font-size: 13.5px;
+  color: var(--teal);
+  font-weight: 600;
+  line-height: 1.6;
+}
+.highlight-gold {
+  background: var(--gold-light);
+  border-left: 4px solid var(--gold);
+  border-radius: 0 10px 10px 0;
+  padding: 14px 16px;
+  margin: 14px 0;
+  font-size: 13.5px;
+  color: #8a6010;
+  font-weight: 600;
+  line-height: 1.6;
+}
+.highlight-red {
+  background: #fff0f0;
+  border-left: 4px solid #e74c3c;
+  border-radius: 0 10px 10px 0;
+  padding: 14px 16px;
+  margin: 14px 0;
+  font-size: 13.5px;
+  color: #c0392b;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+/* ── REFUND TABLE ── */
+.refund-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 14px 0;
+  border-radius: 10px;
+  overflow: hidden;
+  font-size: 13px;
+}
+.refund-table th {
+  background: var(--navy);
+  color: white;
+  padding: 12px 14px;
+  text-align: left;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.refund-table td {
+  padding: 11px 14px;
+  border-bottom: 1px solid #f0f0f0;
+  color: #3a4f5c;
+  line-height: 1.5;
+}
+.refund-table tr:last-child td { border-bottom: none; }
+.refund-table tr:nth-child(even) td { background: #f9fffe; }
+.badge-yes { color: #27ae60; font-weight: 700; }
+.badge-no  { color: #e74c3c; font-weight: 700; }
+.badge-partial { color: #e67e22; font-weight: 700; }
+
+/* ── CONTACT BOX ── */
+.contact-box {
+  background: var(--navy);
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 28px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.contact-box .label {
+  font-size: 13px; color: rgba(255,255,255,0.6);
+  margin-bottom: 4px;
+}
+.contact-box .value {
+  font-size: 14px; color: white; font-weight: 600;
+}
+.contact-box .icon {
+  font-size: 28px; flex-shrink: 0;
+}
+
+footer {
+  text-align: center; font-size: 11px;
+  color: #aac3be; padding: 20px 16px 40px;
+}
+footer a { color: var(--teal); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <a href="https://goodreview.in" class="brand">
+    <div class="brand-icon">✚</div>
+    <div class="brand-name">GoodReview</div>
+  </a>
+  <h1>Legal Policies</h1>
+  <p>Effective from March 2026 · goodreview.in</p>
+</div>
+
+<!-- TABS -->
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('refund')">💰 Refund Policy</button>
+    <button class="tab-btn" onclick="showTab('privacy')">🔒 Privacy Policy</button>
+    <button class="tab-btn" onclick="showTab('terms')">📋 Terms of Service</button>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ═══ REFUND POLICY ═══ -->
+  <div class="policy-card active" id="tab-refund">
+    <div class="policy-title">💰 Refund Policy</div>
+    <div class="policy-date">Last updated: March 2026 · GoodReview · goodreview.in</div>
+
+    <div class="highlight-gold">
+      ⚠️ Please read this policy carefully before purchasing any GoodReview plan.
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="dot"></span> Overview</div>
+      <p>GoodReview provides a digital SaaS platform that helps doctors collect Google reviews. Our refund policy is designed to be fair while accounting for the nature of digital services and physical products.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="dot"></span> Refund Eligibility</div>
+
+      <table class="refund-table">
+        <tr>
+          <th>Situation</th>
+          <th>Refund</th>
+          <th>Amount</th>
+        </tr>
+        <tr>
+          <td>Your Google My Business (GMB) listing gets blocked or suspended by Google</td>
+          <td class="badge-partial">Partial</td>
+          <td><strong>20% of plan amount</strong></td>
+        </tr>
+        <tr>
+          <td>Your GMB review link stops working within 2 months of activation</td>
+          <td class="badge-partial">Partial</td>
+          <td><strong>20% of plan amount</strong></td>
+        </tr>
+        <tr>
+          <td>Review page not activated within 48 hours (our fault)</td>
+          <td class="badge-yes">Yes</td>
+          <td><strong>Full refund</strong></td>
+        </tr>
+        <tr>
+          <td>Change of mind / no longer needed</td>
+          <td class="badge-no">No</td>
+          <td>Not eligible</td>
+        </tr>
+        <tr>
+          <td>NFC Card, QR Stickers, Standee (physical products)</td>
+          <td class="badge-no">No</td>
+          <td>Not eligible</td>
+        </tr>
+        <tr>
+          <td>GMB link stops working after 2 months</td>
+          <td class="badge-no">No</td>
+          <td>Not eligible</td>
+        </tr>
+        <tr>
+          <td>Doctor chose wrong plan</td>
+          <td class="badge-no">No</td>
+          <td>Not eligible</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="dot"></span> GMB Block / Link Not Working — 20% Refund</div>
+      <div class="highlight">
+        💡 We offer 20% refund if your Google My Business listing gets blocked OR your GMB review link stops working within 2 months of activation.
+      </div>
+      <p>This is because GoodReview is a technology platform — we are not responsible for Google's policies, actions, or decisions regarding your business listing. However, we acknowledge the inconvenience and offer a partial refund as a goodwill gesture.</p>
+      <ul>
+        <li>Refund applies only within the first <strong>2 months</strong> of plan activation</li>
+        <li>You must WhatsApp us proof (screenshot) that GMB is blocked or link is broken</li>
+        <li>Refund will be processed within <strong>7 working days</strong></li>
+        <li>Refund goes to original payment method only</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="dot"></span> Physical Products — No Refund</div>
+      <div class="highlight-red">
+        🚫 NFC Cards, QR Sticker Sheets, and Table Standees are physical products. Once shipped, they cannot be returned or refunded under any circumstances.
+      </div>
+      <ul>
+        <li>Physical products are custom-made for each doctor</li>
+        <li>Once shipped, no returns accepted</li>
+        <li>Damaged in transit? WhatsApp us — we will replace at our discretion</li>
+        <li>Wrong address provided by doctor — not our responsibility</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="dot"></span> How to Request a Refund</div>
+      <ul>
+        <li>WhatsApp us at <strong>+91 7984939486</strong></li>
+        <li>Send your registered email, Doctor ID, and reason</li>
+        <li>Attach screenshot proof if applicable</li>
+        <li>We will respond within 24 hours</li>
+      </ul>
+    </div>
+
+    <div class="contact-box">
+      <div class="icon">💬</div>
+      <div>
+        <div class="label">Refund Queries — WhatsApp Only</div>
+        <div class="value">+91 7984939486</div>
+      </div>
+      <div style="margin-left:auto;">
+        <div class="label">Email</div>
+        <div class="value">support.goodreview@gmail.com</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ PRIVACY POLICY ═══ -->
+  <div class="policy-card" id="tab-privacy">
+    <div class="policy-title">🔒 Privacy Policy</div>
+    <div class="policy-date">Last updated: March 2026 · GoodReview · goodreview.in</div>
+
+    <div class="section">
+      <div class="section-title"><span class="dot"></span> Who We Are</div>
+      <p>GoodReview ("we", "our", "us") is a SaaS platform that helps Indian doctors collect Google reviews. We operate at <strong>goodreview.in</strong>. Our support contact is <strong>support.goodreview@gmail.com</strong>.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="dot"></span> What Data We Collect</div>
+      <p>When a doctor registers on GoodReview, we collect:</p>
+      <ul>
+        <li>Full name, degree, and medical specialty</li>
+        <li>Hospital or clinic name, city, area, and state</li>
+        <li>WhatsApp number and email address</li>
+        <li>Google My Business (GMB) review link</li>
+        <li>Selected plan and payment information (processed by Razorpay)</li>
+        <li>Delivery address (for physical product plans only)</li>
+      </ul>
+      <p>When a patient uses a doctor's review page, we do <strong>not</strong> collect any patient personal data. No login, no registration, no tracking of patients.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="dot"></span> How We Use Your Data</div>
+      <ul>
+        <li>To create and maintain your GoodReview doctor profile</li>
+        <li>To send your review page link and activation confirmation via email</li>
+        <li>To deliver physical products (NFC, standee, QR stickers)</li>
+        <li>To send renewal reminders before plan expiry</li>
+        <li>To provide customer support via WhatsApp</li>
+        <li>To improve our platform and services</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="dot"></span> Data Storage</div>
+      <p>All doctor profile data is stored securely in <strong>Airtable</strong> (US-based cloud database). Payment data is handled entirely by <strong>Razorpay</strong> — we do not store credit card or UPI details on our servers.</p>
+      <div class="highlight">
+        🔒 We never sell, rent, or share your personal data with any third party for marketing purposes.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="dot"></span> Third Party Services</div>
+      <p>We use the following trusted third-party services:</p>
+      <ul>
+        <li><strong>Razorpay</strong> — Payment processing</li>
+        <li><strong>Airtable</strong> — Data storage</li>
+        <li><strong>Make.com</strong> — Automation workflows</li>
+        <li><strong>Gmail</strong> — Transactional emails</li>
+        <li><strong>GitHub Pages</strong> — Website hosting</li>
+        <li><strong>Google Maps API</strong> — GMB link integration</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="dot"></span> Your Rights</div>
+      <ul>
+        <li>Request to view your stored data — WhatsApp us</li>
+        <li>Request correction of incorrect data — use edit.html or WhatsApp</li>
+        <li>Request deletion of your account — WhatsApp us</li>
+        <li>Opt out of renewal reminder emails — WhatsApp us</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="dot"></span> Cookies</div>
+      <p>GoodReview does not use tracking cookies. We do not use Google Analytics or any advertising tracking. Our website is a simple static site with no cookie-based tracking.</p>
+    </div>
+
+    <div class="contact-box">
+      <div class="icon">🔒</div>
+      <div>
+        <div class="label">Privacy Concerns</div>
+        <div class="value">support.goodreview@gmail.com</div>
+      </div>
+      <div style="margin-left:auto;">
+        <div class="label">WhatsApp</div>
+        <div class="value">+91 7984939486</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ TERMS OF SERVICE ═══ -->
+  <div class="policy-card" id="tab-terms">
+    <div class="policy-title">📋 Terms of Service</div>
+    <div class="policy-date">Last updated: March 2026 · GoodReview · goodreview.in</div>
+
+    <div class="section">
+      <div class="section-title"><span class="dot"></span> Acceptance of Terms</div>
+      <p>By registering on GoodReview or using any of our services, you agree to these Terms of Service. If you do not agree, please do not use our platform.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="dot"></span> Our Service</div>
+      <p>GoodReview provides a digital platform that helps doctors in India collect genuine Google reviews from their patients. Our service includes:</p>
+      <ul>
+        <li>A personalized patient-facing review page</li>
+        <li>Auto-generated review text in 4 languages</li>
+        <li>QR code for print and display</li>
+        <li>NFC card, QR stickers, and standee (paid plans)</li>
+        <li>Doctor dashboard and profile editing</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="dot"></span> Doctor Responsibilities</div>
+      <ul>
+        <li>You must provide accurate and truthful registration information</li>
+        <li>You are responsible for providing a valid and working GMB link</li>
+        <li>You must not use GoodReview to collect fake or misleading reviews</li>
+        <li>You must comply with Google's review policies</li>
+        <li>You are responsible for keeping your login email accessible for OTP</li>
+        <li>You must provide correct delivery address for physical products</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="dot"></span> Subscription & Payment</div>
+      <ul>
+        <li>Plans are annual or multi-year subscriptions paid upfront</li>
+        <li>Payments are processed securely via Razorpay</li>
+        <li>Your plan activates within 24 hours of payment confirmation</li>
+        <li>Renewal reminders will be sent before expiry via email</li>
+        <li>Expired plans will deactivate the review page automatically</li>
+        <li>Renewal only requires updating ExpiryDate — no new QR or NFC needed</li>
+      </ul>
+      <div class="highlight-gold">
+        💡 Your Doctor ID and QR code are permanent — they never change, even on renewal or plan upgrade.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="dot"></span> Limitations of Service</div>
+      <div class="highlight-red">
+        🚫 GoodReview is NOT responsible for Google's actions on your GMB listing. If Google removes, suspends, or blocks your business listing, that is outside our control.
+      </div>
+      <ul>
+        <li>We cannot guarantee a specific number of reviews</li>
+        <li>We are not responsible for Google algorithm changes</li>
+        <li>We are not responsible for GMB listing suspensions by Google</li>
+        <li>Review page uptime depends on GitHub Pages and Airtable availability</li>
+        <li>We reserve the right to deactivate accounts that violate our terms</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="dot"></span> Intellectual Property</div>
+      <p>All GoodReview platform code, design, and content is owned by GoodReview. Doctors may not copy, reproduce, or resell any part of our platform. Doctor profile data belongs to the doctor.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="dot"></span> Termination</div>
+      <ul>
+        <li>You may deactivate your account by contacting us on WhatsApp</li>
+        <li>We may terminate accounts that violate these terms without refund</li>
+        <li>On termination, your review page will be deactivated</li>
+        <li>Physical products already shipped cannot be returned</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="dot"></span> Governing Law</div>
+      <p>These terms are governed by the laws of India. Any disputes shall be subject to the jurisdiction of courts in <strong>Gujarat, India</strong>.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="dot"></span> Changes to Terms</div>
+      <p>We may update these terms from time to time. We will notify registered doctors of significant changes via email. Continued use of GoodReview after changes means acceptance of the new terms.</p>
+    </div>
+
+    <div class="contact-box">
+      <div class="icon">📋</div>
+      <div>
+        <div class="label">Terms Questions</div>
+        <div class="value">support.goodreview@gmail.com</div>
+      </div>
+      <div style="margin-left:auto;">
+        <div class="label">WhatsApp</div>
+        <div class="value">+91 7984939486</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  © 2026 GoodReview · <a href="https://goodreview.in">goodreview.in</a> ·
+  <a href="mailto:support.goodreview@gmail.com">support.goodreview@gmail.com</a>
+</footer>
+
+<script>
+function showTab(name) {
+  document.querySelectorAll('.policy-card').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
