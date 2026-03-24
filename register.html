@@ -221,84 +221,44 @@ textarea { min-height: 80px; resize: vertical; }
   display: flex; align-items: center;
   justify-content: space-between; margin-bottom: 8px;
 }
-.plan-name {
-  font-size: 15px; font-weight: 700; color: var(--navy);
-}
-.plan-price {
-  text-align: right;
-}
-.plan-amount {
-  font-size: 24px; font-weight: 900; color: var(--teal); line-height: 1;
-}
-.plan-period {
-  font-size: 10px; color: var(--muted); display: block;
-}
-.plan-savings {
-  font-size: 10px; color: var(--gold); font-weight: 600;
-  display: block;
-}
-.plan-features {
-  display: flex; flex-wrap: wrap; gap: 5px;
-}
+.plan-name { font-size: 15px; font-weight: 700; color: var(--navy); }
+.plan-price { text-align: right; }
+.plan-amount { font-size: 24px; font-weight: 900; color: var(--teal); line-height: 1; }
+.plan-period { font-size: 10px; color: var(--muted); display: block; }
+.plan-savings { font-size: 10px; color: var(--gold); font-weight: 600; display: block; }
+.plan-features { display: flex; flex-wrap: wrap; gap: 5px; }
 .plan-feat {
   font-size: 11px; color: var(--teal);
   background: rgba(10,124,110,0.08);
   padding: 2px 8px; border-radius: 20px;
 }
 
-
 /* ── CUSTOM TAGS ── */
-.custom-tags-section {
-  display: none; /* shown only for premium plan */
-}
+.custom-tags-section { display: none; }
 .custom-tags-section.visible { display: block; }
-.tag-input-row {
-  display: flex; gap: 8px; margin-bottom: 8px;
-}
+.tag-input-row { display: flex; gap: 8px; margin-bottom: 8px; }
 .tag-input-row input { flex: 1; }
 .tag-input-row .emoji-input { width: 60px; text-align: center; font-size: 18px; }
 .add-tag-btn {
-  padding: 10px 16px;
-  background: var(--teal);
-  color: white; border: none;
-  border-radius: 10px; font-size: 18px;
-  cursor: pointer; flex-shrink: 0;
+  padding: 10px 16px; background: var(--teal);
+  color: white; border: none; border-radius: 10px;
+  font-size: 18px; cursor: pointer; flex-shrink: 0;
 }
-.tags-preview {
-  display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px;
-}
+.tags-preview { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
 .tag-chip {
   display: flex; align-items: center; gap: 5px;
-  background: var(--gold-light);
-  border: 1px solid var(--gold);
+  background: var(--gold-light); border: 1px solid var(--gold);
   border-radius: 20px; padding: 4px 10px 4px 8px;
   font-size: 12px; color: #8a6010; font-weight: 500;
 }
-.tag-chip .remove-tag {
-  font-size: 14px; cursor: pointer; color: var(--red);
-  margin-left: 2px; line-height: 1;
-}
+.tag-chip .remove-tag { font-size: 14px; cursor: pointer; color: var(--red); margin-left: 2px; line-height: 1; }
 .tag-count { font-size: 11px; color: var(--muted); margin-top: 6px; }
-
-/* ── GMB HELP ── */
-.gmb-help {
-  background: var(--gold-light);
-  border: 1px solid #e8c87a;
-  border-radius: 10px;
-  padding: 12px 14px;
-  font-size: 12.5px; color: #8a6010;
-  line-height: 1.6; margin-top: 8px;
-  display: flex; gap: 8px;
-}
-.gmb-help .icon { font-size: 16px; flex-shrink: 0; }
 
 /* ── NEXT / SUBMIT BUTTON ── */
 .next-btn, .submit-btn {
-  width: 100%;
-  padding: 16px;
+  width: 100%; padding: 16px;
   background: linear-gradient(135deg, var(--teal), var(--teal-light));
-  color: white; border: none;
-  border-radius: 12px;
+  color: white; border: none; border-radius: 12px;
   font-family: 'DM Sans', sans-serif;
   font-size: 16px; font-weight: 700;
   cursor: pointer;
@@ -325,9 +285,8 @@ textarea { min-height: 80px; resize: vertical; }
 .summary-label { color: var(--muted); }
 .summary-value { font-weight: 600; color: var(--navy); text-align: right; max-width: 60%; }
 .summary-total {
-  background: var(--teal-pale);
-  border-radius: 10px; padding: 14px;
-  margin-top: 14px; text-align: center;
+  background: var(--teal-pale); border-radius: 10px;
+  padding: 14px; margin-top: 14px; text-align: center;
 }
 .summary-total .amount {
   font-family: 'Playfair Display', serif;
@@ -336,10 +295,7 @@ textarea { min-height: 80px; resize: vertical; }
 .summary-total .label { font-size: 12px; color: var(--muted); margin-top: 2px; }
 
 /* ── SUCCESS ── */
-.success-screen {
-  display: none;
-  text-align: center; padding: 40px 20px;
-}
+.success-screen { display: none; text-align: center; padding: 40px 20px; }
 .success-screen.show { display: block; }
 .success-icon-wrap {
   width: 80px; height: 80px;
@@ -354,21 +310,11 @@ textarea { min-height: 80px; resize: vertical; }
   from { transform: scale(0); opacity: 0; }
   to   { transform: scale(1); opacity: 1; }
 }
-.success-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 26px; color: var(--navy); margin-bottom: 10px;
-}
+.success-title { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--navy); margin-bottom: 10px; }
 .success-sub { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 24px; }
-.success-link-box {
-  background: var(--navy);
-  border-radius: 12px; padding: 16px;
-  margin-bottom: 16px;
-}
+.success-link-box { background: var(--navy); border-radius: 12px; padding: 16px; margin-bottom: 16px; }
 .success-link-label { font-size: 10px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 6px; }
-.success-link {
-  font-size: 14px; color: var(--gold);
-  font-weight: 600; word-break: break-all;
-}
+.success-link { font-size: 14px; color: var(--gold); font-weight: 600; word-break: break-all; }
 
 /* ── TOAST ── */
 .toast {
@@ -388,7 +334,6 @@ textarea { min-height: 80px; resize: vertical; }
   text-align: center; font-size: 11.5px; color: var(--muted);
   margin-top: 10px; line-height: 1.6;
 }
-.razorpay-note img { height: 18px; vertical-align: middle; margin-right: 4px; }
 
 footer { text-align: center; font-size: 11px; color: #aac3be; padding: 20px 16px 40px; }
 </style>
@@ -442,7 +387,6 @@ footer { text-align: center; font-size: 11px; color: #aac3be; padding: 20px 16px
         <label>Specialty <span class="req">*</span></label>
         <select id="f_specialty">
           <option value="">Select Specialty</option>
-
           <optgroup label="── Level 1 — Bachelor Degree ──">
             <option value="homeopathy">General Practitioner (Homeopathy)</option>
             <option value="ayurvedic">General Practitioner (Ayurveda)</option>
@@ -450,19 +394,17 @@ footer { text-align: center; font-size: 11px; color: #aac3be; padding: 20px 16px
             <option value="occupational_therapist">Occupational Therapist</option>
             <option value="dentist">General Dentist</option>
             <option value="orthodontist">Orthodontist</option>
-            <option value="oral_maxillofacial">Oral & Maxillofacial Surgeon</option>
+            <option value="oral_maxillofacial">Oral &amp; Maxillofacial Surgeon</option>
             <option value="pediatric_dentist">Pediatric Dentist</option>
             <option value="geriatric_dentist">Geriatric Dentist</option>
             <option value="dietitian">Dietitian / Nutritionist</option>
             <option value="yoga_therapist">Yoga Therapist</option>
             <option value="wellness_coach">Wellness Coach</option>
           </optgroup>
-
           <optgroup label="── Level 2 — MBBS ──">
             <option value="general_practitioner">General Practitioner (MBBS)</option>
             <option value="family_medicine">Family Doctor</option>
           </optgroup>
-
           <optgroup label="── Level 3 — MD ──">
             <option value="general_physician">MD Medicine — General Physician</option>
             <option value="pediatrician">MD Pediatrics</option>
@@ -471,15 +413,13 @@ footer { text-align: center; font-size: 11px; color: #aac3be; padding: 20px 16px
             <option value="radiologist">MD Radiology</option>
             <option value="pathologist">MD Pathology</option>
           </optgroup>
-
           <optgroup label="── Level 3 — MS ──">
             <option value="general_surgeon">MS General Surgery</option>
             <option value="orthopedic">MS Orthopedic</option>
             <option value="ophthalmologist">MS Ophthalmology</option>
             <option value="ent_specialist">MS ENT</option>
-            <option value="gynecologist">MS Obstetrics & Gynecology</option>
+            <option value="gynecologist">MS Obstetrics &amp; Gynecology</option>
           </optgroup>
-
           <optgroup label="── Level 4 — DM (Super Specialty) ──">
             <option value="cardiologist">DM Cardiology</option>
             <option value="neurologist">DM Neurology</option>
@@ -494,7 +434,6 @@ footer { text-align: center; font-size: 11px; color: #aac3be; padding: 20px 16px
             <option value="neonatologist">DM Neonatology</option>
             <option value="geriatrician">DM Geriatrics</option>
           </optgroup>
-
           <optgroup label="── Level 4 — MCh (Super Specialty) ──">
             <option value="neurosurgeon">MCh Neurosurgery</option>
             <option value="cardiothoracic">MCh Cardiothoracic Surgery</option>
@@ -503,7 +442,6 @@ footer { text-align: center; font-size: 11px; color: #aac3be; padding: 20px 16px
             <option value="vascular_surgeon">MCh Vascular Surgery</option>
             <option value="pediatric_surgeon">MCh Pediatric Surgery</option>
           </optgroup>
-
           <optgroup label="── Level 5 — Fellowship / Special ──">
             <option value="infertility">Infertility Specialist</option>
             <option value="ivf_specialist">IVF Specialist</option>
@@ -514,7 +452,6 @@ footer { text-align: center; font-size: 11px; color: #aac3be; padding: 20px 16px
             <option value="laparoscopic">Laparoscopic Surgeon</option>
             <option value="nuclear_medicine">Nuclear Medicine</option>
           </optgroup>
-
           <optgroup label="── Level 6 — Advanced Cosmetic ──">
             <option value="cosmetic_surgeon">Cosmetic Surgeon</option>
             <option value="cosmetic_dermatologist">Cosmetic Dermatologist</option>
@@ -522,7 +459,6 @@ footer { text-align: center; font-size: 11px; color: #aac3be; padding: 20px 16px
             <option value="plastic_cosmetic">Plastic Surgeon</option>
             <option value="smile_designer">Smile Designer (Cosmetic Dentist)</option>
           </optgroup>
-
         </select>
       </div>
     </div>
@@ -545,9 +481,9 @@ footer { text-align: center; font-size: 11px; color: #aac3be; padding: 20px 16px
 
     <div class="field">
       <label>Local Area / Locality</label>
-      <input type="text" id="f_area" placeholder="e.g. Katargam, Adajan, Vesu, Satellite...">
+      <input type="text" id="f_area" placeholder="e.g. Katargam, Adajan, Vesu...">
       <div style="font-size:11px;color:var(--muted);margin-top:5px;">
-        💡 Patients searching nearby will find you faster — e.g. "Doctor in Katargam Surat"
+        💡 Patients searching nearby will find you faster
       </div>
     </div>
 
@@ -558,7 +494,7 @@ footer { text-align: center; font-size: 11px; color: #aac3be; padding: 20px 16px
 
   <!-- ═══ STEP 2 — Contact + GMB ═══ -->
   <div class="section-card" id="step2">
-    <div class="section-title">📱 Contact & Google Link</div>
+    <div class="section-title">📱 Contact &amp; Google Link</div>
     <div class="section-sub">Step 2 of 4 — Contact details and your Google review link</div>
 
     <div class="field">
@@ -574,24 +510,21 @@ footer { text-align: center; font-size: 11px; color: #aac3be; padding: 20px 16px
     <div class="field">
       <label>Referral Code <span style="font-size:10px;color:var(--gold);font-weight:600;">(Optional — Get 1 month FREE!)</span></label>
       <input type="text" id="f_referral" placeholder="Enter referral code if you have one" style="text-transform:uppercase;" oninput="this.value=this.value.toUpperCase()">
-      <div style="font-size:11px;color:var(--muted);margin-top:4px;">💡 Got referred by a doctor? Enter their code — both of you get rewarded!</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:4px;">💡 Got referred by a doctor? Enter their code!</div>
     </div>
 
     <div class="field">
       <label>Google Review Link <span class="req">*</span></label>
       <input type="url" id="f_gmb" placeholder="https://search.google.com/local/writereview?placeid=...">
 
-      <!-- GMB INSTRUCTIONS -->
       <div style="background:#f8fffe;border:1.5px solid #b0ddd8;border-radius:12px;padding:14px;margin-top:10px;">
-        <div style="font-size:12px;font-weight:700;color:#0a7c6e;margin-bottom:10px;display:flex;align-items:center;gap:6px;">
+        <div style="font-size:12px;font-weight:700;color:#0a7c6e;margin-bottom:10px;">
           📋 How to find your Google Review Link
         </div>
-
-        <!-- Step by step -->
         <div style="display:flex;flex-direction:column;gap:8px;">
           <div style="display:flex;gap:10px;align-items:flex-start;">
             <div style="width:22px;height:22px;background:#0a7c6e;border-radius:50%;color:white;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">1</div>
-            <div style="font-size:12px;color:#1a2e3b;line-height:1.5;">Open <strong>Google Maps</strong> on your computer (maps.google.com)</div>
+            <div style="font-size:12px;color:#1a2e3b;line-height:1.5;">Open <strong>Google Maps</strong> on your computer</div>
           </div>
           <div style="display:flex;gap:10px;align-items:flex-start;">
             <div style="width:22px;height:22px;background:#0a7c6e;border-radius:50%;color:white;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">2</div>
@@ -599,30 +532,17 @@ footer { text-align: center; font-size: 11px; color: #aac3be; padding: 20px 16px
           </div>
           <div style="display:flex;gap:10px;align-items:flex-start;">
             <div style="width:22px;height:22px;background:#0a7c6e;border-radius:50%;color:white;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">3</div>
-            <div style="font-size:12px;color:#1a2e3b;line-height:1.5;">Click <strong>"Write a Review"</strong> button on your business panel</div>
+            <div style="font-size:12px;color:#1a2e3b;line-height:1.5;">Click <strong>"Write a Review"</strong> button</div>
           </div>
           <div style="display:flex;gap:10px;align-items:flex-start;">
             <div style="width:22px;height:22px;background:#0a7c6e;border-radius:50%;color:white;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">4</div>
-            <div style="font-size:12px;color:#1a2e3b;line-height:1.5;">Copy the <strong>full URL</strong> from browser address bar</div>
-          </div>
-          <div style="display:flex;gap:10px;align-items:flex-start;">
-            <div style="width:22px;height:22px;background:#0a7c6e;border-radius:50%;color:white;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">5</div>
-            <div style="font-size:12px;color:#1a2e3b;line-height:1.5;">Paste it above ☝️</div>
+            <div style="font-size:12px;color:#1a2e3b;line-height:1.5;">Copy the <strong>full URL</strong> from browser address bar and paste above</div>
           </div>
         </div>
-
-        <!-- URL Preview tip -->
         <div style="background:#e8f7f5;border-radius:8px;padding:8px 10px;margin-top:10px;font-size:11px;color:#0a7c6e;">
-          <strong>✅ Correct URL looks like:</strong><br>
+          <strong>✅ URL looks like:</strong><br>
           <span style="font-family:monospace;font-size:10px;word-break:break-all;">https://search.google.com/local/writereview?placeid=ChIJ...</span>
         </div>
-
-        <div style="background:#fff8f0;border-radius:8px;padding:8px 10px;margin-top:6px;font-size:11px;color:#9a3412;">
-          <strong>❌ Avoid short links like:</strong><br>
-          <span style="font-family:monospace;font-size:10px;">https://g.page/r/... or maps.app.goo.gl/...</span>
-        </div>
-
-        <!-- Video help -->
         <div style="margin-top:10px;text-align:center;">
           <a href="https://wa.me/917984939486?text=Hi%2C%20I%20need%20help%20finding%20my%20Google%20Review%20link" target="_blank"
              style="font-size:11.5px;color:#25d366;font-weight:600;text-decoration:none;">
@@ -636,25 +556,22 @@ footer { text-align: center; font-size: 11px; color: #aac3be; padding: 20px 16px
     <button class="back-btn" onclick="goStep(1)">← Back</button>
   </div>
 
-  <!-- ═══ STEP 3 — Plan + Custom Tags ═══ -->
+  <!-- ═══ STEP 3 — Plan ═══ -->
   <div class="section-card" id="step3">
     <div class="section-title">💰 Choose Your Plan</div>
     <div class="section-sub">Step 3 of 4 — Join 500+ doctors already growing reviews</div>
 
-    <!-- URGENCY BAR -->
     <div style="background:linear-gradient(135deg,#7f1d1d,#991b1b);border-radius:10px;padding:10px 14px;margin-bottom:16px;display:flex;align-items:center;gap:8px;">
       <span style="font-size:14px;">🔥</span>
       <span style="font-size:12px;color:#fecaca;font-weight:600;">LIMITED OFFER: Prices increase after <span id="seatCount">12</span> more registrations!</span>
     </div>
 
-    <!-- SOCIAL PROOF -->
     <div style="display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;">
       <span style="background:#e8f7f5;color:#0a7c6e;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;">✅ 47 doctors joined this week</span>
       <span style="background:#fdf6e3;color:#8a6010;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;">⭐ Avg 4.8 stars after 30 days</span>
       <span style="background:#f0f4ff;color:#3730a3;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;">📈 +40 reviews/month avg</span>
     </div>
 
-    <!-- PLAN TABS -->
     <div style="display:flex;gap:6px;margin-bottom:14px;background:#f0f0f0;padding:4px;border-radius:12px;">
       <button onclick="showPlanGroup('starter')" id="tab-starter" style="flex:1;padding:8px;border:none;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer;background:white;color:var(--teal);box-shadow:0 2px 6px rgba(0,0,0,0.1);">⚡ Starter</button>
       <button onclick="showPlanGroup('premium')" id="tab-premium" style="flex:1;padding:8px;border:none;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer;background:transparent;color:var(--muted);">🏆 Premium</button>
@@ -680,7 +597,7 @@ footer { text-align: center; font-size: 11px; color: #aac3be; padding: 20px 16px
         </div>
       </div>
 
-      <!-- STARTER 1yr DECOY -->
+      <!-- STARTER 1yr -->
       <div class="plan-card plan-group-starter" data-plan="starter_1yr" data-price="499" data-label="Starter — 1 Year" data-group="starter" onclick="selectPlan(this)">
         <div class="plan-top">
           <div>
@@ -699,7 +616,7 @@ footer { text-align: center; font-size: 11px; color: #aac3be; padding: 20px 16px
         </div>
       </div>
 
-      <!-- STARTER 2yr BEST VALUE -->
+      <!-- STARTER 2yr -->
       <div class="plan-card plan-group-starter" data-plan="starter_2yr" data-price="799" data-label="Starter — 2 Years" data-group="starter" onclick="selectPlan(this)">
         <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:#0a7c6e;color:white;font-size:9px;font-weight:700;padding:3px 12px;border-radius:20px;letter-spacing:1px;white-space:nowrap;">BEST VALUE</div>
         <div class="plan-top">
@@ -742,7 +659,7 @@ footer { text-align: center; font-size: 11px; color: #aac3be; padding: 20px 16px
         </div>
       </div>
 
-      <!-- PREMIUM 1yr DECOY -->
+      <!-- PREMIUM 1yr -->
       <div class="plan-card plan-group-premium" data-plan="premium_1yr" data-price="999" data-label="Premium — 1 Year" data-physical="true" data-group="premium" onclick="selectPlan(this)" style="display:none;">
         <div class="plan-top">
           <div>
@@ -762,7 +679,7 @@ footer { text-align: center; font-size: 11px; color: #aac3be; padding: 20px 16px
         </div>
       </div>
 
-      <!-- PREMIUM 2yr HERO -->
+      <!-- PREMIUM 2yr -->
       <div class="plan-card popular plan-group-premium" data-plan="premium_2yr" data-price="1699" data-label="Premium — 2 Years" data-physical="true" data-group="premium" onclick="selectPlan(this)" style="display:none;border:2px solid #0a7c6e;">
         <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:#c9993a;color:white;font-size:9px;font-weight:700;padding:3px 12px;border-radius:20px;letter-spacing:1px;white-space:nowrap;">MOST CHOSEN</div>
         <div class="plan-top">
@@ -772,7 +689,7 @@ footer { text-align: center; font-size: 11px; color: #aac3be; padding: 20px 16px
           </div>
           <div class="plan-price">
             <div style="font-size:11px;color:#aaa;text-decoration:line-through;text-align:right;">₹1,998</div>
-            <div class="plan-amount" style="color:#0a7c6e;">₹1,499</div>
+            <div class="plan-amount" style="color:#0a7c6e;">₹1,699</div>
             <span class="plan-period">2 years</span>
             <span class="plan-savings">FREE shipping!</span>
           </div>
@@ -783,7 +700,6 @@ footer { text-align: center; font-size: 11px; color: #aac3be; padding: 20px 16px
           <span class="plan-feat" style="background:#e8f7f5;color:#0a7c6e;">5 QR Stickers</span>
           <span class="plan-feat" style="background:#fdf6e3;color:#8a6010;">10 Custom Tags</span>
         </div>
-        <div style="margin-top:10px;background:#e8f7f5;border-radius:8px;padding:8px;font-size:11px;color:#0a7c6e;text-align:center;">Most doctors recoup cost in first week</div>
       </div>
 
       <!-- PREMIUM 5yr -->
@@ -795,7 +711,7 @@ footer { text-align: center; font-size: 11px; color: #aac3be; padding: 20px 16px
           </div>
           <div class="plan-price">
             <div style="font-size:11px;color:#aaa;text-decoration:line-through;text-align:right;">₹5,995</div>
-            <div class="plan-amount">₹1,499</div>
+            <div class="plan-amount">₹2,999</div>
             <span class="plan-period">5 years</span>
             <span class="plan-savings">Save ₹2,996!</span>
           </div>
@@ -809,7 +725,7 @@ footer { text-align: center; font-size: 11px; color: #aac3be; padding: 20px 16px
         </div>
       </div>
 
-      <!-- ULTIMATE 1yr DECOY -->
+      <!-- ULTIMATE 1yr -->
       <div class="plan-card plan-group-ultimate" data-plan="ultimate_1yr" data-price="1499" data-label="Ultimate — 1 Year" data-physical="true" data-group="ultimate" onclick="selectPlan(this)" style="display:none;">
         <div class="plan-top">
           <div>
@@ -829,7 +745,7 @@ footer { text-align: center; font-size: 11px; color: #aac3be; padding: 20px 16px
         </div>
       </div>
 
-      <!-- ULTIMATE 2yr HERO -->
+      <!-- ULTIMATE 2yr -->
       <div class="plan-card plan-group-ultimate" data-plan="ultimate_2yr" data-price="2499" data-label="Ultimate — 2 Years" data-physical="true" data-group="ultimate" onclick="selectPlan(this)" style="display:none;border:2px solid #c9993a;">
         <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:#c9993a;color:white;font-size:9px;font-weight:700;padding:3px 12px;border-radius:20px;letter-spacing:1px;white-space:nowrap;">TOP SELLER</div>
         <div class="plan-top">
@@ -850,7 +766,6 @@ footer { text-align: center; font-size: 11px; color: #aac3be; padding: 20px 16px
           <span class="plan-feat">5 QR Stickers</span>
           <span class="plan-feat">10 Custom Tags</span>
         </div>
-        <div style="margin-top:10px;background:#fdf6e3;border-radius:8px;padding:8px;font-size:11px;color:#8a6010;text-align:center;">Standee in reception — patients review while waiting!</div>
       </div>
 
       <!-- ULTIMATE 5yr -->
@@ -878,7 +793,6 @@ footer { text-align: center; font-size: 11px; color: #aac3be; padding: 20px 16px
 
     </div>
 
-    <!-- TRUST BADGES -->
     <div style="display:flex;gap:8px;justify-content:center;margin-top:14px;flex-wrap:wrap;">
       <span style="font-size:11px;color:var(--muted);">🔒 Secure payment</span>
       <span style="font-size:11px;color:var(--muted);">•</span>
@@ -887,8 +801,7 @@ footer { text-align: center; font-size: 11px; color: #aac3be; padding: 20px 16px
       <span style="font-size:11px;color:var(--muted);">✅ Instant activation</span>
     </div>
 
-
-    <!-- SHIPPING ADDRESS — shown for physical plans -->
+    <!-- SHIPPING ADDRESS -->
     <div id="shippingSection" style="display:none; margin-top:18px;">
       <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:14px;">📦 Delivery Address</div>
       <div class="field">
@@ -907,7 +820,7 @@ footer { text-align: center; font-size: 11px; color: #aac3be; padding: 20px 16px
       </div>
     </div>
 
-    <!-- CUSTOM TAGS — shown for premium/ultimate plans -->
+    <!-- CUSTOM TAGS -->
     <div class="custom-tags-section" id="customTagSection" style="margin-top:18px;">
       <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:10px;">🏷️ Custom Tags (Max 10)</div>
       <div style="font-size:12.5px;color:var(--muted);margin-bottom:12px;line-height:1.5;">Add your own medical conditions or services. These appear as gold tags on your review page.</div>
@@ -920,13 +833,13 @@ footer { text-align: center; font-size: 11px; color: #aac3be; padding: 20px 16px
       <div class="tag-count" id="tagCount">0 / 10 tags added</div>
     </div>
 
-    <button class="next-btn" onclick="goStep(4)" style="margin-top:20px;">Review & Pay →</button>
+    <button class="next-btn" onclick="goStep(4)" style="margin-top:20px;">Review &amp; Pay →</button>
     <button class="back-btn" onclick="goStep(2)">← Back</button>
   </div>
 
   <!-- ═══ STEP 4 — Summary + Pay ═══ -->
   <div class="section-card" id="step4">
-    <div class="section-title">✅ Review & Pay</div>
+    <div class="section-title">✅ Review &amp; Pay</div>
     <div class="section-sub">Step 4 of 4 — Confirm details and complete payment</div>
 
     <div id="summaryContent"></div>
@@ -937,10 +850,14 @@ footer { text-align: center; font-size: 11px; color: #aac3be; padding: 20px 16px
     </div>
 
     <button class="submit-btn" id="payBtn" onclick="initiatePayment()">
-      🔒 Pay Securely & Register
+      🔒 Pay Securely &amp; Register
     </button>
     <div class="razorpay-note">
       Secured by Razorpay · UPI · Cards · Net Banking
+    </div>
+    <div style="text-align:center;margin-top:8px;font-size:11px;color:var(--muted);">
+      By registering you agree to our
+      <a href="https://goodreview.in/policies.html" target="_blank" style="color:var(--teal);font-weight:600;">Terms, Privacy &amp; Refund Policy</a>
     </div>
     <button class="back-btn" onclick="goStep(3)">← Back</button>
   </div>
@@ -951,11 +868,11 @@ footer { text-align: center; font-size: 11px; color: #aac3be; padding: 20px 16px
     <div class="success-title">You're Registered!</div>
     <div class="success-sub">
       Your review page will be live within <strong>24 hours</strong>.<br>
-      You will receive your link on WhatsApp.
+      You will receive your link on WhatsApp &amp; Email.
     </div>
     <div class="success-link-box">
       <div class="success-link-label">Your Review Page Link (after activation)</div>
-      <div class="success-link" id="successLink">goodreview.in/?id=---</div>
+      <div class="success-link" id="successLink">goodreview.in/review.html?id=---</div>
     </div>
     <div style="font-size:12.5px;color:var(--muted);line-height:1.8;">
       ⏰ Your review page will be <strong>live within 24 hours</strong>.<br>
@@ -968,29 +885,26 @@ footer { text-align: center; font-size: 11px; color: #aac3be; padding: 20px 16px
         💬 WhatsApp Support
       </a>
     </div>
-
-    <!-- EDIT PROFILE LINK -->
     <div style="margin-top:20px;background:#f8fffe;border:1.5px solid #b0ddd8;border-radius:12px;padding:14px;text-align:center;">
       <div style="font-size:12px;font-weight:700;color:var(--teal);margin-bottom:6px;">✏️ Need to update your details later?</div>
       <div style="font-size:11.5px;color:var(--muted);margin-bottom:10px;">Change your GMB link, hospital name, custom tags anytime</div>
-      <a href="https://goodreview.in/edit.html"
-         target="_blank"
+      <a href="https://goodreview.in/edit.html" target="_blank"
          style="display:inline-block;background:var(--teal);color:white;padding:10px 22px;border-radius:10px;text-decoration:none;font-weight:700;font-size:13px;">
-        ✏️ Edit My Profile → goodreview.in/edit.html
+        ✏️ Edit My Profile
       </a>
     </div>
   </div>
 
 </div>
 
-<footer>Powered by GoodReview Team · goodreview.in</footer>
+<footer>Powered by GoodReview Team · goodreview.in · <a href="policies.html" style="color:var(--teal);text-decoration:none;">Policies</a></footer>
 <div class="toast" id="toast"></div>
 
 <script>
 // ═══════════════════════════════════════════════
-//  🔴 REPLACE WITH YOUR RAZORPAY KEY ID
+//  🟢 RAZORPAY LIVE KEY
 // ═══════════════════════════════════════════════
-const RAZORPAY_KEY = 'rzp_test_STzk1i9xNLM9Qi';
+const RAZORPAY_KEY = 'rzp_live_SV1eidoxzw7NCK';
 
 // ═══════════════════════════════════════════════
 //  STATE
@@ -1003,30 +917,20 @@ let customTags = [];
 //  STEP NAVIGATION
 // ═══════════════════════════════════════════════
 function goStep(step) {
-  // Validate before moving forward
   if (step > currentStep) {
     if (!validateStep(currentStep)) return;
   }
-
-  // Hide all
   document.querySelectorAll('.section-card').forEach(c => c.classList.remove('active'));
-
-  // Show target
   document.getElementById('step' + step).classList.add('active');
   document.getElementById('step' + step).style.animation = 'none';
   setTimeout(() => document.getElementById('step' + step).style.animation = '', 10);
-
-  // Progress bar
   for (let i = 1; i <= 4; i++) {
     const el = document.getElementById('p' + i);
     if (i < step) { el.className = 'prog-step done'; }
     else if (i === step) { el.className = 'prog-step active'; }
     else { el.className = 'prog-step'; }
   }
-
-  // Build summary on step 4
   if (step === 4) buildSummary();
-
   currentStep = step;
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -1037,20 +941,19 @@ function goStep(step) {
 function validateStep(step) {
   const checks = {
     1: [
-      { id: 'f_name', msg: 'Please enter your full name' },
-      { id: 'f_degree', msg: 'Please enter your degree' },
-      { id: 'f_specialty', msg: 'Please select your specialty' },
+      { id: 'f_name',     msg: 'Please enter your full name' },
+      { id: 'f_degree',   msg: 'Please enter your degree' },
+      { id: 'f_specialty',msg: 'Please select your specialty' },
       { id: 'f_hospital', msg: 'Please enter hospital/clinic name' },
-      { id: 'f_city', msg: 'Please enter your city' },
+      { id: 'f_city',     msg: 'Please enter your city' },
     ],
     2: [
       { id: 'f_phone', msg: 'Please enter your 10-digit WhatsApp number' },
       { id: 'f_email', msg: 'Please enter your email address' },
-      { id: 'f_gmb', msg: 'Please enter your Google review link' },
+      { id: 'f_gmb',   msg: 'Please enter your Google review link' },
     ],
     3: [],
   };
-
   const fields = checks[step] || [];
   for (const f of fields) {
     const el = document.getElementById(f.id);
@@ -1062,8 +965,6 @@ function validateStep(step) {
       return false;
     }
   }
-
-  // Step 2 — phone must be exactly 10 digits
   if (step === 2) {
     const phone = document.getElementById('f_phone').value.replace(/\D/g,'');
     if (phone.length !== 10) {
@@ -1073,25 +974,20 @@ function validateStep(step) {
       return false;
     }
   }
-
-  // Step 3 — check plan selected
   if (step === 3 && !selectedPlanEl) {
     showToast('⚠️ Please select a plan');
     return false;
   }
-
-  // Step 3 — check address if physical plan
   if (step === 3 && selectedPlanEl) {
     const isPhysical = selectedPlanEl.dataset.physical === 'true';
     const price = parseInt(selectedPlanEl.dataset.price);
     if (isPhysical && price > 0) {
       const addr = document.getElementById('f_address').value.trim();
-      const pin = document.getElementById('f_pincode').value.trim();
+      const pin  = document.getElementById('f_pincode').value.trim();
       if (!addr) { showToast('⚠️ Please enter delivery address'); return false; }
       if (!pin || pin.length !== 6) { showToast('⚠️ Please enter valid 6-digit pincode'); return false; }
     }
   }
-
   return true;
 }
 
@@ -1102,16 +998,10 @@ function selectPlan(el) {
   document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
   el.classList.add('selected');
   selectedPlanEl = el;
-
   const isPhysical = el.dataset.physical === 'true';
   const price = parseInt(el.dataset.price);
   const isPremiumOrUltimate = el.dataset.plan.startsWith('premium') || el.dataset.plan.startsWith('ultimate');
-
-  // Show/hide shipping
-  document.getElementById('shippingSection').style.display =
-    (isPhysical && price > 0) ? 'block' : 'none';
-
-  // Show/hide custom tags
+  document.getElementById('shippingSection').style.display = (isPhysical && price > 0) ? 'block' : 'none';
   const customSection = document.getElementById('customTagSection');
   if (isPremiumOrUltimate && price > 0) {
     customSection.classList.add('visible');
@@ -1126,14 +1016,10 @@ function selectPlan(el) {
 //  CUSTOM TAGS
 // ═══════════════════════════════════════════════
 function addCustomTag() {
-  if (customTags.length >= 10) {
-    showToast('⚠️ Maximum 10 custom tags allowed');
-    return;
-  }
+  if (customTags.length >= 10) { showToast('⚠️ Maximum 10 custom tags allowed'); return; }
   const emoji = document.getElementById('tagEmoji').value.trim() || '🏷️';
   const label = document.getElementById('tagLabel').value.trim();
   if (!label) { showToast('⚠️ Please enter a tag name'); return; }
-
   customTags.push({ emoji, label });
   renderTags();
   document.getElementById('tagEmoji').value = '';
@@ -1158,7 +1044,6 @@ function renderTags() {
   document.getElementById('tagCount').textContent = customTags.length + ' / 10 tags added';
 }
 
-// Allow Enter key to add tag
 document.getElementById('tagLabel').addEventListener('keypress', function(e) {
   if (e.key === 'Enter') { e.preventDefault(); addCustomTag(); }
 });
@@ -1170,33 +1055,29 @@ function buildSummary() {
   const plan = selectedPlanEl;
   const price = parseInt(plan.dataset.price);
   const isPhysical = plan.dataset.physical === 'true';
-
   const data = {
     'Doctor Name': document.getElementById('f_name').value,
-    'Degree': document.getElementById('f_degree').value,
-    'Specialty': document.getElementById('f_specialty').options[document.getElementById('f_specialty').selectedIndex].text,
-    'Hospital': document.getElementById('f_hospital').value,
-    'City': document.getElementById('f_city').value,
-    'Area': document.getElementById('f_area').value || '—',
-    'WhatsApp': document.getElementById('f_phone').value,
-    'Email': document.getElementById('f_email').value,
-    'Plan': plan.dataset.label,
+    'Degree':      document.getElementById('f_degree').value,
+    'Specialty':   document.getElementById('f_specialty').options[document.getElementById('f_specialty').selectedIndex].text,
+    'Hospital':    document.getElementById('f_hospital').value,
+    'City':        document.getElementById('f_city').value,
+    'Area':        document.getElementById('f_area').value || '—',
+    'WhatsApp':    document.getElementById('f_phone').value,
+    'Email':       document.getElementById('f_email').value,
+    'Plan':        plan.dataset.label,
     'Custom Tags': customTags.length > 0 ? customTags.map(t => t.emoji + ' ' + t.label).join(', ') : 'None',
   };
-
   if (isPhysical && price > 0) {
     data['Delivery Address'] = document.getElementById('f_address').value;
-    data['Pincode'] = document.getElementById('f_pincode').value;
-    data['Shipping'] = 'Included';
+    data['Pincode']          = document.getElementById('f_pincode').value;
+    data['Shipping']         = 'Included';
   }
-
   const html = Object.entries(data).map(([k, v]) =>
     `<div class="summary-item">
       <span class="summary-label">${k}</span>
       <span class="summary-value">${v || '—'}</span>
     </div>`
   ).join('');
-
   document.getElementById('summaryContent').innerHTML = html;
   document.getElementById('summaryTotal').textContent = price === 0 ? 'FREE' : '₹' + price.toLocaleString('en-IN');
   document.getElementById('summaryPlanLabel').textContent = plan.dataset.label;
@@ -1208,23 +1089,20 @@ function buildSummary() {
 // ═══════════════════════════════════════════════
 function initiatePayment() {
   const price = parseInt(selectedPlanEl.dataset.price);
-
-  // Free plan — direct register
   if (price === 0) {
     submitRegistration('FREE', 'FREE_PLAN');
     return;
   }
-
   const options = {
     key: RAZORPAY_KEY,
-    amount: price * 100, // paise
+    amount: price * 100,
     currency: 'INR',
     name: 'GoodReview',
     description: selectedPlanEl.dataset.label,
     image: '',
     prefill: {
-      name:  document.getElementById('f_name').value,
-      email: document.getElementById('f_email').value,
+      name:    document.getElementById('f_name').value,
+      email:   document.getElementById('f_email').value,
       contact: document.getElementById('f_phone').value.replace(/\D/g, ''),
     },
     theme: { color: '#0a7c6e' },
@@ -1237,12 +1115,11 @@ function initiatePayment() {
       }
     }
   };
-
   try {
     const rzp = new Razorpay(options);
     rzp.open();
   } catch(e) {
-    showToast('⚠️ Payment gateway not configured yet. Coming soon!');
+    showToast('⚠️ Payment error. Please try again or WhatsApp us.');
   }
 }
 
@@ -1252,35 +1129,31 @@ function initiatePayment() {
 let registrationSubmitted = false;
 
 function submitRegistration(paymentId, orderId) {
-  if (registrationSubmitted) {
-    console.log('Already submitted — ignoring duplicate');
-    return;
-  }
+  if (registrationSubmitted) return;
   registrationSubmitted = true;
-  // Collect all data
+
   const regData = {
-    name:      document.getElementById('f_name').value,
-    degree:    document.getElementById('f_degree').value,
-    specialty: document.getElementById('f_specialty').value,
-    hospital:  document.getElementById('f_hospital').value,
-    city:      document.getElementById('f_city').value,
-    area:      document.getElementById('f_area').value,
-    state:     document.getElementById('f_state').value,
-    phone:     document.getElementById('f_phone').value,
-    email:     document.getElementById('f_email').value,
-    referral:  document.getElementById('f_referral').value.toUpperCase().trim(),
-    gmb:       document.getElementById('f_gmb').value,
-    plan:      selectedPlanEl.dataset.plan,
-    price:     selectedPlanEl.dataset.price,
+    name:       document.getElementById('f_name').value,
+    degree:     document.getElementById('f_degree').value,
+    specialty:  document.getElementById('f_specialty').value,
+    hospital:   document.getElementById('f_hospital').value,
+    city:       document.getElementById('f_city').value,
+    area:       document.getElementById('f_area').value,
+    state:      document.getElementById('f_state').value,
+    phone:      document.getElementById('f_phone').value,
+    email:      document.getElementById('f_email').value,
+    referral:   document.getElementById('f_referral').value.toUpperCase().trim(),
+    gmb:        document.getElementById('f_gmb').value,
+    plan:       selectedPlanEl.dataset.plan,
+    price:      selectedPlanEl.dataset.price,
     customTags: JSON.stringify(customTags),
-    address:   document.getElementById('f_address')?.value || '',
-    pincode:   document.getElementById('f_pincode')?.value || '',
+    address:    document.getElementById('f_address')?.value || '',
+    pincode:    document.getElementById('f_pincode')?.value || '',
     paymentId,
     orderId,
-    timestamp: new Date().toISOString(),
+    timestamp:  new Date().toISOString(),
   };
 
-  // ✅ Make.com Webhook — auto sends to Airtable
   fetch('https://hook.eu1.make.com/mxmdkav7gfojkap9blwyuwryql6gqb95', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -1288,18 +1161,14 @@ function submitRegistration(paymentId, orderId) {
   }).then(() => console.log('✅ Make.com notified'))
     .catch(e => console.log('Make.com error:', e));
 
-  console.log('Registration data:', regData);
-
-  // Show/hide physical kit note
   const isPhysical = selectedPlanEl.dataset.physical === 'true';
   const physicalNote = document.getElementById('physicalKitNote');
   if (physicalNote) {
     physicalNote.innerHTML = isPhysical
-      ? '<br><br>📦 Your <strong>NFC card, standee & QR stickers</strong> will be delivered in <strong>5-7 working days</strong>.'
+      ? '<br><br>📦 Your <strong>NFC card, standee & QR stickers</strong> will be delivered in <strong>5-7 working days</strong>.<br><br>'
       : '';
   }
 
-  // Show success
   document.querySelectorAll('.section-card').forEach(c => c.classList.remove('active'));
   document.getElementById('successScreen').classList.add('show');
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1335,7 +1204,7 @@ function showPlanGroup(group) {
   }
 }
 
-// Seat counter — live urgency
+// Seat counter urgency
 let seatCount = 12;
 setInterval(() => {
   const el = document.getElementById('seatCount');
@@ -1345,13 +1214,12 @@ setInterval(() => {
   }
 }, 9000);
 
-// Expose all functions to window — fixes onclick="goStep()" errors on GitHub Pages
-window.showPlanGroup    = showPlanGroup;
-window.goStep           = goStep;
-window.selectPlan       = selectPlan;
-window.addCustomTag     = addCustomTag;
-window.removeTag        = removeTag;
-window.initiatePayment  = initiatePayment;
+window.showPlanGroup   = showPlanGroup;
+window.goStep          = goStep;
+window.selectPlan      = selectPlan;
+window.addCustomTag    = addCustomTag;
+window.removeTag       = removeTag;
+window.initiatePayment = initiatePayment;
 
 function showToast(msg) {
   const t = document.getElementById('toast');
