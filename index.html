@@ -81,7 +81,6 @@ nav{
   overflow:hidden;
 }
 
-/* Glow blobs */
 .blob{
   position:absolute;border-radius:50%;filter:blur(80px);
   pointer-events:none;z-index:0;
@@ -133,9 +132,7 @@ nav{
 .hero h1{
   font-family:'Playfair Display',serif;
   font-size:clamp(36px,7vw,72px);
-  line-height:1.08;
-  font-weight:800;
-  color:var(--white);
+  line-height:1.08;font-weight:800;color:var(--white);
   margin-bottom:24px;
   animation:fadeUp 0.6s ease 0.1s both;
 }
@@ -153,10 +150,8 @@ nav{
 .hero-sub{
   font-size:clamp(15px,2.5vw,19px);
   color:rgba(255,255,255,0.65);
-  line-height:1.7;
-  max-width:560px;
-  margin:0 auto 36px;
-  font-weight:300;
+  line-height:1.7;max-width:560px;
+  margin:0 auto 36px;font-weight:300;
   animation:fadeUp 0.6s ease 0.2s both;
 }
 
@@ -173,32 +168,26 @@ nav{
 }
 .btn-primary-hero{
   background:linear-gradient(135deg,var(--teal),var(--teal2));
-  color:white;
-  box-shadow:0 8px 32px rgba(10,124,110,0.4);
+  color:white;box-shadow:0 8px 32px rgba(10,124,110,0.4);
 }
 .btn-primary-hero:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(10,124,110,0.5);}
 .btn-secondary-hero{
   background:var(--card);color:rgba(255,255,255,0.85);
-  border:1px solid var(--border);
-  backdrop-filter:blur(10px);
+  border:1px solid var(--border);backdrop-filter:blur(10px);
 }
 .btn-secondary-hero:hover{background:rgba(255,255,255,0.08);transform:translateY(-2px);}
 
-/* Floating review cards */
 .floating-reviews{
   position:relative;z-index:1;
-  display:flex;gap:12px;justify-content:center;
-  flex-wrap:wrap;
+  display:flex;gap:12px;justify-content:center;flex-wrap:wrap;
   animation:fadeUp 0.6s ease 0.4s both;
 }
 .review-float{
   background:rgba(255,255,255,0.06);
   border:1px solid rgba(255,255,255,0.1);
   backdrop-filter:blur(20px);
-  border-radius:16px;
-  padding:14px 16px;
-  text-align:left;
-  max-width:240px;
+  border-radius:16px;padding:14px 16px;
+  text-align:left;max-width:240px;
   animation:float 4s ease-in-out infinite;
 }
 .review-float:nth-child(2){animation-delay:1.5s;}
@@ -211,7 +200,6 @@ nav{
 .rf-text{font-size:12px;color:rgba(255,255,255,0.8);line-height:1.5;margin-bottom:8px;}
 .rf-name{font-size:10px;color:var(--muted);font-weight:600;}
 
-/* Hero stats */
 .hero-stats{
   display:flex;gap:32px;justify-content:center;flex-wrap:wrap;
   margin-top:48px;padding-top:48px;
@@ -221,9 +209,7 @@ nav{
 .stat-item{text-align:center;}
 .stat-num{
   font-family:'Playfair Display',serif;
-  font-size:clamp(28px,5vw,40px);
-  font-weight:800;color:var(--white);
-  line-height:1;
+  font-size:clamp(28px,5vw,40px);font-weight:800;color:var(--white);line-height:1;
 }
 .stat-num span{color:var(--gold);}
 .stat-label{font-size:12px;color:var(--muted);margin-top:4px;font-weight:500;}
@@ -237,15 +223,12 @@ nav{
 section{padding:80px 20px;position:relative;}
 .section-center{text-align:center;max-width:640px;margin:0 auto 56px;}
 .section-tag{
-  display:inline-block;
-  font-size:11px;font-weight:700;
-  text-transform:uppercase;letter-spacing:2px;
-  color:var(--teal3);margin-bottom:14px;
+  display:inline-block;font-size:11px;font-weight:700;
+  text-transform:uppercase;letter-spacing:2px;color:var(--teal3);margin-bottom:14px;
 }
 .section-title{
   font-family:'Playfair Display',serif;
-  font-size:clamp(28px,5vw,44px);
-  font-weight:800;color:var(--white);
+  font-size:clamp(28px,5vw,44px);font-weight:800;color:var(--white);
   line-height:1.2;margin-bottom:16px;
 }
 .section-sub{font-size:16px;color:rgba(255,255,255,0.55);line-height:1.7;font-weight:300;}
@@ -254,14 +237,11 @@ section{padding:80px 20px;position:relative;}
 .problem-section{background:var(--navy2);}
 .problem-grid{
   max-width:960px;margin:0 auto;
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:20px;
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;
 }
 .problem-card{
-  background:rgba(255,255,255,0.03);
-  border:1px solid rgba(255,255,255,0.06);
-  border-radius:16px;padding:24px;
-  transition:all 0.3s;
+  background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);
+  border-radius:16px;padding:24px;transition:all 0.3s;
 }
 .problem-card:hover{background:rgba(255,255,255,0.06);transform:translateY(-4px);}
 .prob-icon{font-size:32px;margin-bottom:14px;}
@@ -278,22 +258,15 @@ section{padding:80px 20px;position:relative;}
 .steps-row::before{
   content:'';position:absolute;
   top:40px;left:15%;right:15%;height:1px;
-  background:linear-gradient(90deg,transparent,var(--teal),transparent);
-  display:block;
+  background:linear-gradient(90deg,transparent,var(--teal),transparent);display:block;
 }
-.step-item{
-  text-align:center;padding:20px;
-  position:relative;z-index:1;
-}
+.step-item{text-align:center;padding:20px;position:relative;z-index:1;}
 .step-num{
   width:80px;height:80px;
   background:linear-gradient(135deg,var(--teal),var(--teal2));
-  border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  font-family:'Playfair Display',serif;
-  font-size:28px;font-weight:800;color:white;
-  margin:0 auto 20px;
-  box-shadow:0 8px 32px rgba(10,124,110,0.35);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-family:'Playfair Display',serif;font-size:28px;font-weight:800;color:white;
+  margin:0 auto 20px;box-shadow:0 8px 32px rgba(10,124,110,0.35);
 }
 .step-title{font-size:16px;font-weight:700;color:var(--white);margin-bottom:8px;}
 .step-text{font-size:13px;color:rgba(255,255,255,0.5);line-height:1.6;}
@@ -302,88 +275,67 @@ section{padding:80px 20px;position:relative;}
 .features-section{background:var(--navy2);}
 .features-grid{
   max-width:1000px;margin:0 auto;
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
-  gap:20px;
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:20px;
 }
 .feature-card{
-  background:rgba(255,255,255,0.04);
-  border:1px solid rgba(255,255,255,0.08);
-  border-radius:20px;padding:28px;
-  transition:all 0.3s;
-  position:relative;overflow:hidden;
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);
+  border-radius:20px;padding:28px;transition:all 0.3s;position:relative;overflow:hidden;
 }
 .feature-card::before{
-  content:'';position:absolute;
-  top:0;left:0;right:0;height:3px;
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
   background:linear-gradient(90deg,var(--teal),var(--gold));
-  transform:scaleX(0);transform-origin:left;
-  transition:transform 0.3s;
+  transform:scaleX(0);transform-origin:left;transition:transform 0.3s;
 }
 .feature-card:hover::before{transform:scaleX(1);}
 .feature-card:hover{background:rgba(255,255,255,0.07);transform:translateY(-4px);}
 .feat-icon{
-  width:52px;height:52px;
-  background:rgba(10,124,110,0.15);
-  border-radius:14px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:24px;margin-bottom:18px;
+  width:52px;height:52px;background:rgba(10,124,110,0.15);border-radius:14px;
+  display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:18px;
 }
 .feat-title{font-size:16px;font-weight:700;color:var(--white);margin-bottom:8px;}
 .feat-text{font-size:13px;color:rgba(255,255,255,0.5);line-height:1.7;}
 .feat-tag{
-  display:inline-block;margin-top:12px;
-  font-size:10px;font-weight:700;
-  color:var(--teal3);
-  background:rgba(10,124,110,0.15);
-  padding:3px 10px;border-radius:20px;
-  letter-spacing:0.5px;
+  display:inline-block;margin-top:12px;font-size:10px;font-weight:700;
+  color:var(--teal3);background:rgba(10,124,110,0.15);
+  padding:3px 10px;border-radius:20px;letter-spacing:0.5px;
 }
 
 /* ── PRICING ── */
 .pricing-section{background:var(--navy);}
 .pricing-tabs{
   display:flex;gap:6px;justify-content:center;
-  background:rgba(255,255,255,0.05);
-  border-radius:14px;padding:4px;
-  max-width:320px;margin:0 auto 40px;
-  border:1px solid var(--border);
+  background:rgba(255,255,255,0.05);border-radius:14px;padding:4px;
+  max-width:320px;margin:0 auto 40px;border:1px solid var(--border);
 }
 .ptab{
   flex:1;padding:10px;border:none;border-radius:10px;
   font-family:'Sora',sans-serif;font-size:13px;font-weight:600;
-  cursor:pointer;transition:all 0.2s;color:rgba(255,255,255,0.5);
-  background:transparent;
+  cursor:pointer;transition:all 0.2s;color:rgba(255,255,255,0.5);background:transparent;
 }
 .ptab.active{background:var(--teal);color:white;box-shadow:0 4px 12px rgba(10,124,110,0.3);}
 .pricing-grid{
   max-width:960px;margin:0 auto;
-  display:none;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:16px;
+  display:none;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;
 }
 .pricing-grid.show{display:grid;}
 .price-card{
-  background:rgba(255,255,255,0.04);
-  border:1px solid rgba(255,255,255,0.08);
-  border-radius:20px;padding:28px;
-  transition:all 0.3s;position:relative;
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);
+  border-radius:20px;padding:28px;transition:all 0.3s;position:relative;
 }
 .price-card.hero-plan{
   background:linear-gradient(145deg,rgba(10,124,110,0.2),rgba(7,25,46,0.5));
-  border:2px solid var(--teal);
-  transform:scale(1.02);
+  border:2px solid var(--teal);transform:scale(1.02);
 }
 .price-badge{
   position:absolute;top:-12px;left:50%;transform:translateX(-50%);
   background:var(--gold);color:var(--navy2);
-  font-size:10px;font-weight:800;
-  padding:4px 14px;border-radius:20px;
+  font-size:10px;font-weight:800;padding:4px 14px;border-radius:20px;
   letter-spacing:1px;white-space:nowrap;
 }
 .price-name{font-size:14px;font-weight:700;color:rgba(255,255,255,0.7);margin-bottom:4px;}
 .price-amount{
   font-family:'Playfair Display',serif;
-  font-size:36px;font-weight:800;color:var(--white);
-  line-height:1;margin-bottom:2px;
+  font-size:36px;font-weight:800;color:var(--white);line-height:1;margin-bottom:2px;
 }
 .price-amount span{font-size:20px;color:var(--muted);}
 .price-strike{font-size:14px;color:rgba(255,255,255,0.3);text-decoration:line-through;margin-bottom:4px;}
@@ -391,8 +343,7 @@ section{padding:80px 20px;position:relative;}
 .price-features{margin-bottom:24px;}
 .pf-item{
   display:flex;align-items:center;gap:8px;
-  font-size:13px;color:rgba(255,255,255,0.7);
-  padding:5px 0;
+  font-size:13px;color:rgba(255,255,255,0.7);padding:5px 0;
 }
 .pf-item::before{content:'✓';color:var(--teal3);font-weight:700;flex-shrink:0;}
 .pf-item.no{color:rgba(255,255,255,0.25);}
@@ -412,19 +363,14 @@ section{padding:80px 20px;position:relative;}
 .testi-section{background:var(--navy2);}
 .testi-grid{
   max-width:960px;margin:0 auto;
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:20px;
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;
 }
 .testi-card{
-  background:rgba(255,255,255,0.04);
-  border:1px solid rgba(255,255,255,0.08);
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);
   border-radius:20px;padding:28px;
 }
 .testi-stars{color:var(--gold);font-size:14px;margin-bottom:14px;}
-.testi-text{
-  font-size:14px;color:rgba(255,255,255,0.75);
-  line-height:1.75;font-style:italic;margin-bottom:20px;
-}
+.testi-text{font-size:14px;color:rgba(255,255,255,0.75);line-height:1.75;font-style:italic;margin-bottom:20px;}
 .testi-doc{display:flex;align-items:center;gap:12px;}
 .testi-avatar{
   width:44px;height:44px;border-radius:50%;
@@ -435,48 +381,37 @@ section{padding:80px 20px;position:relative;}
 .testi-name{font-size:14px;font-weight:700;color:var(--white);}
 .testi-spec{font-size:11px;color:var(--muted);}
 .testi-reviews{
-  display:inline-block;margin-top:6px;
-  font-size:10px;font-weight:700;
-  color:var(--teal3);background:rgba(10,124,110,0.15);
-  padding:2px 8px;border-radius:10px;
+  display:inline-block;margin-top:6px;font-size:10px;font-weight:700;
+  color:var(--teal3);background:rgba(10,124,110,0.15);padding:2px 8px;border-radius:10px;
 }
 
 /* ── FAQ ── */
 .faq-section{background:var(--navy);}
 .faq-list{max-width:680px;margin:0 auto;}
-.faq-item{
-  border-bottom:1px solid rgba(255,255,255,0.07);
-}
+.faq-item{border-bottom:1px solid rgba(255,255,255,0.07);}
 .faq-q{
   width:100%;background:none;border:none;color:var(--white);
   font-family:'Sora',sans-serif;font-size:15px;font-weight:600;
   text-align:left;padding:20px 0;cursor:pointer;
   display:flex;justify-content:space-between;align-items:center;gap:16px;
 }
-.faq-q::after{
-  content:'+';font-size:24px;color:var(--teal3);
-  transition:transform 0.3s;flex-shrink:0;
-  line-height:1;
-}
+.faq-q::after{content:'+';font-size:24px;color:var(--teal3);transition:transform 0.3s;flex-shrink:0;line-height:1;}
 .faq-item.open .faq-q::after{transform:rotate(45deg);}
 .faq-a{
-  font-size:14px;color:rgba(255,255,255,0.55);
-  line-height:1.8;padding:0;max-height:0;overflow:hidden;
-  transition:all 0.3s;
+  font-size:14px;color:rgba(255,255,255,0.55);line-height:1.8;
+  padding:0;max-height:0;overflow:hidden;transition:all 0.3s;
 }
 .faq-item.open .faq-a{max-height:300px;padding-bottom:20px;}
 
 /* ── FINAL CTA ── */
 .cta-section{
   background:linear-gradient(145deg,rgba(10,124,110,0.25),rgba(7,25,46,0.8));
-  border-top:1px solid rgba(10,124,110,0.2);
-  border-bottom:1px solid rgba(10,124,110,0.2);
+  border-top:1px solid rgba(10,124,110,0.2);border-bottom:1px solid rgba(10,124,110,0.2);
   text-align:center;padding:80px 20px;
 }
 .cta-title{
   font-family:'Playfair Display',serif;
-  font-size:clamp(28px,5vw,48px);
-  font-weight:800;color:var(--white);
+  font-size:clamp(28px,5vw,48px);font-weight:800;color:var(--white);
   margin-bottom:16px;line-height:1.2;
 }
 .cta-sub{font-size:16px;color:rgba(255,255,255,0.55);margin-bottom:36px;font-weight:300;}
@@ -484,22 +419,22 @@ section{padding:80px 20px;position:relative;}
 
 /* ── FOOTER ── */
 footer{
-  background:var(--navy2);
-  border-top:1px solid var(--border);
-  padding:40px 20px;
-  text-align:center;
+  background:var(--navy2);border-top:1px solid var(--border);
+  padding:40px 20px;text-align:center;
 }
-.footer-brand{
-  font-family:'Playfair Display',serif;
-  font-size:20px;color:var(--gold);font-weight:800;
-  margin-bottom:12px;
-}
+.footer-brand{font-family:'Playfair Display',serif;font-size:20px;color:var(--gold);font-weight:800;margin-bottom:12px;}
 .footer-links{
-  display:flex;gap:20px;justify-content:center;flex-wrap:wrap;
-  margin-bottom:20px;
+  display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:12px;
 }
 .footer-links a{font-size:13px;color:var(--muted);text-decoration:none;}
 .footer-links a:hover{color:var(--white);}
+.footer-policy-links{
+  display:flex;gap:16px;justify-content:center;flex-wrap:wrap;
+  margin-bottom:16px;padding-top:12px;
+  border-top:1px solid rgba(255,255,255,0.06);
+}
+.footer-policy-links a{font-size:12px;color:rgba(255,255,255,0.35);text-decoration:none;transition:color 0.2s;}
+.footer-policy-links a:hover{color:var(--teal3);}
 .footer-copy{font-size:12px;color:rgba(255,255,255,0.25);}
 
 /* ── SCROLL REVEAL ── */
@@ -528,6 +463,7 @@ footer{
     <a href="#pricing">Pricing</a>
     <a href="#faq">FAQ</a>
     <a href="dashboard.html">Doctor Login</a>
+    <a href="policies.html">Policies</a>
     <a href="register.html" class="nav-cta">Get Started →</a>
   </div>
   <a href="register.html" class="nav-cta nav-mobile-cta" style="font-size:12px;padding:8px 16px;">Get Started →</a>
@@ -557,7 +493,6 @@ footer{
       </a>
     </div>
 
-    <!-- Floating review cards -->
     <div class="floating-reviews">
       <div class="review-float">
         <div class="rf-stars">★★★★★</div>
@@ -576,7 +511,6 @@ footer{
       </div>
     </div>
 
-    <!-- Stats -->
     <div class="hero-stats">
       <div class="stat-item">
         <div class="stat-num">40<span>+</span></div>
@@ -732,7 +666,6 @@ footer{
       </div>
       <a href="register.html" class="price-btn price-btn-outline">Get Started</a>
     </div>
-
     <div class="price-card hero-plan reveal">
       <div class="price-badge">⭐ BEST VALUE</div>
       <div class="price-name">⚡ Starter — 2 Years</div>
@@ -749,7 +682,6 @@ footer{
       </div>
       <a href="register.html" class="price-btn price-btn-primary">Get Started →</a>
     </div>
-
     <div class="price-card reveal">
       <div class="price-name">⚡ Starter — 5 Years</div>
       <div class="price-strike">₹2,495</div>
@@ -782,7 +714,6 @@ footer{
       </div>
       <a href="register.html" class="price-btn price-btn-outline">Get Started</a>
     </div>
-
     <div class="price-card hero-plan reveal">
       <div class="price-badge">🔥 MOST CHOSEN</div>
       <div class="price-name">🏆 Premium — 2 Years</div>
@@ -798,7 +729,6 @@ footer{
       </div>
       <a href="register.html" class="price-btn price-btn-primary">Get Started →</a>
     </div>
-
     <div class="price-card reveal">
       <div class="price-name">🏆 Premium — 5 Years</div>
       <div class="price-strike">₹5,995</div>
@@ -830,7 +760,6 @@ footer{
       </div>
       <a href="register.html" class="price-btn price-btn-outline">Get Started</a>
     </div>
-
     <div class="price-card hero-plan reveal">
       <div class="price-badge">👑 TOP SELLER</div>
       <div class="price-name">💎 Ultimate — 2 Years</div>
@@ -846,7 +775,6 @@ footer{
       </div>
       <a href="register.html" class="price-btn price-btn-primary">Get Started →</a>
     </div>
-
     <div class="price-card reveal">
       <div class="price-name">💎 Ultimate — 5 Years</div>
       <div class="price-strike">₹7,495</div>
@@ -863,7 +791,6 @@ footer{
     </div>
   </div>
 
-  <!-- Free plan note -->
   <div style="text-align:center;margin-top:28px;">
     <p style="font-size:13px;color:var(--muted);">
       ⚡ Not sure yet? Try free — 3 reviews costs ₹0. One good review brings one new patient worth ₹500-5000.
@@ -950,6 +877,10 @@ footer{
       <div class="faq-a">Your review page goes offline and shows "subscription expired" to patients. Your QR code stops working. Simply renew to reactivate — same link, same QR, same NFC card. We send reminders 30 days before expiry.</div>
     </div>
     <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">What is your refund policy?</button>
+      <div class="faq-a">We offer a 20% refund if your Google My Business listing gets blocked or your GMB link stops working within 2 months of activation. Physical products (NFC cards, stickers, standees) cannot be returned or refunded once shipped. Full details at <a href="policies.html" style="color:var(--teal3);">goodreview.in/policies.html</a></div>
+    </div>
+    <div class="faq-item">
       <button class="faq-q" onclick="toggleFaq(this)">Is payment secure?</button>
       <div class="faq-a">Yes — payments are processed by Razorpay, India's most trusted payment gateway. We accept UPI, all credit/debit cards, net banking, and more. We never store your payment information.</div>
     </div>
@@ -977,6 +908,11 @@ footer{
     <a href="edit.html">Edit Profile</a>
     <a href="https://wa.me/917984939486">WhatsApp Support</a>
   </div>
+  <div class="footer-policy-links">
+    <a href="policies.html">📋 Refund Policy</a>
+    <a href="policies.html">🔒 Privacy Policy</a>
+    <a href="policies.html">📄 Terms of Service</a>
+  </div>
   <div class="footer-copy">© 2026 GoodReview · goodreview.in · Powered by GoodReview Team</div>
 </footer>
 
@@ -984,12 +920,9 @@ footer{
 // ── SCROLL REVEAL ──
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(el => {
-    if (el.isIntersecting) {
-      el.target.classList.add('visible');
-    }
+    if (el.isIntersecting) el.target.classList.add('visible');
   });
 }, { threshold: 0.1 });
-
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
 // ── PRICING TABS ──
@@ -998,7 +931,6 @@ function showPricing(group) {
     document.getElementById('pg-' + g).classList.remove('show');
   });
   document.getElementById('pg-' + group).classList.add('show');
-
   document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
   event.target.classList.add('active');
 }
@@ -1019,23 +951,10 @@ if (window.innerWidth > 768) {
 // ── NAV scroll effect ──
 window.addEventListener('scroll', () => {
   const nav = document.querySelector('nav');
-  if (window.scrollY > 60) {
-    nav.style.background = 'rgba(7,25,46,0.97)';
-  } else {
-    nav.style.background = 'rgba(7,25,46,0.85)';
-  }
+  nav.style.background = window.scrollY > 60
+    ? 'rgba(7,25,46,0.97)'
+    : 'rgba(7,25,46,0.85)';
 });
-
-// ── Counter animation ──
-function animateCounter(el, target) {
-  let current = 0;
-  const step = target / 60;
-  const timer = setInterval(() => {
-    current += step;
-    if (current >= target) { current = target; clearInterval(timer); }
-    el.textContent = Math.floor(current) + (el.dataset.suffix || '');
-  }, 16);
-}
 </script>
 </body>
 </html>
