@@ -26,6 +26,10 @@ export default async function handler(req, res) {
     const lastId   = listData.records?.[0]?.fields?.DoctorID || 100;
     const newId    = lastId + 1;
 
+    // 1 month free access from today
+    const expiryDate = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+                         .toISOString().split('T')[0];
+
     // Step 2: Create new Airtable row
     const createRes = await fetch(
       `https://api.airtable.com/v0/${BASE}/Doctors`,
@@ -47,7 +51,8 @@ export default async function handler(req, res) {
             'GMB URL':      body.gmbUrl || '',
             Plan:           body.plan,
             PaymentType:    body.paymentType || 'Online',
-            Active:         false,
+            Active:         true,
+            ExpiryDate:     expiryDate,
             ReviewCount:    0,
             ReferralCode:   `GR${newId}`,
             CustomTags:     body.customTags || '[]',
@@ -81,7 +86,7 @@ export default async function handler(req, res) {
           body: JSON.stringify({
             from:    'GoodReview <noreply@goodreview.in>',
             to:      body.email,
-            subject: `Welcome to GoodReview! Your review page is ready, ${body.name}`,
+            subject: `Welcome to GoodReview! Your review page is LIVE, ${body.name}`,
             html: `
               <div style="font-family:sans-serif;max-width:520px;margin:0 auto;padding:24px;color:#1a2e3b;">
 
@@ -100,6 +105,7 @@ export default async function handler(req, res) {
                     <tr><td style="padding:6px 0;color:#6b8191;font-size:13px;">Name</td><td style="padding:6px 0;font-weight:600;color:#0d2340;">${body.name}</td></tr>
                     <tr><td style="padding:6px 0;color:#6b8191;font-size:13px;">Hospital</td><td style="padding:6px 0;font-weight:600;color:#0d2340;">${body.hospital || '—'}</td></tr>
                     <tr><td style="padding:6px 0;color:#6b8191;font-size:13px;">Plan</td><td style="padding:6px 0;font-weight:600;color:#0d2340;">${body.plan.replace(/_/g,' ').toUpperCase()}</td></tr>
+                    <tr><td style="padding:6px 0;color:#6b8191;font-size:13px;">Free Access Until</td><td style="padding:6px 0;font-weight:700;color:#27ae60;">${expiryDate}</td></tr>
                     <tr><td style="padding:6px 0;color:#6b8191;font-size:13px;">Referral Code</td><td style="padding:6px 0;font-weight:700;color:#c9993a;">GR${newId}</td></tr>
                   </table>
                 </div>
@@ -121,10 +127,11 @@ export default async function handler(req, res) {
                   </a>
                 </div>
 
-                <div style="background:#fff8e7;border:1px solid #f0d080;border-radius:10px;padding:14px;margin-bottom:20px;">
-                  <p style="font-size:13px;color:#8a6010;margin:0;">
-                    ⏰ <strong>Your page will be activated within 24 hours</strong> of payment confirmation.<br>
-                    After activation, share your QR code or this link with patients.
+                <div style="background:#e8f7f5;border:1px solid #b0ddd8;border-radius:10px;padding:14px;margin-bottom:20px;">
+                  <p style="font-size:13px;color:#0a7c6e;margin:0;">
+                    ✅ <strong>Your review page is now LIVE!</strong><br>
+                    Share your QR code with patients today.<br>
+                    Free access valid for <strong>30 days</strong> from registration.
                   </p>
                 </div>
 
