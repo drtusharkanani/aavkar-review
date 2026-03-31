@@ -1,355 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>GoodReview — Edit My Profile</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<style>
-:root {
-  --teal: #0a7c6e;
-  --teal-light: #0fa390;
-  --teal-pale: #e8f7f5;
-  --gold: #c9993a;
-  --gold-light: #fdf6e3;
-  --navy: #0d2340;
-  --text: #1a2e3b;
-  --muted: #6b8191;
-  --bg: #f4f9f8;
-  --white: #fff;
-  --red: #e74c3c;
-  --radius: 16px;
-  --shadow: 0 4px 24px rgba(10,124,110,0.10);
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
-
-.hero {
-  background: linear-gradient(145deg, var(--navy) 0%, #104a5e 55%, var(--teal) 100%);
-  padding: 32px 20px 48px;
-  text-align: center;
-}
-.brand-name { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--gold); font-weight: 800; }
-.hero h1 { font-family: 'Playfair Display', serif; font-size: 22px; color: white; margin: 12px 0 6px; }
-.hero p { font-size: 13px; color: rgba(255,255,255,0.7); }
-
-.container { max-width: 520px; margin: -16px auto 60px; padding: 0 16px; }
-
-.card { background: white; border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px 20px; margin-bottom: 16px; }
-
-.section-title { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--navy); margin-bottom: 4px; }
-.section-sub { font-size: 12px; color: var(--muted); margin-bottom: 20px; }
-
-/* LOGIN */
-.login-icon { font-size: 48px; text-align: center; margin-bottom: 16px; }
-
-.field { margin-bottom: 16px; }
-label { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: var(--muted); margin-bottom: 6px; }
-label .req { color: var(--red); }
-
-input[type="text"], input[type="email"], input[type="tel"], input[type="url"], select, textarea {
-  width: 100%; padding: 12px 14px; border: 1.5px solid #d4e8e5; border-radius: 10px;
-  font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--text);
-  background: #fafdfc; outline: none; transition: border-color 0.2s;
-  -webkit-appearance: none;
-}
-input:focus, select:focus, textarea:focus { border-color: var(--teal); background: white; box-shadow: 0 0 0 3px rgba(10,124,110,0.1); }
-input[readonly] { background: #f0f4f8; color: var(--muted); cursor: not-allowed; }
-select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b8191' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; cursor: pointer; }
-.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-
-.btn-primary { width: 100%; padding: 15px; background: linear-gradient(135deg, var(--teal), var(--teal-light)); color: white; border: none; border-radius: 12px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 16px rgba(10,124,110,0.25); transition: all 0.2s; }
-.btn-primary:hover { transform: translateY(-1px); }
-.btn-secondary { width: 100%; padding: 12px; background: transparent; color: var(--muted); border: 1.5px solid #d4e8e5; border-radius: 12px; font-family: 'DM Sans', sans-serif; font-size: 14px; cursor: pointer; margin-top: 8px; }
-
-/* STATUS BADGE */
-.status-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f0f0f0; font-size: 13.5px; }
-.status-row:last-child { border-bottom: none; }
-.status-label { color: var(--muted); font-weight: 500; }
-.status-value { font-weight: 600; color: var(--navy); }
-.badge-active { background: #e8f7f5; color: #0a7c6e; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
-.badge-expired { background: #ffebee; color: #c0392b; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
-.badge-free { background: #f5f5f5; color: #999; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
-
-/* TAG EDITOR */
-.tag-input-row { display: flex; gap: 8px; margin-bottom: 8px; }
-.emoji-input { width: 60px; text-align: center; font-size: 18px; }
-.tags-preview { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
-.tag-chip { display: flex; align-items: center; gap: 5px; background: var(--gold-light); border: 1px solid var(--gold); border-radius: 20px; padding: 4px 10px 4px 8px; font-size: 12px; color: #8a6010; font-weight: 500; }
-.tag-chip .remove-tag { font-size: 14px; cursor: pointer; color: var(--red); margin-left: 2px; }
-.add-tag-btn { padding: 10px 16px; background: var(--teal); color: white; border: none; border-radius: 10px; font-size: 18px; cursor: pointer; }
-
-/* STATES */
-.screen { display: none; }
-.screen.active { display: block; }
-
-/* GMB HELP */
-.gmb-steps { background: #f8fffe; border: 1.5px solid #b0ddd8; border-radius: 10px; padding: 12px; margin-top: 8px; }
-.gmb-step { display: flex; gap: 8px; align-items: flex-start; margin-bottom: 8px; font-size: 12px; color: var(--text); line-height: 1.5; }
-.gmb-step:last-child { margin-bottom: 0; }
-.gmb-num { width: 20px; height: 20px; background: var(--teal); border-radius: 50%; color: white; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-
-.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--navy); color: white; padding: 12px 22px; border-radius: 50px; font-size: 13px; font-weight: 500; transition: transform 0.35s cubic-bezier(.34,1.56,.64,1); z-index: 999; white-space: nowrap; box-shadow: 0 4px 20px rgba(0,0,0,0.25); }
-.toast.show { transform: translateX(-50%) translateY(0); }
-
-footer { text-align: center; font-size: 11px; color: #aac3be; padding: 10px 16px 40px; }
-</style>
-</head>
-<body>
-
-<!-- HERO -->
-<div class="hero">
-  <div class="brand-name">GoodReview</div>
-  <h1>Edit My Profile</h1>
-  <p>Update your details, GMB link and custom tags</p>
-</div>
-
-<div class="container">
-
-  <!-- ═══ LOGIN SCREEN ═══ -->
-  <div class="card screen active" id="loginScreen">
-    <div class="login-icon">🔐</div>
-    <div class="section-title" style="text-align:center;">Verify Your Identity</div>
-    <div class="section-sub" style="text-align:center;margin-bottom:24px;">Enter your Doctor ID and registered email</div>
-
-    <div class="field">
-      <label>Doctor ID <span class="req">*</span></label>
-      <input type="text" id="loginId" placeholder="e.g. 101" inputmode="numeric">
-    </div>
-    <div class="field">
-      <label>Registered Email <span class="req">*</span></label>
-      <input type="email" id="loginEmail" placeholder="doctor@example.com">
-    </div>
-
-    <button class="btn-primary" onclick="sendOTP()" id="sendOtpBtn">📧 Send OTP to Email</button>
-
-    <div style="text-align:center;margin-top:14px;font-size:12px;color:var(--muted);">
-      Don't know your Doctor ID?
-      <a href="https://wa.me/917984939486?text=Hi%2C%20I%20need%20my%20GoodReview%20Doctor%20ID" target="_blank" style="color:var(--teal);font-weight:600;">WhatsApp us</a>
-    </div>
-  </div>
-
-  <!-- ═══ OTP SCREEN ═══ -->
-  <div class="card screen" id="otpScreen">
-    <div class="login-icon">📨</div>
-    <div class="section-title" style="text-align:center;">Enter OTP</div>
-    <div class="section-sub" style="text-align:center;margin-bottom:24px;" id="otpSubtext">OTP sent to your email</div>
-
-    <div class="field">
-      <label>6-Digit OTP <span class="req">*</span></label>
-      <input type="text" id="otpInput" placeholder="Enter 6-digit OTP" maxlength="6" inputmode="numeric"
-             oninput="this.value=this.value.replace(/\D/g,'').slice(0,6)"
-             style="font-size:24px;letter-spacing:8px;text-align:center;font-weight:700;">
-    </div>
-
-    <button class="btn-primary" onclick="verifyOTP()">✅ Verify OTP</button>
-    <button class="btn-secondary" onclick="showScreen('loginScreen')">← Back</button>
-
-    <div style="text-align:center;margin-top:12px;font-size:12px;color:var(--muted);">
-      Didn't receive? Check spam folder or
-      <span onclick="sendOTP()" style="color:var(--teal);cursor:pointer;font-weight:600;">Resend OTP</span>
-    </div>
-  </div>
-
-  <!-- ═══ LOADING ═══ -->
-  <div class="card screen" id="loadingScreen" style="text-align:center;padding:40px;">
-    <div style="font-size:40px;margin-bottom:16px;">⏳</div>
-    <div style="font-size:16px;font-weight:600;color:var(--navy);">Verifying...</div>
-  </div>
-
-  <!-- ═══ PROFILE SCREEN ═══ -->
-  <div class="screen" id="profileScreen">
-
-    <!-- STATUS CARD -->
-    <div class="card" id="statusCard">
-      <div class="section-title">📊 Your Subscription</div>
-      <div class="section-sub">Current plan and status</div>
-      <div class="status-row">
-        <span class="status-label">Doctor ID</span>
-        <span class="status-value" id="st_id">—</span>
-      </div>
-      <div class="status-row">
-        <span class="status-label">Plan</span>
-        <span class="status-value" id="st_plan">—</span>
-      </div>
-      <div class="status-row">
-        <span class="status-label">Status</span>
-        <span class="status-value" id="st_status">—</span>
-      </div>
-      <div class="status-row">
-        <span class="status-label">Expires</span>
-        <span class="status-value" id="st_expiry">—</span>
-      </div>
-      <div class="status-row">
-        <span class="status-label">Review Page</span>
-        <a id="st_link" href="#" target="_blank" style="color:var(--teal);font-weight:600;font-size:13px;">Open →</a>
-      </div>
-    </div>
-
-    <!-- EDIT BASIC INFO -->
-    <div class="card">
-      <div class="section-title">👨‍⚕️ Basic Details</div>
-      <div class="section-sub">Update your name, hospital and city</div>
-
-      <div class="field">
-        <label>Full Name</label>
-        <input type="text" id="e_name" placeholder="Dr. Firstname Lastname" readonly style="background:#f0f4f8;color:var(--muted);cursor:not-allowed;">
-        <div style="font-size:11px;color:#e74c3c;margin-top:4px;">⚠️ Name cannot be changed. Contact support if needed.</div>
-      </div>
-      <div class="field-row">
-        <div class="field">
-          <label>Degree</label>
-          <input type="text" id="e_degree" placeholder="MD, MS, MBBS...">
-        </div>
-        <div class="field">
-          <label>Specialty</label>
-          <select id="e_specialty">
-            <option value="">Select</option>
-            <optgroup label="── Level 1 ──">
-              <option value="homeopathy">General Practitioner (Homeopathy)</option>
-              <option value="ayurvedic">General Practitioner (Ayurveda)</option>
-              <option value="physiotherapist">Physiotherapist</option>
-              <option value="dentist">General Dentist</option>
-              <option value="orthodontist">Orthodontist</option>
-              <option value="pediatric_dentist">Pediatric Dentist</option>
-              <option value="geriatric_dentist">Geriatric Dentist</option>
-              <option value="dietitian">Dietitian / Nutritionist</option>
-              <option value="yoga_therapist">Yoga Therapist</option>
-              <option value="wellness_coach">Wellness Coach</option>
-            </optgroup>
-            <optgroup label="── MBBS ──">
-              <option value="general_practitioner">General Practitioner (MBBS)</option>
-              <option value="family_medicine">Family Doctor</option>
-            </optgroup>
-            <optgroup label="── MD ──">
-              <option value="general_physician">MD Medicine — General Physician</option>
-              <option value="pediatrician">MD Pediatrics</option>
-              <option value="psychiatrist">MD Psychiatry</option>
-              <option value="dermatologist">MD Dermatology</option>
-              <option value="radiologist">MD Radiology</option>
-              <option value="pathologist">MD Pathology</option>
-            </optgroup>
-            <optgroup label="── MS ──">
-              <option value="general_surgeon">MS General Surgery</option>
-              <option value="orthopedic">MS Orthopedic</option>
-              <option value="ophthalmologist">MS Ophthalmology</option>
-              <option value="ent_specialist">MS ENT</option>
-              <option value="gynecologist">MS Obstetrics & Gynecology</option>
-            </optgroup>
-            <optgroup label="── DM ──">
-              <option value="cardiologist">DM Cardiology</option>
-              <option value="neurologist">DM Neurology</option>
-              <option value="gastroenterologist">DM Gastroenterology</option>
-              <option value="nephrologist">DM Nephrology</option>
-              <option value="endocrinologist">DM Endocrinology</option>
-              <option value="pulmonologist">DM Pulmonology</option>
-              <option value="oncologist">DM Oncology</option>
-              <option value="neonatologist">DM Neonatology</option>
-            </optgroup>
-            <optgroup label="── MCh ──">
-              <option value="neurosurgeon">MCh Neurosurgery</option>
-              <option value="cardiothoracic">MCh Cardiothoracic</option>
-              <option value="plastic_surgeon">MCh Plastic Surgery</option>
-              <option value="urologist">MCh Urology</option>
-              <option value="pediatric_surgeon">MCh Pediatric Surgery</option>
-            </optgroup>
-            <optgroup label="── Fellowship ──">
-              <option value="ivf_specialist">IVF Specialist</option>
-              <option value="diabetologist">Diabetologist</option>
-              <option value="infertility">Infertility Specialist</option>
-              <option value="spine_specialist">Spine Specialist</option>
-              <option value="sports_medicine">Sports Medicine</option>
-              <option value="laparoscopic">Laparoscopic Surgeon</option>
-            </optgroup>
-            <optgroup label="── Cosmetic ──">
-              <option value="cosmetic_surgeon">Cosmetic Surgeon</option>
-              <option value="cosmetic_dermatologist">Cosmetic Dermatologist</option>
-              <option value="hair_transplant">Hair Transplant Surgeon</option>
-              <option value="smile_designer">Smile Designer</option>
-            </optgroup>
-          </select>
-        </div>
-      </div>
-      <div class="field">
-        <label>Hospital / Clinic Name</label>
-        <input type="text" id="e_hospital" placeholder="Hospital or Clinic name">
-      </div>
-      <div class="field-row">
-        <div class="field">
-          <label>City</label>
-          <input type="text" id="e_city" placeholder="Surat">
-        </div>
-        <div class="field">
-          <label>Phone</label>
-          <input type="tel" id="e_phone" placeholder="10-digit number" maxlength="10" inputmode="numeric" oninput="this.value=this.value.replace(/\D/g,'').slice(0,10)">
-        </div>
-      </div>
-    </div>
-
-    <!-- EDIT GMB LINK -->
-    <div class="card">
-      <div class="section-title">🔗 Google Review Link</div>
-      <div class="section-sub">Update your GMB link if it changed</div>
-      <div class="field">
-        <label>Google Review URL</label>
-        <input type="url" id="e_gmb" placeholder="https://search.google.com/local/writereview?placeid=...">
-        <div class="gmb-steps">
-          <div class="gmb-step"><div class="gmb-num">1</div>Open maps.google.com on desktop</div>
-          <div class="gmb-step"><div class="gmb-num">2</div>Search your clinic name</div>
-          <div class="gmb-step"><div class="gmb-num">3</div>Click <strong>Write a Review</strong></div>
-          <div class="gmb-step"><div class="gmb-num">4</div>Copy full URL from browser bar</div>
-          <div class="gmb-step"><div class="gmb-num">5</div>Paste above ☝️</div>
-        </div>
-        <div style="margin-top:8px;text-align:center;">
-          <a href="https://wa.me/917984939486?text=Hi%2C%20I%20need%20help%20finding%20my%20Google%20Review%20link" target="_blank" style="font-size:12px;color:#25d366;font-weight:600;text-decoration:none;">💬 Need help? WhatsApp us!</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- EDIT CUSTOM TAGS — only for premium/ultimate -->
-    <div class="card" id="customTagCard" style="display:none;">
-      <div class="section-title">🏷️ Custom Tags</div>
-      <div class="section-sub">Add or remove your specialty tags (max 10)</div>
-      <div class="tag-input-row">
-        <input type="text" class="emoji-input" id="e_tagEmoji" placeholder="🏷️" maxlength="2">
-        <input type="text" id="e_tagLabel" placeholder="e.g. Insulin Therapy, Hair Transplant..." maxlength="30">
-        <button class="add-tag-btn" onclick="addEditTag()">+</button>
-      </div>
-      <div class="tags-preview" id="e_tagsPreview"></div>
-      <div style="font-size:11px;color:var(--muted);margin-top:6px;" id="e_tagCount">0 / 10 tags</div>
-    </div>
-
-    <!-- SAVE BUTTON -->
-    <button class="btn-primary" onclick="saveChanges()">💾 Save Changes</button>
-    <button class="btn-secondary" onclick="logout()">← Back to Login</button>
-
-  </div>
-
-  <!-- ═══ SUCCESS ═══ -->
-  <div class="card screen" id="successScreen" style="text-align:center;padding:40px;">
-    <div style="font-size:48px;margin-bottom:16px;">✅</div>
-    <div style="font-family:'Playfair Display',serif;font-size:22px;color:var(--navy);margin-bottom:10px;">Profile Updated!</div>
-    <div style="font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:20px;">
-      Your changes are saved.<br>Review page updates within 2 minutes.
-    </div>
-    <a id="viewPageBtn" href="#" target="_blank" style="display:inline-block;background:var(--teal);color:white;padding:14px 28px;border-radius:12px;text-decoration:none;font-weight:700;margin-bottom:10px;">🔗 View My Review Page</a>
-    <br>
-    <button class="btn-secondary" onclick="showScreen('profileScreen')">← Edit More</button>
-  </div>
-
-</div>
-
-<footer>Powered by GoodReview Team · goodreview.in</footer>
-<div class="toast" id="toast"></div>
-
-<script>
 // ═══════════════════════════════════════════════
-//  CONFIG — Update these!
+//  STATE
 // ═══════════════════════════════════════════════
-const AIRTABLE_TOKEN   = 'patudFcQ5799EkkZ0.af77c9f9a3a45f2d66482db161ceca865c58003ac745d06104769e9a6ab2e602';
-const AIRTABLE_BASE_ID = 'apppCUPgl9647WTMY';
-const AIRTABLE_TABLE   = 'Doctors';
-
 let currentRecordId = null;
 let currentDoctorId = null;
 let editTags = [];
@@ -364,120 +15,123 @@ function showScreen(id) {
 }
 
 // ═══════════════════════════════════════════════
-//  OTP FLOW
+//  SEND OTP — now via /api/otp?action=send
+//  No Airtable token, no Make.com webhook
 // ═══════════════════════════════════════════════
-const MAKE_OTP_WEBHOOK = 'https://hook.eu1.make.com/t52njpx3nbemfv9rqqce7xat2ctx03jr';
-let generatedOTP = '';
-let verifiedRecord = null;
-
 async function sendOTP() {
   const id    = document.getElementById('loginId').value.trim();
   const email = document.getElementById('loginEmail').value.trim().toLowerCase();
 
-  if (!id) { showToast('⚠️ Please enter your Doctor ID'); return; }
+  if (!id)    { showToast('⚠️ Please enter your Doctor ID'); return; }
   if (!email) { showToast('⚠️ Please enter your email'); return; }
 
   showScreen('loadingScreen');
 
   try {
-    // Fetch doctor from Airtable
-    const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(AIRTABLE_TABLE)}?filterByFormula=${encodeURIComponent(`{DoctorID}=${id}`)}&maxRecords=1`;
-    const res  = await fetch(url, { headers: { 'Authorization': `Bearer ${AIRTABLE_TOKEN}` } });
+    const res  = await fetch('/api/otp?action=send', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ email, doctorId: id }),
+    });
     const data = await res.json();
 
-    if (!data.records || data.records.length === 0) {
-      showToast('❌ Doctor ID not found');
+    if (!res.ok) {
+      showToast('❌ ' + (data.error || 'Doctor ID / email not found'));
       showScreen('loginScreen');
       return;
     }
-
-    const r            = data.records[0].fields;
-    const storedEmail  = (r.Email || '').toLowerCase().trim();
-
-    if (storedEmail !== email) {
-      showToast('❌ Email does not match our records');
-      showScreen('loginScreen');
-      return;
-    }
-
-    // Generate 6-digit OTP
-    generatedOTP   = Math.floor(100000 + Math.random() * 900000).toString();
-    verifiedRecord = data.records[0];
-
-    // Send OTP via Make.com webhook → Gmail
-    await fetch(MAKE_OTP_WEBHOOK, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        type:       'OTP',
-        email:      email,
-        otp:        generatedOTP,
-        doctorName: r.DoctorName || 'Doctor',
-        doctorId:   id,
-      })
-    });
 
     document.getElementById('otpSubtext').textContent = `OTP sent to ${email}`;
     showScreen('otpScreen');
     showToast('📧 OTP sent! Check your email');
 
   } catch(e) {
-    showToast('⚠️ Error. Try again.');
+    showToast('⚠️ Network error. Try again.');
     showScreen('loginScreen');
   }
 }
 
+// ═══════════════════════════════════════════════
+//  VERIFY OTP — now via /api/otp?action=verify
+//  Returns doctorId + recordId on success
+// ═══════════════════════════════════════════════
 async function verifyOTP() {
-  const entered = document.getElementById('otpInput').value.trim();
+  const otp   = document.getElementById('otpInput').value.trim();
+  const email = document.getElementById('loginEmail').value.trim().toLowerCase();
 
-  if (!entered || entered.length !== 6) {
+  if (!otp || otp.length !== 6) {
     showToast('⚠️ Please enter 6-digit OTP');
     return;
   }
 
-  if (entered !== generatedOTP) {
-    showToast('❌ Wrong OTP. Try again.');
-    return;
-  }
+  showScreen('loadingScreen');
 
-  // ✅ OTP correct
-  currentRecordId  = verifiedRecord.id;
-  currentDoctorId  = document.getElementById('loginId').value.trim();
-  loadProfile(verifiedRecord.fields);
-  showScreen('profileScreen');
-  showToast('✅ Verified! Profile loaded.');
+  try {
+    const res  = await fetch('/api/otp?action=verify', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ email, otp }),
+    });
+    const data = await res.json();
+
+    if (!res.ok || !data.valid) {
+      showToast('❌ ' + (data.error || 'Wrong OTP. Try again.'));
+      showScreen('otpScreen');
+      return;
+    }
+
+    // OTP verified — load doctor profile from API
+    currentRecordId = data.recordId;
+    currentDoctorId = data.doctorId;
+
+    const docRes  = await fetch(`/api/doctor?id=${data.doctorId}`);
+    const docData = await docRes.json();
+
+    if (!docRes.ok) {
+      showToast('⚠️ Could not load profile. Try again.');
+      showScreen('loginScreen');
+      return;
+    }
+
+    loadProfile(docData);
+    showScreen('profileScreen');
+    showToast('✅ Verified! Profile loaded.');
+
+  } catch(e) {
+    showToast('⚠️ Network error. Try again.');
+    showScreen('otpScreen');
+  }
 }
 
 // ═══════════════════════════════════════════════
 //  LOAD PROFILE INTO FORM
 // ═══════════════════════════════════════════════
 function loadProfile(r) {
-  document.getElementById('e_name').value     = r.DoctorName || '';
-  document.getElementById('e_degree').value   = r.Degree || '';
-  document.getElementById('e_specialty').value= r.Specialty || '';
-  document.getElementById('e_hospital').value = r.Hospital || '';
-  document.getElementById('e_city').value     = r.City || '';
-  document.getElementById('e_phone').value    = r.Phone || '';
-  document.getElementById('e_gmb').value      = r.GMB || '';
+  document.getElementById('e_name').value      = r.name     || '';
+  document.getElementById('e_degree').value    = r.degree   || '';
+  document.getElementById('e_specialty').value = r.specialty|| '';
+  document.getElementById('e_hospital').value  = r.hospital || '';
+  document.getElementById('e_city').value      = r.city     || '';
+  document.getElementById('e_phone').value     = r.phone    || '';
+  document.getElementById('e_gmb').value       = r.gmbUrl   || '';
 
   // Status card
-  document.getElementById('st_id').textContent     = r.DoctorID || currentDoctorId;
-  document.getElementById('st_plan').textContent   = (r.Plan || 'free').replace(/_/g,' ').toUpperCase();
-  document.getElementById('st_expiry').textContent = r.ExpiryDate || 'As per plan';
-  document.getElementById('st_link').href           = `https://goodreview.in/?id=${r.DoctorID || currentDoctorId}`;
+  document.getElementById('st_id').textContent     = r.id || currentDoctorId;
+  document.getElementById('st_plan').textContent   = (r.plan || 'free').replace(/_/g,' ').toUpperCase();
+  document.getElementById('st_expiry').textContent = r.expiryDate || 'As per plan';
+  document.getElementById('st_link').href          = `https://goodreview.in/review.html?id=${r.id || currentDoctorId}`;
 
-  const isActive = r.Active === true || r.Active === 'true' || r.Active === 'Yes';
+  const isActive = r.active !== false;
   document.getElementById('st_status').innerHTML = isActive
     ? '<span class="badge-active">ACTIVE ✅</span>'
     : '<span class="badge-expired">INACTIVE ❌</span>';
 
   // Custom tags — only for premium/ultimate
-  const plan = r.Plan || 'free';
+  const plan    = r.plan || 'free';
   const hasTags = plan.includes('premium') || plan.includes('ultimate');
   document.getElementById('customTagCard').style.display = hasTags ? 'block' : 'none';
 
-  // Load existing tags
-  try { editTags = JSON.parse(r.CustomTags || '[]'); } catch(e) { editTags = []; }
+  editTags = r.customTags || [];
   renderEditTags();
 }
 
@@ -509,41 +163,36 @@ function renderEditTags() {
 }
 
 // ═══════════════════════════════════════════════
-//  SAVE CHANGES TO AIRTABLE
+//  SAVE CHANGES — now via /api/update-doctor
+//  No Airtable token exposed
 // ═══════════════════════════════════════════════
 async function saveChanges() {
   if (!currentRecordId) { showToast('⚠️ Not logged in'); return; }
 
-  const updates = {
-    Degree:      document.getElementById('e_degree').value.trim(),
-    Specialty:   document.getElementById('e_specialty').value,
-    Hospital:    document.getElementById('e_hospital').value.trim(),
-    City:        document.getElementById('e_city').value.trim(),
-    Phone:       document.getElementById('e_phone').value.trim(),
-    GMB:         document.getElementById('e_gmb').value.trim(),
-    CustomTags:  JSON.stringify(editTags),
+  const gmb = document.getElementById('e_gmb').value.trim();
+  if (!gmb) { showToast('⚠️ Google review link cannot be empty'); return; }
+
+  const fields = {
+    Degree:     document.getElementById('e_degree').value.trim(),
+    Specialty:  document.getElementById('e_specialty').value,
+    Hospital:   document.getElementById('e_hospital').value.trim(),
+    City:       document.getElementById('e_city').value.trim(),
+    Phone:      document.getElementById('e_phone').value.trim(),
+    'GMB URL':  gmb,
+    CustomTags: JSON.stringify(editTags),
   };
 
-  // Validate
-  if (!updates.DoctorName) { showToast('⚠️ Name cannot be empty'); return; }
-  if (!updates.GMB) { showToast('⚠️ Google review link cannot be empty'); return; }
-
   try {
-    const res = await fetch(
-      `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(AIRTABLE_TABLE)}/${currentRecordId}`,
-      {
-        method: 'PATCH',
-        headers: {
-          'Authorization': `Bearer ${AIRTABLE_TOKEN}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ fields: updates }),
-      }
-    );
+    const res = await fetch('/api/update-doctor', {
+      method:  'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ recordId: currentRecordId, fields }),
+    });
 
     if (!res.ok) throw new Error('Save failed');
 
-    document.getElementById('viewPageBtn').href = `https://goodreview.in/?id=${currentDoctorId}`;
+    document.getElementById('viewPageBtn').href =
+      `https://goodreview.in/review.html?id=${currentDoctorId}`;
     showScreen('successScreen');
 
   } catch(e) {
@@ -558,8 +207,9 @@ function logout() {
   currentRecordId = null;
   currentDoctorId = null;
   editTags = [];
-  document.getElementById('loginId').value = '';
-  document.getElementById('loginPhone').value = '';
+  document.getElementById('loginId').value    = '';
+  document.getElementById('loginEmail').value = '';
+  document.getElementById('otpInput').value   = '';
   showScreen('loginScreen');
 }
 
@@ -584,6 +234,4 @@ window.saveChanges   = saveChanges;
 window.logout        = logout;
 window.addEditTag    = addEditTag;
 window.removeEditTag = removeEditTag;
-</script>
-</body>
-</html>
+window.showScreen    = showScreen;
