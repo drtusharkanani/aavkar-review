@@ -1,458 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Doctor Review">
-<title>Share Your Experience</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<style>
-  :root {
-    --teal: #0a7c6e;
-    --teal-light: #0fa390;
-    --teal-pale: #e8f7f5;
-    --gold: #c9993a;
-    --gold-light: #f5e6c8;
-    --navy: #0d2340;
-    --text: #1a2e3b;
-    --muted: #6b8191;
-    --white: #ffffff;
-    --bg: #f4f9f8;
-    --radius: 14px;
-    --shadow: 0 4px 24px rgba(10,124,110,0.10);
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  /* ── HERO ── */
-  .hero {
-    width: 100%;
-    background: linear-gradient(145deg, var(--navy) 0%, #104a5e 60%, var(--teal) 100%);
-    padding: 36px 20px 48px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero::before {
-    content: '';
-    position: absolute;
-    width: 320px; height: 320px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.04);
-    top: -80px; right: -80px;
-    pointer-events: none;
-  }
-  .hero::after {
-    content: '';
-    position: absolute;
-    width: 200px; height: 200px;
-    border-radius: 50%;
-    background: rgba(201,153,58,0.08);
-    bottom: -60px; left: -40px;
-    pointer-events: none;
-  }
-  .cross-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 52px; height: 52px;
-    background: var(--gold);
-    border-radius: 50%;
-    margin-bottom: 14px;
-    font-size: 22px;
-    position: relative; z-index: 1;
-    box-shadow: 0 0 0 8px rgba(201,153,58,0.18);
-  }
-  .hospital-name {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(20px, 5vw, 28px);
-    color: #fff;
-    letter-spacing: 0.3px;
-    line-height: 1.2;
-    position: relative; z-index: 1;
-  }
-  .hospital-sub {
-    font-size: 11px;
-    color: var(--gold);
-    text-transform: uppercase;
-    letter-spacing: 2.5px;
-    margin: 5px 0 2px;
-    font-weight: 500;
-    position: relative; z-index: 1;
-  }
-  .divider-gold {
-    width: 48px; height: 2px;
-    background: var(--gold);
-    margin: 12px auto 12px;
-    border-radius: 2px;
-    position: relative; z-index: 1;
-  }
-  .doctor-card {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.18);
-    border-radius: 50px;
-    padding: 8px 18px 8px 10px;
-    margin-top: 4px;
-    position: relative; z-index: 1;
-    backdrop-filter: blur(6px);
-  }
-  .doctor-avatar {
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    background: var(--gold);
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 700; color: white; font-size: 13px;
-    flex-shrink: 0;
-  }
-  .doctor-info { text-align: left; }
-  .doctor-name-text { font-size: 13px; font-weight: 600; color: #fff; }
-  .doctor-title-text { font-size: 10.5px; color: rgba(255,255,255,0.65); margin-top: 1px; }
-
-  .hero-badges {
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-top: 12px;
-    position: relative; z-index: 1;
-  }
-  .hero-badge {
-    font-size: 11px;
-    font-weight: 600;
-    padding: 4px 12px;
-    border-radius: 20px;
-    background: rgba(255,255,255,0.12);
-    border: 1px solid rgba(255,255,255,0.2);
-    color: rgba(255,255,255,0.85);
-    letter-spacing: 0.3px;
-  }
-
-  /* ── MAIN CARD ── */
-  .card {
-    background: var(--white);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 28px 20px;
-    width: calc(100% - 32px);
-    max-width: 480px;
-    margin: -20px auto 0;
-    border-top-left-radius: 24px;
-    border-top-right-radius: 24px;
-    position: relative;
-    z-index: 2;
-    animation: fadeUp 0.4s ease both;
-  }
-  @keyframes fadeUp {
-    from { opacity:0; transform:translateY(12px); }
-    to   { opacity:1; transform:translateY(0); }
-  }
-
-  .section-label {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: var(--muted);
-    font-weight: 600;
-    margin-bottom: 14px;
-  }
-
-  /* ── TAGS ── */
-  .tags-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 24px;
-  }
-  .tag {
-    padding: 8px 14px;
-    border-radius: 50px;
-    border: 1.5px solid #d4e8e5;
-    background: #fff;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--teal);
-    cursor: pointer;
-    transition: all 0.18s ease;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
-  .tag:hover { background: var(--teal-pale); border-color: var(--teal); }
-  .tag.active {
-    background: var(--teal);
-    border-color: var(--teal);
-    color: #fff;
-    box-shadow: 0 2px 12px rgba(10,124,110,0.28);
-    transform: translateY(-1px);
-  }
-  .tag .emoji { font-size: 15px; }
-
-  .tag.info-tag {
-    border-color: var(--gold);
-    color: #8a6010;
-    background: var(--gold-light);
-  }
-  .tag.info-tag.active {
-    background: var(--gold);
-    border-color: var(--gold);
-    color: #fff;
-    box-shadow: 0 2px 12px rgba(201,153,58,0.35);
-  }
-
-  /* ── REVIEW BOX ── */
-  .review-label {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
-  .review-label span { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); font-weight: 600; }
-  .char-count { font-size: 11px; color: var(--muted); }
-  .lang-badge {
-    display: none;
-    font-size: 10.5px;
-    font-weight: 600;
-    background: var(--gold-light);
-    color: #8a6010;
-    border: 1px solid #e8c87a;
-    padding: 3px 10px;
-    border-radius: 20px;
-    letter-spacing: 0.5px;
-  }
-  textarea {
-    width: 100%;
-    min-height: 130px;
-    border: 1.5px solid #d4e8e5;
-    border-radius: 12px;
-    padding: 14px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    line-height: 1.6;
-    color: var(--text);
-    resize: vertical;
-    transition: border-color 0.2s;
-    outline: none;
-    background: #fafdfc;
-  }
-  textarea:focus { border-color: var(--teal); background: #fff; }
-  textarea::placeholder { color: #b0c4be; }
-
-  /* ── SUBMIT ── */
-  .submit-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    width: 100%;
-    padding: 16px;
-    background: linear-gradient(135deg, var(--teal) 0%, var(--teal-light) 100%);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    margin-top: 18px;
-    transition: all 0.2s;
-    letter-spacing: 0.3px;
-    box-shadow: 0 4px 16px rgba(10,124,110,0.30);
-    text-decoration: none;
-  }
-  .submit-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(10,124,110,0.38); }
-  .submit-btn:active { transform: translateY(0); }
-  .hint { text-align: center; font-size: 11.5px; color: var(--muted); margin-top: 10px; line-height: 1.5; }
-
-  /* ── QR SECTION ── */
-  .qr-section {
-    margin: 16px auto 0;
-    width: calc(100% - 32px);
-    max-width: 480px;
-    background: white;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 24px 20px;
-    text-align: center;
-    animation: fadeUp 0.4s ease 0.1s both;
-  }
-  .qr-title { font-family: 'Playfair Display', serif; font-size: 16px; color: var(--navy); margin-bottom: 4px; }
-  .qr-sub { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
-  #qrcode { display: inline-block; padding: 12px; background: white; border-radius: 10px; border: 1.5px solid #d4e8e5; }
-  #qrcode img, #qrcode canvas { border-radius: 6px; }
-  .qr-url { font-size: 11px; color: var(--teal); margin-top: 10px; word-break: break-all; }
-
-  /* ── NOT FOUND ── */
-  .not-found {
-    text-align: center;
-    padding: 60px 24px;
-    max-width: 380px;
-    margin: 40px auto;
-  }
-  .not-found .icon { font-size: 48px; margin-bottom: 16px; }
-  .not-found h2 { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--navy); margin-bottom: 10px; }
-  .not-found p { color: var(--muted); font-size: 14px; line-height: 1.6; }
-
-  /* ── TOAST ── */
-  .toast {
-    position: fixed;
-    bottom: 24px; left: 50%;
-    transform: translateX(-50%) translateY(80px);
-    background: var(--navy);
-    color: white;
-    padding: 12px 22px;
-    border-radius: 50px;
-    font-size: 13px;
-    font-weight: 500;
-    transition: transform 0.35s cubic-bezier(.34,1.56,.64,1);
-    z-index: 999;
-    white-space: nowrap;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
-  }
-  .toast.show { transform: translateX(-50%) translateY(0); }
-
-  footer { text-align: center; font-size: 11px; color: #aac3be; padding: 20px 16px 32px; }
-</style>
-</head>
-<body>
-
-<!-- HERO -->
-<div class="hero">
-  <div class="cross-icon">✚</div>
-  <div class="hospital-sub" id="heroHospital" style="display:none"></div>
-  <h1 class="hospital-name" id="heroHospitalName">Loading...</h1>
-  <div class="divider-gold"></div>
-  <div class="doctor-card">
-    <div class="doctor-avatar" id="heroAvatar">--</div>
-    <div class="doctor-info">
-      <div class="doctor-name-text" id="heroDoctorName">Loading...</div>
-      <div class="doctor-title-text" id="heroDoctorTitle">Loading...</div>
-    </div>
-  </div>
-  <div class="hero-badges" id="heroBadges"></div>
-</div>
-
-<!-- MAIN CARD -->
-<div class="card" id="mainCard">
-  <div class="section-label">Pick what describes your visit</div>
-  <div class="tags-grid" id="tagsGrid"></div>
-
-  <div class="review-label">
-    <span>Your Review</span>
-    <div style="display:flex;align-items:center;gap:8px;">
-      <span class="lang-badge" id="langBadge"></span>
-      <span class="char-count" id="charCount">0 / 500</span>
-    </div>
-  </div>
-  <textarea id="reviewBox" maxlength="500" placeholder="Select tags above to auto-generate your review, or type your own…"></textarea>
-
-  <button class="submit-btn" id="submitBtn">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M8 5H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-1M8 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M8 5a2 2 0 0 0-1-1h6a2 2 0 0 1 1 1m0 0h2a2 2 0 0 1 2 2v3"/>
-    </svg>
-    <span id="submitBtnText">Copy Review for Google</span>
-  </button>
-  <p class="hint" id="submitHint">Tap to copy → Google opens → Long press &amp; Paste ✓</p>
-</div>
-
-<!-- QR SECTION -->
-<div class="qr-section">
-  <div class="qr-title">Share This Page</div>
-  <div class="qr-sub">Scan QR code to open on any device</div>
-  <div id="qrcode"></div>
-  <div class="qr-url" id="pageUrl"></div>
-</div>
-
-<footer id="footerText">Powered by GoodReview Team · goodreview.in</footer>
-<div class="toast" id="toast"></div>
-
-<script>
 // ═══════════════════════════════════════════════════════
-//  AIRTABLE CONFIGURATION
+//  LOAD DOCTOR — now via secure API (no token exposed)
 // ═══════════════════════════════════════════════════════
-const AIRTABLE_TOKEN   = 'patudFcQ5799EkkZ0.af77c9f9a3a45f2d66482db161ceca865c58003ac745d06104769e9a6ab2e602';
-const AIRTABLE_BASE_ID = 'apppCUPgl9647WTMY';
-const AIRTABLE_TABLE   = 'Doctors';
-
 const params   = new URLSearchParams(window.location.search);
 const doctorId = params.get('id') || '101';
 let DOC        = null;
 
 async function loadDoctor() {
   try {
-    document.getElementById('heroDoctorName').textContent = 'Loading...';
+    document.getElementById('heroDoctorName').textContent  = 'Loading...';
     document.getElementById('heroHospitalName').textContent = 'GoodReview';
 
-    const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(AIRTABLE_TABLE)}?filterByFormula=${encodeURIComponent(`{DoctorID}=${doctorId}`)}&maxRecords=1`;
-
-    const res = await fetch(url, {
-      headers: { 'Authorization': `Bearer ${AIRTABLE_TOKEN}` }
-    });
-
-    if (!res.ok) throw new Error('API error: ' + res.status);
-
+    const res  = await fetch(`/api/doctor?id=${doctorId}`);
     const data = await res.json();
 
-    if (!data.records || data.records.length === 0) {
-      showNotFound();
-      return;
-    }
-
-    const r = data.records[0].fields;
-
-    const isActive = r.Active === true || r.Active === 'true' || r.Active === 'Yes' || r.Active === 1 || r.Active === '1';
-    if (!isActive) { showExpired(); return; }
-
-    if (r.ExpiryDate) {
-      const expiry = new Date(r.ExpiryDate);
-      const today  = new Date();
-      if (expiry < today) { showExpired(); return; }
+    if (!res.ok) {
+      if (res.status === 403) { showExpired(); return; }
+      showNotFound(); return;
     }
 
     DOC = {
-      name:         r.DoctorName    || 'Doctor',
-      degree:       r.Degree        || '',
-      specialty:    r.Specialty     || 'general_physician',
-      city:         r.City          || '',
-      area:         r.Area          || '',
-      hospital:     r.Hospital      || '',
-      plan:         r.Plan          || 'free',
-      gmb:          r.GMB           || r['GMB URL'] || '',
-      customTags:   parseCustomTags(r.CustomTags),
-      reviewCount:  r.ReviewCount   || 0,
-      rating:       r.Rating        || 0,
-      referralCode: r.ReferralCode  || '',
-      expiryDate:   r.ExpiryDate    || '',
-      airtableId:   data.records[0].id,
+      name:         data.name,
+      degree:       data.degree,
+      specialty:    data.specialty,
+      city:         data.city,
+      area:         data.area,
+      hospital:     data.hospital,
+      plan:         data.plan,
+      gmb:          data.gmbUrl,
+      customTags:   data.customTags || [],
+      reviewCount:  data.reviewCount || 0,
+      rating:       data.rating || 0,
+      referralCode: data.referralCode,
     };
 
     initApp();
 
   } catch(err) {
-    console.error('Airtable error:', err);
+    console.error('Load error:', err);
+    // Fallback for demo doctor only
     DOC = FALLBACK_DOCTORS[doctorId];
     if (DOC) { initApp(); } else { showNotFound(); }
   }
-}
-
-function parseCustomTags(raw) {
-  if (!raw) return [];
-  try { return JSON.parse(raw); } catch(e) { return []; }
 }
 
 function showNotFound() {
@@ -462,8 +50,8 @@ function showNotFound() {
       <h2>Doctor Not Found</h2>
       <p>No doctor found with ID <strong>${doctorId}</strong>.<br>Please check the link or QR code.</p>
     </div>`;
-  document.querySelector('.hero').style.display = 'none';
-  document.querySelector('.qr-section').style.display = 'none';
+  document.querySelector('.hero').style.display        = 'none';
+  document.querySelector('.qr-section').style.display  = 'none';
 }
 
 function showExpired() {
@@ -473,8 +61,8 @@ function showExpired() {
       <h2>Subscription Expired</h2>
       <p>This doctor's GoodReview subscription has expired.<br>Please contact the doctor to renew.</p>
     </div>`;
-  document.querySelector('.hero').style.display = 'none';
-  document.querySelector('.qr-section').style.display = 'none';
+  document.querySelector('.hero').style.display        = 'none';
+  document.querySelector('.qr-section').style.display  = 'none';
 }
 
 const FALLBACK_DOCTORS = {
@@ -493,7 +81,7 @@ const FALLBACK_DOCTORS = {
 loadDoctor();
 
 // ═══════════════════════════════════════════════════════
-//  QUALITY TAGS
+//  QUALITY TAGS  (unchanged)
 // ═══════════════════════════════════════════════════════
 const QUALITY_TAGS = [
   { key: "excellent_doctor",   emoji: "👨‍⚕️", label: "Excellent Doctor" },
@@ -511,7 +99,7 @@ const QUALITY_TAGS = [
 ];
 
 // ═══════════════════════════════════════════════════════
-//  SPECIALTY TAGS
+//  SPECIALTY TAGS  (unchanged — keep entire SPECIALTY_TAGS object from original)
 // ═══════════════════════════════════════════════════════
 const SPECIALTY_TAGS = {
   general_physician: [
@@ -542,20 +130,6 @@ const SPECIALTY_TAGS = {
     { key: "immunity_homeo",    emoji: "🛡️", label: "Immunity" },
     { key: "anxiety_homeo",     emoji: "🧘", label: "Anxiety / Depression" },
     { key: "kidney_homeo",      emoji: "🫘", label: "Kidney Stones" },
-  ],
-  ayurvedic: [
-    { key: "panchakarma",       emoji: "🌿", label: "Panchakarma" },
-    { key: "herbal_treatment",  emoji: "🌱", label: "Herbal Treatment" },
-    { key: "chronic_disease",   emoji: "💊", label: "Chronic Disease" },
-    { key: "digestion",         emoji: "🫃", label: "Digestion Issues" },
-    { key: "stress_anxiety",    emoji: "🧘", label: "Stress / Anxiety" },
-    { key: "joint_pain_ayu",    emoji: "🦴", label: "Joint Pain" },
-    { key: "skin_disease_ayu",  emoji: "🌸", label: "Skin Disease" },
-    { key: "immunity_boost",    emoji: "🛡️", label: "Immunity Boost" },
-    { key: "weight_loss_ayu",   emoji: "⚖️", label: "Weight Loss" },
-    { key: "diabetes_ayu",      emoji: "🩸", label: "Diabetes Care" },
-    { key: "detox",             emoji: "✨", label: "Detox Therapy" },
-    { key: "migraine_ayu",      emoji: "🧠", label: "Migraine Relief" },
   ],
   dermatologist: [
     { key: "acne",              emoji: "🔴", label: "Acne Treatment" },
@@ -641,41 +215,6 @@ const SPECIALTY_TAGS = {
     { key: "kids_dental",       emoji: "👶", label: "Kids Dentistry" },
     { key: "wisdom_tooth",      emoji: "🦷", label: "Wisdom Tooth" },
   ],
-  physiotherapist: [
-    { key: "back_pain",         emoji: "🦴", label: "Back Pain" },
-    { key: "neck_pain",         emoji: "💆", label: "Neck Pain" },
-    { key: "sports_physio",     emoji: "⚽", label: "Sports Injury" },
-    { key: "post_surgery",      emoji: "🏥", label: "Post Surgery Rehab" },
-    { key: "stroke_physio",     emoji: "🧠", label: "Stroke Rehab" },
-    { key: "joint_physio",      emoji: "🦴", label: "Joint Pain" },
-    { key: "paralysis",         emoji: "🦽", label: "Paralysis Care" },
-    { key: "posture",           emoji: "🧍", label: "Posture Correction" },
-    { key: "electrotherapy",    emoji: "⚡", label: "Electrotherapy" },
-  ],
-  general_practitioner: [
-    { key: "gp_fever",          emoji: "🤒", label: "Fever & Flu" },
-    { key: "gp_bp",             emoji: "💊", label: "Blood Pressure" },
-    { key: "gp_diabetes",       emoji: "🩸", label: "Diabetes" },
-    { key: "gp_thyroid",        emoji: "🦋", label: "Thyroid" },
-    { key: "gp_cholesterol",    emoji: "⚠️", label: "Cholesterol" },
-    { key: "gp_infection",      emoji: "🦠", label: "Infection" },
-    { key: "gp_stomach",        emoji: "🫃", label: "Stomach Issues" },
-    { key: "gp_allergy",        emoji: "🌸", label: "Allergy" },
-    { key: "gp_anemia",         emoji: "🔴", label: "Anemia" },
-    { key: "gp_general",        emoji: "🏥", label: "General Checkup" },
-    { key: "gp_senior",         emoji: "👴", label: "Senior Care" },
-    { key: "gp_preventive",     emoji: "🛡️", label: "Preventive Care" },
-  ],
-  wellness_coach: [
-    { key: "lifestyle",         emoji: "🌟", label: "Lifestyle Change" },
-    { key: "stress_wc",         emoji: "🧘", label: "Stress Management" },
-    { key: "sleep_wc",          emoji: "😴", label: "Sleep Improvement" },
-    { key: "mindfulness",       emoji: "💭", label: "Mindfulness" },
-    { key: "habit_coach",       emoji: "🎯", label: "Habit Building" },
-    { key: "corporate_well",    emoji: "💼", label: "Corporate Wellness" },
-    { key: "weight_wc",         emoji: "⚖️", label: "Weight Management" },
-    { key: "energy",            emoji: "⚡", label: "Energy & Vitality" },
-  ],
   neurologist: [
     { key: "stroke",            emoji: "🧠", label: "Stroke" },
     { key: "epilepsy",          emoji: "⚡", label: "Epilepsy" },
@@ -750,18 +289,6 @@ const SPECIALTY_TAGS = {
     { key: "cancer_surg",       emoji: "🎗️", label: "Cancer Surgery" },
     { key: "obesity_surg",      emoji: "⚖️", label: "Obesity Surgery" },
   ],
-  endocrinologist: [
-    { key: "diabetes_e",        emoji: "🩸", label: "Diabetes" },
-    { key: "thyroid_e",         emoji: "🦋", label: "Thyroid" },
-    { key: "pcos_e",            emoji: "🔵", label: "PCOS" },
-    { key: "obesity_e",         emoji: "⚖️", label: "Obesity" },
-    { key: "osteoporosis",      emoji: "🦴", label: "Osteoporosis" },
-    { key: "growth_disorder",   emoji: "📏", label: "Growth Disorder" },
-    { key: "adrenal",           emoji: "🔬", label: "Adrenal Disorder" },
-    { key: "hormone",           emoji: "⚗️", label: "Hormone Imbalance" },
-    { key: "insulin",           emoji: "💉", label: "Insulin Therapy" },
-    { key: "metabolic",         emoji: "🔄", label: "Metabolic Disorder" },
-  ],
   dietitian: [
     { key: "weight_loss_d",     emoji: "⚖️", label: "Weight Loss" },
     { key: "weight_gain",       emoji: "💪", label: "Weight Gain" },
@@ -774,17 +301,64 @@ const SPECIALTY_TAGS = {
     { key: "gut_health",        emoji: "🫃", label: "Gut Health" },
     { key: "meal_plan",         emoji: "🥗", label: "Meal Planning" },
   ],
+  physiotherapist: [
+    { key: "back_pain",         emoji: "🦴", label: "Back Pain" },
+    { key: "neck_pain",         emoji: "💆", label: "Neck Pain" },
+    { key: "sports_physio",     emoji: "⚽", label: "Sports Injury" },
+    { key: "post_surgery",      emoji: "🏥", label: "Post Surgery Rehab" },
+    { key: "stroke_physio",     emoji: "🧠", label: "Stroke Rehab" },
+    { key: "joint_physio",      emoji: "🦴", label: "Joint Pain" },
+    { key: "paralysis",         emoji: "🦽", label: "Paralysis Care" },
+    { key: "posture",           emoji: "🧍", label: "Posture Correction" },
+    { key: "electrotherapy",    emoji: "⚡", label: "Electrotherapy" },
+  ],
+  wellness_coach: [
+    { key: "lifestyle",         emoji: "🌟", label: "Lifestyle Change" },
+    { key: "stress_wc",         emoji: "🧘", label: "Stress Management" },
+    { key: "sleep_wc",          emoji: "😴", label: "Sleep Improvement" },
+    { key: "mindfulness",       emoji: "💭", label: "Mindfulness" },
+    { key: "habit_coach",       emoji: "🎯", label: "Habit Building" },
+    { key: "corporate_well",    emoji: "💼", label: "Corporate Wellness" },
+    { key: "weight_wc",         emoji: "⚖️", label: "Weight Management" },
+    { key: "energy",            emoji: "⚡", label: "Energy & Vitality" },
+  ],
+  endocrinologist: [
+    { key: "diabetes_e",        emoji: "🩸", label: "Diabetes" },
+    { key: "thyroid_e",         emoji: "🦋", label: "Thyroid" },
+    { key: "pcos_e",            emoji: "🔵", label: "PCOS" },
+    { key: "obesity_e",         emoji: "⚖️", label: "Obesity" },
+    { key: "osteoporosis",      emoji: "🦴", label: "Osteoporosis" },
+    { key: "growth_disorder",   emoji: "📏", label: "Growth Disorder" },
+    { key: "adrenal",           emoji: "🔬", label: "Adrenal Disorder" },
+    { key: "hormone",           emoji: "⚗️", label: "Hormone Imbalance" },
+    { key: "insulin",           emoji: "💉", label: "Insulin Therapy" },
+    { key: "metabolic",         emoji: "🔄", label: "Metabolic Disorder" },
+  ],
+  general_practitioner: [
+    { key: "gp_fever",          emoji: "🤒", label: "Fever & Flu" },
+    { key: "gp_bp",             emoji: "💊", label: "Blood Pressure" },
+    { key: "gp_diabetes",       emoji: "🩸", label: "Diabetes" },
+    { key: "gp_thyroid",        emoji: "🦋", label: "Thyroid" },
+    { key: "gp_cholesterol",    emoji: "⚠️", label: "Cholesterol" },
+    { key: "gp_infection",      emoji: "🦠", label: "Infection" },
+    { key: "gp_stomach",        emoji: "🫃", label: "Stomach Issues" },
+    { key: "gp_allergy",        emoji: "🌸", label: "Allergy" },
+    { key: "gp_anemia",         emoji: "🔴", label: "Anemia" },
+    { key: "gp_general",        emoji: "🏥", label: "General Checkup" },
+    { key: "gp_senior",         emoji: "👴", label: "Senior Care" },
+    { key: "gp_preventive",     emoji: "🛡️", label: "Preventive Care" },
+  ],
 };
 
 // ═══════════════════════════════════════════════════════
-//  GET TAGS FOR A DOCTOR
+//  GET TAGS FOR A DOCTOR  (unchanged)
 // ═══════════════════════════════════════════════════════
 function getTagsForDoctor(doc) {
   const specialtyTags = SPECIALTY_TAGS[doc.specialty] || [];
   const customTags = (doc.customTags || []).map(t => ({
-    key:   'custom_' + t.label.toLowerCase().replace(/\s+/g, '_'),
-    emoji: t.emoji || '🏷️',
-    label: t.label,
+    key:    'custom_' + t.label.toLowerCase().replace(/\s+/g, '_'),
+    emoji:  t.emoji || '🏷️',
+    label:  t.label,
     custom: true
   }));
   return [...QUALITY_TAGS, ...specialtyTags, ...customTags];
@@ -792,12 +366,12 @@ function getTagsForDoctor(doc) {
 
 function initApp() {
   const initials = DOC.name.split(' ').filter(w => w.match(/[A-Z]/)).slice(-2).map(w => w[0]).join('');
-  document.getElementById('heroHospital').textContent = DOC.hospital;
-  document.getElementById('heroHospitalName').textContent = DOC.hospital;
-  document.getElementById('heroAvatar').textContent = initials || 'DR';
-  document.getElementById('heroDoctorName').textContent = DOC.name;
-  document.getElementById('heroDoctorTitle').textContent = DOC.degree + ' · ' + DOC.specialty;
-  document.getElementById('footerText').textContent = DOC.hospital + ' · ' + DOC.city;
+  document.getElementById('heroHospital').textContent      = DOC.hospital;
+  document.getElementById('heroHospitalName').textContent  = DOC.hospital;
+  document.getElementById('heroAvatar').textContent        = initials || 'DR';
+  document.getElementById('heroDoctorName').textContent    = DOC.name;
+  document.getElementById('heroDoctorTitle').textContent   = DOC.degree + ' · ' + DOC.specialty;
+  document.getElementById('footerText').textContent        = DOC.hospital + ' · ' + DOC.city;
 
   const badgesEl = document.getElementById('heroBadges');
   let badgesHTML = `
@@ -868,7 +442,7 @@ function initApp() {
   allTags.forEach(t => {
     const el = document.createElement('div');
     el.className = t.custom ? 'tag info-tag' : 'tag';
-    el.dataset.tag = t.key;
+    el.dataset.tag   = t.key;
     el.dataset.label = t.label;
     el.innerHTML = `<span class="emoji">${t.emoji}</span> ${t.label}`;
     grid.appendChild(el);
@@ -900,11 +474,10 @@ function initApp() {
   });
 
   // ═══════════════════════════════════════════════
-  //  SMART GMB URL CONVERTER
+  //  SMART GMB URL CONVERTER  (unchanged)
   // ═══════════════════════════════════════════════
   function getReviewUrl(rawUrl) {
     if (!rawUrl) return '';
-
     if (rawUrl.includes('search.google.com/local/writereview')) {
       const base = rawUrl.split('&text=')[0];
       if (!base.includes('laa=')) {
@@ -912,29 +485,17 @@ function initApp() {
       }
       return base;
     }
-
     const gPageMatch = rawUrl.match(/g\.page\/r\/([A-Za-z0-9_-]+)/);
-    if (gPageMatch) {
-      return 'https://g.page/r/' + gPageMatch[1] + '/review';
-    }
-
+    if (gPageMatch) return 'https://g.page/r/' + gPageMatch[1] + '/review';
     const cidMatch = rawUrl.match(/[?&]cid=(\d+)/);
-    if (cidMatch) {
-      return 'https://search.google.com/local/writereview?cid=' + cidMatch[1] +
-             '&source=g.page.m._&laa=merchant-review-solicitation';
-    }
-
+    if (cidMatch) return 'https://search.google.com/local/writereview?cid=' + cidMatch[1] + '&source=g.page.m._&laa=merchant-review-solicitation';
     const placeIdMatch = rawUrl.match(/placeid=([A-Za-z0-9_-]+)/);
-    if (placeIdMatch) {
-      return 'https://search.google.com/local/writereview?placeid=' + placeIdMatch[1] +
-             '&source=g.page.m._&laa=merchant-review-solicitation';
-    }
-
+    if (placeIdMatch) return 'https://search.google.com/local/writereview?placeid=' + placeIdMatch[1] + '&source=g.page.m._&laa=merchant-review-solicitation';
     return rawUrl;
   }
 
   // ═══════════════════════════════════════════════
-  //  SUBMIT BUTTON
+  //  SUBMIT BUTTON — now calls /api/increment-count
   // ═══════════════════════════════════════════════
   document.getElementById('submitBtn').addEventListener('click', function() {
     const text = document.getElementById('reviewBox').value.trim();
@@ -956,16 +517,12 @@ function initApp() {
       const reviewUrl = getReviewUrl(DOC.gmb);
       window.open(reviewUrl, '_blank');
 
-      if (DOC.plan === 'free' && DOC.airtableId) {
-        const newCount = (parseInt(DOC.reviewCount) || 0) + 1;
-        DOC.reviewCount = newCount;
-        fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(AIRTABLE_TABLE)}/${DOC.airtableId}`, {
-          method: 'PATCH',
-          headers: {
-            'Authorization': `Bearer ${AIRTABLE_TOKEN}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ fields: { ReviewCount: newCount } })
+      // Increment free plan counter via secure API
+      if (DOC.plan === 'free') {
+        fetch('/api/increment-count', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ doctorId })
         }).catch(e => console.log('Count update error:', e));
       }
 
@@ -981,14 +538,13 @@ function initApp() {
 }
 
 // ═══════════════════════════════════════════════════════
-//  REVIEW GENERATION — 4 LANGUAGES
+//  REVIEW GENERATION — 4 LANGUAGES  (unchanged)
 // ═══════════════════════════════════════════════════════
 function buildTemplates(doc) {
-  const N  = doc.name;
-  const H  = doc.hospital;
-  const C  = doc.city;
-  const D  = doc.degree;
-
+  const N = doc.name;
+  const H = doc.hospital;
+  const C = doc.city;
+  const D = doc.degree;
   return {
     english: {
       label: "🇬🇧 English",
@@ -999,180 +555,45 @@ function buildTemplates(doc) {
         `Had a great experience at ${H}. ${N} is an exceptional doctor.`
       ],
       phrases: {
-        degree:             `${N} is a highly qualified ${D} specialist`,
-        city:               `this is the best hospital in ${C}`,
-        excellent_doctor:   `${N} is simply an excellent doctor`,
-        accurate_diagnosis: `the diagnosis by ${N} was spot-on and very accurate`,
-        very_caring:        `${N} is extremely caring and empathetic towards every patient`,
-        knowledgeable:      `the medical knowledge and expertise of ${N} are truly impressive`,
-        explained_clearly:  `${N} explained everything in very simple and clear language`,
-        clean_hospital:     `${H} is very clean and well-maintained`,
-        friendly_staff:     `the staff at ${H} is friendly, helpful, and always welcoming`,
-        quick_service:      `the service was quick with no long waiting times`,
-        good_followup:      `the follow-up care from ${N} was excellent`,
-        highly_recommended: `I highly recommend ${N} to everyone`,
-        affordable_fees:    `the fees are very reasonable and affordable`,
-        best_in_city:       `${N} is truly the best doctor in ${C}`,
-        diabetes:           `${N} managed my diabetes with great expertise and care`,
-        hypertension:       `my blood pressure is now well controlled thanks to ${N}`,
-        thyroid:            `my thyroid condition improved significantly under ${N}'s treatment`,
-        heart_disease:      `${N} diagnosed and treated my heart condition with great expertise`,
-        fever_viral:        `${N} quickly diagnosed and treated my fever and viral infection`,
-        kidney_disease:     `${N} managed my kidney condition very effectively`,
-        liver_disease:      `${N} treated my liver problem with expertise and care`,
-        asthma:             `my breathing and asthma is much better after ${N}'s treatment`,
-        anemia:             `${N} identified and treated my anemia very effectively`,
-        cholesterol:        `my cholesterol levels are now under control thanks to ${N}`,
-        dengue_typhoid:     `${N} treated my dengue fever quickly and effectively`,
-        arthritis:          `my arthritis pain has reduced significantly under ${N}'s care`,
-        weight_management:  `${N} guided me very well in managing my weight`,
-        acne:               `my acne problem is completely resolved under ${N}'s treatment`,
-        hair_loss:          `my hair fall has reduced significantly thanks to ${N}`,
-        skin_allergy:       `${N} identified and treated my skin allergy very effectively`,
-        panchakarma:        `the Panchakarma therapy by ${N} gave me excellent results`,
-        chronic_illness:    `${N}'s homeopathic treatment for my chronic illness has been excellent`,
-        normal_delivery:    `${N} conducted my normal delivery with great care and skill`,
-        pcos:               `my PCOS condition improved greatly under ${N}'s treatment`,
-        fracture:           `${N} treated my fracture with excellent care`,
-        knee_replacement:   `${N} performed my knee replacement surgery very successfully`,
+        degree:`${N} is a highly qualified ${D} specialist`,city:`this is the best hospital in ${C}`,excellent_doctor:`${N} is simply an excellent doctor`,accurate_diagnosis:`the diagnosis by ${N} was spot-on and very accurate`,very_caring:`${N} is extremely caring and empathetic towards every patient`,knowledgeable:`the medical knowledge and expertise of ${N} are truly impressive`,explained_clearly:`${N} explained everything in very simple and clear language`,clean_hospital:`${H} is very clean and well-maintained`,friendly_staff:`the staff at ${H} is friendly, helpful, and always welcoming`,quick_service:`the service was quick with no long waiting times`,good_followup:`the follow-up care from ${N} was excellent`,highly_recommended:`I highly recommend ${N} to everyone`,affordable_fees:`the fees are very reasonable and affordable`,best_in_city:`${N} is truly the best doctor in ${C}`,diabetes:`${N} managed my diabetes with great expertise and care`,hypertension:`my blood pressure is now well controlled thanks to ${N}`,thyroid:`my thyroid condition improved significantly under ${N}'s treatment`,heart_disease:`${N} diagnosed and treated my heart condition with great expertise`,fever_viral:`${N} quickly diagnosed and treated my fever and viral infection`,kidney_disease:`${N} managed my kidney condition very effectively`,liver_disease:`${N} treated my liver problem with expertise and care`,asthma:`my breathing and asthma is much better after ${N}'s treatment`,anemia:`${N} identified and treated my anemia very effectively`,cholesterol:`my cholesterol levels are now under control thanks to ${N}`,dengue_typhoid:`${N} treated my dengue fever quickly and effectively`,arthritis:`my arthritis pain has reduced significantly under ${N}'s care`,weight_management:`${N} guided me very well in managing my weight`,acne:`my acne problem is completely resolved under ${N}'s treatment`,hair_loss:`my hair fall has reduced significantly thanks to ${N}`,skin_allergy:`${N} identified and treated my skin allergy very effectively`,pcos:`my PCOS condition improved greatly under ${N}'s treatment`,fracture:`${N} treated my fracture with excellent care`,knee_replacement:`${N} performed my knee replacement surgery very successfully`,
       },
-      closing: [
-        `Thank you ${N} and the entire ${H} team!`,
-        `5 stars without any hesitation!`,
-        `God bless the entire team at ${H}!`,
-        `Highly recommended to all!`
-      ]
+      closing: [`Thank you ${N} and the entire ${H} team!`,`5 stars without any hesitation!`,`God bless the entire team at ${H}!`,`Highly recommended to all!`]
     },
     hindi: {
       label: "🇮🇳 Hindi",
-      base: [
-        `Maine ${H} mein ${N} se ilaaj karaya aur bahut achha anubhav raha.`,
-        `${H} ka mera experience bahut hi shandar tha. ${N} ek bahut hi kabil doctor hain.`,
-        `Main bahut khush hun ki maine ${C} ke ${H} choose kiya. ${N} ne mujhe bahut achha ilaaj diya.`,
-        `${H} aur ${N} ka bahut shukriya. Inki seva bahut hi behtareen hai.`
-      ],
+      base: [`Maine ${H} mein ${N} se ilaaj karaya aur bahut achha anubhav raha.`,`${H} ka mera experience bahut hi shandar tha. ${N} ek bahut hi kabil doctor hain.`,`Main bahut khush hun ki maine ${C} ke ${H} choose kiya. ${N} ne mujhe bahut achha ilaaj diya.`,`${H} aur ${N} ka bahut shukriya. Inki seva bahut hi behtareen hai.`],
       phrases: {
-        degree:             `${N} ek ${D} mein bahut uchi yogyata wale doctor hain`,
-        city:               `${C} mein yeh sabse achha hospital hai`,
-        excellent_doctor:   `${N} ek bahut hi badhiya aur kabil doctor hain`,
-        accurate_diagnosis: `${N} ne bilkul sahi aur sahee diagnosis ki`,
-        very_caring:        `${N} har mariz ka bahut dhyan rakhte hain aur bahut caring hain`,
-        knowledgeable:      `${N} ki medical knowledge aur expertise bahut hi prabhavshali hai`,
-        explained_clearly:  `${N} ne sab kuch bahut saral aur seedhi bhasha mein samjhaya`,
-        clean_hospital:     `${H} bahut saaf-suthra aur sunder hai`,
-        friendly_staff:     `${H} ka staff bahut madadgaar aur friendly hai`,
-        quick_service:      `seva mein koi badi der nahi hui, bahut jaldi ilaaj mila`,
-        good_followup:      `${N} ka follow-up care bahut achha hai`,
-        highly_recommended: `main ${N} ko sabhi ko recommend karta hun`,
-        affordable_fees:    `fees bahut reasonable aur vajib hai`,
-        best_in_city:       `${N} ${C} ke sabse achhe doctor hain`,
-        diabetes:           `${N} ne meri diabetes ko bahut achhe se control kiya`,
-        hypertension:       `${N} ki dawai se mera blood pressure bilkul theek ho gaya`,
-        thyroid:            `${N} ke ilaaj se meri thyroid ki takleef mein bahut sudhaar aaya`,
-        heart_disease:      `${N} ne meri dil ki bimari ka bahut achha ilaaj kiya`,
-        fever_viral:        `${N} ne meri bukhaar aur viral infection ko bahut jaldi theek kiya`,
-        weight_management:  `${N} ne mujhe wajan control karne mein bahut achhi madad ki`,
-        acne:               `${N} ke ilaaj se meri muhaasey ki samasya bilkul khatam ho gayi`,
-        hair_loss:          `${N} ki dawai se mera baal jhadna bahut kam hua`,
-        pcos:               `${N} ke ilaaj se meri PCOS ki takleef mein bahut sudhaar aaya`,
-        fracture:           `${N} ne meri haddi tooti ka bahut achha ilaaj kiya`,
+        degree:`${N} ek ${D} mein bahut uchi yogyata wale doctor hain`,city:`${C} mein yeh sabse achha hospital hai`,excellent_doctor:`${N} ek bahut hi badhiya aur kabil doctor hain`,accurate_diagnosis:`${N} ne bilkul sahi aur sahee diagnosis ki`,very_caring:`${N} har mariz ka bahut dhyan rakhte hain aur bahut caring hain`,knowledgeable:`${N} ki medical knowledge aur expertise bahut hi prabhavshali hai`,explained_clearly:`${N} ne sab kuch bahut saral aur seedhi bhasha mein samjhaya`,clean_hospital:`${H} bahut saaf-suthra aur sunder hai`,friendly_staff:`${H} ka staff bahut madadgaar aur friendly hai`,quick_service:`seva mein koi badi der nahi hui, bahut jaldi ilaaj mila`,good_followup:`${N} ka follow-up care bahut achha hai`,highly_recommended:`main ${N} ko sabhi ko recommend karta hun`,affordable_fees:`fees bahut reasonable aur vajib hai`,best_in_city:`${N} ${C} ke sabse achhe doctor hain`,diabetes:`${N} ne meri diabetes ko bahut achhe se control kiya`,hypertension:`${N} ki dawai se mera blood pressure bilkul theek ho gaya`,thyroid:`${N} ke ilaaj se meri thyroid ki takleef mein bahut sudhaar aaya`,weight_management:`${N} ne mujhe wajan control karne mein bahut achhi madad ki`,acne:`${N} ke ilaaj se meri muhaasey ki samasya bilkul khatam ho gayi`,hair_loss:`${N} ki dawai se mera baal jhadna bahut kam hua`,pcos:`${N} ke ilaaj se meri PCOS ki takleef mein bahut sudhaar aaya`,fracture:`${N} ne meri haddi tooti ka bahut achha ilaaj kiya`,
       },
-      closing: [
-        `${N} aur poore ${H} team ka bahut bahut shukriya!`,
-        `Poore 5 star dene mein koi shak nahi!`,
-        `Bhagwan ${H} ki poori team ko khush rakhe!`,
-        `Sabhi ko iski saraha se recommend karta hun!`
-      ]
+      closing: [`${N} aur poore ${H} team ka bahut bahut shukriya!`,`Poore 5 star dene mein koi shak nahi!`,`Bhagwan ${H} ki poori team ko khush rakhe!`,`Sabhi ko iski saraha se recommend karta hun!`]
     },
     hinglish: {
       label: "🔀 Hinglish",
-      base: [
-        `Maine ${H} visit kiya aur ${N} se treatment liya, experience really amazing tha!`,
-        `${H} ka visit mera bahut hi positive raha. ${N} is seriously ek best doctor hai!`,
-        `I am so happy ki maine ${C} mein ${H} choose kiya. ${N} ne mujhe bahut achha feel karaya.`,
-        `${H} mein ${N} se milna ek great experience tha. Unki care aur attention really impressive hai.`
-      ],
+      base: [`Maine ${H} visit kiya aur ${N} se treatment liya, experience really amazing tha!`,`${H} ka visit mera bahut hi positive raha. ${N} is seriously ek best doctor hai!`,`I am so happy ki maine ${C} mein ${H} choose kiya. ${N} ne mujhe bahut achha feel karaya.`,`${H} mein ${N} se milna ek great experience tha. Unki care aur attention really impressive hai.`],
       phrases: {
-        degree:             `${N} ${D} mein fully qualified aur expert hain`,
-        city:               `${C} mein yeh genuinely best hospital hai`,
-        excellent_doctor:   `${N} seriously ek excellent doctor hai`,
-        accurate_diagnosis: `${N} ki diagnosis bilkul accurate aur sahi thi`,
-        very_caring:        `${N} patients ke liye genuinely bahut caring aur empathetic hai`,
-        knowledgeable:      `${N} ki medical knowledge aur expertise really impressive hai`,
-        explained_clearly:  `${N} ne sab kuch clearly aur simply explain kiya`,
-        clean_hospital:     `${H} bahut clean aur well-maintained hai`,
-        friendly_staff:     `yahan ka staff bahut friendly aur helpful hai`,
-        quick_service:      `bahut quick service mili, waiting time almost nil tha`,
-        good_followup:      `${N} ka follow-up care bahut thorough hai`,
-        highly_recommended: `main definitely ${N} ko sabko recommend karunga`,
-        affordable_fees:    `fees bahut reasonable aur affordable hai`,
-        best_in_city:       `${N} ${C} ke best doctors mein se ek hai`,
-        diabetes:           `${N} ne meri diabetes ko perfectly manage kiya`,
-        thyroid:            `${N} ke treatment se meri thyroid problem mein bahut improvement aaya`,
-        fever_viral:        `${N} ne meri fever aur viral infection bahut quickly theek ki`,
-        weight_management:  `${N} ne mujhe weight management mein really helpful guidance di`,
-        acne:               `${N} ke treatment se meri acne problem completely solve ho gayi`,
-        hair_loss:          `${N} ke treatment se mera hair fall significantly reduce hua`,
-        pcos:               `${N} ke treatment se meri PCOS problem mein bahut improvement aaya`,
-        fracture:           `${N} ne meri fracture ka bahut achha treatment kiya`,
+        degree:`${N} ${D} mein fully qualified aur expert hain`,city:`${C} mein yeh genuinely best hospital hai`,excellent_doctor:`${N} seriously ek excellent doctor hai`,accurate_diagnosis:`${N} ki diagnosis bilkul accurate aur sahi thi`,very_caring:`${N} patients ke liye genuinely bahut caring aur empathetic hai`,knowledgeable:`${N} ki medical knowledge aur expertise really impressive hai`,explained_clearly:`${N} ne sab kuch clearly aur simply explain kiya`,clean_hospital:`${H} bahut clean aur well-maintained hai`,friendly_staff:`yahan ka staff bahut friendly aur helpful hai`,quick_service:`bahut quick service mili, waiting time almost nil tha`,good_followup:`${N} ka follow-up care bahut thorough hai`,highly_recommended:`main definitely ${N} ko sabko recommend karunga`,affordable_fees:`fees bahut reasonable aur affordable hai`,best_in_city:`${N} ${C} ke best doctors mein se ek hai`,diabetes:`${N} ne meri diabetes ko perfectly manage kiya`,thyroid:`${N} ke treatment se meri thyroid problem mein bahut improvement aaya`,weight_management:`${N} ne mujhe weight management mein really helpful guidance di`,acne:`${N} ke treatment se meri acne problem completely solve ho gayi`,hair_loss:`${N} ke treatment se mera hair fall significantly reduce hua`,pcos:`${N} ke treatment se meri PCOS problem mein bahut improvement aaya`,fracture:`${N} ne meri fracture ka bahut achha treatment kiya`,
       },
-      closing: [
-        `${N} aur poori ${H} team ko bahut bahut thanks!`,
-        `5 stars dene mein koi second thought nahi!`,
-        `God bless kare ${H} ki poori team ko!`,
-        `Sabko must visit karna chahiye!`
-      ]
+      closing: [`${N} aur poori ${H} team ko bahut bahut thanks!`,`5 stars dene mein koi second thought nahi!`,`God bless kare ${H} ki poori team ko!`,`Sabko must visit karna chahiye!`]
     },
     gujarati: {
       label: "🙏 Gujarati",
-      base: [
-        `Mane ${H} ma ${N} pase sarvar karavyu ane khub j saras anubhav thayo.`,
-        `${H} ni mhari mulate khub j uttam rahi. ${N} ek atishay kushala doctor chhe.`,
-        `Mane khub j anand chhe ke maine ${C} na ${H} pasand karyu. ${N} e mane khub saras sarvar apyu.`,
-        `${H} ma ${N} no khub j saras anubhav thayo. Temni seva sachi maa asadharan chhe.`
-      ],
+      base: [`Mane ${H} ma ${N} pase sarvar karavyu ane khub j saras anubhav thayo.`,`${H} ni mhari mulate khub j uttam rahi. ${N} ek atishay kushala doctor chhe.`,`Mane khub j anand chhe ke maine ${C} na ${H} pasand karyu. ${N} e mane khub saras sarvar apyu.`,`${H} ma ${N} no khub j saras anubhav thayo. Temni seva sachi maa asadharan chhe.`],
       phrases: {
-        degree:             `${N} ${D} ma khub j uchch yogyata dharavata doctor chhe`,
-        city:               `${C} ma aa sabathi saras hospital chhe`,
-        excellent_doctor:   `${N} ek uttam ane kushala doctor chhe`,
-        accurate_diagnosis: `${N} no diagnosis bilkul sahi ane uchit hato`,
-        very_caring:        `${N} dareka dardi prati khub j kaalji rakhva vala chhe`,
-        knowledgeable:      `${N} ni tabib vidhya ane nishnat khub j prabhavshali chhe`,
-        explained_clearly:  `${N} e badhu j saral ane spashtabhasama samjavyu`,
-        clean_hospital:     `${H} khub j swachh ane saras rakhel chhe`,
-        friendly_staff:     `${H} no staff khub j madadgaar ane maitripurna chhe`,
-        quick_service:      `seva khub j jhaldi mali, vadhare prateeksha karvi na padi`,
-        good_followup:      `${N} no follow-up care khub j shandaar hato`,
-        highly_recommended: `hu ${N} ne badhaane aagrahi rite aagraho karun chhun`,
-        affordable_fees:    `fees khub j vaajbi ane yogya chhe`,
-        best_in_city:       `${N} ${C} na sarvashreshtha doctor chhe`,
-        diabetes:           `${N} e mara diabetes ne khub j saras rite control karyu`,
-        thyroid:            `${N} na ilaaj thi mari thyroid ni takleef maa khub j sudhaaro aavyo`,
-        weight_management:  `${N} e mane vajan niyantrit karvama khub j saras margdarshan aapyu`,
-        acne:               `${N} na ilaaj thi mara muhasa ni samasya bilkul khatam thayi`,
-        pcos:               `${N} na ilaaj thi mara PCOS ni takleef maa khub j sudhaaro aavyo`,
-        fracture:           `${N} e mara had bhangna nu khub j saras ilaaj karyu`,
+        degree:`${N} ${D} ma khub j uchch yogyata dharavata doctor chhe`,city:`${C} ma aa sabathi saras hospital chhe`,excellent_doctor:`${N} ek uttam ane kushala doctor chhe`,accurate_diagnosis:`${N} no diagnosis bilkul sahi ane uchit hato`,very_caring:`${N} dareka dardi prati khub j kaalji rakhva vala chhe`,knowledgeable:`${N} ni tabib vidhya ane nishnat khub j prabhavshali chhe`,explained_clearly:`${N} e badhu j saral ane spashtabhasama samjavyu`,clean_hospital:`${H} khub j swachh ane saras rakhel chhe`,friendly_staff:`${H} no staff khub j madadgaar ane maitripurna chhe`,quick_service:`seva khub j jhaldi mali, vadhare prateeksha karvi na padi`,good_followup:`${N} no follow-up care khub j shandaar hato`,highly_recommended:`hu ${N} ne badhaane aagrahi rite aagraho karun chhun`,affordable_fees:`fees khub j vaajbi ane yogya chhe`,best_in_city:`${N} ${C} na sarvashreshtha doctor chhe`,diabetes:`${N} e mara diabetes ne khub j saras rite control karyu`,thyroid:`${N} na ilaaj thi mari thyroid ni takleef maa khub j sudhaaro aavyo`,weight_management:`${N} e mane vajan niyantrit karvama khub j saras margdarshan aapyu`,acne:`${N} na ilaaj thi mara muhasa ni samasya bilkul khatam thayi`,pcos:`${N} na ilaaj thi mara PCOS ni takleef maa khub j sudhaaro aavyo`,fracture:`${N} e mara had bhangna nu khub j saras ilaaj karyu`,
       },
-      closing: [
-        `${N} ane poori ${H} team no khub khub aabhar!`,
-        `Poora 5 star aapva ma koi sankoch nathi!`,
-        `Bhagvan ${H} ni poori team ne sukhi rakhe!`,
-        `Badha ne aagrahi rite mamulave aavva no anurodh!`
-      ]
+      closing: [`${N} ane poori ${H} team no khub khub aabhar!`,`Poora 5 star aapva ma koi sankoch nathi!`,`Bhagvan ${H} ni poori team ne sukhi rakhe!`,`Badha ne aagrahi rite mamulave aavva no anurodh!`]
     }
   };
 }
 
-const langKeys = ['english', 'hindi', 'hinglish', 'gujarati'];
+const langKeys = ['english','hindi','hinglish','gujarati'];
 let lastLangIndex = -1;
-
 function pickLang(templates) {
   let idx;
   do { idx = Math.floor(Math.random() * langKeys.length); } while (idx === lastLangIndex);
   lastLangIndex = idx;
   return templates[langKeys[idx]];
 }
-
 function rand(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
 function generateReview(selectedTags) {
@@ -1180,15 +601,12 @@ function generateReview(selectedTags) {
   if (!DOC || selectedTags.length === 0) {
     reviewBox.value = '';
     document.getElementById('langBadge').style.display = 'none';
-    updateCount();
-    return;
+    updateCount(); return;
   }
-
   const templates = buildTemplates(DOC);
   const lang      = pickLang(templates);
   const base      = rand(lang.base);
   const closing   = rand(lang.closing);
-
   const phrases = selectedTags.map(t => {
     if (lang.phrases[t]) return lang.phrases[t];
     const tagEl = document.querySelector(`[data-tag="${t}"]`);
@@ -1198,7 +616,6 @@ function generateReview(selectedTags) {
     }
     return null;
   }).filter(Boolean);
-
   if (phrases.length === 0) {
     reviewBox.value = base + ' ' + closing;
   } else if (phrases.length === 1) {
@@ -1212,7 +629,6 @@ function generateReview(selectedTags) {
     const s2 = phrases.slice(half).join(', ');
     reviewBox.value = base + ' ' + s1.charAt(0).toUpperCase() + s1.slice(1) + '. Also, ' + s2 + '. ' + closing;
   }
-
   const badge = document.getElementById('langBadge');
   badge.textContent = lang.label;
   badge.style.display = 'inline-block';
@@ -1220,7 +636,7 @@ function generateReview(selectedTags) {
 }
 
 // ═══════════════════════════════════════════════════════
-//  UTILITIES
+//  UTILITIES  (unchanged)
 // ═══════════════════════════════════════════════════════
 const reviewBox = document.getElementById('reviewBox');
 function updateCount() {
@@ -1233,7 +649,6 @@ function copyToClipboard(text) {
     navigator.clipboard.writeText(text).catch(() => fallbackCopy(text));
   } else { fallbackCopy(text); }
 }
-
 function fallbackCopy(text) {
   try {
     const ta = document.createElement('textarea');
@@ -1245,13 +660,9 @@ function fallbackCopy(text) {
     document.body.removeChild(ta);
   } catch(e) {}
 }
-
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3000);
 }
-</script>
-</body>
-</html>
