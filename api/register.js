@@ -20,7 +20,7 @@ export default async function handler(req, res) {
     };
 
     // Step 1: Get highest existing DoctorID
-    const listUrl = `https://api.airtable.com/v0/${BASE}/Doctors?fields[]=DoctorID&sort[0][field]=DoctorID&sort[0][direction]=desc&maxRecords=1`;
+    const listUrl  = `https://api.airtable.com/v0/${BASE}/Doctors?fields[]=DoctorID&sort[0][field]=DoctorID&sort[0][direction]=desc&maxRecords=1`;
     const listRes  = await fetch(listUrl, { headers: HEADERS });
     const listData = await listRes.json();
     const lastId   = listData.records?.[0]?.fields?.DoctorID || 100;
@@ -76,20 +76,23 @@ export default async function handler(req, res) {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            from: 'GoodReview <onboarding@resend.dev> ,
+            from:    'GoodReview <onboarding@resend.dev>',
             to:      body.email,
             subject: `Welcome to GoodReview, ${body.name}!`,
             html: `
-              <h2>Welcome, ${body.name}!</h2>
-              <p>Your registration is received. Your Doctor ID is <strong>#${newId}</strong>.</p>
-              <p>Your review page will be live at:<br>
-                <a href="https://goodreview.in/review.html?id=${newId}">
+              <div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:24px;">
+                <h2 style="color:#0a7c6e;">Welcome, ${body.name}!</h2>
+                <p>Your registration is received successfully.</p>
+                <p>Your <strong>Doctor ID is #${newId}</strong>.</p>
+                <p>Your review page will be live at:</p>
+                <p><a href="https://goodreview.in/review.html?id=${newId}" style="color:#0a7c6e;font-weight:bold;">
                   goodreview.in/review.html?id=${newId}
-                </a>
-              </p>
-              <p>We will activate your page within 24 hours of payment confirmation.</p>
-              <p>Questions? WhatsApp: +91 7984939486</p>
-              <p>— GoodReview Team</p>
+                </a></p>
+                <p>We will activate your page within 24 hours of payment confirmation.</p>
+                <hr style="border:none;border-top:1px solid #eee;margin:20px 0;">
+                <p style="font-size:13px;color:#666;">Questions? WhatsApp: +91 7984939486</p>
+                <p style="font-size:13px;color:#666;">— GoodReview Team</p>
+              </div>
             `
           })
         });
