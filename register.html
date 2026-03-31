@@ -1,906 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<title>GoodReview — Doctor Registration</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-<style>
-:root {
-  --teal: #0a7c6e;
-  --teal-light: #0fa390;
-  --teal-pale: #e8f7f5;
-  --gold: #c9993a;
-  --gold-light: #fdf6e3;
-  --navy: #0d2340;
-  --text: #1a2e3b;
-  --muted: #6b8191;
-  --bg: #f4f9f8;
-  --white: #fff;
-  --red: #e74c3c;
-  --radius: 16px;
-  --shadow: 0 4px 24px rgba(10,124,110,0.10);
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-}
-
-/* ── HERO ── */
-.hero {
-  background: linear-gradient(145deg, var(--navy) 0%, #104a5e 55%, var(--teal) 100%);
-  padding: 40px 20px 60px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-.hero::before {
-  content: ''; position: absolute;
-  width: 360px; height: 360px; border-radius: 50%;
-  background: rgba(255,255,255,0.04);
-  top: -100px; right: -80px; pointer-events: none;
-}
-.hero::after {
-  content: ''; position: absolute;
-  width: 220px; height: 220px; border-radius: 50%;
-  background: rgba(201,153,58,0.07);
-  bottom: -60px; left: -50px; pointer-events: none;
-}
-.brand {
-  display: inline-flex; align-items: center; gap: 10px;
-  margin-bottom: 20px; position: relative; z-index: 1;
-}
-.brand-icon {
-  width: 48px; height: 48px; background: var(--gold);
-  border-radius: 50%; display: flex; align-items: center;
-  justify-content: center; font-size: 20px;
-  box-shadow: 0 0 0 8px rgba(201,153,58,0.2);
-}
-.brand-name {
-  font-family: 'Playfair Display', serif;
-  font-size: 28px; color: white; font-weight: 800;
-  letter-spacing: 1px;
-}
-.hero h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(22px, 5vw, 30px);
-  color: white; margin-bottom: 8px;
-  position: relative; z-index: 1;
-}
-.hero p {
-  font-size: 13.5px; color: rgba(255,255,255,0.7);
-  position: relative; z-index: 1; line-height: 1.6;
-}
-.hero-badges {
-  display: flex; gap: 8px; justify-content: center;
-  flex-wrap: wrap; margin-top: 16px;
-  position: relative; z-index: 1;
-}
-.hero-badge {
-  background: rgba(255,255,255,0.12);
-  border: 1px solid rgba(255,255,255,0.2);
-  color: rgba(255,255,255,0.85);
-  padding: 4px 14px; border-radius: 20px;
-  font-size: 11.5px; font-weight: 500;
-}
-
-/* ── PROGRESS BAR ── */
-.progress-wrap {
-  max-width: 520px; margin: -12px auto 0;
-  padding: 0 16px; position: relative; z-index: 2;
-}
-.progress-bar {
-  background: white; border-radius: 50px;
-  padding: 4px; display: flex; gap: 4px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-}
-.prog-step {
-  flex: 1; height: 6px; border-radius: 50px;
-  background: #e0e0e0; transition: background 0.3s;
-}
-.prog-step.active { background: var(--teal); }
-.prog-step.done { background: var(--gold); }
-
-/* ── CONTAINER ── */
-.container {
-  max-width: 520px;
-  margin: 20px auto 60px;
-  padding: 0 16px;
-}
-
-/* ── SECTION CARD ── */
-.section-card {
-  background: white;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 26px 22px;
-  margin-bottom: 16px;
-  animation: fadeUp 0.4s ease both;
-  display: none;
-}
-.section-card.active { display: block; }
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(14px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.section-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 20px; color: var(--navy);
-  margin-bottom: 4px;
-}
-.section-sub {
-  font-size: 12.5px; color: var(--muted);
-  margin-bottom: 22px; line-height: 1.5;
-}
-
-/* ── FORM FIELDS ── */
-.field { margin-bottom: 18px; }
-label {
-  display: block; font-size: 12px; font-weight: 600;
-  text-transform: uppercase; letter-spacing: 1.2px;
-  color: var(--muted); margin-bottom: 6px;
-}
-label .req { color: var(--red); margin-left: 2px; }
-
-input[type="text"],
-input[type="email"],
-input[type="tel"],
-input[type="url"],
-select, textarea {
-  width: 100%;
-  padding: 12px 14px;
-  border: 1.5px solid #d4e8e5;
-  border-radius: 10px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px; color: var(--text);
-  background: #fafdfc;
-  outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  -webkit-appearance: none;
-}
-input:focus, select:focus, textarea:focus {
-  border-color: var(--teal);
-  background: white;
-  box-shadow: 0 0 0 3px rgba(10,124,110,0.1);
-}
-input.error { border-color: var(--red); }
-select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b8191' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; cursor: pointer; }
-textarea { min-height: 80px; resize: vertical; }
-
-.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-
-/* ── PLAN CARDS ── */
-.plans-grid {
-  display: flex; flex-direction: column; gap: 10px;
-  margin-bottom: 6px;
-}
-.plan-card {
-  border: 2.5px solid #d4e8e5;
-  border-radius: 14px;
-  padding: 18px 16px;
-  cursor: pointer;
-  transition: all 0.2s;
-  position: relative;
-  -webkit-tap-highlight-color: transparent;
-  background: white;
-}
-.plan-card:hover { border-color: var(--teal); background: var(--teal-pale); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(10,124,110,0.12); }
-.plan-card.selected {
-  border-color: var(--teal) !important;
-  background: var(--teal-pale) !important;
-  box-shadow: 0 4px 20px rgba(10,124,110,0.22) !important;
-  transform: translateY(-2px);
-}
-.plan-card.selected::after {
-  content: "✓ SELECTED";
-  position: absolute;
-  bottom: 10px; right: 12px;
-  background: var(--teal);
-  color: white;
-  font-size: 9px;
-  font-weight: 800;
-  padding: 2px 8px;
-  border-radius: 20px;
-  letter-spacing: 1px;
-}
-.plan-card.popular::before {
-  content: '⭐ MOST POPULAR';
-  position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
-  background: var(--gold); color: white;
-  font-size: 9px; font-weight: 700;
-  padding: 3px 12px; border-radius: 20px;
-  letter-spacing: 1px; white-space: nowrap;
-}
-.plan-top {
-  display: flex; align-items: center;
-  justify-content: space-between; margin-bottom: 8px;
-}
-.plan-name { font-size: 15px; font-weight: 700; color: var(--navy); }
-.plan-price { text-align: right; }
-.plan-amount { font-size: 24px; font-weight: 900; color: var(--teal); line-height: 1; }
-.plan-period { font-size: 10px; color: var(--muted); display: block; }
-.plan-savings { font-size: 10px; color: var(--gold); font-weight: 600; display: block; }
-.plan-features { display: flex; flex-wrap: wrap; gap: 5px; }
-.plan-feat {
-  font-size: 11px; color: var(--teal);
-  background: rgba(10,124,110,0.08);
-  padding: 2px 8px; border-radius: 20px;
-}
-
-/* ── CUSTOM TAGS ── */
-.custom-tags-section { display: none; }
-.custom-tags-section.visible { display: block; }
-.tag-input-row { display: flex; gap: 8px; margin-bottom: 8px; }
-.tag-input-row input { flex: 1; }
-.tag-input-row .emoji-input { width: 60px; text-align: center; font-size: 18px; }
-.add-tag-btn {
-  padding: 10px 16px; background: var(--teal);
-  color: white; border: none; border-radius: 10px;
-  font-size: 18px; cursor: pointer; flex-shrink: 0;
-}
-.tags-preview { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
-.tag-chip {
-  display: flex; align-items: center; gap: 5px;
-  background: var(--gold-light); border: 1px solid var(--gold);
-  border-radius: 20px; padding: 4px 10px 4px 8px;
-  font-size: 12px; color: #8a6010; font-weight: 500;
-}
-.tag-chip .remove-tag { font-size: 14px; cursor: pointer; color: var(--red); margin-left: 2px; line-height: 1; }
-.tag-count { font-size: 11px; color: var(--muted); margin-top: 6px; }
-
-/* ── NEXT / SUBMIT BUTTON ── */
-.next-btn, .submit-btn {
-  width: 100%; padding: 16px;
-  background: linear-gradient(135deg, var(--teal), var(--teal-light));
-  color: white; border: none; border-radius: 12px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 16px; font-weight: 700;
-  cursor: pointer;
-  box-shadow: 0 4px 16px rgba(10,124,110,0.30);
-  transition: all 0.2s; margin-top: 8px;
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-}
-.next-btn:hover, .submit-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 22px rgba(10,124,110,0.38); }
-.back-btn {
-  width: 100%; padding: 13px;
-  background: transparent; color: var(--muted);
-  border: 1.5px solid #d4e8e5; border-radius: 12px;
-  font-family: 'DM Sans', sans-serif; font-size: 14px;
-  cursor: pointer; margin-top: 8px;
-}
-
-/* ── SUMMARY CARD ── */
-.summary-item {
-  display: flex; justify-content: space-between;
-  padding: 10px 0; border-bottom: 1px solid #f0f0f0;
-  font-size: 13.5px;
-}
-.summary-item:last-child { border-bottom: none; }
-.summary-label { color: var(--muted); }
-.summary-value { font-weight: 600; color: var(--navy); text-align: right; max-width: 60%; }
-.summary-total {
-  background: var(--teal-pale); border-radius: 10px;
-  padding: 14px; margin-top: 14px; text-align: center;
-}
-.summary-total .amount {
-  font-family: 'Playfair Display', serif;
-  font-size: 28px; color: var(--teal); font-weight: 700;
-}
-.summary-total .label { font-size: 12px; color: var(--muted); margin-top: 2px; }
-
-/* ── SUCCESS ── */
-.success-screen { display: none; text-align: center; padding: 40px 20px; }
-.success-screen.show { display: block; }
-.success-icon-wrap {
-  width: 80px; height: 80px;
-  background: linear-gradient(135deg, #27ae60, #1e8449);
-  border-radius: 50%; margin: 0 auto 20px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 36px;
-  box-shadow: 0 4px 24px rgba(39,174,96,0.35);
-  animation: popIn 0.5s cubic-bezier(.34,1.56,.64,1);
-}
-@keyframes popIn {
-  from { transform: scale(0); opacity: 0; }
-  to   { transform: scale(1); opacity: 1; }
-}
-.success-title { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--navy); margin-bottom: 10px; }
-.success-sub { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 24px; }
-.success-link-box { background: var(--navy); border-radius: 12px; padding: 16px; margin-bottom: 16px; }
-.success-link-label { font-size: 10px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 6px; }
-.success-link { font-size: 14px; color: var(--gold); font-weight: 600; word-break: break-all; }
-
-/* ── TOAST ── */
-.toast {
-  position: fixed; bottom: 24px; left: 50%;
-  transform: translateX(-50%) translateY(80px);
-  background: var(--navy); color: white;
-  padding: 12px 22px; border-radius: 50px;
-  font-size: 13px; font-weight: 500;
-  transition: transform 0.35s cubic-bezier(.34,1.56,.64,1);
-  z-index: 999; white-space: nowrap;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
-}
-.toast.show { transform: translateX(-50%) translateY(0); }
-
-/* ── RAZORPAY NOTE ── */
-.razorpay-note {
-  text-align: center; font-size: 11.5px; color: var(--muted);
-  margin-top: 10px; line-height: 1.6;
-}
-
-footer { text-align: center; font-size: 11px; color: #aac3be; padding: 20px 16px 40px; }
-</style>
-</head>
-<body>
-
-<!-- HERO -->
-<div class="hero">
-  <div class="brand">
-    <div class="brand-icon">✚</div>
-    <div class="brand-name">GoodReview</div>
-  </div>
-  <h1>Doctor Registration</h1>
-  <p>Get your smart review page live in minutes<br>Patients tap → review generates → posts on Google</p>
-  <div class="hero-badges">
-    <span class="hero-badge">🌐 4 Languages</span>
-    <span class="hero-badge">📱 QR + NFC</span>
-    <span class="hero-badge">🔒 Secure</span>
-    <span class="hero-badge">⚡ Live in 24hrs</span>
-  </div>
-</div>
-
-<!-- PROGRESS -->
-<div class="progress-wrap">
-  <div class="progress-bar">
-    <div class="prog-step active" id="p1"></div>
-    <div class="prog-step" id="p2"></div>
-    <div class="prog-step" id="p3"></div>
-    <div class="prog-step" id="p4"></div>
-  </div>
-</div>
-
-<div class="container">
-
-  <!-- ═══ STEP 1 — Basic Details ═══ -->
-  <div class="section-card active" id="step1">
-    <div class="section-title">👨‍⚕️ Your Details</div>
-    <div class="section-sub">Step 1 of 4 — Basic information about you</div>
-
-    <div class="field">
-      <label>Full Name <span class="req">*</span></label>
-      <input type="text" id="f_name" placeholder="Dr. Firstname Lastname" autocomplete="name">
-    </div>
-
-    <div class="field-row">
-      <div class="field">
-        <label>Degree <span class="req">*</span></label>
-        <input type="text" id="f_degree" placeholder="MD, MS, MBBS...">
-      </div>
-      <div class="field">
-        <label>Specialty <span class="req">*</span></label>
-        <select id="f_specialty">
-          <option value="">Select Specialty</option>
-          <optgroup label="── Level 1 — Bachelor Degree ──">
-            <option value="homeopathy">General Practitioner (Homeopathy)</option>
-            <option value="ayurvedic">General Practitioner (Ayurveda)</option>
-            <option value="physiotherapist">Physiotherapist</option>
-            <option value="occupational_therapist">Occupational Therapist</option>
-            <option value="dentist">General Dentist</option>
-            <option value="orthodontist">Orthodontist</option>
-            <option value="oral_maxillofacial">Oral &amp; Maxillofacial Surgeon</option>
-            <option value="pediatric_dentist">Pediatric Dentist</option>
-            <option value="geriatric_dentist">Geriatric Dentist</option>
-            <option value="dietitian">Dietitian / Nutritionist</option>
-            <option value="yoga_therapist">Yoga Therapist</option>
-            <option value="wellness_coach">Wellness Coach</option>
-          </optgroup>
-          <optgroup label="── Level 2 — MBBS ──">
-            <option value="general_practitioner">General Practitioner (MBBS)</option>
-            <option value="family_medicine">Family Doctor</option>
-          </optgroup>
-          <optgroup label="── Level 3 — MD ──">
-            <option value="general_physician">MD Medicine — General Physician</option>
-            <option value="pediatrician">MD Pediatrics</option>
-            <option value="psychiatrist">MD Psychiatry</option>
-            <option value="dermatologist">MD Dermatology</option>
-            <option value="radiologist">MD Radiology</option>
-            <option value="pathologist">MD Pathology</option>
-          </optgroup>
-          <optgroup label="── Level 3 — MS ──">
-            <option value="general_surgeon">MS General Surgery</option>
-            <option value="orthopedic">MS Orthopedic</option>
-            <option value="ophthalmologist">MS Ophthalmology</option>
-            <option value="ent_specialist">MS ENT</option>
-            <option value="gynecologist">MS Obstetrics &amp; Gynecology</option>
-          </optgroup>
-          <optgroup label="── Level 4 — DM (Super Specialty) ──">
-            <option value="cardiologist">DM Cardiology</option>
-            <option value="neurologist">DM Neurology</option>
-            <option value="gastroenterologist">DM Gastroenterology</option>
-            <option value="nephrologist">DM Nephrology</option>
-            <option value="endocrinologist">DM Endocrinology</option>
-            <option value="pulmonologist">DM Pulmonology</option>
-            <option value="rheumatologist">DM Rheumatology</option>
-            <option value="hematologist">DM Hematology</option>
-            <option value="oncologist">DM Oncology</option>
-            <option value="infectious_disease">DM Infectious Disease</option>
-            <option value="neonatologist">DM Neonatology</option>
-            <option value="geriatrician">DM Geriatrics</option>
-          </optgroup>
-          <optgroup label="── Level 4 — MCh (Super Specialty) ──">
-            <option value="neurosurgeon">MCh Neurosurgery</option>
-            <option value="cardiothoracic">MCh Cardiothoracic Surgery</option>
-            <option value="plastic_surgeon">MCh Plastic Surgery</option>
-            <option value="urologist">MCh Urology</option>
-            <option value="vascular_surgeon">MCh Vascular Surgery</option>
-            <option value="pediatric_surgeon">MCh Pediatric Surgery</option>
-          </optgroup>
-          <optgroup label="── Level 5 — Fellowship / Special ──">
-            <option value="infertility">Infertility Specialist</option>
-            <option value="ivf_specialist">IVF Specialist</option>
-            <option value="diabetologist">Diabetologist</option>
-            <option value="pain_management">Pain Management Specialist</option>
-            <option value="spine_specialist">Spine Specialist</option>
-            <option value="sports_medicine">Sports Medicine</option>
-            <option value="laparoscopic">Laparoscopic Surgeon</option>
-            <option value="nuclear_medicine">Nuclear Medicine</option>
-          </optgroup>
-          <optgroup label="── Level 6 — Advanced Cosmetic ──">
-            <option value="cosmetic_surgeon">Cosmetic Surgeon</option>
-            <option value="cosmetic_dermatologist">Cosmetic Dermatologist</option>
-            <option value="hair_transplant">Hair Transplant Surgeon</option>
-            <option value="plastic_cosmetic">Plastic Surgeon</option>
-            <option value="smile_designer">Smile Designer (Cosmetic Dentist)</option>
-          </optgroup>
-        </select>
-      </div>
-    </div>
-
-    <div class="field">
-      <label>Hospital / Clinic Name <span class="req">*</span></label>
-      <input type="text" id="f_hospital" placeholder="Hospital or Clinic name">
-    </div>
-
-    <div class="field-row">
-      <div class="field">
-        <label>City <span class="req">*</span></label>
-        <input type="text" id="f_city" placeholder="e.g. Surat">
-      </div>
-      <div class="field">
-        <label>State</label>
-        <input type="text" id="f_state" placeholder="Gujarat">
-      </div>
-    </div>
-
-    <div class="field">
-      <label>Local Area / Locality</label>
-      <input type="text" id="f_area" placeholder="e.g. Katargam, Adajan, Vesu...">
-      <div style="font-size:11px;color:var(--muted);margin-top:5px;">
-        💡 Patients searching nearby will find you faster
-      </div>
-    </div>
-
-    <button class="next-btn" onclick="goStep(2)">
-      Continue → <span style="font-size:18px;">👆</span>
-    </button>
-  </div>
-
-  <!-- ═══ STEP 2 — Contact + GMB ═══ -->
-  <div class="section-card" id="step2">
-    <div class="section-title">📱 Contact &amp; Google Link</div>
-    <div class="section-sub">Step 2 of 4 — Contact details and your Google review link</div>
-
-    <div class="field">
-      <label>WhatsApp Number <span class="req">*</span></label>
-      <input type="tel" id="f_phone" placeholder="10-digit mobile number" autocomplete="tel" maxlength="10" inputmode="numeric" oninput="this.value=this.value.replace(/\D/g,'').slice(0,10)">
-    </div>
-
-    <div class="field">
-      <label>Email Address <span class="req">*</span></label>
-      <input type="email" id="f_email" placeholder="doctor@example.com" autocomplete="email">
-    </div>
-
-    <div class="field">
-      <label>Referral Code <span style="font-size:10px;color:var(--gold);font-weight:600;">(Optional — Get 1 month FREE!)</span></label>
-      <input type="text" id="f_referral" placeholder="Enter referral code if you have one" style="text-transform:uppercase;" oninput="this.value=this.value.toUpperCase()">
-      <div style="font-size:11px;color:var(--muted);margin-top:4px;">💡 Got referred by a doctor? Enter their code!</div>
-    </div>
-
-    <div class="field">
-      <label>Google Review Link <span class="req">*</span></label>
-      <input type="url" id="f_gmb" placeholder="https://search.google.com/local/writereview?placeid=...">
-
-      <div style="background:#f8fffe;border:1.5px solid #b0ddd8;border-radius:12px;padding:14px;margin-top:10px;">
-        <div style="font-size:12px;font-weight:700;color:#0a7c6e;margin-bottom:10px;">
-          📋 How to find your Google Review Link
-        </div>
-        <div style="display:flex;flex-direction:column;gap:8px;">
-          <div style="display:flex;gap:10px;align-items:flex-start;">
-            <div style="width:22px;height:22px;background:#0a7c6e;border-radius:50%;color:white;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">1</div>
-            <div style="font-size:12px;color:#1a2e3b;line-height:1.5;">Open <strong>Google Maps</strong> on your computer</div>
-          </div>
-          <div style="display:flex;gap:10px;align-items:flex-start;">
-            <div style="width:22px;height:22px;background:#0a7c6e;border-radius:50%;color:white;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">2</div>
-            <div style="font-size:12px;color:#1a2e3b;line-height:1.5;">Search your <strong>clinic or hospital name</strong></div>
-          </div>
-          <div style="display:flex;gap:10px;align-items:flex-start;">
-            <div style="width:22px;height:22px;background:#0a7c6e;border-radius:50%;color:white;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">3</div>
-            <div style="font-size:12px;color:#1a2e3b;line-height:1.5;">Click <strong>"Write a Review"</strong> button</div>
-          </div>
-          <div style="display:flex;gap:10px;align-items:flex-start;">
-            <div style="width:22px;height:22px;background:#0a7c6e;border-radius:50%;color:white;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">4</div>
-            <div style="font-size:12px;color:#1a2e3b;line-height:1.5;">Copy the <strong>full URL</strong> from browser address bar and paste above</div>
-          </div>
-        </div>
-        <div style="background:#e8f7f5;border-radius:8px;padding:8px 10px;margin-top:10px;font-size:11px;color:#0a7c6e;">
-          <strong>✅ URL looks like:</strong><br>
-          <span style="font-family:monospace;font-size:10px;word-break:break-all;">https://search.google.com/local/writereview?placeid=ChIJ...</span>
-        </div>
-        <div style="margin-top:10px;text-align:center;">
-          <a href="https://wa.me/917984939486?text=Hi%2C%20I%20need%20help%20finding%20my%20Google%20Review%20link" target="_blank"
-             style="font-size:11.5px;color:#25d366;font-weight:600;text-decoration:none;">
-            💬 Need help? WhatsApp us — we find it for you in 5 minutes!
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <button class="next-btn" onclick="goStep(3)">Continue →</button>
-    <button class="back-btn" onclick="goStep(1)">← Back</button>
-  </div>
-
-  <!-- ═══ STEP 3 — Plan ═══ -->
-  <div class="section-card" id="step3">
-    <div class="section-title">💰 Choose Your Plan</div>
-    <div class="section-sub">Step 3 of 4 — Join 500+ doctors already growing reviews</div>
-
-    <div style="background:linear-gradient(135deg,#7f1d1d,#991b1b);border-radius:10px;padding:10px 14px;margin-bottom:16px;display:flex;align-items:center;gap:8px;">
-      <span style="font-size:14px;">🔥</span>
-      <span style="font-size:12px;color:#fecaca;font-weight:600;">LIMITED OFFER: Prices increase after <span id="seatCount">12</span> more registrations!</span>
-    </div>
-
-    <div style="display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;">
-      <span style="background:#e8f7f5;color:#0a7c6e;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;">✅ 47 doctors joined this week</span>
-      <span style="background:#fdf6e3;color:#8a6010;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;">⭐ Avg 4.8 stars after 30 days</span>
-      <span style="background:#f0f4ff;color:#3730a3;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;">📈 +40 reviews/month avg</span>
-    </div>
-
-    <div style="display:flex;gap:6px;margin-bottom:14px;background:#f0f0f0;padding:4px;border-radius:12px;">
-      <button onclick="showPlanGroup('starter')" id="tab-starter" style="flex:1;padding:8px;border:none;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer;background:white;color:var(--teal);box-shadow:0 2px 6px rgba(0,0,0,0.1);">⚡ Starter</button>
-      <button onclick="showPlanGroup('premium')" id="tab-premium" style="flex:1;padding:8px;border:none;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer;background:transparent;color:var(--muted);">🏆 Premium</button>
-      <button onclick="showPlanGroup('ultimate')" id="tab-ultimate" style="flex:1;padding:8px;border:none;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer;background:transparent;color:var(--muted);">💎 Ultimate</button>
-    </div>
-
-    <div class="plans-grid" id="plansGrid">
-
-      <!-- FREE -->
-      <div class="plan-card" data-plan="free" data-price="0" data-label="Free" data-group="free" onclick="selectPlan(this)" style="border:1.5px dashed #d4e8e5;opacity:0.75;">
-        <div class="plan-top">
-          <div class="plan-name" style="color:var(--muted);">🆓 Free Trial</div>
-          <div class="plan-price">
-            <div class="plan-amount" style="color:var(--muted);">₹0</div>
-            <span class="plan-period" style="color:#e74c3c;font-weight:700;">3 reviews only</span>
-          </div>
-        </div>
-        <div class="plan-features">
-          <span class="plan-feat" style="background:#f5f5f5;color:#999;">Review page</span>
-          <span class="plan-feat" style="background:#f5f5f5;color:#999;">QR code</span>
-          <span class="plan-feat" style="background:#ffebee;color:#c0392b;">No NFC card</span>
-          <span class="plan-feat" style="background:#ffebee;color:#c0392b;">No custom tags</span>
-        </div>
-      </div>
-
-      <!-- STARTER 1yr -->
-      <div class="plan-card plan-group-starter" data-plan="starter_1yr" data-price="499" data-label="Starter — 1 Year" data-group="starter" onclick="selectPlan(this)">
-        <div class="plan-top">
-          <div>
-            <div class="plan-name">⚡ Starter — 1 Year</div>
-            <div style="font-size:10px;color:#e74c3c;font-weight:600;margin-top:2px;">₹42/month</div>
-          </div>
-          <div class="plan-price">
-            <div class="plan-amount">₹499</div>
-            <span class="plan-period">per year</span>
-          </div>
-        </div>
-        <div class="plan-features">
-          <span class="plan-feat">Unlimited reviews</span>
-          <span class="plan-feat">QR code</span>
-          <span class="plan-feat">4 languages</span>
-        </div>
-      </div>
-
-      <!-- STARTER 2yr -->
-      <div class="plan-card plan-group-starter" data-plan="starter_2yr" data-price="799" data-label="Starter — 2 Years" data-group="starter" onclick="selectPlan(this)">
-        <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:#0a7c6e;color:white;font-size:9px;font-weight:700;padding:3px 12px;border-radius:20px;letter-spacing:1px;white-space:nowrap;">BEST VALUE</div>
-        <div class="plan-top">
-          <div>
-            <div class="plan-name">⚡ Starter — 2 Years</div>
-            <div style="font-size:10px;color:#0a7c6e;font-weight:700;margin-top:2px;">₹33/month — Save ₹199!</div>
-          </div>
-          <div class="plan-price">
-            <div style="font-size:11px;color:#aaa;text-decoration:line-through;text-align:right;">₹998</div>
-            <div class="plan-amount">₹799</div>
-            <span class="plan-period">2 years</span>
-          </div>
-        </div>
-        <div class="plan-features">
-          <span class="plan-feat">Unlimited reviews</span>
-          <span class="plan-feat">QR code</span>
-          <span class="plan-feat">4 languages</span>
-          <span class="plan-feat">WhatsApp support</span>
-        </div>
-      </div>
-
-      <!-- STARTER 5yr -->
-      <div class="plan-card plan-group-starter" data-plan="starter_5yr" data-price="1499" data-label="Starter — 5 Years" data-group="starter" onclick="selectPlan(this)">
-        <div class="plan-top">
-          <div>
-            <div class="plan-name">⚡ Starter — 5 Years</div>
-            <div style="font-size:10px;color:#0a7c6e;font-weight:700;margin-top:2px;">₹25/month — Biggest saving!</div>
-          </div>
-          <div class="plan-price">
-            <div style="font-size:11px;color:#aaa;text-decoration:line-through;text-align:right;">₹2,495</div>
-            <div class="plan-amount">₹1,499</div>
-            <span class="plan-period">5 years</span>
-          </div>
-        </div>
-        <div class="plan-features">
-          <span class="plan-feat">Unlimited reviews</span>
-          <span class="plan-feat">QR code</span>
-          <span class="plan-feat">4 languages</span>
-          <span class="plan-feat" style="background:#e8f7f5;color:#0a7c6e;">Priority support</span>
-        </div>
-      </div>
-
-      <!-- PREMIUM 1yr -->
-      <div class="plan-card plan-group-premium" data-plan="premium_1yr" data-price="999" data-label="Premium — 1 Year" data-physical="true" data-group="premium" onclick="selectPlan(this)" style="display:none;">
-        <div class="plan-top">
-          <div>
-            <div class="plan-name">🏆 Premium — 1 Year</div>
-            <div style="font-size:10px;color:#e74c3c;font-weight:600;margin-top:2px;">₹83/month</div>
-          </div>
-          <div class="plan-price">
-            <div class="plan-amount">₹999</div>
-            <span class="plan-period">per year</span>
-          </div>
-        </div>
-        <div class="plan-features">
-          <span class="plan-feat">Unlimited reviews</span>
-          <span class="plan-feat">NFC Card</span>
-          <span class="plan-feat">5 QR Stickers</span>
-          <span class="plan-feat">10 custom tags</span>
-        </div>
-      </div>
-
-      <!-- PREMIUM 2yr -->
-      <div class="plan-card popular plan-group-premium" data-plan="premium_2yr" data-price="1699" data-label="Premium — 2 Years" data-physical="true" data-group="premium" onclick="selectPlan(this)" style="display:none;border:2px solid #0a7c6e;">
-        <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:#c9993a;color:white;font-size:9px;font-weight:700;padding:3px 12px;border-radius:20px;letter-spacing:1px;white-space:nowrap;">MOST CHOSEN</div>
-        <div class="plan-top">
-          <div>
-            <div class="plan-name">🏆 Premium — 2 Years</div>
-            <div style="font-size:10px;color:#0a7c6e;font-weight:700;margin-top:2px;">₹71/month — Save ₹199!</div>
-          </div>
-          <div class="plan-price">
-            <div style="font-size:11px;color:#aaa;text-decoration:line-through;text-align:right;">₹1,998</div>
-            <div class="plan-amount" style="color:#0a7c6e;">₹1,699</div>
-            <span class="plan-period">2 years</span>
-            <span class="plan-savings">FREE shipping!</span>
-          </div>
-        </div>
-        <div class="plan-features">
-          <span class="plan-feat">Unlimited reviews</span>
-          <span class="plan-feat" style="background:#e8f7f5;color:#0a7c6e;">NFC Card</span>
-          <span class="plan-feat" style="background:#e8f7f5;color:#0a7c6e;">5 QR Stickers</span>
-          <span class="plan-feat" style="background:#fdf6e3;color:#8a6010;">10 Custom Tags</span>
-        </div>
-      </div>
-
-      <!-- PREMIUM 5yr -->
-      <div class="plan-card plan-group-premium" data-plan="premium_5yr" data-price="2999" data-label="Premium — 5 Years" data-physical="true" data-group="premium" onclick="selectPlan(this)" style="display:none;">
-        <div class="plan-top">
-          <div>
-            <div class="plan-name">🏆 Premium — 5 Years</div>
-            <div style="font-size:10px;color:#0a7c6e;font-weight:700;margin-top:2px;">₹50/month — Best long-term!</div>
-          </div>
-          <div class="plan-price">
-            <div style="font-size:11px;color:#aaa;text-decoration:line-through;text-align:right;">₹5,995</div>
-            <div class="plan-amount">₹2,999</div>
-            <span class="plan-period">5 years</span>
-            <span class="plan-savings">Save ₹2,996!</span>
-          </div>
-        </div>
-        <div class="plan-features">
-          <span class="plan-feat">Unlimited reviews</span>
-          <span class="plan-feat">NFC Card</span>
-          <span class="plan-feat">5 QR Stickers</span>
-          <span class="plan-feat">10 Custom Tags</span>
-          <span class="plan-feat" style="background:#fdf6e3;color:#8a6010;">FREE shipping</span>
-        </div>
-      </div>
-
-      <!-- ULTIMATE 1yr -->
-      <div class="plan-card plan-group-ultimate" data-plan="ultimate_1yr" data-price="1499" data-label="Ultimate — 1 Year" data-physical="true" data-group="ultimate" onclick="selectPlan(this)" style="display:none;">
-        <div class="plan-top">
-          <div>
-            <div class="plan-name">💎 Ultimate — 1 Year</div>
-            <div style="font-size:10px;color:#e74c3c;font-weight:600;margin-top:2px;">₹125/month</div>
-          </div>
-          <div class="plan-price">
-            <div class="plan-amount">₹1,499</div>
-            <span class="plan-period">per year</span>
-          </div>
-        </div>
-        <div class="plan-features">
-          <span class="plan-feat">NFC Card</span>
-          <span class="plan-feat">Table Standee</span>
-          <span class="plan-feat">5 QR Stickers</span>
-          <span class="plan-feat">10 Custom Tags</span>
-        </div>
-      </div>
-
-      <!-- ULTIMATE 2yr -->
-      <div class="plan-card plan-group-ultimate" data-plan="ultimate_2yr" data-price="2499" data-label="Ultimate — 2 Years" data-physical="true" data-group="ultimate" onclick="selectPlan(this)" style="display:none;border:2px solid #c9993a;">
-        <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:#c9993a;color:white;font-size:9px;font-weight:700;padding:3px 12px;border-radius:20px;letter-spacing:1px;white-space:nowrap;">TOP SELLER</div>
-        <div class="plan-top">
-          <div>
-            <div class="plan-name">💎 Ultimate — 2 Years</div>
-            <div style="font-size:10px;color:#0a7c6e;font-weight:700;margin-top:2px;">₹104/month — Save ₹499!</div>
-          </div>
-          <div class="plan-price">
-            <div style="font-size:11px;color:#aaa;text-decoration:line-through;text-align:right;">₹2,998</div>
-            <div class="plan-amount" style="color:#c9993a;">₹2,499</div>
-            <span class="plan-period">2 years</span>
-            <span class="plan-savings">FREE shipping!</span>
-          </div>
-        </div>
-        <div class="plan-features">
-          <span class="plan-feat" style="background:#fdf6e3;color:#8a6010;">Table Standee</span>
-          <span class="plan-feat" style="background:#fdf6e3;color:#8a6010;">NFC Card</span>
-          <span class="plan-feat">5 QR Stickers</span>
-          <span class="plan-feat">10 Custom Tags</span>
-        </div>
-      </div>
-
-      <!-- ULTIMATE 5yr -->
-      <div class="plan-card plan-group-ultimate" data-plan="ultimate_5yr" data-price="4999" data-label="Ultimate — 5 Years" data-physical="true" data-group="ultimate" onclick="selectPlan(this)" style="display:none;">
-        <div class="plan-top">
-          <div>
-            <div class="plan-name">💎 Ultimate — 5 Years</div>
-            <div style="font-size:10px;color:#0a7c6e;font-weight:700;margin-top:2px;">₹83/month — Max value!</div>
-          </div>
-          <div class="plan-price">
-            <div style="font-size:11px;color:#aaa;text-decoration:line-through;text-align:right;">₹7,495</div>
-            <div class="plan-amount">₹4,999</div>
-            <span class="plan-period">5 years</span>
-            <span class="plan-savings">Save ₹2,496!</span>
-          </div>
-        </div>
-        <div class="plan-features">
-          <span class="plan-feat">Table Standee</span>
-          <span class="plan-feat">NFC Card</span>
-          <span class="plan-feat">5 QR Stickers</span>
-          <span class="plan-feat">10 Custom Tags</span>
-          <span class="plan-feat" style="background:#fdf6e3;color:#8a6010;">FREE shipping</span>
-        </div>
-      </div>
-
-    </div>
-
-    <div style="display:flex;gap:8px;justify-content:center;margin-top:14px;flex-wrap:wrap;">
-      <span style="font-size:11px;color:var(--muted);">🔒 Secure payment</span>
-      <span style="font-size:11px;color:var(--muted);">•</span>
-      <span style="font-size:11px;color:var(--muted);">📞 24hr support</span>
-      <span style="font-size:11px;color:var(--muted);">•</span>
-      <span style="font-size:11px;color:var(--muted);">✅ Instant activation</span>
-    </div>
-
-    <!-- SHIPPING ADDRESS -->
-    <div id="shippingSection" style="display:none; margin-top:18px;">
-      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:14px;">📦 Delivery Address</div>
-      <div class="field">
-        <label>Full Address <span class="req">*</span></label>
-        <textarea id="f_address" placeholder="Clinic address for NFC card / standee delivery..." rows="3"></textarea>
-      </div>
-      <div class="field-row">
-        <div class="field">
-          <label>Pincode <span class="req">*</span></label>
-          <input type="text" id="f_pincode" placeholder="362220" maxlength="6">
-        </div>
-        <div class="field">
-          <label>Shipping</label>
-          <input type="text" id="f_shipping_display" value="Included" readonly style="background:#e8f7f5;color:var(--teal);font-weight:600;">
-        </div>
-      </div>
-    </div>
-
-    <!-- CUSTOM TAGS -->
-    <div class="custom-tags-section" id="customTagSection" style="margin-top:18px;">
-      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:10px;">🏷️ Custom Tags (Max 10)</div>
-      <div style="font-size:12.5px;color:var(--muted);margin-bottom:12px;line-height:1.5;">Add your own medical conditions or services. These appear as gold tags on your review page.</div>
-      <div class="tag-input-row">
-        <input type="text" class="emoji-input" id="tagEmoji" placeholder="🏷️" maxlength="2">
-        <input type="text" id="tagLabel" placeholder="e.g. Dengue Treatment, Skin Allergy..." maxlength="30">
-        <button class="add-tag-btn" onclick="addCustomTag()">+</button>
-      </div>
-      <div class="tags-preview" id="tagsPreview"></div>
-      <div class="tag-count" id="tagCount">0 / 10 tags added</div>
-    </div>
-
-    <button class="next-btn" onclick="goStep(4)" style="margin-top:20px;">Review &amp; Pay →</button>
-    <button class="back-btn" onclick="goStep(2)">← Back</button>
-  </div>
-
-  <!-- ═══ STEP 4 — Summary + Pay ═══ -->
-  <div class="section-card" id="step4">
-    <div class="section-title">✅ Review &amp; Pay</div>
-    <div class="section-sub">Step 4 of 4 — Confirm details and complete payment</div>
-
-    <div id="summaryContent"></div>
-
-    <div class="summary-total">
-      <div class="amount" id="summaryTotal">₹0</div>
-      <div class="label" id="summaryPlanLabel">Free Plan</div>
-    </div>
-
-    <button class="submit-btn" id="payBtn" onclick="initiatePayment()">
-      🔒 Pay Securely &amp; Register
-    </button>
-    <div class="razorpay-note">
-      Secured by Razorpay · UPI · Cards · Net Banking
-    </div>
-    <div style="text-align:center;margin-top:8px;font-size:11px;color:var(--muted);">
-      By registering you agree to our
-      <a href="https://goodreview.in/policies.html" target="_blank" style="color:var(--teal);font-weight:600;">Terms, Privacy &amp; Refund Policy</a>
-    </div>
-    <button class="back-btn" onclick="goStep(3)">← Back</button>
-  </div>
-
-  <!-- ═══ SUCCESS ═══ -->
-  <div class="success-screen" id="successScreen">
-    <div class="success-icon-wrap">🎉</div>
-    <div class="success-title">You're Registered!</div>
-    <div class="success-sub">
-      Your review page will be live within <strong>24 hours</strong>.<br>
-      You will receive your link on WhatsApp &amp; Email.
-    </div>
-    <div class="success-link-box">
-      <div class="success-link-label">Your Review Page Link (after activation)</div>
-      <div class="success-link" id="successLink">goodreview.in/review.html?id=---</div>
-    </div>
-    <div style="font-size:12.5px;color:var(--muted);line-height:1.8;">
-      ⏰ Your review page will be <strong>live within 24 hours</strong>.<br>
-      <span id="physicalKitNote"></span>
-      <strong style="color:var(--navy);">🟢 Link not live after 24 hours?</strong><br>
-      WhatsApp us — we fix it within 2 hours, guaranteed.<br><br>
-      <a href="https://wa.me/917984939486?text=Hi%20GoodReview%20Team%2C%20my%20review%20page%20is%20not%20live%20yet%20after%2024%20hours."
-         target="_blank"
-         style="display:inline-flex;align-items:center;gap:8px;background:#25d366;color:white;padding:12px 22px;border-radius:12px;text-decoration:none;font-weight:700;font-size:14px;margin-top:4px;">
-        💬 WhatsApp Support
-      </a>
-    </div>
-    <div style="margin-top:20px;background:#f8fffe;border:1.5px solid #b0ddd8;border-radius:12px;padding:14px;text-align:center;">
-      <div style="font-size:12px;font-weight:700;color:var(--teal);margin-bottom:6px;">✏️ Need to update your details later?</div>
-      <div style="font-size:11.5px;color:var(--muted);margin-bottom:10px;">Change your GMB link, hospital name, custom tags anytime</div>
-      <a href="https://goodreview.in/edit.html" target="_blank"
-         style="display:inline-block;background:var(--teal);color:white;padding:10px 22px;border-radius:10px;text-decoration:none;font-weight:700;font-size:13px;">
-        ✏️ Edit My Profile
-      </a>
-    </div>
-  </div>
-
-</div>
-
-<footer>Powered by GoodReview Team · goodreview.in · <a href="policies.html" style="color:var(--teal);text-decoration:none;">Policies</a></footer>
-<div class="toast" id="toast"></div>
-
-<script>
 // ═══════════════════════════════════════════════
 //  🟢 RAZORPAY LIVE KEY
 // ═══════════════════════════════════════════════
@@ -1085,36 +182,68 @@ function buildSummary() {
 }
 
 // ═══════════════════════════════════════════════
-//  PAYMENT
+//  PAYMENT — now with server-side verification
 // ═══════════════════════════════════════════════
-function initiatePayment() {
+let newDoctorId = null; // stored after registration, used in payment verify
+
+async function initiatePayment() {
   const price = parseInt(selectedPlanEl.dataset.price);
+
+  // Free plan — just register, no payment
   if (price === 0) {
-    submitRegistration('FREE', 'FREE_PLAN');
+    await submitRegistration();
     return;
   }
+
+  // Paid plan — register first to get doctorId, then open Razorpay
+  showToast('⏳ Setting up your account...');
+  const doctorId = await submitRegistration();
+  if (!doctorId) return; // registration failed, error already shown
+
   const options = {
     key: RAZORPAY_KEY,
     amount: price * 100,
     currency: 'INR',
     name: 'GoodReview',
     description: selectedPlanEl.dataset.label,
-    image: '',
     prefill: {
       name:    document.getElementById('f_name').value,
       email:   document.getElementById('f_email').value,
       contact: document.getElementById('f_phone').value.replace(/\D/g, ''),
     },
     theme: { color: '#0a7c6e' },
-    handler: function(response) {
-      submitRegistration(response.razorpay_payment_id, response.razorpay_order_id || 'N/A');
+    handler: async function(response) {
+      // Verify payment server-side via our Vercel API
+      showToast('⏳ Verifying payment...');
+      try {
+        const verifyRes = await fetch('/api/payment-verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            razorpay_order_id:   response.razorpay_order_id || '',
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature:  response.razorpay_signature || '',
+            doctorId,
+          })
+        });
+        const verifyData = await verifyRes.json();
+        if (verifyData.success) {
+          showSuccessScreen(doctorId);
+        } else {
+          showToast('⚠️ Payment received but verification failed. WhatsApp us immediately!');
+        }
+      } catch(e) {
+        // Payment went through — show success anyway, we'll verify manually
+        showSuccessScreen(doctorId);
+      }
     },
     modal: {
       ondismiss: function() {
-        showToast('Payment cancelled. You can try again.');
+        showToast('Payment cancelled. Your account is saved — pay anytime.');
       }
     }
   };
+
   try {
     const rzp = new Razorpay(options);
     rzp.open();
@@ -1124,43 +253,71 @@ function initiatePayment() {
 }
 
 // ═══════════════════════════════════════════════
-//  SUBMIT REGISTRATION
+//  SUBMIT REGISTRATION → calls /api/register
+//  Returns doctorId on success, null on failure
 // ═══════════════════════════════════════════════
 let registrationSubmitted = false;
 
-function submitRegistration(paymentId, orderId) {
-  if (registrationSubmitted) return;
+async function submitRegistration() {
+  if (registrationSubmitted) return newDoctorId;
   registrationSubmitted = true;
 
-  const regData = {
-    name:       document.getElementById('f_name').value,
-    degree:     document.getElementById('f_degree').value,
-    specialty:  document.getElementById('f_specialty').value,
-    hospital:   document.getElementById('f_hospital').value,
-    city:       document.getElementById('f_city').value,
-    area:       document.getElementById('f_area').value,
-    state:      document.getElementById('f_state').value,
-    phone:      document.getElementById('f_phone').value,
-    email:      document.getElementById('f_email').value,
-    referral:   document.getElementById('f_referral').value.toUpperCase().trim(),
-    gmb:        document.getElementById('f_gmb').value,
-    plan:       selectedPlanEl.dataset.plan,
-    price:      selectedPlanEl.dataset.price,
-    customTags: JSON.stringify(customTags),
-    address:    document.getElementById('f_address')?.value || '',
-    pincode:    document.getElementById('f_pincode')?.value || '',
-    paymentId,
-    orderId,
-    timestamp:  new Date().toISOString(),
+  const price = parseInt(selectedPlanEl.dataset.price);
+  const isPhysical = selectedPlanEl.dataset.physical === 'true';
+
+  const body = {
+    name:        document.getElementById('f_name').value,
+    degree:      document.getElementById('f_degree').value,
+    specialty:   document.getElementById('f_specialty').value,
+    hospital:    document.getElementById('f_hospital').value,
+    city:        document.getElementById('f_city').value,
+    area:        document.getElementById('f_area').value,
+    state:       document.getElementById('f_state').value,
+    phone:       document.getElementById('f_phone').value,
+    email:       document.getElementById('f_email').value,
+    referral:    document.getElementById('f_referral').value.toUpperCase().trim(),
+    gmbUrl:      document.getElementById('f_gmb').value,
+    plan:        selectedPlanEl.dataset.plan,
+    paymentType: price === 0 ? 'Free' : 'Online',
+    customTags:  JSON.stringify(customTags),
+    address:     isPhysical ? document.getElementById('f_address')?.value : '',
+    pincode:     isPhysical ? document.getElementById('f_pincode')?.value : '',
   };
 
-  fetch('https://hook.eu1.make.com/mxmdkav7gfojkap9blwyuwryql6gqb95', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(regData)
-  }).then(() => console.log('✅ Make.com notified'))
-    .catch(e => console.log('Make.com error:', e));
+  try {
+    const res = await fetch('/api/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    const data = await res.json();
 
+    if (!res.ok || !data.doctorId) {
+      showToast('⚠️ Registration failed: ' + (data.error || 'Please try again'));
+      registrationSubmitted = false;
+      return null;
+    }
+
+    newDoctorId = data.doctorId;
+
+    // Free plan → activate immediately and show success
+    if (price === 0) {
+      showSuccessScreen(data.doctorId);
+    }
+
+    return data.doctorId;
+
+  } catch(err) {
+    showToast('⚠️ Network error. Please check connection and try again.');
+    registrationSubmitted = false;
+    return null;
+  }
+}
+
+// ═══════════════════════════════════════════════
+//  SHOW SUCCESS SCREEN
+// ═══════════════════════════════════════════════
+function showSuccessScreen(doctorId) {
   const isPhysical = selectedPlanEl.dataset.physical === 'true';
   const physicalNote = document.getElementById('physicalKitNote');
   if (physicalNote) {
@@ -1168,6 +325,8 @@ function submitRegistration(paymentId, orderId) {
       ? '<br><br>📦 Your <strong>NFC card, standee & QR stickers</strong> will be delivered in <strong>5-7 working days</strong>.<br><br>'
       : '';
   }
+  const linkEl = document.getElementById('successLink');
+  if (linkEl) linkEl.textContent = 'goodreview.in/review.html?id=' + doctorId;
 
   document.querySelectorAll('.section-card').forEach(c => c.classList.remove('active'));
   document.getElementById('successScreen').classList.add('show');
@@ -1227,6 +386,3 @@ function showToast(msg) {
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3000);
 }
-</script>
-</body>
-</html>
