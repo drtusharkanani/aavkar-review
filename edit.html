@@ -3,429 +3,565 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>GoodReview — Edit My Profile</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>GoodReview — Edit Profile</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --teal: #0a7c6e; --teal-light: #0fa390; --teal-pale: #e8f7f5;
-  --gold: #c9993a; --gold-light: #fdf6e3; --navy: #0d2340;
-  --text: #1a2e3b; --muted: #6b8191; --bg: #f4f9f8; --white: #fff;
-  --red: #e74c3c; --radius: 16px; --shadow: 0 4px 24px rgba(10,124,110,0.10);
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
-.hero { background: linear-gradient(145deg, var(--navy) 0%, #104a5e 55%, var(--teal) 100%); padding: 32px 20px 48px; text-align: center; }
-.brand-name { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--gold); font-weight: 800; }
-.hero h1 { font-family: 'Playfair Display', serif; font-size: 22px; color: white; margin: 12px 0 6px; }
-.hero p { font-size: 13px; color: rgba(255,255,255,0.7); }
-.container { max-width: 520px; margin: -16px auto 60px; padding: 0 16px; }
-.card { background: white; border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px 20px; margin-bottom: 16px; }
-.section-title { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--navy); margin-bottom: 4px; }
-.section-sub { font-size: 12px; color: var(--muted); margin-bottom: 20px; }
-.login-icon { font-size: 48px; text-align: center; margin-bottom: 16px; }
-.field { margin-bottom: 16px; }
-label { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: var(--muted); margin-bottom: 6px; }
-label .req { color: var(--red); }
-input[type="text"], input[type="email"], input[type="tel"], input[type="url"], select, textarea {
-  width: 100%; padding: 12px 14px; border: 1.5px solid #d4e8e5; border-radius: 10px;
-  font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--text);
-  background: #fafdfc; outline: none; transition: border-color 0.2s; -webkit-appearance: none;
-}
-input:focus, select:focus, textarea:focus { border-color: var(--teal); background: white; box-shadow: 0 0 0 3px rgba(10,124,110,0.1); }
-input[readonly] { background: #f0f4f8; color: var(--muted); cursor: not-allowed; }
-select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b8191' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; cursor: pointer; }
-.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.btn-primary { width: 100%; padding: 15px; background: linear-gradient(135deg, var(--teal), var(--teal-light)); color: white; border: none; border-radius: 12px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 16px rgba(10,124,110,0.25); transition: all 0.2s; }
-.btn-primary:hover { transform: translateY(-1px); }
-.btn-secondary { width: 100%; padding: 12px; background: transparent; color: var(--muted); border: 1.5px solid #d4e8e5; border-radius: 12px; font-family: 'DM Sans', sans-serif; font-size: 14px; cursor: pointer; margin-top: 8px; }
-.status-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f0f0f0; font-size: 13.5px; }
-.status-row:last-child { border-bottom: none; }
-.status-label { color: var(--muted); font-weight: 500; }
-.status-value { font-weight: 600; color: var(--navy); }
-.badge-active { background: #e8f7f5; color: #0a7c6e; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
-.badge-expired { background: #ffebee; color: #c0392b; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
-.tag-input-row { display: flex; gap: 8px; margin-bottom: 8px; }
-.emoji-input { width: 60px; text-align: center; font-size: 18px; }
-.tags-preview { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
-.tag-chip { display: flex; align-items: center; gap: 5px; background: var(--gold-light); border: 1px solid var(--gold); border-radius: 20px; padding: 4px 10px 4px 8px; font-size: 12px; color: #8a6010; font-weight: 500; }
-.tag-chip .remove-tag { font-size: 14px; cursor: pointer; color: var(--red); margin-left: 2px; }
-.add-tag-btn { padding: 10px 16px; background: var(--teal); color: white; border: none; border-radius: 10px; font-size: 18px; cursor: pointer; }
-.screen { display: none; }
-.screen.active { display: block; }
-.gmb-steps { background: #f8fffe; border: 1.5px solid #b0ddd8; border-radius: 10px; padding: 12px; margin-top: 8px; }
-.gmb-step { display: flex; gap: 8px; align-items: flex-start; margin-bottom: 8px; font-size: 12px; color: var(--text); line-height: 1.5; }
-.gmb-step:last-child { margin-bottom: 0; }
-.gmb-num { width: 20px; height: 20px; background: var(--teal); border-radius: 50%; color: white; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--navy); color: white; padding: 12px 22px; border-radius: 50px; font-size: 13px; font-weight: 500; transition: transform 0.35s cubic-bezier(.34,1.56,.64,1); z-index: 999; white-space: nowrap; box-shadow: 0 4px 20px rgba(0,0,0,0.25); }
-.toast.show { transform: translateX(-50%) translateY(0); }
-footer { text-align: center; font-size: 11px; color: #aac3be; padding: 10px 16px 40px; }
+:root{--saffron:#FF6B00;--saffron-light:#FFF3E8;--green:#1A7A4A;--green-light:#E8F5EE;--gold:#F5A623;--text:#1A1A2E;--text-soft:#5A5A7A;--border:#E8E8F0;--bg:#F7F7FC;--white:#FFFFFF;--shadow:0 2px 16px rgba(0,0,0,0.08);--radius:16px}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:40px}
+.header{background:linear-gradient(135deg,#FF6B00,#FF8C00,#F5A623);padding:24px 20px 44px;text-align:center;position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;top:-40px;right:-40px;width:150px;height:150px;background:rgba(255,255,255,0.07);border-radius:50%}
+.brand{font-family:'Poppins',sans-serif;font-size:12px;font-weight:700;color:rgba(255,255,255,0.85);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+.header-title{font-family:'Poppins',sans-serif;font-size:22px;font-weight:700;color:#fff;margin-bottom:4px}
+.header-sub{font-size:13px;color:rgba(255,255,255,0.85)}
+.card{background:var(--white);border-radius:var(--radius);margin:-24px 16px 14px;padding:22px;box-shadow:var(--shadow);position:relative;z-index:1}
+.card+.card{margin-top:0}
+.section-title{font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;color:var(--text);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px}
+.input{width:100%;padding:12px 15px;border-radius:12px;border:2px solid var(--border);font-family:'Nunito',sans-serif;font-size:14px;color:var(--text);outline:none;transition:border-color 0.2s;background:var(--white)}
+.input:focus{border-color:var(--saffron)}
+.input.error{border-color:#E24B4A}
+.input:disabled{background:var(--bg);color:var(--text-soft);cursor:not-allowed}
+.error-msg{font-size:12px;color:#E24B4A;margin-top:4px;display:none}
+.error-msg.show{display:block}
+/* OTP */
+.otp-wrap{display:flex;gap:10px;margin-bottom:12px}
+.otp-input{flex:1;padding:16px;border-radius:12px;border:2px solid var(--border);font-family:'Poppins',sans-serif;font-size:28px;font-weight:800;text-align:center;letter-spacing:10px;outline:none;transition:border-color 0.2s;color:var(--saffron)}
+.otp-input:focus{border-color:var(--saffron)}
+.resend-link{font-size:13px;color:var(--saffron);text-align:center;cursor:pointer;display:block;font-weight:700}
+.resend-link:disabled,.resend-link.disabled{color:var(--text-soft);cursor:not-allowed}
+.timer{font-size:12px;color:var(--text-soft);text-align:center;margin-top:4px}
+/* LANG */
+.lang-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.lang-opt{padding:11px;border-radius:12px;border:2px solid var(--border);background:var(--white);cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:8px}
+.lang-opt:hover{border-color:var(--saffron)}
+.lang-opt.selected{background:var(--saffron-light);border-color:var(--saffron)}
+.lang-name{font-size:13px;font-weight:700;color:var(--text)}
+.lang-native{font-size:11px;color:var(--text-soft)}
+.lang-check{width:20px;height:20px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;margin-left:auto;flex-shrink:0;transition:all 0.15s}
+.lang-opt.selected .lang-check{background:var(--saffron);border-color:var(--saffron);color:#fff}
+/* TAGS */
+.tags-wrap{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px}
+.owner-tag-pill{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:20px;background:var(--green-light);border:2px solid var(--green);font-size:13px;font-weight:700;color:var(--green)}
+.remove-tag{cursor:pointer;opacity:0.7;font-size:14px;line-height:1}
+.remove-tag:hover{opacity:1}
+.add-tag-row{display:flex;gap:8px}
+.add-tag-input{flex:1;padding:11px 14px;border-radius:12px;border:2px solid var(--border);font-family:'Nunito',sans-serif;font-size:13px;outline:none;transition:border-color 0.2s}
+.add-tag-input:focus{border-color:var(--green)}
+.add-tag-btn{padding:11px 16px;border-radius:12px;background:var(--green);color:#fff;border:none;font-weight:800;font-size:15px;cursor:pointer}
+/* PLAN BADGE */
+.plan-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;font-size:13px;font-weight:800;background:var(--saffron-light);color:var(--saffron);margin-bottom:12px}
+/* INFO */
+.info-box{background:var(--green-light);border:1px solid #97C459;border-radius:10px;padding:11px 14px;font-size:12px;color:#27500A;margin-bottom:12px;line-height:1.6}
+.warn-box{background:var(--saffron-light);border:1px solid #FFD4A8;border-radius:10px;padding:11px 14px;font-size:12px;color:#B85C00;margin-bottom:12px}
+/* BUTTONS */
+.btn-primary{width:100%;padding:15px;border-radius:var(--radius);border:none;background:linear-gradient(135deg,#FF6B00,#F5A623);color:#fff;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-primary:hover{opacity:0.9;transform:translateY(-1px)}
+.btn-primary:disabled{opacity:0.5;cursor:not-allowed;transform:none}
+.btn-save{width:100%;padding:15px;border-radius:var(--radius);border:none;background:var(--green);color:#fff;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:4px}
+.btn-save:hover{background:#155e38}
+.btn-save:disabled{opacity:0.5;cursor:not-allowed}
+.btn-save.saved{background:var(--gold)}
+.divider{height:1px;background:var(--border);margin:16px 0}
+/* LOADING */
+.loading{text-align:center;padding:50px 20px}
+.spinner{width:44px;height:44px;border:4px solid var(--border);border-top-color:var(--saffron);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 14px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.review-link{display:flex;align-items:center;gap:8px;padding:12px 14px;background:var(--bg);border-radius:10px;margin-bottom:14px}
+.review-link a{font-size:13px;font-weight:700;color:var(--saffron);text-decoration:none;word-break:break-all}
+.section-label{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--text-soft);margin-bottom:10px}
+.footer{text-align:center;padding:18px;font-size:12px;color:var(--text-soft)}
+.footer a{color:var(--saffron);text-decoration:none;font-weight:700}
+.tag-limit-note{font-size:11px;color:var(--text-soft);margin-top:6px}
+.char-count{font-size:11px;color:var(--text-soft);text-align:right;margin-top:3px}
 </style>
 </head>
 <body>
 
-<div class="hero">
-  <div class="brand-name">GoodReview</div>
-  <h1>Edit My Profile</h1>
-  <p>Update your details, GMB link and custom tags</p>
+<div class="header">
+  <div class="brand">⭐ GoodReview</div>
+  <div class="header-title">Edit Profile</div>
+  <div class="header-sub">Update your review page settings</div>
 </div>
 
-<div class="container">
-
-  <!-- LOGIN SCREEN -->
-  <div class="card screen active" id="loginScreen">
-    <div class="login-icon">🔐</div>
-    <div class="section-title" style="text-align:center;">Verify Your Identity</div>
-    <div class="section-sub" style="text-align:center;margin-bottom:24px;">Enter your Doctor ID and registered email</div>
-    <div class="field">
-      <label>Doctor ID <span class="req">*</span></label>
-      <input type="text" id="loginId" placeholder="e.g. 101" inputmode="numeric">
-    </div>
-    <div class="field">
-      <label>Registered Email <span class="req">*</span></label>
-      <input type="email" id="loginEmail" placeholder="doctor@example.com">
-    </div>
-    <button class="btn-primary" onclick="sendOTP()">📧 Send OTP to Email</button>
-    <div style="text-align:center;margin-top:14px;font-size:12px;color:var(--muted);">
-      Don't know your Doctor ID?
-      <a href="https://wa.me/917984939486?text=Hi%2C%20I%20need%20my%20GoodReview%20Doctor%20ID" target="_blank" style="color:var(--teal);font-weight:600;">WhatsApp us</a>
-    </div>
+<!-- STEP 1: EMAIL LOGIN -->
+<div class="card" id="emailCard">
+  <div class="section-title">📧 Login with Email</div>
+  <div class="field">
+    <label>Your registered email address</label>
+    <input class="input" id="emailInput" type="email" placeholder="you@gmail.com" maxlength="100">
+    <div class="error-msg" id="err-email">Please enter a valid email address</div>
   </div>
+  <button class="btn-primary" id="sendOtpBtn" onclick="sendOtp()">Send Login Code →</button>
+</div>
 
-  <!-- OTP SCREEN -->
-  <div class="card screen" id="otpScreen">
-    <div class="login-icon">📨</div>
-    <div class="section-title" style="text-align:center;">Enter OTP</div>
-    <div class="section-sub" style="text-align:center;margin-bottom:24px;" id="otpSubtext">OTP sent to your email</div>
-    <div class="field">
-      <label>6-Digit OTP <span class="req">*</span></label>
-      <input type="text" id="otpInput" placeholder="Enter 6-digit OTP" maxlength="6" inputmode="numeric"
-             oninput="this.value=this.value.replace(/\D/g,'').slice(0,6)"
-             style="font-size:24px;letter-spacing:8px;text-align:center;font-weight:700;">
+<!-- STEP 2: OTP VERIFY -->
+<div class="card" id="otpCard" style="display:none">
+  <div class="section-title">🔐 Enter Login Code</div>
+  <div class="info-box" id="otpSentMsg">We've sent a 6-digit code to your email.</div>
+  <input class="otp-input input" id="otpInput" type="number" placeholder="——————" maxlength="6"
+    oninput="if(this.value.length>6)this.value=this.value.slice(0,6)">
+  <div class="error-msg show" id="err-otp" style="display:none!important"></div>
+  <button class="btn-primary" id="verifyOtpBtn" onclick="verifyOtp()" style="margin-top:12px">Verify Code →</button>
+  <div class="timer" id="otpTimer"></div>
+  <span class="resend-link disabled" id="resendLink" onclick="resendOtp()">Resend code</span>
+</div>
+
+<!-- LOADING -->
+<div class="loading" id="loadingProfile" style="display:none">
+  <div class="spinner"></div>
+  <p style="color:var(--text-soft);font-size:14px">Loading your profile...</p>
+</div>
+
+<!-- STEP 3: EDIT PROFILE -->
+<div id="editSection" style="display:none">
+
+  <!-- Business Info (read-only) -->
+  <div class="card" style="margin-top:0">
+    <div class="section-title">🏢 Your Business</div>
+    <div class="plan-badge" id="planBadge"></div>
+    <div class="review-link">
+      <span>🔗</span>
+      <a id="reviewLink" href="#" target="_blank"></a>
     </div>
-    <button class="btn-primary" onclick="verifyOTP()">✅ Verify OTP</button>
-    <button class="btn-secondary" onclick="showScreen('loginScreen')">← Back</button>
-    <div style="text-align:center;margin-top:12px;font-size:12px;color:var(--muted);">
-      Didn't receive? Check spam folder or
-      <span onclick="sendOTP()" style="color:var(--teal);cursor:pointer;font-weight:600;">Resend OTP</span>
-    </div>
-  </div>
-
-  <!-- LOADING -->
-  <div class="card screen" id="loadingScreen" style="text-align:center;padding:40px;">
-    <div style="font-size:40px;margin-bottom:16px;">⏳</div>
-    <div style="font-size:16px;font-weight:600;color:var(--navy);">Verifying...</div>
-  </div>
-
-  <!-- PROFILE SCREEN -->
-  <div class="screen" id="profileScreen">
-
-    <!-- STATUS CARD -->
-    <div class="card" id="statusCard">
-      <div class="section-title">📊 Your Subscription</div>
-      <div class="section-sub">Current plan and status</div>
-      <div class="status-row"><span class="status-label">Doctor ID</span><span class="status-value" id="st_id">—</span></div>
-      <div class="status-row"><span class="status-label">Plan</span><span class="status-value" id="st_plan">—</span></div>
-      <div class="status-row"><span class="status-label">Status</span><span class="status-value" id="st_status">—</span></div>
-      <div class="status-row"><span class="status-label">Expires</span><span class="status-value" id="st_expiry">—</span></div>
-      <div class="status-row"><span class="status-label">Review Page</span><a id="st_link" href="#" target="_blank" style="color:var(--teal);font-weight:600;font-size:13px;">Open →</a></div>
-    </div>
-
-    <!-- EDIT BASIC INFO -->
-    <div class="card">
-      <div class="section-title">👨‍⚕️ Basic Details</div>
-      <div class="section-sub">Update your name, hospital and city</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
       <div class="field">
-        <label>Full Name</label>
-        <input type="text" id="e_name" placeholder="Dr. Firstname Lastname" readonly>
-        <div style="font-size:11px;color:#e74c3c;margin-top:4px;">⚠️ Name cannot be changed. Contact support if needed.</div>
-      </div>
-      <div class="field-row">
-        <div class="field">
-          <label>Degree</label>
-          <input type="text" id="e_degree" placeholder="MD, MS, MBBS...">
-        </div>
-        <div class="field">
-          <label>Specialty</label>
-          <select id="e_specialty">
-            <option value="">Select</option>
-            <optgroup label="── Level 1 ──">
-              <option value="homeopathy">General Practitioner (Homeopathy)</option>
-              <option value="ayurvedic">General Practitioner (Ayurveda)</option>
-              <option value="physiotherapist">Physiotherapist</option>
-              <option value="dentist">General Dentist</option>
-              <option value="dietitian">Dietitian / Nutritionist</option>
-              <option value="wellness_coach">Wellness Coach</option>
-            </optgroup>
-            <optgroup label="── MBBS ──">
-              <option value="general_practitioner">General Practitioner (MBBS)</option>
-              <option value="family_medicine">Family Doctor</option>
-            </optgroup>
-            <optgroup label="── MD ──">
-              <option value="general_physician">MD Medicine — General Physician</option>
-              <option value="pediatrician">MD Pediatrics</option>
-              <option value="psychiatrist">MD Psychiatry</option>
-              <option value="dermatologist">MD Dermatology</option>
-              <option value="radiologist">MD Radiology</option>
-              <option value="pathologist">MD Pathology</option>
-            </optgroup>
-            <optgroup label="── MS ──">
-              <option value="general_surgeon">MS General Surgery</option>
-              <option value="orthopedic">MS Orthopedic</option>
-              <option value="ophthalmologist">MS Ophthalmology</option>
-              <option value="ent_specialist">MS ENT</option>
-              <option value="gynecologist">MS Obstetrics &amp; Gynecology</option>
-            </optgroup>
-            <optgroup label="── DM ──">
-              <option value="cardiologist">DM Cardiology</option>
-              <option value="neurologist">DM Neurology</option>
-              <option value="gastroenterologist">DM Gastroenterology</option>
-              <option value="nephrologist">DM Nephrology</option>
-              <option value="endocrinologist">DM Endocrinology</option>
-              <option value="pulmonologist">DM Pulmonology</option>
-              <option value="oncologist">DM Oncology</option>
-            </optgroup>
-            <optgroup label="── MCh ──">
-              <option value="neurosurgeon">MCh Neurosurgery</option>
-              <option value="plastic_surgeon">MCh Plastic Surgery</option>
-              <option value="urologist">MCh Urology</option>
-              <option value="pediatric_surgeon">MCh Pediatric Surgery</option>
-            </optgroup>
-            <optgroup label="── Fellowship ──">
-              <option value="ivf_specialist">IVF Specialist</option>
-              <option value="diabetologist">Diabetologist</option>
-              <option value="infertility">Infertility Specialist</option>
-              <option value="spine_specialist">Spine Specialist</option>
-              <option value="sports_medicine">Sports Medicine</option>
-            </optgroup>
-            <optgroup label="── Cosmetic ──">
-              <option value="cosmetic_surgeon">Cosmetic Surgeon</option>
-              <option value="cosmetic_dermatologist">Cosmetic Dermatologist</option>
-              <option value="hair_transplant">Hair Transplant Surgeon</option>
-              <option value="smile_designer">Smile Designer</option>
-            </optgroup>
-          </select>
-        </div>
+        <label>Owner Name</label>
+        <input class="input" id="viewOwnerName" disabled>
       </div>
       <div class="field">
-        <label>Hospital / Clinic Name</label>
-        <input type="text" id="e_hospital" placeholder="Hospital or Clinic name">
-      </div>
-      <div class="field-row">
-        <div class="field">
-          <label>City</label>
-          <input type="text" id="e_city" placeholder="Surat">
-        </div>
-        <div class="field">
-          <label>Phone</label>
-          <input type="tel" id="e_phone" placeholder="10-digit number" maxlength="10" inputmode="numeric" oninput="this.value=this.value.replace(/\D/g,'').slice(0,10)">
-        </div>
+        <label>Business Name</label>
+        <input class="input" id="viewBusinessName" disabled>
       </div>
     </div>
-
-    <!-- EDIT GMB LINK -->
-    <div class="card">
-      <div class="section-title">🔗 Google Review Link</div>
-      <div class="section-sub">Update your GMB link if it changed</div>
-      <div class="field">
-        <label>Google Review URL</label>
-        <input type="url" id="e_gmb" placeholder="https://search.google.com/local/writereview?placeid=...">
-        <div class="gmb-steps">
-          <div class="gmb-step"><div class="gmb-num">1</div>Open maps.google.com on desktop</div>
-          <div class="gmb-step"><div class="gmb-num">2</div>Search your clinic name</div>
-          <div class="gmb-step"><div class="gmb-num">3</div>Click <strong>Write a Review</strong></div>
-          <div class="gmb-step"><div class="gmb-num">4</div>Copy full URL from browser bar</div>
-          <div class="gmb-step"><div class="gmb-num">5</div>Paste above ☝️</div>
-        </div>
-        <div style="margin-top:8px;text-align:center;">
-          <a href="https://wa.me/917984939486" target="_blank" style="font-size:12px;color:#25d366;font-weight:600;text-decoration:none;">💬 Need help? WhatsApp us!</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- CUSTOM TAGS -->
-    <div class="card" id="customTagCard" style="display:none;">
-      <div class="section-title">🏷️ Custom Tags</div>
-      <div class="section-sub">Add or remove your specialty tags (max 10)</div>
-      <div class="tag-input-row">
-        <input type="text" class="emoji-input" id="e_tagEmoji" placeholder="🏷️" maxlength="2">
-        <input type="text" id="e_tagLabel" placeholder="e.g. Insulin Therapy, Hair Transplant..." maxlength="30">
-        <button class="add-tag-btn" onclick="addEditTag()">+</button>
-      </div>
-      <div class="tags-preview" id="e_tagsPreview"></div>
-      <div style="font-size:11px;color:var(--muted);margin-top:6px;" id="e_tagCount">0 / 10 tags</div>
-    </div>
-
-    <!-- SAVE BUTTON -->
-    <button class="btn-primary" onclick="saveChanges()">💾 Save Changes</button>
-    <button class="btn-secondary" onclick="logout()">← Back to Login</button>
-
   </div>
 
-  <!-- SUCCESS -->
-  <div class="card screen" id="successScreen" style="text-align:center;padding:40px;">
-    <div style="font-size:48px;margin-bottom:16px;">✅</div>
-    <div style="font-family:'Playfair Display',serif;font-size:22px;color:var(--navy);margin-bottom:10px;">Profile Updated!</div>
-    <div style="font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:20px;">Your changes are saved.<br>Review page updates within 2 minutes.</div>
-    <a id="viewPageBtn" href="#" target="_blank" style="display:inline-block;background:var(--teal);color:white;padding:14px 28px;border-radius:12px;text-decoration:none;font-weight:700;margin-bottom:10px;">🔗 View My Review Page</a>
-    <br>
-    <button class="btn-secondary" onclick="showScreen('profileScreen')">← Edit More</button>
+  <!-- EDITABLE: GMB URL -->
+  <div class="card" style="margin-top:0">
+    <div class="section-title">📍 Google Maps Link</div>
+    <div class="field">
+      <label>Google Review URL</label>
+      <input class="input" id="editGmbUrl" type="url" placeholder="https://maps.app.goo.gl/...">
+      <div style="font-size:11px;color:var(--text-soft);margin-top:4px">Search your business on Google → Reviews → Share → copy link</div>
+      <div class="error-msg" id="err-gmb">Please enter a valid URL</div>
+    </div>
+  </div>
+
+  <!-- EDITABLE: City + Area -->
+  <div class="card" style="margin-top:0">
+    <div class="section-title">🌆 Location</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div class="field">
+        <label>City</label>
+        <input class="input" id="editCity" placeholder="Surat" maxlength="50">
+        <div class="error-msg" id="err-city">Required</div>
+      </div>
+      <div class="field">
+        <label>Area / Locality</label>
+        <input class="input" id="editArea" placeholder="Adajan" maxlength="50">
+      </div>
+    </div>
+    <div class="field">
+      <label>State</label>
+      <select class="input" id="editState">
+        <option value="">Select state</option>
+        <option>Gujarat</option><option>Maharashtra</option><option>Rajasthan</option>
+        <option>Uttar Pradesh</option><option>Madhya Pradesh</option><option>Delhi</option>
+        <option>Karnataka</option><option>Tamil Nadu</option><option>Telangana</option>
+        <option>Andhra Pradesh</option><option>Kerala</option><option>Punjab</option>
+        <option>Haryana</option><option>Bihar</option><option>West Bengal</option>
+        <option>Odisha</option><option>Jharkhand</option><option>Chhattisgarh</option>
+        <option>Uttarakhand</option><option>Himachal Pradesh</option><option>Goa</option>
+        <option>Assam</option><option>Other</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- EDITABLE: Languages -->
+  <div class="card" style="margin-top:0">
+    <div class="section-title">🌐 Review Languages</div>
+    <div class="info-box">Customers will see review options in these languages. Select at least 1.</div>
+    <div class="lang-grid" id="editLangGrid"></div>
+    <div class="error-msg" id="err-lang">Please select at least one language</div>
+  </div>
+
+  <!-- EDITABLE: Owner Custom Tags -->
+  <div class="card" id="ownerTagsCard" style="margin-top:0;display:none">
+    <div class="section-title">★ Custom Service Tags</div>
+    <div class="info-box" id="tagInfo"></div>
+    <div class="tags-wrap" id="editTagsWrap"></div>
+    <div class="add-tag-row" id="addTagRow">
+      <input class="add-tag-input" id="newTagInput" placeholder="Add a tag..." maxlength="30">
+      <button class="add-tag-btn" onclick="addTag()">+</button>
+    </div>
+    <div class="char-count"><span id="tagCharCount">0</span>/30</div>
+    <div class="tag-limit-note" id="tagLimitNote"></div>
+    <div class="error-msg" id="err-tags"></div>
+  </div>
+
+  <!-- SAVE BUTTON -->
+  <div style="padding:0 16px 16px">
+    <button class="btn-save" id="saveBtn" onclick="saveProfile()">💾 Save Changes</button>
+    <div style="text-align:center;margin-top:12px">
+      <a id="viewPageLink" href="#" target="_blank"
+         style="font-size:13px;color:var(--saffron);font-weight:700;text-decoration:none">
+        👁 View My Review Page →
+      </a>
+    </div>
   </div>
 
 </div>
 
-<footer>Powered by GoodReview Team · goodreview.in</footer>
-<div class="toast" id="toast"></div>
+<div class="footer">
+  <a href="https://goodreview.in">GoodReview.in</a> ·
+  <a href="https://wa.me/917984939486">WhatsApp Support</a>
+</div>
 
 <script>
-let currentRecordId = null;
-let currentDoctorId = null;
-let editTags = [];
+const LANGUAGES = [
+  {id:'English',  native:'English',  flag:'🇬🇧'},
+  {id:'Hindi',    native:'हिंदी',    flag:'🇮🇳'},
+  {id:'Gujarati', native:'ગુજરાતી',  flag:'🟠'},
+  {id:'Hinglish', native:'Hinglish', flag:'✨'},
+  {id:'Marathi',  native:'मराठी',    flag:'🟡'},
+  {id:'Tamil',    native:'தமிழ்',    flag:'🔵'},
+  {id:'Telugu',   native:'తెలుగు',   flag:'🟢'},
+  {id:'Kannada',  native:'ಕನ್ನಡ',   flag:'🟤'}
+]
 
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+const PLAN_LABELS = {
+  free:'Free Plan', starter_1yr:'Starter 1 Year', starter_2yr:'Starter 2 Years',
+  starter_5yr:'Starter 5 Years', premium_1yr:'Premium 1 Year', premium_2yr:'Premium 2 Years',
+  premium_5yr:'Premium 5 Years', ultimate_1yr:'Ultimate 1 Year', ultimate_2yr:'Ultimate 2 Years',
+  ultimate_5yr:'Ultimate 5 Years'
 }
 
-async function sendOTP() {
-  const id    = document.getElementById('loginId').value.trim();
-  const email = document.getElementById('loginEmail').value.trim().toLowerCase();
-  if (!id)    { showToast('⚠️ Please enter your Doctor ID'); return; }
-  if (!email) { showToast('⚠️ Please enter your email'); return; }
-  showScreen('loadingScreen');
+let recordId     = ''
+let business     = null
+let selectedLangs = []
+let ownerTags    = []
+let tagLimit     = 0
+let otpTimer     = null
+let timerSeconds = 0
+
+// ── OTP FLOW ─────────────────────────────────────────────────────
+async function sendOtp() {
+  const email = document.getElementById('emailInput').value.trim()
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    document.getElementById('err-email').classList.add('show')
+    return
+  }
+  document.getElementById('err-email').classList.remove('show')
+
+  const btn = document.getElementById('sendOtpBtn')
+  btn.disabled = true
+  btn.textContent = 'Sending...'
+
   try {
-    const res  = await fetch('/api/otp?action=send', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, doctorId: id })
-    });
-    const data = await res.json();
-    if (!res.ok) { showToast('❌ ' + (data.error || 'Doctor ID / email not found')); showScreen('loginScreen'); return; }
-    document.getElementById('otpSubtext').textContent = 'OTP sent to ' + email;
-    showScreen('otpScreen');
-    showToast('📧 OTP sent! Check your email');
-  } catch(e) { showToast('⚠️ Network error. Try again.'); showScreen('loginScreen'); }
+    const res  = await fetch('/api/otp', {
+      method:  'POST',
+      headers: {'Content-Type':'application/json'},
+      body:    JSON.stringify({ action: 'send', email })
+    })
+    const data = await res.json()
+
+    if (!res.ok) {
+      btn.disabled = false
+      btn.textContent = 'Send Login Code →'
+      alert(data.error || 'Failed to send OTP')
+      return
+    }
+
+    document.getElementById('emailCard').style.display = 'none'
+    document.getElementById('otpCard').style.display   = 'block'
+    document.getElementById('otpSentMsg').textContent  = `Code sent to ${email}. Check your inbox.`
+    startOtpTimer()
+
+  } catch (e) {
+    btn.disabled = false
+    btn.textContent = 'Send Login Code →'
+    alert('Network error. Please try again.')
+  }
 }
 
-async function verifyOTP() {
-  const otp   = document.getElementById('otpInput').value.trim();
-  const email = document.getElementById('loginEmail').value.trim().toLowerCase();
-  if (!otp || otp.length !== 6) { showToast('⚠️ Please enter 6-digit OTP'); return; }
-  showScreen('loadingScreen');
+function startOtpTimer() {
+  timerSeconds = 60
+  clearInterval(otpTimer)
+  const resend = document.getElementById('resendLink')
+  resend.classList.add('disabled')
+
+  otpTimer = setInterval(() => {
+    timerSeconds--
+    document.getElementById('otpTimer').textContent = `Resend available in ${timerSeconds}s`
+    if (timerSeconds <= 0) {
+      clearInterval(otpTimer)
+      document.getElementById('otpTimer').textContent = ''
+      resend.classList.remove('disabled')
+    }
+  }, 1000)
+}
+
+async function resendOtp() {
+  if (document.getElementById('resendLink').classList.contains('disabled')) return
+  const email = document.getElementById('emailInput').value.trim()
+  await fetch('/api/otp', {
+    method:  'POST',
+    headers: {'Content-Type':'application/json'},
+    body:    JSON.stringify({ action: 'send', email })
+  })
+  document.getElementById('otpInput').value = ''
+  startOtpTimer()
+}
+
+async function verifyOtp() {
+  const email = document.getElementById('emailInput').value.trim()
+  const otp   = document.getElementById('otpInput').value.trim()
+
+  if (otp.length !== 6) {
+    showOtpError('Please enter the 6-digit code')
+    return
+  }
+
+  const btn = document.getElementById('verifyOtpBtn')
+  btn.disabled    = true
+  btn.textContent = 'Verifying...'
+
   try {
-    const res  = await fetch('/api/otp?action=verify', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, otp })
-    });
-    const data = await res.json();
-    if (!res.ok || !data.valid) { showToast('❌ ' + (data.error || 'Wrong OTP. Try again.')); showScreen('otpScreen'); return; }
-    currentRecordId = data.recordId;
-    currentDoctorId = data.doctorId;
-    const docRes  = await fetch('/api/doctor?id=' + data.doctorId);
-    const docData = await docRes.json();
-    if (!docRes.ok) { showToast('⚠️ Could not load profile. Try again.'); showScreen('loginScreen'); return; }
-    loadProfile(docData);
-    showScreen('profileScreen');
-    showToast('✅ Verified! Profile loaded.');
-  } catch(e) { showToast('⚠️ Network error. Try again.'); showScreen('otpScreen'); }
+    const res  = await fetch('/api/otp', {
+      method:  'POST',
+      headers: {'Content-Type':'application/json'},
+      body:    JSON.stringify({ action: 'verify', email, otp })
+    })
+    const data = await res.json()
+
+    if (!res.ok) {
+      btn.disabled    = false
+      btn.textContent = 'Verify Code →'
+      showOtpError(data.error || 'Incorrect code')
+      return
+    }
+
+    // OTP verified — load profile
+    clearInterval(otpTimer)
+    recordId = data.recordId
+    business = data.business
+    document.getElementById('otpCard').style.display      = 'none'
+    document.getElementById('loadingProfile').style.display = 'block'
+    setTimeout(() => {
+      document.getElementById('loadingProfile').style.display = 'none'
+      renderEditProfile()
+    }, 600)
+
+  } catch (e) {
+    btn.disabled    = false
+    btn.textContent = 'Verify Code →'
+    showOtpError('Network error. Please try again.')
+  }
 }
 
-function loadProfile(r) {
-  document.getElementById('e_name').value      = r.name      || '';
-  document.getElementById('e_degree').value    = r.degree    || '';
-  document.getElementById('e_specialty').value = r.specialty || '';
-  document.getElementById('e_hospital').value  = r.hospital  || '';
-  document.getElementById('e_city').value      = r.city      || '';
-  document.getElementById('e_phone').value     = r.phone     || '';
-  document.getElementById('e_gmb').value       = r.gmbUrl    || '';
-
-  document.getElementById('st_id').textContent     = r.id || currentDoctorId;
-  document.getElementById('st_plan').textContent   = (r.plan || 'free').replace(/_/g,' ').toUpperCase();
-  document.getElementById('st_expiry').textContent = r.expiryDate || 'As per plan';
-  document.getElementById('st_link').href          = 'https://goodreview.in/review.html?id=' + (r.id || currentDoctorId);
-
-  const isActive = r.active !== false;
-  document.getElementById('st_status').innerHTML = isActive
-    ? '<span class="badge-active">ACTIVE ✅</span>'
-    : '<span class="badge-expired">INACTIVE ❌</span>';
-
-  const plan    = r.plan || 'free';
-  const hasTags = plan.includes('premium') || plan.includes('ultimate');
-  document.getElementById('customTagCard').style.display = hasTags ? 'block' : 'none';
-
-  editTags = r.customTags || [];
-  renderEditTags();
+function showOtpError(msg) {
+  const el = document.getElementById('err-otp')
+  el.textContent    = msg
+  el.style.display  = 'block'
 }
 
-function addEditTag() {
-  if (editTags.length >= 10) { showToast('⚠️ Max 10 tags allowed'); return; }
-  const emoji = document.getElementById('e_tagEmoji').value.trim() || '🏷️';
-  const label = document.getElementById('e_tagLabel').value.trim();
-  if (!label) { showToast('⚠️ Please enter tag name'); return; }
-  editTags.push({ emoji, label });
-  renderEditTags();
-  document.getElementById('e_tagEmoji').value = '';
-  document.getElementById('e_tagLabel').value = '';
+// ── RENDER EDIT PROFILE ──────────────────────────────────────────
+function renderEditProfile() {
+  const b = business
+
+  // Read-only info
+  document.getElementById('viewOwnerName').value    = b.ownerName
+  document.getElementById('viewBusinessName').value = b.businessName
+  document.getElementById('planBadge').textContent  = '⭐ ' + (PLAN_LABELS[b.plan] || b.plan)
+
+  const url = `https://goodreview.in/review.html?id=${b.ownerId}`
+  document.getElementById('reviewLink').textContent  = url
+  document.getElementById('reviewLink').href         = url
+  document.getElementById('viewPageLink').href       = url
+
+  // GMB URL
+  document.getElementById('editGmbUrl').value = b.gmbUrl
+
+  // City / Area / State
+  document.getElementById('editCity').value  = b.city
+  document.getElementById('editArea').value  = b.area
+
+  const stateEl = document.getElementById('editState')
+  Array.from(stateEl.options).forEach(o => { if (o.value === b.state) o.selected = true })
+
+  // Languages
+  selectedLangs = [...b.languages]
+  renderLangGrid()
+
+  // Owner tags
+  tagLimit  = b.tagLimit
+  ownerTags = [...b.customTags]
+
+  if (tagLimit > 0) {
+    document.getElementById('ownerTagsCard').style.display = 'block'
+    document.getElementById('tagInfo').textContent =
+      `Your plan allows up to ${tagLimit} custom tags. These appear as ★ special service pills on your review page.`
+    renderTags()
+  }
+
+  document.getElementById('editSection').style.display = 'block'
 }
 
-function removeEditTag(idx) { editTags.splice(idx, 1); renderEditTags(); }
-
-function renderEditTags() {
-  document.getElementById('e_tagsPreview').innerHTML = editTags.map((t, i) =>
-    '<div class="tag-chip"><span>' + t.emoji + '</span><span>' + t.label + '</span><span class="remove-tag" onclick="removeEditTag(' + i + ')">×</span></div>'
-  ).join('');
-  document.getElementById('e_tagCount').textContent = editTags.length + ' / 10 tags';
+// ── LANGUAGES ────────────────────────────────────────────────────
+function renderLangGrid() {
+  const grid = document.getElementById('editLangGrid')
+  grid.innerHTML = ''
+  LANGUAGES.forEach(lang => {
+    const div   = document.createElement('div')
+    const isSel = selectedLangs.includes(lang.id)
+    div.className = 'lang-opt' + (isSel ? ' selected' : '')
+    div.id        = 'elang_' + lang.id
+    div.innerHTML = `<span style="font-size:17px">${lang.flag}</span>
+      <div><div class="lang-name">${lang.id}</div><div class="lang-native">${lang.native}</div></div>
+      <div class="lang-check" id="elc_${lang.id}">${isSel ? '✓' : ''}</div>`
+    div.onclick   = () => toggleLang(lang.id)
+    grid.appendChild(div)
+  })
 }
 
-async function saveChanges() {
-  if (!currentRecordId) { showToast('⚠️ Not logged in'); return; }
-  const gmb = document.getElementById('e_gmb').value.trim();
-  if (!gmb) { showToast('⚠️ Google review link cannot be empty'); return; }
-  const fields = {
-    Degree:     document.getElementById('e_degree').value.trim(),
-    Specialty:  document.getElementById('e_specialty').value,
-    Hospital:   document.getElementById('e_hospital').value.trim(),
-    City:       document.getElementById('e_city').value.trim(),
-    Phone:      document.getElementById('e_phone').value.trim(),
-    'GMB URL':  gmb,
-    CustomTags: JSON.stringify(editTags),
-  };
+function toggleLang(id) {
+  const idx = selectedLangs.indexOf(id)
+  if (idx === -1) selectedLangs.push(id)
+  else if (selectedLangs.length > 1) selectedLangs.splice(idx, 1)
+  else return // must keep at least 1
+
+  renderLangGrid()
+  document.getElementById('err-lang').classList.remove('show')
+}
+
+// ── OWNER TAGS ───────────────────────────────────────────────────
+function renderTags() {
+  const wrap = document.getElementById('editTagsWrap')
+  wrap.innerHTML = ''
+  ownerTags.forEach((tag, i) => {
+    const pill = document.createElement('div')
+    pill.className = 'owner-tag-pill'
+    pill.innerHTML = `★ ${tag} <span class="remove-tag" onclick="removeTag(${i})">✕</span>`
+    wrap.appendChild(pill)
+  })
+
+  const atLimit  = ownerTags.length >= tagLimit
+  const addRow   = document.getElementById('addTagRow')
+  const limitNote = document.getElementById('tagLimitNote')
+  if (addRow) addRow.style.display = atLimit ? 'none' : 'flex'
+  if (limitNote) limitNote.textContent = atLimit
+    ? `Maximum ${tagLimit} tags reached for your plan.`
+    : `${ownerTags.length}/${tagLimit} tags used`
+}
+
+function addTag() {
+  const input = document.getElementById('newTagInput')
+  const val   = input.value.trim()
+  if (!val || val.length < 2) return
+  if (ownerTags.length >= tagLimit) return
+  ownerTags.push(val)
+  input.value = ''
+  document.getElementById('tagCharCount').textContent = '0'
+  renderTags()
+}
+
+function removeTag(i) {
+  ownerTags.splice(i, 1)
+  renderTags()
+}
+
+// Char counter
+document.addEventListener('DOMContentLoaded', () => {
+  const inp = document.getElementById('newTagInput')
+  if (inp) {
+    inp.addEventListener('input', function() {
+      document.getElementById('tagCharCount').textContent = this.value.length
+    })
+    inp.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') { e.preventDefault(); addTag() }
+    })
+  }
+
+  // Allow Enter on OTP input
+  const otpInp = document.getElementById('otpInput')
+  if (otpInp) {
+    otpInp.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') verifyOtp()
+    })
+  }
+})
+
+// ── SAVE ─────────────────────────────────────────────────────────
+async function saveProfile() {
+  // Validate
+  const gmbUrl = document.getElementById('editGmbUrl').value.trim()
+  const city   = document.getElementById('editCity').value.trim()
+
+  if (!gmbUrl) {
+    document.getElementById('err-gmb').classList.add('show')
+    document.getElementById('editGmbUrl').scrollIntoView({behavior:'smooth'})
+    return
+  }
+  document.getElementById('err-gmb').classList.remove('show')
+
+  if (!city) {
+    document.getElementById('err-city').classList.add('show')
+    document.getElementById('editCity').scrollIntoView({behavior:'smooth'})
+    return
+  }
+  document.getElementById('err-city').classList.remove('show')
+
+  if (selectedLangs.length === 0) {
+    document.getElementById('err-lang').classList.add('show')
+    return
+  }
+  document.getElementById('err-lang').classList.remove('show')
+
+  const btn = document.getElementById('saveBtn')
+  btn.disabled    = true
+  btn.textContent = 'Saving...'
+
   try {
-    const res = await fetch('/api/update-doctor', {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ recordId: currentRecordId, fields })
-    });
-    if (!res.ok) throw new Error('Save failed');
-    document.getElementById('viewPageBtn').href = 'https://goodreview.in/review.html?id=' + currentDoctorId;
-    showScreen('successScreen');
-  } catch(e) { showToast('⚠️ Save failed. Please try again.'); }
+    const res = await fetch('/api/update-business', {
+      method:  'PATCH',
+      headers: {'Content-Type':'application/json'},
+      body:    JSON.stringify({
+        recordId,
+        languages:  JSON.stringify(selectedLangs),
+        customTags: JSON.stringify(ownerTags),
+        gmbUrl,
+        city,
+        area:  document.getElementById('editArea').value.trim(),
+        state: document.getElementById('editState').value
+      })
+    })
+
+    const data = await res.json()
+
+    if (!res.ok) {
+      btn.disabled    = false
+      btn.textContent = '💾 Save Changes'
+      alert(data.error || 'Failed to save. Please try again.')
+      return
+    }
+
+    // Success
+    btn.classList.add('saved')
+    btn.textContent = '✅ Saved!'
+    setTimeout(() => {
+      btn.classList.remove('saved')
+      btn.disabled    = false
+      btn.textContent = '💾 Save Changes'
+    }, 3000)
+    window.scrollTo({top:0, behavior:'smooth'})
+
+  } catch (e) {
+    btn.disabled    = false
+    btn.textContent = '💾 Save Changes'
+    alert('Network error. Please try again.')
+  }
 }
-
-function logout() {
-  currentRecordId = null; currentDoctorId = null; editTags = [];
-  document.getElementById('loginId').value    = '';
-  document.getElementById('loginEmail').value = '';
-  document.getElementById('otpInput').value   = '';
-  showScreen('loginScreen');
-}
-
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
-}
-
-document.getElementById('e_tagLabel').addEventListener('keypress', e => { if (e.key === 'Enter') { e.preventDefault(); addEditTag(); } });
-
-window.sendOTP       = sendOTP;
-window.verifyOTP     = verifyOTP;
-window.saveChanges   = saveChanges;
-window.logout        = logout;
-window.addEditTag    = addEditTag;
-window.removeEditTag = removeEditTag;
-window.showScreen    = showScreen;
 </script>
 </body>
 </html>
