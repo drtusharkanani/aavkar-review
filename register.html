@@ -844,6 +844,9 @@ window.nextStep = function() {
 
   if(currentStep === 3) {
     if(!validateStep(3)) return
+    // Auto-apply coupon if typed but Apply not clicked
+    const couponVal = document.getElementById('couponInput')?.value?.trim().toUpperCase()
+    if(couponVal && !couponApplied) applyCoupon()
     // Free plan OR valid coupon → skip payment
     if(selectedPlan.price === 0 || couponApplied) {
       registerBusiness()
