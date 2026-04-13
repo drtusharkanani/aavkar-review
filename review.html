@@ -281,9 +281,8 @@ function toggleTag(pill,id,label,isOwner,isSQ){
   if(idx===-1){
     // Not selected → select
     tapCount++
-    const lang=getCurrentLang()
-    const phrase=getPhrase(id,label,isOwner,isSQ,lang)
-    selectedTags.push({id,label,phrase,lang,isOwner,isSQ,isCustom:false})
+    // phrase computed at review-build time based on tag count
+    selectedTags.push({id,label,isOwner,isSQ,isCustom:false})
     pill.classList.add('selected')
   }else{
     // Selected → deselect
@@ -309,25 +308,37 @@ function removeTagById(pill,id){
   updateCount();refreshReview()
 }
 
-function getPhrase(id,label,isOwner,isSQ,lang){
+function getSubData(){
   const bType=business.businessType
   const subCat=(business.subCategory||'').toLowerCase().replace(/[^a-z]/g,'')
   const catData=tagMaster.categories?.[bType]
   const keys=Object.keys(catData?.subcategories||{})
-  const matchKey=keys.find(k=>k.toLowerCase().replace(/[^a-z]/g,'')===subCat)||keys.find(k=>k.toLowerCase().replace(/[^a-z]/g,'').includes(subCat.split('_')[0]))||keys[0]
+  const matchKey=keys.find(k=>k.toLowerCase().replace(/[^a-z]/g,'')===subCat)
+    ||keys.find(k=>k.toLowerCase().replace(/[^a-z]/g,'').includes(subCat.split('_')[0]))
+    ||keys[0]
+  return matchKey?catData?.subcategories?.[matchKey]:null
+}
+
+// size: 'long' | 'medium' | 'short'
+function getPhrase(id,label,isOwner,isSQ,lang,size){
+  const subData=getSubData()
+  function pick(arr){return arr&&arr.length?arr[Math.floor(Math.random()*arr.length)]:null}
+  function fromLMS(lms){
+    if(!lms)return null
+    if(size==='long')return pick(lms.long)||pick(lms.medium)||pick(lms.short)||null
+    if(size==='medium'){const opts=[...(lms.medium||[])];return pick(opts)||pick(lms.long)||pick(lms.short)||null}
+    return pick(lms.short)||pick(lms.medium)||null
+  }
   if(!isOwner&&!isSQ){
-    const p=catData?.subcategories?.[matchKey]?.phrases?.[id]?.[lang]
-    if(p?.length)return p[Math.floor(Math.random()*p.length)]
-    // fallback English
-    const pe=catData?.subcategories?.[matchKey]?.phrases?.[id]?.English
-    if(pe?.length)return pe[Math.floor(Math.random()*pe.length)]
+    const lms=subData?.phrases?.[id]?.[lang]||subData?.phrases?.[id]?.English
+    const r=fromLMS(lms)
+    if(r)return r
   }
   if(isSQ){
-    const sqKey=label
-    const sp=tagMaster.serviceQualityTags?.[sqKey]?.phrases?.[lang]
-    if(sp?.length)return sp[Math.floor(Math.random()*sp.length)]
-    const se=tagMaster.serviceQualityTags?.[sqKey]?.phrases?.English
-    if(se?.length)return se[Math.floor(Math.random()*se.length)]
+    const lms=tagMaster.serviceQualityTags?.[label]?.phrases?.[lang]
+      ||tagMaster.serviceQualityTags?.[label]?.phrases?.English
+    const r=fromLMS(lms)
+    if(r)return r
   }
   return label
 }
@@ -415,32 +426,57 @@ function refreshReview(){
 }
 
 function buildVersions(){
+  const n=selectedTags.length
+  // Smart size selection: 1 tag=long, 2 tags=medium, 3+=short
+  const SIZE=n===1?'long':n===2?'medium':'short'
   const versions=[]
+
   for(let v=0;v<5;v++){
     const lang=selectedLang||business.languages[v%business.languages.length]||'English'
+
+    // Opener — empty 40% of time to avoid pattern, location on 1 version
     let opener=''
-    if(v===2&&business.area&&business.city){
+    if(v===1&&business.area&&business.city){
       const arr=tagMaster.openers?.withLocation?.[lang]||tagMaster.openers?.withLocation?.English||[]
       const tmpl=arr[Math.floor(Math.random()*arr.length)]||''
       opener=tmpl.replace('{business}',business.businessName).replace('{area}',business.area).replace('{city}',business.city)
     }else{
-      const arr=tagMaster.openers?.withoutLocation?.[lang]||tagMaster.openers?.withoutLocation?.English||[]
-      opener=arr[v%arr.length]||arr[0]||''
+      const arr=(tagMaster.openers?.withoutLocation?.[lang]||tagMaster.openers?.withoutLocation?.English||[]).filter(s=>s!=='')
+      // 40% chance of no opener for shorter reviews
+      if(n>1&&Math.random()<0.4)opener=''
+      else opener=arr[v%arr.length]||''
     }
-    const ordered=[...selectedTags]
-    const parts=ordered.map(tag=>{
-      if(!tag.isCustom)return getPhrase(tag.id,tag.label,tag.isOwner,tag.isSQ,lang)
-      return tag.phrase
+
+    // Build phrases with correct size
+    const parts=selectedTags.map(tag=>{
+      if(tag.isCustom)return tag.phrase
+      return getPhrase(tag.id,tag.label,tag.isOwner,tag.isSQ,lang,SIZE)
     }).filter(Boolean)
-    const closerArr=tagMaster.closers?.[lang]||tagMaster.closers?.English||[]
-    const closer=closerArr[v%closerArr.length]||closerArr[0]||''
-    let review=opener
-    for(const part of parts){
-      const sep=review.endsWith(' ')?'':', '
-      if((review+sep+part).length<440)review+=sep+part
+
+    // Natural ending — only for 1-2 tag reviews, ~60% chance
+    let ending=''
+    if(n<=2&&Math.random()<0.6){
+      const endArr=tagMaster.naturalEndings?.[lang]||tagMaster.naturalEndings?.English||[]
+      const nonEmpty=endArr.filter(e=>e!=='')
+      ending=nonEmpty[Math.floor(Math.random()*nonEmpty.length)]||''
     }
-    if(!review.match(/[.।!]$/))review+='.'
-    review+=' '+closer
+
+    // Assemble — join parts naturally
+    let review=opener
+    parts.forEach((part,i)=>{
+      if(i===0){
+        review+=review.endsWith(' ')||review===''?part:' '+part
+      }else{
+        // vary connectors to avoid pattern
+        const connectors=[', ','. ','! ','— ']
+        const conn=n>=3?', ':connectors[i%connectors.length]
+        review+=conn+part
+      }
+    })
+
+    if(review&&!review.match(/[.।!—]$/)&&!review.endsWith(' '))review+='.'
+    if(ending)review+=' '+ending
+
     versions.push({text:review.trim(),lang})
   }
   return versions
