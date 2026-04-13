@@ -1,9 +1,5 @@
 {
   "name": "goodreview",
   "version": "1.0.0",
-  "type": "module",
-  "dependencies": {
-    "qrcode": "^1.5.3",
-    "resend": "^3.2.0"
-  }
+  "type": "module"
 }
