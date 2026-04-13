@@ -291,10 +291,6 @@ select.input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xml
   <div class="plan-grid" id="planGrid"></div>
   <div class="error-msg" id="err-plan" style="margin-top:8px">Please select a plan</div>
 
-  <div class="warn-box" style="margin-top:14px">
-    📦 Physical items (NFC card, Standee) will be shipped within 5–7 days after payment. QR code access is immediate.
-  </div>
-
   <!-- COUPON CODE -->
   <div class="divider"></div>
   <div class="section-label">Have a Coupon Code?</div>
@@ -304,6 +300,10 @@ select.input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xml
   </div>
   <div class="coupon-success" id="couponSuccess">🎉 100% discount applied — registration is free!</div>
   <div class="coupon-error" id="couponError">Invalid coupon code. Please try again.</div>
+
+  <div class="warn-box" style="margin-top:14px">
+    📦 Physical items (NFC card, Standee) will be shipped within 5–7 days after payment. QR code access is immediate.
+  </div>
 </div>
 
 <!-- SUCCESS -->
@@ -523,7 +523,7 @@ function renderPlans() {
       <div class="plan-top">
         <div class="plan-name">${plan.name}</div>
         <div class="plan-price-wrap">
-          <div class="plan-price">${plan.price === 0 ? 'Free' : '₹'+plan.price}</div>
+          <div class="plan-price">${plan.price === 0 ? 'Free' : '\u20B9'+plan.price}</div>
           <div class="plan-dur">${plan.price === 0 ? 'forever' : ['1 year','2 years','5 years'][selectedDur]}</div>
         </div>
       </div>
