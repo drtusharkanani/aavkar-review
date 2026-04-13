@@ -3,880 +3,491 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Doctor Review">
-<title>Share Your Experience</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<title>GoodReview</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --teal: #0a7c6e;
-    --teal-light: #0fa390;
-    --teal-pale: #e8f7f5;
-    --gold: #c9993a;
-    --gold-light: #f5e6c8;
-    --navy: #0d2340;
-    --text: #1a2e3b;
-    --muted: #6b8191;
-    --white: #ffffff;
-    --bg: #f4f9f8;
-    --radius: 14px;
-    --shadow: 0 4px 24px rgba(10,124,110,0.10);
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .hero {
-    width: 100%;
-    background: linear-gradient(145deg, var(--navy) 0%, #104a5e 60%, var(--teal) 100%);
-    padding: 36px 20px 48px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero::before {
-    content: '';
-    position: absolute;
-    width: 320px; height: 320px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.04);
-    top: -80px; right: -80px;
-    pointer-events: none;
-  }
-  .hero::after {
-    content: '';
-    position: absolute;
-    width: 200px; height: 200px;
-    border-radius: 50%;
-    background: rgba(201,153,58,0.08);
-    bottom: -60px; left: -40px;
-    pointer-events: none;
-  }
-  .cross-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 52px; height: 52px;
-    background: var(--gold);
-    border-radius: 50%;
-    margin-bottom: 14px;
-    font-size: 22px;
-    position: relative; z-index: 1;
-    box-shadow: 0 0 0 8px rgba(201,153,58,0.18);
-  }
-  .hospital-name {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(20px, 5vw, 28px);
-    color: #fff;
-    letter-spacing: 0.3px;
-    line-height: 1.2;
-    position: relative; z-index: 1;
-  }
-  .hospital-sub {
-    font-size: 11px;
-    color: var(--gold);
-    text-transform: uppercase;
-    letter-spacing: 2.5px;
-    margin: 5px 0 2px;
-    font-weight: 500;
-    position: relative; z-index: 1;
-  }
-  .divider-gold {
-    width: 48px; height: 2px;
-    background: var(--gold);
-    margin: 12px auto 12px;
-    border-radius: 2px;
-    position: relative; z-index: 1;
-  }
-  .doctor-card {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.18);
-    border-radius: 50px;
-    padding: 8px 18px 8px 10px;
-    margin-top: 4px;
-    position: relative; z-index: 1;
-    backdrop-filter: blur(6px);
-  }
-  .doctor-avatar {
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    background: var(--gold);
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 700; color: white; font-size: 13px;
-    flex-shrink: 0;
-  }
-  .doctor-info { text-align: left; }
-  .doctor-name-text { font-size: 13px; font-weight: 600; color: #fff; }
-  .doctor-title-text { font-size: 10.5px; color: rgba(255,255,255,0.65); margin-top: 1px; }
-  .hero-badges {
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-top: 12px;
-    position: relative; z-index: 1;
-  }
-  .hero-badge {
-    font-size: 11px;
-    font-weight: 600;
-    padding: 4px 12px;
-    border-radius: 20px;
-    background: rgba(255,255,255,0.12);
-    border: 1px solid rgba(255,255,255,0.2);
-    color: rgba(255,255,255,0.85);
-    letter-spacing: 0.3px;
-  }
-  .card {
-    background: var(--white);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 28px 20px;
-    width: calc(100% - 32px);
-    max-width: 480px;
-    margin: -20px auto 0;
-    border-top-left-radius: 24px;
-    border-top-right-radius: 24px;
-    position: relative;
-    z-index: 2;
-    animation: fadeUp 0.4s ease both;
-  }
-  @keyframes fadeUp {
-    from { opacity:0; transform:translateY(12px); }
-    to   { opacity:1; transform:translateY(0); }
-  }
-  .section-label {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: var(--muted);
-    font-weight: 600;
-    margin-bottom: 14px;
-  }
-  .tags-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 24px;
-  }
-  .tag {
-    padding: 8px 14px;
-    border-radius: 50px;
-    border: 1.5px solid #d4e8e5;
-    background: #fff;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--teal);
-    cursor: pointer;
-    transition: all 0.18s ease;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
-  .tag:hover { background: var(--teal-pale); border-color: var(--teal); }
-  .tag.active {
-    background: var(--teal);
-    border-color: var(--teal);
-    color: #fff;
-    box-shadow: 0 2px 12px rgba(10,124,110,0.28);
-    transform: translateY(-1px);
-  }
-  .tag .emoji { font-size: 15px; }
-  .tag.info-tag {
-    border-color: var(--gold);
-    color: #8a6010;
-    background: var(--gold-light);
-  }
-  .tag.info-tag.active {
-    background: var(--gold);
-    border-color: var(--gold);
-    color: #fff;
-    box-shadow: 0 2px 12px rgba(201,153,58,0.35);
-  }
-  .review-label {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
-  .review-label span { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); font-weight: 600; }
-  .char-count { font-size: 11px; color: var(--muted); }
-  .lang-badge {
-    display: none;
-    font-size: 10.5px;
-    font-weight: 600;
-    background: var(--gold-light);
-    color: #8a6010;
-    border: 1px solid #e8c87a;
-    padding: 3px 10px;
-    border-radius: 20px;
-    letter-spacing: 0.5px;
-  }
-  textarea {
-    width: 100%;
-    min-height: 130px;
-    border: 1.5px solid #d4e8e5;
-    border-radius: 12px;
-    padding: 14px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    line-height: 1.6;
-    color: var(--text);
-    resize: vertical;
-    transition: border-color 0.2s;
-    outline: none;
-    background: #fafdfc;
-  }
-  textarea:focus { border-color: var(--teal); background: #fff; }
-  textarea::placeholder { color: #b0c4be; }
-  .submit-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    width: 100%;
-    padding: 16px;
-    background: linear-gradient(135deg, var(--teal) 0%, var(--teal-light) 100%);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    margin-top: 18px;
-    transition: all 0.2s;
-    letter-spacing: 0.3px;
-    box-shadow: 0 4px 16px rgba(10,124,110,0.30);
-    text-decoration: none;
-  }
-  .submit-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(10,124,110,0.38); }
-  .submit-btn:active { transform: translateY(0); }
-  .hint { text-align: center; font-size: 11.5px; color: var(--muted); margin-top: 10px; line-height: 1.5; }
-  .qr-section {
-    margin: 16px auto 0;
-    width: calc(100% - 32px);
-    max-width: 480px;
-    background: white;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 24px 20px;
-    text-align: center;
-    animation: fadeUp 0.4s ease 0.1s both;
-  }
-  .qr-title { font-family: 'Playfair Display', serif; font-size: 16px; color: var(--navy); margin-bottom: 4px; }
-  .qr-sub { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
-  #qrcode { display: inline-block; padding: 12px; background: white; border-radius: 10px; border: 1.5px solid #d4e8e5; }
-  #qrcode img, #qrcode canvas { border-radius: 6px; }
-  .qr-url { font-size: 11px; color: var(--teal); margin-top: 10px; word-break: break-all; }
-  .not-found {
-    text-align: center;
-    padding: 60px 24px;
-    max-width: 380px;
-    margin: 40px auto;
-  }
-  .not-found .icon { font-size: 48px; margin-bottom: 16px; }
-  .not-found h2 { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--navy); margin-bottom: 10px; }
-  .not-found p { color: var(--muted); font-size: 14px; line-height: 1.6; }
-  .toast {
-    position: fixed;
-    bottom: 24px; left: 50%;
-    transform: translateX(-50%) translateY(80px);
-    background: var(--navy);
-    color: white;
-    padding: 12px 22px;
-    border-radius: 50px;
-    font-size: 13px;
-    font-weight: 500;
-    transition: transform 0.35s cubic-bezier(.34,1.56,.64,1);
-    z-index: 999;
-    white-space: nowrap;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
-  }
-  .toast.show { transform: translateX(-50%) translateY(0); }
-  footer { text-align: center; font-size: 11px; color: #aac3be; padding: 20px 16px 32px; }
+:root{--saffron:#FF6B00;--saffron-light:#FFF3E8;--green:#1A7A4A;--green-light:#E8F5EE;--gold:#F5A623;--text:#1A1A2E;--text-soft:#5A5A7A;--border:#E8E8F0;--bg:#F7F7FC;--white:#FFFFFF;--shadow:0 2px 16px rgba(0,0,0,0.08);--radius:16px;--tag-radius:24px}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:40px}
+.header{background:linear-gradient(135deg,#FF6B00 0%,#FF8C00 50%,#F5A623 100%);padding:28px 20px 52px;text-align:center;position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;top:-40px;right:-40px;width:160px;height:160px;background:rgba(255,255,255,0.08);border-radius:50%}
+.header::after{content:'';position:absolute;bottom:-20px;left:-20px;width:100px;height:100px;background:rgba(255,255,255,0.06);border-radius:50%}
+.brand{font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;color:rgba(255,255,255,0.85);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+.business-name{font-family:'Poppins',sans-serif;font-size:24px;font-weight:700;color:#fff;line-height:1.2;margin-bottom:4px}
+.business-sub{font-size:13px;color:rgba(255,255,255,0.85);font-weight:500}
+.stars-row{display:flex;justify-content:center;gap:4px;margin-top:10px}
+.star{font-size:18px;color:#FFE066}
+.card{background:var(--white);border-radius:var(--radius);margin:-28px 14px 12px;padding:18px;box-shadow:var(--shadow);position:relative;z-index:1;animation:fadeIn 0.35s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.section-title{font-family:'Poppins',sans-serif;font-size:14px;font-weight:600;color:var(--text);margin-bottom:12px;display:flex;align-items:center;gap:7px}
+.section-title .icon{font-size:17px}
+/* LANGUAGE */
+.lang-grid{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.lang-btn{padding:8px 15px;border-radius:var(--tag-radius);border:2px solid var(--border);background:var(--white);font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;color:var(--text-soft);cursor:pointer;transition:all 0.18s}
+.lang-btn:hover{border-color:var(--saffron);color:var(--saffron)}
+.lang-btn.selected{background:var(--saffron);border-color:var(--saffron);color:#fff}
+.lang-skip{font-size:12px;color:var(--text-soft);text-align:center;cursor:pointer;padding:5px;text-decoration:underline;display:block}
+.lang-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 11px;border-radius:20px;font-size:12px;font-weight:700;margin-bottom:12px}
+.lang-badge.locked{background:#E8F5EE;color:var(--green)}
+.lang-badge.auto{background:#FFF3E8;color:var(--saffron)}
+/* TAGS */
+.tags-wrap{display:flex;flex-wrap:wrap;gap:7px}
+.tag-pill{display:inline-flex;align-items:center;gap:5px;padding:7px 13px;border-radius:var(--tag-radius);border:2px solid var(--border);background:var(--white);font-size:13px;font-weight:600;color:var(--text);cursor:pointer;transition:all 0.15s;user-select:none}
+.tag-pill:hover{border-color:var(--saffron);background:var(--saffron-light)}
+.tag-pill.selected{background:var(--saffron-light);border-color:var(--saffron);color:var(--saffron)}
+.tag-pill.favourite{background:#FFF8E1;border-color:var(--gold);color:#8B6914}
+.tag-pill.owner-tag{border-style:dashed;border-color:var(--green);color:var(--green)}
+.tag-pill.owner-tag.selected{background:var(--green-light);border-style:solid}
+.tag-prefix{font-size:10px;opacity:0.7}
+.tag-remove{font-size:13px;opacity:0.6;margin-left:1px}
+.sq-label{font-size:11px;font-weight:700;color:var(--text-soft);letter-spacing:1px;text-transform:uppercase;margin:13px 0 7px}
+.fav-hint{font-size:11px;color:var(--text-soft);margin-top:9px;text-align:center}
+.sel-count{display:inline-flex;align-items:center;justify-content:center;width:19px;height:19px;border-radius:50%;background:var(--saffron);color:#fff;font-size:10px;font-weight:800;margin-left:5px}
+.sel-count.hidden{display:none}
+/* CUSTOM TAG */
+.divider{height:1px;background:var(--border);margin:14px 0}
+.custom-tag-btn{display:flex;align-items:center;gap:7px;padding:10px 16px;border-radius:var(--tag-radius);border:2px dashed var(--saffron);background:var(--saffron-light);font-size:13px;font-weight:700;color:var(--saffron);cursor:pointer;width:100%;justify-content:center;font-family:'Nunito',sans-serif}
+.custom-input-wrap{display:none;flex-direction:column;gap:9px;margin-top:9px}
+.custom-input-wrap.open{display:flex}
+.ctag-input{width:100%;padding:11px 15px;border-radius:12px;border:2px solid var(--border);font-family:'Nunito',sans-serif;font-size:14px;color:var(--text);outline:none;transition:border-color 0.2s}
+.ctag-input:focus{border-color:var(--saffron)}
+.ctag-hint{font-size:11px;color:var(--text-soft)}
+.phrase-options{display:flex;flex-direction:column;gap:7px}
+.phrase-opt{padding:10px 13px;border-radius:10px;border:2px solid var(--border);font-size:13px;cursor:pointer;transition:all 0.15s;background:var(--white);font-family:'Nunito',sans-serif}
+.phrase-opt:hover,.phrase-opt.chosen{border-color:var(--green);background:var(--green-light);color:var(--green);font-weight:700}
+.btn-generate{width:100%;padding:13px;border-radius:var(--radius);border:none;background:linear-gradient(135deg,#FF6B00,#F5A623);color:#fff;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all 0.2s}
+.btn-generate:disabled{opacity:0.5;cursor:not-allowed}
+.ai-loading{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--text-soft);justify-content:center;padding:9px}
+.ai-dot{width:6px;height:6px;border-radius:50%;background:var(--saffron);animation:bounce 1.2s infinite}
+.ai-dot:nth-child(2){animation-delay:0.2s}
+.ai-dot:nth-child(3){animation-delay:0.4s}
+@keyframes bounce{0%,80%,100%{transform:scale(0.8);opacity:0.5}40%{transform:scale(1.2);opacity:1}}
+.upgrade-nudge{background:linear-gradient(135deg,#FFF3E8,#FFF8F0);border:1px solid #FFD4A8;border-radius:12px;padding:11px 13px;font-size:12px;color:#B85C00;text-align:center;margin-top:9px}
+/* REVIEW */
+.review-box{background:linear-gradient(135deg,#F0FFF6,#E8F5EE);border:2px solid #97C459;border-radius:var(--radius);padding:16px;margin-top:4px}
+.review-lang-label{font-size:11px;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:1px;margin-bottom:7px}
+.review-text{font-size:14px;line-height:1.75;color:var(--text);min-height:80px}
+.review-dots{display:flex;justify-content:center;gap:6px;margin:11px 0 5px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--border);cursor:pointer;transition:all 0.2s}
+.dot.active{background:var(--green);transform:scale(1.3)}
+.btn-copy{width:100%;padding:15px;border-radius:var(--radius);border:none;background:var(--green);color:#fff;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:9px;margin-top:11px}
+.btn-copy:hover{background:#155e38}
+.btn-copy.copied{background:var(--gold);color:#fff}
+.btn-google{width:100%;padding:14px;border-radius:var(--radius);border:2px solid var(--border);background:var(--white);color:var(--text);font-family:'Poppins',sans-serif;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;margin-top:9px;text-decoration:none;transition:all 0.2s}
+.btn-google:hover{border-color:#4285F4;color:#4285F4}
+/* STATES */
+.loading{text-align:center;padding:70px 20px}
+.spinner{width:46px;height:46px;border:4px solid var(--border);border-top-color:var(--saffron);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 14px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.error-box{text-align:center;padding:70px 20px}
+.error-icon{font-size:46px;margin-bottom:14px}
+.error-title{font-family:'Poppins',sans-serif;font-size:20px;font-weight:700;margin-bottom:7px}
+.error-msg{font-size:14px;color:var(--text-soft)}
+.footer{text-align:center;padding:18px;font-size:12px;color:var(--text-soft)}
+.footer a{color:var(--saffron);text-decoration:none;font-weight:700}
 </style>
 </head>
 <body>
 
-<div class="hero">
-  <div class="cross-icon">✚</div>
-  <div class="hospital-sub" id="heroHospital" style="display:none"></div>
-  <h1 class="hospital-name" id="heroHospitalName">Loading...</h1>
-  <div class="divider-gold"></div>
-  <div class="doctor-card">
-    <div class="doctor-avatar" id="heroAvatar">--</div>
-    <div class="doctor-info">
-      <div class="doctor-name-text" id="heroDoctorName">Loading...</div>
-      <div class="doctor-title-text" id="heroDoctorTitle">Loading...</div>
+<div id="loadingState" class="loading">
+  <div class="spinner"></div>
+  <p style="color:var(--text-soft);font-size:14px">Loading your review page...</p>
+</div>
+
+<div id="errorState" class="error-box" style="display:none">
+  <div class="error-icon">😔</div>
+  <div class="error-title" id="errorTitle">Something went wrong</div>
+  <p class="error-msg" id="errorMsg">Please try again.</p>
+</div>
+
+<div id="mainContent" style="display:none">
+
+  <div class="header">
+    <div class="brand">⭐ GoodReview</div>
+    <div class="business-name" id="hBusinessName"></div>
+    <div class="business-sub" id="hBusinessSub"></div>
+    <div class="stars-row">★★★★★</div>
+  </div>
+
+  <!-- LANGUAGE CARD -->
+  <div class="card" id="langCard">
+    <div class="section-title"><span class="icon">🌐</span>Select your language</div>
+    <div class="lang-grid" id="langGrid"></div>
+    <span class="lang-skip" onclick="skipLanguage()">Skip — rotate automatically with each tag</span>
+  </div>
+
+  <!-- TAGS CARD -->
+  <div class="card" id="tagsCard">
+    <div class="section-title">
+      <span class="icon">🏷️</span>What did you experience?
+      <span class="sel-count hidden" id="selCount">0</span>
+    </div>
+    <div class="tags-wrap" id="presetTags"></div>
+
+    <div id="ownerTagsSection" style="display:none">
+      <div class="sq-label">★ Special Services</div>
+      <div class="tags-wrap" id="ownerTags"></div>
+    </div>
+
+    <div id="sqSection" style="display:none">
+      <div class="sq-label">Service Quality</div>
+      <div class="tags-wrap" id="sqTags"></div>
+    </div>
+
+    <p class="fav-hint">💛 Tap a selected tag again to mark as favourite — it appears first in your review</p>
+
+    <!-- Customer custom tag -->
+    <div id="customTagArea">
+      <div class="divider"></div>
+      <button class="custom-tag-btn" id="addCustomBtn" onclick="openCustomTag()">✦ Add your own tag</button>
+      <div class="custom-input-wrap" id="customTagWrap">
+        <input class="ctag-input" id="cTagName" placeholder="Tag name (any language or script)" maxlength="30">
+        <input class="ctag-input" id="cTagContext" placeholder="Describe it briefly — helps AI write better (optional)">
+        <p class="ctag-hint">Example: "Rooftop seating", "Jain food", "Home delivery"</p>
+        <div id="phraseOptions" class="phrase-options"></div>
+        <div id="aiLoading" class="ai-loading" style="display:none">
+          <div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div>
+          Creating your phrase...
+        </div>
+        <button class="btn-generate" onclick="generatePhrase()">✦ Generate Phrase</button>
+      </div>
+      <div class="upgrade-nudge" id="upgradeNudge" style="display:none">🔒 Custom tags available in Premium & Ultimate plans. Ask the business to upgrade.</div>
     </div>
   </div>
-  <div class="hero-badges" id="heroBadges"></div>
-</div>
 
-<div class="card" id="mainCard">
-  <div class="section-label">Pick what describes your visit</div>
-  <div class="tags-grid" id="tagsGrid"></div>
-  <div class="review-label">
-    <span>Your Review</span>
-    <div style="display:flex;align-items:center;gap:8px;">
-      <span class="lang-badge" id="langBadge"></span>
-      <span class="char-count" id="charCount">0 / 500</span>
+  <!-- REVIEW CARD -->
+  <div class="card" id="reviewCard" style="display:none">
+    <div class="section-title"><span class="icon">✍️</span>Your Review</div>
+    <div id="langBadge" class="lang-badge locked"></div>
+    <div class="review-box">
+      <div class="review-lang-label" id="reviewLangLabel"></div>
+      <div class="review-text" id="reviewText"></div>
+      <div class="review-dots" id="reviewDots"></div>
     </div>
+    <button class="btn-copy" id="copyBtn" onclick="copyReview()">📋 Copy Review</button>
+    <a class="btn-google" id="googleBtn" href="#" target="_blank">
+      <svg width="17" height="17" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+      Post on Google Maps
+    </a>
   </div>
-  <textarea id="reviewBox" maxlength="500" placeholder="Select tags above to auto-generate your review, or type your own…"></textarea>
-  <button class="submit-btn" id="submitBtn">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M8 5H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-1M8 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M8 5a2 2 0 0 0-1-1h6a2 2 0 0 1 1 1m0 0h2a2 2 0 0 1 2 2v3"/>
-    </svg>
-    <span id="submitBtnText">Copy Review for Google</span>
-  </button>
-  <p class="hint" id="submitHint">Tap to copy → Google opens → Long press &amp; Paste ✓</p>
-</div>
 
-<div class="qr-section">
-  <div class="qr-title">Share This Page</div>
-  <div class="qr-sub">Scan QR code to open on any device</div>
-  <div id="qrcode"></div>
-  <div class="qr-url" id="pageUrl"></div>
+  <div class="footer">Powered by <a href="https://goodreview.in">GoodReview.in</a></div>
 </div>
-
-<footer id="footerText">Powered by GoodReview Team · goodreview.in</footer>
-<div class="toast" id="toast"></div>
 
 <script>
-const params   = new URLSearchParams(window.location.search);
-const doctorId = params.get('id') || '101';
-let DOC        = null;
+let business=null,tagMaster=null,selectedLang=null,tapCount=0
+let selectedTags=[],customerCustomCount=0,currentVersionIdx=0,reviewVersions=[]
+const LANG_DISPLAY={English:'English',Hindi:'हिंदी',Gujarati:'ગુજરાતી',Hinglish:'Hinglish',Marathi:'मराठी',Tamil:'தமிழ்',Telugu:'తెలుగు',Kannada:'ಕನ್ನಡ'}
 
-async function loadDoctor() {
-  try {
-    document.getElementById('heroDoctorName').textContent  = 'Loading...';
-    document.getElementById('heroHospitalName').textContent = 'GoodReview';
-    const res  = await fetch('/api/doctor?id=' + doctorId);
-    const data = await res.json();
-    if (!res.ok) {
-      if (res.status === 403) { showExpired(); return; }
-      showNotFound(); return;
+async function init(){
+  const id=new URLSearchParams(window.location.search).get('id')
+  if(!id)return showError('Invalid Link','No business ID in URL.')
+  try{
+    const[bizRes,tmRes]=await Promise.all([fetch('/api/business?id='+id),fetch('/tag-master.json')])
+    if(!bizRes.ok){
+      const e=await bizRes.json()
+      if(e.error==='expired'||e.error==='inactive')return showError('Subscription Expired',`${e.businessName||''} — Please contact the business owner.`)
+      if(e.error==='free_limit_reached')return showError('Review Limit Reached','This business has reached its free plan limit.')
+      return showError('Not Found','This review page does not exist.')
     }
-    DOC = {
-      name: data.name, degree: data.degree, specialty: data.specialty,
-      city: data.city, area: data.area, hospital: data.hospital,
-      plan: data.plan, gmb: data.gmbUrl, customTags: data.customTags || [],
-      reviewCount: data.reviewCount || 0, rating: data.rating || 0,
-      referralCode: data.referralCode,
-    };
-    initApp();
-  } catch(err) {
-    console.error('Load error:', err);
-    DOC = FALLBACK_DOCTORS[doctorId];
-    if (DOC) { initApp(); } else { showNotFound(); }
-  }
+    business=await bizRes.json()
+    tagMaster=await tmRes.json()
+    renderPage()
+  }catch(e){showError('Connection Error','Please check your internet and try again.')}
 }
 
-function showNotFound() {
-  document.getElementById('mainCard').innerHTML = '<div class="not-found"><div class="icon">🏥</div><h2>Doctor Not Found</h2><p>No doctor found with ID <strong>' + doctorId + '</strong>.<br>Please check the link or QR code.</p></div>';
-  document.querySelector('.hero').style.display = 'none';
-  document.querySelector('.qr-section').style.display = 'none';
+function renderPage(){
+  document.getElementById('hBusinessName').textContent=business.businessName
+  const sub=[business.subCategory,business.qualification].filter(Boolean).join(' · ')
+  document.getElementById('hBusinessSub').textContent=sub
+  document.title='Review — '+business.businessName
+  renderLanguages()
+  renderTags()
+  setupCustomArea()
+  document.getElementById('loadingState').style.display='none'
+  document.getElementById('mainContent').style.display='block'
 }
 
-function showExpired() {
-  document.getElementById('mainCard').innerHTML = '<div class="not-found"><div class="icon">⏰</div><h2>Subscription Expired</h2><p>This doctor\'s GoodReview subscription has expired.<br>Please contact the doctor to renew.</p></div>';
-  document.querySelector('.hero').style.display = 'none';
-  document.querySelector('.qr-section').style.display = 'none';
+// LANGUAGE
+function renderLanguages(){
+  const grid=document.getElementById('langGrid')
+  business.languages.forEach(lang=>{
+    const btn=document.createElement('button')
+    btn.className='lang-btn'
+    btn.textContent=LANG_DISPLAY[lang]||lang
+    btn.dataset.lang=lang
+    btn.onclick=()=>pickLanguage(lang)
+    grid.appendChild(btn)
+  })
+}
+function pickLanguage(lang){
+  selectedLang=lang
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('selected',b.dataset.lang===lang))
+  refreshReview()
+}
+function skipLanguage(){
+  selectedLang=null
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('selected'))
+  refreshReview()
+}
+function getCurrentLang(){
+  if(selectedLang)return selectedLang
+  const l=business.languages
+  return l[Math.floor(Math.random()*l.length)]
 }
 
-const FALLBACK_DOCTORS = {
-  "101": {
-    name: "Dr. Tushar Kanani", degree: "MD Medicine", specialty: "general_physician",
-    city: "Keshod", hospital: "Aavkar Hospital", plan: "premium", customTags: [],
-    gmb: "https://search.google.com/local/writereview?placeid=ChIJa8KcAAlR_TsRCV8yQnD3jdQ&source=g.page.m._&laa=merchant-review-solicitation"
-  },
-};
+// TAGS
+function renderTags(){
+  const bType=business.businessType
+  const subCat=(business.subCategory||'').toLowerCase().replace(/[^a-z]/g,'')
+  const catData=tagMaster.categories?.[bType]
+  if(!catData)return
+  const keys=Object.keys(catData.subcategories||{})
+  const matchKey=keys.find(k=>k.toLowerCase().replace(/[^a-z]/g,'')===subCat)||keys.find(k=>k.toLowerCase().replace(/[^a-z]/g,'').includes(subCat.split('_')[0]))||keys[0]
+  const subData=matchKey?catData.subcategories[matchKey]:null
 
-loadDoctor();
+  const presetWrap=document.getElementById('presetTags')
+  subData?.tags?.forEach(tag=>presetWrap.appendChild(makePill(tag.id,tag.label,false,false)))
 
-const QUALITY_TAGS = [
-  { key: "excellent_doctor",   emoji: "👨‍⚕️", label: "Excellent Doctor" },
-  { key: "accurate_diagnosis", emoji: "🎯",  label: "Accurate Diagnosis" },
-  { key: "very_caring",        emoji: "🤗",  label: "Very Caring" },
-  { key: "knowledgeable",      emoji: "📚",  label: "Knowledgeable" },
-  { key: "explained_clearly",  emoji: "💬",  label: "Explained Clearly" },
-  { key: "clean_hospital",     emoji: "✨",  label: "Clean Hospital" },
-  { key: "friendly_staff",     emoji: "😊",  label: "Friendly Staff" },
-  { key: "quick_service",      emoji: "⚡",  label: "Quick Service" },
-  { key: "good_followup",      emoji: "📞",  label: "Good Follow-up" },
-  { key: "highly_recommended", emoji: "🏆",  label: "Highly Recommended" },
-  { key: "affordable_fees",    emoji: "💰",  label: "Affordable Fees" },
-  { key: "best_in_city",       emoji: "🌟",  label: "Best in City" },
-];
-
-const SPECIALTY_TAGS = {
-  general_physician: [
-    { key: "diabetes", emoji: "🩸", label: "Diabetes" },
-    { key: "hypertension", emoji: "💊", label: "Hypertension" },
-    { key: "thyroid", emoji: "🦋", label: "Thyroid" },
-    { key: "heart_disease", emoji: "🫀", label: "Heart Disease" },
-    { key: "fever_viral", emoji: "🤒", label: "Fever / Viral" },
-    { key: "kidney_disease", emoji: "🫘", label: "Kidney Disease" },
-    { key: "liver_disease", emoji: "🟤", label: "Liver Disease" },
-    { key: "asthma", emoji: "🫁", label: "Asthma" },
-    { key: "anemia", emoji: "🔴", label: "Anemia" },
-    { key: "cholesterol", emoji: "⚠️", label: "Cholesterol" },
-    { key: "dengue_typhoid", emoji: "🦟", label: "Dengue / Typhoid" },
-    { key: "arthritis", emoji: "🦴", label: "Arthritis" },
-    { key: "weight_management", emoji: "⚖️", label: "Weight Management" },
-  ],
-  homeopathy: [
-    { key: "chronic_illness", emoji: "💊", label: "Chronic Illness" },
-    { key: "allergy_homeo", emoji: "🌼", label: "Allergy" },
-    { key: "skin_homeo", emoji: "🌸", label: "Skin Problems" },
-    { key: "child_homeo", emoji: "👶", label: "Child Diseases" },
-    { key: "hair_homeo", emoji: "💇", label: "Hair Problems" },
-    { key: "migraine_homeo", emoji: "🧠", label: "Migraine" },
-    { key: "thyroid_homeo", emoji: "🦋", label: "Thyroid" },
-    { key: "pcos_homeo", emoji: "🔵", label: "PCOS" },
-    { key: "joint_homeo", emoji: "🦴", label: "Joint Pain" },
-    { key: "immunity_homeo", emoji: "🛡️", label: "Immunity" },
-    { key: "anxiety_homeo", emoji: "🧘", label: "Anxiety / Depression" },
-    { key: "kidney_homeo", emoji: "🫘", label: "Kidney Stones" },
-  ],
-  ayurvedic: [
-    { key: "panchakarma", emoji: "🌿", label: "Panchakarma" },
-    { key: "herbal_treatment", emoji: "🌱", label: "Herbal Treatment" },
-    { key: "chronic_disease", emoji: "💊", label: "Chronic Disease" },
-    { key: "digestion", emoji: "🫃", label: "Digestion Issues" },
-    { key: "stress_anxiety", emoji: "🧘", label: "Stress / Anxiety" },
-    { key: "joint_pain_ayu", emoji: "🦴", label: "Joint Pain" },
-    { key: "skin_disease_ayu", emoji: "🌸", label: "Skin Disease" },
-    { key: "immunity_boost", emoji: "🛡️", label: "Immunity Boost" },
-    { key: "weight_loss_ayu", emoji: "⚖️", label: "Weight Loss" },
-    { key: "diabetes_ayu", emoji: "🩸", label: "Diabetes Care" },
-    { key: "detox", emoji: "✨", label: "Detox Therapy" },
-    { key: "migraine_ayu", emoji: "🧠", label: "Migraine Relief" },
-  ],
-  dermatologist: [
-    { key: "acne", emoji: "🔴", label: "Acne Treatment" },
-    { key: "hair_loss", emoji: "💇", label: "Hair Loss" },
-    { key: "skin_allergy", emoji: "🌸", label: "Skin Allergy" },
-    { key: "psoriasis", emoji: "🔬", label: "Psoriasis" },
-    { key: "vitiligo", emoji: "⬜", label: "Vitiligo" },
-    { key: "fungal", emoji: "🍄", label: "Fungal Infection" },
-    { key: "anti_aging", emoji: "✨", label: "Anti-Aging" },
-    { key: "laser", emoji: "💡", label: "Laser Treatment" },
-    { key: "eczema", emoji: "🔴", label: "Eczema" },
-    { key: "dark_spots", emoji: "🌑", label: "Dark Spots" },
-    { key: "dandruff", emoji: "❄️", label: "Dandruff" },
-    { key: "wart_removal", emoji: "🔵", label: "Wart Removal" },
-  ],
-  pediatrician: [
-    { key: "newborn_care", emoji: "👶", label: "Newborn Care" },
-    { key: "vaccination", emoji: "💉", label: "Vaccination" },
-    { key: "growth_monitoring", emoji: "📏", label: "Growth Monitoring" },
-    { key: "child_fever", emoji: "🤒", label: "Child Fever" },
-    { key: "child_nutrition", emoji: "🥗", label: "Child Nutrition" },
-    { key: "child_asthma", emoji: "🫁", label: "Asthma in Child" },
-    { key: "skin_rash", emoji: "🌡️", label: "Skin Rash" },
-    { key: "diarrhea", emoji: "🏥", label: "Diarrhea" },
-    { key: "nicu_care", emoji: "🍼", label: "NICU Care" },
-    { key: "developmental", emoji: "🧠", label: "Development Care" },
-    { key: "child_infection", emoji: "🦠", label: "Child Infection" },
-    { key: "child_allergy", emoji: "🌸", label: "Child Allergy" },
-  ],
-  gynecologist: [
-    { key: "normal_delivery", emoji: "👶", label: "Normal Delivery" },
-    { key: "c_section", emoji: "🏥", label: "C-Section" },
-    { key: "pcos", emoji: "🔵", label: "PCOS" },
-    { key: "pregnancy_care", emoji: "🤰", label: "Pregnancy Care" },
-    { key: "infertility", emoji: "💙", label: "Infertility" },
-    { key: "menstrual", emoji: "📅", label: "Menstrual Problems" },
-    { key: "menopause", emoji: "🌸", label: "Menopause" },
-    { key: "uterus_fibroid", emoji: "🔬", label: "Uterus Fibroid" },
-    { key: "ovarian_cyst", emoji: "🫧", label: "Ovarian Cyst" },
-    { key: "family_planning", emoji: "👨‍👩‍👧", label: "Family Planning" },
-    { key: "high_risk_preg", emoji: "⚠️", label: "High Risk Pregnancy" },
-    { key: "laparoscopy", emoji: "🔭", label: "Laparoscopy" },
-  ],
-  orthopedic: [
-    { key: "fracture", emoji: "🦴", label: "Fracture Treatment" },
-    { key: "knee_replacement", emoji: "🦿", label: "Knee Replacement" },
-    { key: "hip_replacement", emoji: "🦯", label: "Hip Replacement" },
-    { key: "spine_surgery", emoji: "🔬", label: "Spine Surgery" },
-    { key: "sports_injury", emoji: "⚽", label: "Sports Injury" },
-    { key: "joint_pain", emoji: "😣", label: "Joint Pain" },
-    { key: "arthritis_ortho", emoji: "🦴", label: "Arthritis" },
-    { key: "slip_disc", emoji: "🔴", label: "Slip Disc" },
-    { key: "shoulder_pain", emoji: "💪", label: "Shoulder Pain" },
-    { key: "physiotherapy", emoji: "🏃", label: "Physiotherapy" },
-    { key: "ligament_tear", emoji: "⚡", label: "Ligament Tear" },
-    { key: "bone_density", emoji: "💪", label: "Bone Density" },
-  ],
-  cardiologist: [
-    { key: "heart_attack_c", emoji: "❤️", label: "Heart Attack" },
-    { key: "angioplasty", emoji: "🩺", label: "Angioplasty" },
-    { key: "bypass", emoji: "🏥", label: "Bypass Surgery" },
-    { key: "ecg", emoji: "📈", label: "ECG" },
-    { key: "echo", emoji: "🔊", label: "Echocardiography" },
-    { key: "pacemaker", emoji: "⚡", label: "Pacemaker" },
-    { key: "heart_failure", emoji: "💔", label: "Heart Failure" },
-    { key: "cholesterol_c", emoji: "⚠️", label: "Cholesterol" },
-    { key: "bp_cardio", emoji: "💊", label: "Blood Pressure" },
-    { key: "arrhythmia", emoji: "📉", label: "Arrhythmia" },
-    { key: "valve_disease", emoji: "🫀", label: "Valve Disease" },
-    { key: "cardiac_rehab", emoji: "🏃", label: "Cardiac Rehab" },
-  ],
-  dentist: [
-    { key: "root_canal", emoji: "🦷", label: "Root Canal" },
-    { key: "whitening", emoji: "✨", label: "Teeth Whitening" },
-    { key: "braces", emoji: "😁", label: "Braces" },
-    { key: "implant", emoji: "🔩", label: "Dental Implant" },
-    { key: "extraction", emoji: "🦷", label: "Tooth Extraction" },
-    { key: "cavity", emoji: "🕳️", label: "Cavity Filling" },
-    { key: "gum", emoji: "🦷", label: "Gum Treatment" },
-    { key: "dentures", emoji: "😁", label: "Dentures" },
-    { key: "scaling", emoji: "✨", label: "Scaling & Cleaning" },
-    { key: "smile_makeover", emoji: "😊", label: "Smile Makeover" },
-    { key: "kids_dental", emoji: "👶", label: "Kids Dentistry" },
-    { key: "wisdom_tooth", emoji: "🦷", label: "Wisdom Tooth" },
-  ],
-  physiotherapist: [
-    { key: "back_pain", emoji: "🦴", label: "Back Pain" },
-    { key: "neck_pain", emoji: "💆", label: "Neck Pain" },
-    { key: "sports_physio", emoji: "⚽", label: "Sports Injury" },
-    { key: "post_surgery", emoji: "🏥", label: "Post Surgery Rehab" },
-    { key: "stroke_physio", emoji: "🧠", label: "Stroke Rehab" },
-    { key: "joint_physio", emoji: "🦴", label: "Joint Pain" },
-    { key: "paralysis", emoji: "🦽", label: "Paralysis Care" },
-    { key: "posture", emoji: "🧍", label: "Posture Correction" },
-    { key: "electrotherapy", emoji: "⚡", label: "Electrotherapy" },
-  ],
-  neurologist: [
-    { key: "stroke", emoji: "🧠", label: "Stroke" },
-    { key: "epilepsy", emoji: "⚡", label: "Epilepsy" },
-    { key: "migraine_n", emoji: "🤕", label: "Migraine" },
-    { key: "parkinsons", emoji: "🤲", label: "Parkinson's" },
-    { key: "brain_tumor", emoji: "🔬", label: "Brain Tumor" },
-    { key: "memory_loss", emoji: "💭", label: "Memory Loss" },
-    { key: "nerve_pain", emoji: "⚡", label: "Nerve Pain" },
-    { key: "vertigo", emoji: "💫", label: "Vertigo" },
-    { key: "ms", emoji: "🧬", label: "Multiple Sclerosis" },
-    { key: "neuropathy", emoji: "🦵", label: "Neuropathy" },
-    { key: "dementia", emoji: "🧠", label: "Dementia" },
-    { key: "headache", emoji: "🤕", label: "Headache" },
-  ],
-  psychiatrist: [
-    { key: "depression", emoji: "😔", label: "Depression" },
-    { key: "anxiety_p", emoji: "😰", label: "Anxiety" },
-    { key: "ocd", emoji: "🔄", label: "OCD" },
-    { key: "bipolar", emoji: "🔄", label: "Bipolar Disorder" },
-    { key: "schizophrenia", emoji: "🧠", label: "Schizophrenia" },
-    { key: "addiction", emoji: "🚫", label: "De-Addiction" },
-    { key: "ptsd", emoji: "🧠", label: "PTSD" },
-    { key: "sleep_disorder", emoji: "😴", label: "Sleep Disorder" },
-    { key: "child_psych", emoji: "👶", label: "Child Psychiatry" },
-    { key: "counseling", emoji: "💬", label: "Counseling" },
-  ],
-  ent_specialist: [
-    { key: "tonsils", emoji: "👄", label: "Tonsil Surgery" },
-    { key: "sinus", emoji: "😤", label: "Sinusitis" },
-    { key: "hearing_loss", emoji: "👂", label: "Hearing Loss" },
-    { key: "ear_infection", emoji: "👂", label: "Ear Infection" },
-    { key: "nose_bleed", emoji: "🩸", label: "Nose Bleed" },
-    { key: "adenoid", emoji: "🏥", label: "Adenoid" },
-    { key: "vertigo_ent", emoji: "💫", label: "Vertigo" },
-    { key: "snoring", emoji: "😴", label: "Snoring" },
-    { key: "throat_inf", emoji: "😷", label: "Throat Infection" },
-    { key: "cochlear", emoji: "👂", label: "Cochlear Implant" },
-    { key: "voice_disorder", emoji: "🎤", label: "Voice Disorder" },
-  ],
-  ophthalmologist: [
-    { key: "cataract", emoji: "👁️", label: "Cataract Surgery" },
-    { key: "lasik", emoji: "💡", label: "LASIK Surgery" },
-    { key: "glaucoma", emoji: "👁️", label: "Glaucoma" },
-    { key: "diabetic_retino", emoji: "🩸", label: "Diabetic Retinopathy" },
-    { key: "dry_eyes", emoji: "💧", label: "Dry Eyes" },
-    { key: "eye_infection", emoji: "🦠", label: "Eye Infection" },
-    { key: "specs_power", emoji: "👓", label: "Spectacle Power" },
-    { key: "retina", emoji: "🔬", label: "Retina Treatment" },
-    { key: "child_eye", emoji: "👶", label: "Child Eye Care" },
-    { key: "squint", emoji: "👁️", label: "Squint" },
-    { key: "cornea", emoji: "👁️", label: "Cornea Treatment" },
-  ],
-  diabetologist: [
-    { key: "type1", emoji: "🩸", label: "Type 1 Diabetes" },
-    { key: "type2", emoji: "🩸", label: "Type 2 Diabetes" },
-    { key: "insulin_d", emoji: "💉", label: "Insulin Management" },
-    { key: "hba1c", emoji: "🔬", label: "HbA1c Control" },
-    { key: "diabetic_foot", emoji: "🦶", label: "Diabetic Foot" },
-    { key: "diabetic_eye", emoji: "👁️", label: "Diabetic Eye" },
-    { key: "diet_d", emoji: "🥗", label: "Diabetic Diet" },
-    { key: "pump_therapy", emoji: "⚙️", label: "Pump Therapy" },
-    { key: "prevention_d", emoji: "🛡️", label: "Diabetes Prevention" },
-  ],
-  general_surgeon: [
-    { key: "appendix", emoji: "🔬", label: "Appendix Surgery" },
-    { key: "hernia_gen", emoji: "🏥", label: "Hernia" },
-    { key: "gallbladder", emoji: "🟡", label: "Gallbladder" },
-    { key: "hemorrhoids", emoji: "🔴", label: "Hemorrhoids" },
-    { key: "thyroid_surg", emoji: "🦋", label: "Thyroid Surgery" },
-    { key: "laparoscopy_gen", emoji: "🔭", label: "Laparoscopy" },
-    { key: "wound_care", emoji: "🩹", label: "Wound Care" },
-    { key: "cancer_surg", emoji: "🎗️", label: "Cancer Surgery" },
-    { key: "obesity_surg", emoji: "⚖️", label: "Obesity Surgery" },
-  ],
-  endocrinologist: [
-    { key: "diabetes_e", emoji: "🩸", label: "Diabetes" },
-    { key: "thyroid_e", emoji: "🦋", label: "Thyroid" },
-    { key: "pcos_e", emoji: "🔵", label: "PCOS" },
-    { key: "obesity_e", emoji: "⚖️", label: "Obesity" },
-    { key: "osteoporosis", emoji: "🦴", label: "Osteoporosis" },
-    { key: "growth_disorder", emoji: "📏", label: "Growth Disorder" },
-    { key: "adrenal", emoji: "🔬", label: "Adrenal Disorder" },
-    { key: "hormone", emoji: "⚗️", label: "Hormone Imbalance" },
-    { key: "insulin", emoji: "💉", label: "Insulin Therapy" },
-    { key: "metabolic", emoji: "🔄", label: "Metabolic Disorder" },
-  ],
-  dietitian: [
-    { key: "weight_loss_d", emoji: "⚖️", label: "Weight Loss" },
-    { key: "weight_gain", emoji: "💪", label: "Weight Gain" },
-    { key: "diabetic_diet", emoji: "🩸", label: "Diabetic Diet" },
-    { key: "heart_diet", emoji: "❤️", label: "Heart Healthy Diet" },
-    { key: "child_diet", emoji: "👶", label: "Child Nutrition" },
-    { key: "sports_diet", emoji: "⚽", label: "Sports Nutrition" },
-    { key: "pcos_diet", emoji: "🔵", label: "PCOS Diet" },
-    { key: "thyroid_diet", emoji: "🦋", label: "Thyroid Diet" },
-    { key: "gut_health", emoji: "🫃", label: "Gut Health" },
-    { key: "meal_plan", emoji: "🥗", label: "Meal Planning" },
-  ],
-  wellness_coach: [
-    { key: "lifestyle", emoji: "🌟", label: "Lifestyle Change" },
-    { key: "stress_wc", emoji: "🧘", label: "Stress Management" },
-    { key: "sleep_wc", emoji: "😴", label: "Sleep Improvement" },
-    { key: "mindfulness", emoji: "💭", label: "Mindfulness" },
-    { key: "habit_coach", emoji: "🎯", label: "Habit Building" },
-    { key: "corporate_well", emoji: "💼", label: "Corporate Wellness" },
-    { key: "weight_wc", emoji: "⚖️", label: "Weight Management" },
-    { key: "energy", emoji: "⚡", label: "Energy & Vitality" },
-  ],
-  general_practitioner: [
-    { key: "gp_fever", emoji: "🤒", label: "Fever & Flu" },
-    { key: "gp_bp", emoji: "💊", label: "Blood Pressure" },
-    { key: "gp_diabetes", emoji: "🩸", label: "Diabetes" },
-    { key: "gp_thyroid", emoji: "🦋", label: "Thyroid" },
-    { key: "gp_cholesterol", emoji: "⚠️", label: "Cholesterol" },
-    { key: "gp_infection", emoji: "🦠", label: "Infection" },
-    { key: "gp_stomach", emoji: "🫃", label: "Stomach Issues" },
-    { key: "gp_allergy", emoji: "🌸", label: "Allergy" },
-    { key: "gp_anemia", emoji: "🔴", label: "Anemia" },
-    { key: "gp_general", emoji: "🏥", label: "General Checkup" },
-    { key: "gp_senior", emoji: "👴", label: "Senior Care" },
-    { key: "gp_preventive", emoji: "🛡️", label: "Preventive Care" },
-  ],
-};
-
-function getTagsForDoctor(doc) {
-  const specialtyTags = SPECIALTY_TAGS[doc.specialty] || [];
-  const customTags = (doc.customTags || []).map(t => ({
-    key: 'custom_' + t.label.toLowerCase().replace(/\s+/g, '_'),
-    emoji: t.emoji || '🏷️', label: t.label, custom: true
-  }));
-  return [...QUALITY_TAGS, ...specialtyTags, ...customTags];
-}
-
-function initApp() {
-  const initials = DOC.name.split(' ').filter(w => w.match(/[A-Z]/)).slice(-2).map(w => w[0]).join('');
-  document.getElementById('heroHospital').textContent      = DOC.hospital;
-  document.getElementById('heroHospitalName').textContent  = DOC.hospital;
-  document.getElementById('heroAvatar').textContent        = initials || 'DR';
-  document.getElementById('heroDoctorName').textContent    = DOC.name;
-  document.getElementById('heroDoctorTitle').textContent   = DOC.degree + ' · ' + DOC.specialty;
-  document.getElementById('footerText').textContent        = DOC.hospital + ' · ' + DOC.city;
-
-  const badgesEl = document.getElementById('heroBadges');
-  let badgesHTML = '<span class="hero-badge">🎓 ' + DOC.degree + '</span><span class="hero-badge">📍 ' + DOC.city + (DOC.area ? ', ' + DOC.area : '') + '</span>';
-  if (DOC.rating && parseFloat(DOC.rating) > 0) {
-    badgesHTML += '<span class="hero-badge" style="background:rgba(201,153,58,0.25);border-color:#c9993a;">⭐ ' + parseFloat(DOC.rating).toFixed(1) + ' Google Rating</span>';
-  }
-  badgesEl.innerHTML = badgesHTML;
-
-  if (DOC.plan === 'free') {
-    const used = parseInt(DOC.reviewCount) || 0;
-    const limit = 3;
-    const left = Math.max(0, limit - used);
-    const pct = Math.min(100, (used / limit) * 100);
-    const color = left === 0 ? '#e74c3c' : left === 1 ? '#e67e22' : '#0a7c6e';
-    const banner = document.createElement('div');
-    banner.style.cssText = 'margin:12px 16px 0;background:white;border-radius:12px;padding:12px 14px;border:1.5px solid ' + color + ';';
-    banner.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;"><span style="font-size:12px;font-weight:700;color:' + color + ';">' + (left === 0 ? '🔒 Free plan limit reached' : '⚡ Free Plan — ' + left + ' review' + (left > 1 ? 's' : '') + ' remaining') + '</span><span style="font-size:11px;color:#aaa;">' + used + '/' + limit + '</span></div><div style="height:6px;background:#f0f0f0;border-radius:3px;"><div style="width:' + pct + '%;height:100%;background:' + color + ';border-radius:3px;"></div></div>' + (left === 0 ? '<div style="font-size:11px;color:#e74c3c;margin-top:6px;text-align:center;">Upgrade to continue → <a href="https://goodreview.in/register.html" style="color:#0a7c6e;font-weight:700;">Upgrade Now</a></div>' : '');
-    document.getElementById('mainCard').before(banner);
-    if (left === 0) {
-      setTimeout(() => {
-        const btn = document.getElementById('submitBtn');
-        if (btn) { btn.disabled = true; btn.style.opacity = '0.5'; btn.style.cursor = 'not-allowed'; document.getElementById('submitBtnText').textContent = '🔒 Free limit reached — Upgrade plan'; }
-      }, 500);
-    }
+  if(business.ownerCustomTags?.length){
+    document.getElementById('ownerTagsSection').style.display='block'
+    const ownerWrap=document.getElementById('ownerTags')
+    business.ownerCustomTags.forEach((label,i)=>ownerWrap.appendChild(makePill('owner_'+i,label,true,false)))
   }
 
-  const grid = document.getElementById('tagsGrid');
-  grid.innerHTML = '';
-  const degTag = document.createElement('div');
-  degTag.className = 'tag info-tag'; degTag.dataset.tag = 'degree';
-  degTag.innerHTML = '<span class="emoji">🎓</span> ' + DOC.degree;
-  grid.appendChild(degTag);
-  const cityTag = document.createElement('div');
-  cityTag.className = 'tag info-tag'; cityTag.dataset.tag = 'city';
-  cityTag.innerHTML = '<span class="emoji">📍</span> ' + DOC.city + (DOC.area ? ' · ' + DOC.area : '');
-  grid.appendChild(cityTag);
-
-  getTagsForDoctor(DOC).forEach(t => {
-    const el = document.createElement('div');
-    el.className = t.custom ? 'tag info-tag' : 'tag';
-    el.dataset.tag = t.key; el.dataset.label = t.label;
-    el.innerHTML = '<span class="emoji">' + t.emoji + '</span> ' + t.label;
-    grid.appendChild(el);
-  });
-
-  let selectedTags = [];
-  document.querySelectorAll('.tag').forEach(tag => {
-    tag.addEventListener('click', () => {
-      tag.classList.toggle('active');
-      const t = tag.dataset.tag;
-      if (selectedTags.includes(t)) { selectedTags = selectedTags.filter(x => x !== t); }
-      else { selectedTags.push(t); }
-      generateReview(selectedTags);
-    });
-  });
-
-  const pageURL = window.location.href.split('#')[0];
-  document.getElementById('pageUrl').textContent = pageURL;
-  new QRCode(document.getElementById('qrcode'), {
-    text: pageURL, width: 160, height: 160,
-    colorDark: "#0d2340", colorLight: "#ffffff", correctLevel: QRCode.CorrectLevel.M
-  });
-
-  function getReviewUrl(rawUrl) {
-    if (!rawUrl) return '';
-    if (rawUrl.includes('search.google.com/local/writereview')) {
-      const base = rawUrl.split('&text=')[0];
-      return base.includes('laa=') ? base : base + '&source=g.page.m._&laa=merchant-review-solicitation';
+  const sqWrap=document.getElementById('sqTags')
+  let hasSQ=false
+  Object.entries(tagMaster.serviceQualityTags||{}).forEach(([label,data])=>{
+    if((data.showFor||[]).includes('all')||(data.showFor||[]).includes(bType)){
+      sqWrap.appendChild(makePill('sq_'+label,label,false,true))
+      hasSQ=true
     }
-    const gPageMatch = rawUrl.match(/g\.page\/r\/([A-Za-z0-9_-]+)/);
-    if (gPageMatch) return 'https://g.page/r/' + gPageMatch[1] + '/review';
-    const placeIdMatch = rawUrl.match(/placeid=([A-Za-z0-9_-]+)/);
-    if (placeIdMatch) return 'https://search.google.com/local/writereview?placeid=' + placeIdMatch[1] + '&source=g.page.m._&laa=merchant-review-solicitation';
-    return rawUrl;
+  })
+  if(hasSQ)document.getElementById('sqSection').style.display='block'
+}
+
+function makePill(id,label,isOwner,isSQ){
+  const pill=document.createElement('div')
+  pill.className='tag-pill'+(isOwner?' owner-tag':'')
+  pill.dataset.id=id;pill.dataset.label=label
+  pill.dataset.isOwner=isOwner;pill.dataset.isSQ=isSQ
+  const prefix=isOwner?'★ ':isSQ?'✓ ':''
+  pill.innerHTML=`<span class="tag-prefix">${prefix}</span>${label}`
+  pill.onclick=()=>toggleTag(pill,id,label,isOwner,isSQ)
+  return pill
+}
+
+function toggleTag(pill,id,label,isOwner,isSQ){
+  const idx=selectedTags.findIndex(t=>t.id===id)
+  if(idx===-1){
+    tapCount++
+    const lang=getCurrentLang()
+    const phrase=getPhrase(id,label,isOwner,isSQ,lang)
+    selectedTags.push({id,label,phrase,lang,favourite:false,isOwner,isSQ,isCustom:false})
+    pill.classList.add('selected')
+  }else{
+    const tag=selectedTags[idx]
+    if(!tag.favourite){
+      tag.favourite=true
+      pill.classList.remove('selected');pill.classList.add('favourite')
+      pill.innerHTML=`<span class="tag-prefix">💛</span>${label}<span class="tag-remove" onclick="event.stopPropagation();removeTag(event,'${id}')">✕</span>`
+    }else{
+      removeTagById(pill,id);return
+    }
   }
-
-  document.getElementById('submitBtn').addEventListener('click', function() {
-    const text = document.getElementById('reviewBox').value.trim();
-    if (!text) { showToast('⚠️ Please select tags or write a review first'); return; }
-    copyToClipboard(text);
-    const btn = document.getElementById('submitBtn');
-    const btnText = document.getElementById('submitBtnText');
-    const hint = document.getElementById('submitHint');
-    btn.style.background = 'linear-gradient(135deg, #27ae60, #1e8449)';
-    btnText.textContent = '✅ Copied! Now Paste on Google';
-    hint.textContent = 'Opening Google in 2 seconds...';
-    hint.style.color = '#27ae60'; hint.style.fontWeight = '600';
-    setTimeout(() => {
-      window.open(getReviewUrl(DOC.gmb), '_blank');
-      if (DOC.plan === 'free') {
-        fetch('/api/increment-count', {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ doctorId })
-        }).catch(e => console.log('Count error:', e));
-      }
-      setTimeout(() => {
-        btn.style.background = '';
-        btnText.textContent = 'Copy Review for Google';
-        hint.textContent = 'Tap to copy → Google opens → Long press & Paste ✓';
-        hint.style.color = ''; hint.style.fontWeight = '';
-      }, 1000);
-    }, 2000);
-  });
+  updateCount();refreshReview()
 }
 
-function buildTemplates(doc) {
-  const N = doc.name, H = doc.hospital, C = doc.city, D = doc.degree;
-  return {
-    english: {
-      label: "🇬🇧 English",
-      base: ['I visited ' + H + ' and had a truly wonderful experience with ' + N + '.', 'My visit to ' + H + ' was excellent. ' + N + ' is an outstanding doctor.', 'I am so glad I chose ' + H + ' in ' + C + '. ' + N + ' gave me the best medical care.', 'Had a great experience at ' + H + '. ' + N + ' is an exceptional doctor.'],
-      phrases: { degree: N + ' is a highly qualified ' + D + ' specialist', city: 'this is the best hospital in ' + C, excellent_doctor: N + ' is simply an excellent doctor', accurate_diagnosis: 'the diagnosis by ' + N + ' was spot-on and very accurate', very_caring: N + ' is extremely caring and empathetic towards every patient', knowledgeable: 'the medical knowledge and expertise of ' + N + ' are truly impressive', explained_clearly: N + ' explained everything in very simple and clear language', clean_hospital: H + ' is very clean and well-maintained', friendly_staff: 'the staff at ' + H + ' is friendly, helpful, and always welcoming', quick_service: 'the service was quick with no long waiting times', good_followup: 'the follow-up care from ' + N + ' was excellent', highly_recommended: 'I highly recommend ' + N + ' to everyone', affordable_fees: 'the fees are very reasonable and affordable', best_in_city: N + ' is truly the best doctor in ' + C, diabetes: N + ' managed my diabetes with great expertise and care', hypertension: 'my blood pressure is now well controlled thanks to ' + N, thyroid: 'my thyroid condition improved significantly under ' + N + "'s treatment", heart_disease: N + ' diagnosed and treated my heart condition with great expertise', fever_viral: N + ' quickly diagnosed and treated my fever and viral infection', kidney_disease: N + ' managed my kidney condition very effectively', asthma: 'my breathing and asthma is much better after ' + N + "'s treatment", anemia: N + ' identified and treated my anemia very effectively', cholesterol: 'my cholesterol levels are now under control thanks to ' + N, arthritis: 'my arthritis pain has reduced significantly under ' + N + "'s care", weight_management: N + ' guided me very well in managing my weight', acne: 'my acne problem is completely resolved under ' + N + "'s treatment", hair_loss: 'my hair fall has reduced significantly thanks to ' + N, pcos: 'my PCOS condition improved greatly under ' + N + "'s treatment", fracture: N + ' treated my fracture with excellent care', knee_replacement: N + ' performed my knee replacement surgery very successfully' },
-      closing: ['Thank you ' + N + ' and the entire ' + H + ' team!', '5 stars without any hesitation!', 'God bless the entire team at ' + H + '!', 'Highly recommended to all!']
-    },
-    hindi: {
-      label: "🇮🇳 Hindi",
-      base: ['Maine ' + H + ' mein ' + N + ' se ilaaj karaya aur bahut achha anubhav raha.', H + ' ka mera experience bahut hi shandar tha. ' + N + ' ek bahut hi kabil doctor hain.', 'Main bahut khush hun ki maine ' + C + ' ke ' + H + ' choose kiya. ' + N + ' ne mujhe bahut achha ilaaj diya.', H + ' aur ' + N + ' ka bahut shukriya. Inki seva bahut hi behtareen hai.'],
-      phrases: { degree: N + ' ek ' + D + ' mein bahut uchi yogyata wale doctor hain', city: C + ' mein yeh sabse achha hospital hai', excellent_doctor: N + ' ek bahut hi badhiya aur kabil doctor hain', accurate_diagnosis: N + ' ne bilkul sahi aur sahee diagnosis ki', very_caring: N + ' har mariz ka bahut dhyan rakhte hain', knowledgeable: N + ' ki medical knowledge bahut hi prabhavshali hai', explained_clearly: N + ' ne sab kuch bahut saral bhasha mein samjhaya', clean_hospital: H + ' bahut saaf-suthra aur sunder hai', friendly_staff: H + ' ka staff bahut madadgaar aur friendly hai', quick_service: 'seva mein koi badi der nahi hui', good_followup: N + ' ka follow-up care bahut achha hai', highly_recommended: 'main ' + N + ' ko sabhi ko recommend karta hun', affordable_fees: 'fees bahut reasonable aur vajib hai', best_in_city: N + ' ' + C + ' ke sabse achhe doctor hain', diabetes: N + ' ne meri diabetes ko bahut achhe se control kiya', thyroid: N + ' ke ilaaj se meri thyroid ki takleef mein bahut sudhaar aaya', weight_management: N + ' ne mujhe wajan control karne mein bahut achhi madad ki', acne: N + ' ke ilaaj se meri muhaasey ki samasya bilkul khatam ho gayi', pcos: N + ' ke ilaaj se meri PCOS ki takleef mein bahut sudhaar aaya', fracture: N + ' ne meri haddi tooti ka bahut achha ilaaj kiya' },
-      closing: [N + ' aur poore ' + H + ' team ka bahut bahut shukriya!', 'Poore 5 star dene mein koi shak nahi!', 'Bhagwan ' + H + ' ki poori team ko khush rakhe!', 'Sabhi ko recommend karta hun!']
-    },
-    hinglish: {
-      label: "🔀 Hinglish",
-      base: ['Maine ' + H + ' visit kiya aur ' + N + ' se treatment liya, experience really amazing tha!', H + ' ka visit mera bahut hi positive raha. ' + N + ' is seriously ek best doctor hai!', 'I am so happy ki maine ' + C + ' mein ' + H + ' choose kiya.', H + ' mein ' + N + ' se milna ek great experience tha.'],
-      phrases: { degree: N + ' ' + D + ' mein fully qualified aur expert hain', city: C + ' mein yeh genuinely best hospital hai', excellent_doctor: N + ' seriously ek excellent doctor hai', accurate_diagnosis: N + ' ki diagnosis bilkul accurate aur sahi thi', very_caring: N + ' patients ke liye genuinely bahut caring hai', knowledgeable: N + ' ki medical knowledge really impressive hai', explained_clearly: N + ' ne sab kuch clearly aur simply explain kiya', clean_hospital: H + ' bahut clean aur well-maintained hai', friendly_staff: 'yahan ka staff bahut friendly aur helpful hai', quick_service: 'bahut quick service mili, waiting time almost nil tha', good_followup: N + ' ka follow-up care bahut thorough hai', highly_recommended: 'main definitely ' + N + ' ko sabko recommend karunga', affordable_fees: 'fees bahut reasonable aur affordable hai', best_in_city: N + ' ' + C + ' ke best doctors mein se ek hai', diabetes: N + ' ne meri diabetes ko perfectly manage kiya', weight_management: N + ' ne mujhe weight management mein really helpful guidance di', acne: N + ' ke treatment se meri acne problem completely solve ho gayi', pcos: N + ' ke treatment se meri PCOS problem mein bahut improvement aaya', fracture: N + ' ne meri fracture ka bahut achha treatment kiya' },
-      closing: [N + ' aur poori ' + H + ' team ko bahut bahut thanks!', '5 stars dene mein koi second thought nahi!', 'God bless kare ' + H + ' ki poori team ko!', 'Sabko must visit karna chahiye!']
-    },
-    gujarati: {
-      label: "🙏 Gujarati",
-      base: ['Mane ' + H + ' ma ' + N + ' pase sarvar karavyu ane khub j saras anubhav thayo.', H + ' ni mhari mulate khub j uttam rahi. ' + N + ' ek atishay kushala doctor chhe.', 'Mane khub j anand chhe ke maine ' + C + ' na ' + H + ' pasand karyu.', H + ' ma ' + N + ' no khub j saras anubhav thayo.'],
-      phrases: { degree: N + ' ' + D + ' ma khub j uchch yogyata dharavata doctor chhe', city: C + ' ma aa sabathi saras hospital chhe', excellent_doctor: N + ' ek uttam ane kushala doctor chhe', accurate_diagnosis: N + ' no diagnosis bilkul sahi ane uchit hato', very_caring: N + ' dareka dardi prati khub j kaalji rakhva vala chhe', knowledgeable: N + ' ni tabib vidhya khub j prabhavshali chhe', explained_clearly: N + ' e badhu j saral ane spashtabhasama samjavyu', clean_hospital: H + ' khub j swachh ane saras rakhel chhe', friendly_staff: H + ' no staff khub j madadgaar chhe', quick_service: 'seva khub j jhaldi mali', good_followup: N + ' no follow-up care khub j shandaar hato', highly_recommended: 'hu ' + N + ' ne badhaane aagrahi rite aagraho karun chhun', affordable_fees: 'fees khub j vaajbi ane yogya chhe', best_in_city: N + ' ' + C + ' na sarvashreshtha doctor chhe', diabetes: N + ' e mara diabetes ne khub j saras rite control karyu', weight_management: N + ' e mane vajan niyantrit karvama khub j saras margdarshan aapyu', acne: N + ' na ilaaj thi mara muhasa ni samasya bilkul khatam thayi', pcos: N + ' na ilaaj thi mara PCOS ni takleef maa khub j sudhaaro aavyo', fracture: N + ' e mara had bhangna nu khub j saras ilaaj karyu' },
-      closing: [N + ' ane poori ' + H + ' team no khub khub aabhar!', 'Poora 5 star aapva ma koi sankoch nathi!', 'Bhagvan ' + H + ' ni poori team ne sukhi rakhe!', 'Badha ne aagrahi rite mamulave aavva no anurodh!']
+function removeTag(e,id){
+  e.stopPropagation()
+  const pill=document.querySelector(`[data-id="${id}"]`)
+  if(pill)removeTagById(pill,id)
+}
+
+function removeTagById(pill,id){
+  selectedTags=selectedTags.filter(t=>t.id!==id)
+  const isOwner=pill.dataset.isOwner==='true'
+  const isSQ=pill.dataset.isSQ==='true'
+  pill.classList.remove('selected','favourite')
+  const prefix=isOwner?'★ ':isSQ?'✓ ':''
+  pill.innerHTML=`<span class="tag-prefix">${prefix}</span>${pill.dataset.label}`
+  pill.onclick=()=>toggleTag(pill,id,pill.dataset.label,isOwner,isSQ)
+  updateCount();refreshReview()
+}
+
+function getPhrase(id,label,isOwner,isSQ,lang){
+  const bType=business.businessType
+  const subCat=(business.subCategory||'').toLowerCase().replace(/[^a-z]/g,'')
+  const catData=tagMaster.categories?.[bType]
+  const keys=Object.keys(catData?.subcategories||{})
+  const matchKey=keys.find(k=>k.toLowerCase().replace(/[^a-z]/g,'')===subCat)||keys.find(k=>k.toLowerCase().replace(/[^a-z]/g,'').includes(subCat.split('_')[0]))||keys[0]
+  if(!isOwner&&!isSQ){
+    const p=catData?.subcategories?.[matchKey]?.phrases?.[id]?.[lang]
+    if(p?.length)return p[Math.floor(Math.random()*p.length)]
+    // fallback English
+    const pe=catData?.subcategories?.[matchKey]?.phrases?.[id]?.English
+    if(pe?.length)return pe[Math.floor(Math.random()*pe.length)]
+  }
+  if(isSQ){
+    const sqKey=label
+    const sp=tagMaster.serviceQualityTags?.[sqKey]?.phrases?.[lang]
+    if(sp?.length)return sp[Math.floor(Math.random()*sp.length)]
+    const se=tagMaster.serviceQualityTags?.[sqKey]?.phrases?.English
+    if(se?.length)return se[Math.floor(Math.random()*se.length)]
+  }
+  return label
+}
+
+function updateCount(){
+  const badge=document.getElementById('selCount')
+  if(selectedTags.length>0){badge.textContent=selectedTags.length;badge.classList.remove('hidden')}
+  else badge.classList.add('hidden')
+}
+
+// CUSTOM TAG
+function setupCustomArea(){
+  const limit=business.customerCustomTagLimit||0
+  if(limit===0){
+    document.getElementById('addCustomBtn').style.display='none'
+    document.getElementById('upgradeNudge').style.display='block'
+  }
+}
+function openCustomTag(){
+  document.getElementById('customTagWrap').classList.add('open')
+  document.getElementById('addCustomBtn').style.display='none'
+  document.getElementById('cTagName').focus()
+}
+async function generatePhrase(){
+  const tagName=document.getElementById('cTagName').value.trim()
+  if(!tagName){document.getElementById('cTagName').focus();return}
+  const context=document.getElementById('cTagContext').value.trim()
+  const lang=selectedLang||business.languages[0]||'English'
+  document.getElementById('aiLoading').style.display='flex'
+  document.getElementById('phraseOptions').innerHTML=''
+  try{
+    const res=await fetch('/api/generate-phrase',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({tagName,context,language:lang,businessType:business.businessType,businessName:business.businessName})})
+    const data=await res.json()
+    document.getElementById('aiLoading').style.display='none'
+    if(data.phrases?.length){
+      const wrap=document.getElementById('phraseOptions')
+      data.phrases.forEach(phrase=>{
+        const opt=document.createElement('div')
+        opt.className='phrase-opt'
+        opt.textContent=phrase
+        opt.onclick=()=>{
+          document.querySelectorAll('.phrase-opt').forEach(o=>o.classList.remove('chosen'))
+          opt.classList.add('chosen')
+          addCustomTag(tagName,phrase,lang)
+        }
+        wrap.appendChild(opt)
+      })
     }
-  };
+  }catch(e){document.getElementById('aiLoading').style.display='none';alert('Could not generate phrase. Try again.')}
+}
+function addCustomTag(tagName,phrase,lang){
+  const id='custom_'+Date.now()
+  selectedTags.push({id,label:tagName,phrase,lang,favourite:false,isOwner:false,isSQ:false,isCustom:true})
+  customerCustomCount++
+  const pill=document.createElement('div')
+  pill.className='tag-pill selected'
+  pill.dataset.id=id;pill.dataset.label=tagName
+  pill.dataset.isOwner='false';pill.dataset.isSQ='false'
+  pill.innerHTML=`<span class="tag-prefix">✦</span>${tagName}<span class="tag-remove" onclick="event.stopPropagation();removeCustomTag('${id}',this)">✕</span>`
+  document.getElementById('presetTags').appendChild(pill)
+  document.getElementById('customTagWrap').classList.remove('open')
+  document.getElementById('cTagName').value=''
+  document.getElementById('cTagContext').value=''
+  document.getElementById('phraseOptions').innerHTML=''
+  if(customerCustomCount<(business.customerCustomTagLimit||0))document.getElementById('addCustomBtn').style.display='flex'
+  updateCount();refreshReview()
+}
+function removeCustomTag(id,el){
+  selectedTags=selectedTags.filter(t=>t.id!==id)
+  el.closest('.tag-pill').remove()
+  customerCustomCount--
+  updateCount();refreshReview()
 }
 
-const langKeys = ['english','hindi','hinglish','gujarati'];
-let lastLangIndex = -1;
-function pickLang(t) { let i; do { i = Math.floor(Math.random() * langKeys.length); } while (i === lastLangIndex); lastLangIndex = i; return t[langKeys[i]]; }
-function rand(a) { return a[Math.floor(Math.random() * a.length)]; }
-
-function generateReview(selectedTags) {
-  const reviewBox = document.getElementById('reviewBox');
-  if (!DOC || selectedTags.length === 0) { reviewBox.value = ''; document.getElementById('langBadge').style.display = 'none'; updateCount(); return; }
-  const templates = buildTemplates(DOC);
-  const lang = pickLang(templates);
-  const base = rand(lang.base);
-  const closing = rand(lang.closing);
-  const phrases = selectedTags.map(t => {
-    if (lang.phrases[t]) return lang.phrases[t];
-    const tagEl = document.querySelector('[data-tag="' + t + '"]');
-    if (tagEl) return DOC.name + ' provided excellent care for ' + (tagEl.dataset.label || tagEl.textContent.trim());
-    return null;
-  }).filter(Boolean);
-  if (phrases.length === 0) { reviewBox.value = base + ' ' + closing; }
-  else if (phrases.length === 1) { reviewBox.value = base + ' ' + phrases[0].charAt(0).toUpperCase() + phrases[0].slice(1) + '. ' + closing; }
-  else if (phrases.length <= 3) { const j = phrases.slice(0,-1).join(', ') + ', and ' + phrases[phrases.length-1]; reviewBox.value = base + ' ' + j.charAt(0).toUpperCase() + j.slice(1) + '. ' + closing; }
-  else { const h = Math.ceil(phrases.length/2); reviewBox.value = base + ' ' + phrases.slice(0,h).join(', ').charAt(0).toUpperCase() + phrases.slice(0,h).join(', ').slice(1) + '. Also, ' + phrases.slice(h).join(', ') + '. ' + closing; }
-  const badge = document.getElementById('langBadge');
-  badge.textContent = lang.label; badge.style.display = 'inline-block';
-  updateCount();
+// REVIEW
+function refreshReview(){
+  if(selectedTags.length===0){document.getElementById('reviewCard').style.display='none';return}
+  reviewVersions=buildVersions()
+  currentVersionIdx=0
+  renderVersion(0)
+  document.getElementById('reviewCard').style.display='block'
+  const badge=document.getElementById('langBadge')
+  if(selectedLang){badge.className='lang-badge locked';badge.innerHTML='🔒 '+( LANG_DISPLAY[selectedLang]||selectedLang)}
+  else{badge.className='lang-badge auto';badge.innerHTML='🔄 Auto-rotating language'}
 }
 
-const reviewBox = document.getElementById('reviewBox');
-function updateCount() { document.getElementById('charCount').textContent = reviewBox.value.length + ' / 500'; }
-reviewBox.addEventListener('input', updateCount);
+function buildVersions(){
+  const versions=[]
+  for(let v=0;v<5;v++){
+    const lang=selectedLang||business.languages[v%business.languages.length]||'English'
+    let opener=''
+    if(v===2&&business.area&&business.city){
+      const arr=tagMaster.openers?.withLocation?.[lang]||tagMaster.openers?.withLocation?.English||[]
+      const tmpl=arr[Math.floor(Math.random()*arr.length)]||''
+      opener=tmpl.replace('{business}',business.businessName).replace('{area}',business.area).replace('{city}',business.city)
+    }else{
+      const arr=tagMaster.openers?.withoutLocation?.[lang]||tagMaster.openers?.withoutLocation?.English||[]
+      opener=arr[v%arr.length]||arr[0]||''
+    }
+    const favs=selectedTags.filter(t=>t.favourite)
+    const others=selectedTags.filter(t=>!t.favourite)
+    const ordered=[...favs,...others]
+    const parts=ordered.map(tag=>{
+      if(!tag.isCustom)return getPhrase(tag.id,tag.label,tag.isOwner,tag.isSQ,lang)
+      return tag.phrase
+    }).filter(Boolean)
+    const closerArr=tagMaster.closers?.[lang]||tagMaster.closers?.English||[]
+    const closer=closerArr[v%closerArr.length]||closerArr[0]||''
+    let review=opener
+    for(const part of parts){
+      const sep=review.endsWith(' ')?'':', '
+      if((review+sep+part).length<440)review+=sep+part
+    }
+    if(!review.match(/[.।!]$/))review+='.'
+    review+=' '+closer
+    versions.push({text:review.trim(),lang})
+  }
+  return versions
+}
 
-function copyToClipboard(text) {
-  if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(text).catch(() => fallbackCopy(text)); }
-  else { fallbackCopy(text); }
+function renderVersion(idx){
+  const v=reviewVersions[idx]
+  document.getElementById('reviewText').textContent=v.text
+  document.getElementById('reviewLangLabel').textContent=LANG_DISPLAY[v.lang]||v.lang
+  const dotsEl=document.getElementById('reviewDots')
+  dotsEl.innerHTML=''
+  reviewVersions.forEach((_,i)=>{
+    const dot=document.createElement('div')
+    dot.className='dot'+(i===idx?' active':'')
+    dot.onclick=()=>{currentVersionIdx=i;renderVersion(i)}
+    dotsEl.appendChild(dot)
+  })
 }
-function fallbackCopy(text) {
-  try { const ta = document.createElement('textarea'); ta.value = text; ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0;'; document.body.appendChild(ta); ta.focus(); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); } catch(e) {}
+
+async function copyReview(){
+  const text=reviewVersions[currentVersionIdx]?.text
+  if(!text)return
+  try{await navigator.clipboard.writeText(text)}
+  catch(e){const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta)}
+  const btn=document.getElementById('copyBtn')
+  btn.classList.add('copied');btn.innerHTML='✅ Copied!'
+  setTimeout(()=>{btn.classList.remove('copied');btn.innerHTML='📋 Copy Review'},2000)
+  if(business.gmbUrl)document.getElementById('googleBtn').href=business.gmbUrl
+  if(business.isFreePlan)fetch('/api/increment-count',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:business.id})}).catch(()=>{})
 }
-function showToast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
+
+function showError(title,msg){
+  document.getElementById('loadingState').style.display='none'
+  document.getElementById('errorState').style.display='block'
+  document.getElementById('errorTitle').textContent=title
+  document.getElementById('errorMsg').textContent=msg
+}
+
+init()
 </script>
 </body>
 </html>
