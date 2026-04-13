@@ -1,82 +1,179 @@
 {
   "meta": {
     "languages": ["English","Hindi","Gujarati","Hinglish","Marathi","Tamil","Telugu","Kannada"],
-    "version": "2.0",
-    "generated": "2026-04-13"
+    "version": "3.0",
+    "phraseStructure": "Each tag has long(1), medium(2), short(2) per language. Selection: 1 tag=long, 2 tags=medium, 3+tags=short"
   },
 
   "openers": {
     "withLocation": {
-      "English":  ["Visited {business} in {area}, {city} — great experience. ","Had a wonderful time at {business}, {area} {city}. ","{business} in {area}, {city} is excellent. "],
-      "Hindi":    ["{area}, {city} mein {business} ka anubhav bahut achha raha. ","{business} ({area}, {city}) — bahut badhiya. ","Gaya tha {business} {area} {city} — bahut pasand aaya. "],
-      "Gujarati": ["{area}, {city} ના {business} ની મુલાકાત ઉત્તમ રહી. ","{business} ({area}, {city}) — ખૂબ સારો અનુભવ. ","{city} ના {area} માં {business} — ખૂબ ભલામણ. "],
-      "Hinglish": ["{area}, {city} mein {business} visit kiya — ekdum mast. ","{business} in {area} is really good yaar. ","Gaya tha {business} {city} — bohot acha laga. "],
-      "Marathi":  ["{area}, {city} madhil {business} la bhet dili — khup chhan. ","{business} ({area}, {city}) cha anubhav uttam hota. ","{city} chya {area} madhil {business} — nakki jaa. "],
-      "Tamil":    ["{area}, {city} இல் {business} — மிகவும் சிறந்தது. ","{business} ({area}, {city}) — அருமையான அனுபவம். ","{city} {area} இல் {business} பார்வையிட்டேன் — மிகவும் நல்லது. "],
-      "Telugu":   ["{area}, {city} లో {business} — చాలా బాగుంది. ","{business} ({area}, {city}) సందర్శించాను — అద్భుతం. ","{city} లో {area} లో {business} — చాలా మంచి అనుభవం. "],
-      "Kannada":  ["{area}, {city} ನಲ್ಲಿ {business} — ತುಂಬಾ ಚೆನ್ನಾಗಿದೆ. ","{business} ({area}, {city}) — ಅತ್ಯುತ್ತಮ ಅನುಭವ. ","{city} ನ {area} ನಲ್ಲಿ {business} — ತುಂಬಾ ಒಳ್ಳೆಯದು. "]
+      "English":  ["{business} in {area}, {city} — ", "Visited {business} at {area} {city}. ", "At {business}, {area} {city} — "],
+      "Hindi":    ["{area}, {city} mein {business} — ", "{business} ({area}, {city}) mein aaya tha — ", "{city} ke {area} mein {business} — "],
+      "Gujarati": ["{area}, {city} ના {business} — ", "{business} ({area}, {city}) — ", "{city} ના {area} માં {business} — "],
+      "Hinglish": ["{business} in {area}, {city} — ", "{area}, {city} mein {business} gaya tha — ", "{business} at {area} — "],
+      "Marathi":  ["{area}, {city} madhil {business} — ", "{business} ({area}, {city}) la bhet dili — ", "{city} chya {area} madhil {business} — "],
+      "Tamil":    ["{area}, {city} இல் {business} — ", "{business} ({area}, {city}) — ", "{city} {area} இல் {business} — "],
+      "Telugu":   ["{area}, {city} లో {business} — ", "{business} ({area}, {city}) — ", "{city} లో {area} లో {business} — "],
+      "Kannada":  ["{area}, {city} ನಲ್ಲಿ {business} — ", "{business} ({area}, {city}) — ", "{city} ನ {area} ನಲ್ಲಿ {business} — "]
     },
     "withoutLocation": {
-      "English":  ["Had a wonderful experience. ","Really enjoyed the visit. ","Great experience overall. ","Absolutely loved it. ","Very satisfied with the visit. "],
-      "Hindi":    ["Bahut achha anubhav raha. ","Yahan aakar bahut khushi hui. ","Bahut badhiya experience raha. ","Poori tarah santusht hoon. ","Bahut pasand aaya. "],
-      "Gujarati": ["ખૂબ સારો અનુભવ રહ્યો. ","અહીં આવીને ખૂબ ગમ્યું. ","ઉત્તમ અનુભવ. ","ખૂબ ખુશ છું. ","ખૂબ સંતુષ્ટ. "],
-      "Hinglish": ["Ekdum mast experience tha yaar. ","Bohot acha laga visit karke. ","Super experience raha. ","Fully satisfied hun. ","Bahut acha tha. "],
-      "Marathi":  ["Khup chhan anubhav hota. ","Yethey aalyavar khup bara vatale. ","Uttam anubhav. ","Khup santusht ahe. ","Khup avadla. "],
-      "Tamil":    ["மிகவும் அருமையான அனுபவம். ","இங்கு வந்தது மிகவும் மகிழ்ச்சி. ","சிறந்த அனுபவம். ","மிகவும் திருப்தியாக உள்ளது. ","மிகவும் பிடித்தது. "],
-      "Telugu":   ["చాలా మంచి అనుభవం. ","ఇక్కడికి వచ్చినందుకు సంతోషం. ","అద్భుతమైన అనుభవం. ","చాలా సంతృప్తిగా ఉంది. ","చాలా నచ్చింది. "],
-      "Kannada":  ["ತುಂಬಾ ಒಳ್ಳೆಯ ಅನುಭವ. ","ಇಲ್ಲಿಗೆ ಬಂದಿದ್ದು ತುಂಬಾ ಖುಷಿ. ","ಅತ್ಯುತ್ತಮ ಅನುಭವ. ","ತುಂಬಾ ತೃಪ್ತಿಕರ. ","ತುಂಬಾ ಇಷ್ಟವಾಯಿತು. "]
+      "English":  ["", "", "Visited recently. ", "Had a good experience. ", "Came here last week. "],
+      "Hindi":    ["", "", "Haal hi mein aaya tha. ", "Achha anubhav raha. ", "Pichle hafte aaya tha. "],
+      "Gujarati": ["", "", "તાજેતરમાં આવ્યો. ", "સારો અનુભવ. ", "ગયા અઠવાડિયે આવ્યો. "],
+      "Hinglish": ["", "", "Recently gaya tha. ", "Achha experience raha. ", "Last week gaya tha. "],
+      "Marathi":  ["", "", "Narchya diwasaat aalo. ", "Chhan anubhav hota. ", "Magil aathavdyat aalo hoto. "],
+      "Tamil":    ["", "", "சமீபத்தில் வந்தேன். ", "நல்ல அனுபவம். ", "கடந்த வாரம் வந்தேன். "],
+      "Telugu":   ["", "", "ఇటీవల వెళ్ళాను. ", "మంచి అనుభవం. ", "గత వారం వెళ్ళాను. "],
+      "Kannada":  ["", "", "ಇತ್ತೀಚೆಗೆ ಹೋಗಿದ್ದೆ. ", "ಒಳ್ಳೆ ಅನುಭವ. ", "ಕಳೆದ ವಾರ ಹೋಗಿದ್ದೆ. "]
     }
   },
 
-  "closers": {
-    "English":  ["Highly recommend!","Will definitely visit again!","Must visit!","10/10 recommend!","Strongly recommended!"],
-    "Hindi":    ["Zaroor jaayein!","Dobara zaroor jaunga!","Bahut sifaarish!","Bilkul jaane layak!","100% recommend!"],
-    "Gujarati": ["ચોક્કસ ભલામણ!","ફરીથી ચોક્કસ આવીશ!","જરૂર ટ્રાય કરો!","100% ભલામણ!","ખૂબ ઉત્તમ!"],
-    "Hinglish": ["Must visit karo yaar!","Definitely dobara jaunga!","Highly recommend hai!","100% worth it!","Ekdum mast — zaroor jao!"],
-    "Marathi":  ["Nakki jaa!","Paravach jain!","Khup shikfaras!","100% recommend!","Nakki bheT dyaa!"],
-    "Tamil":    ["கண்டிப்பாக பரிந்துரைக்கிறேன்!","மீண்டும் வருவேன்!","அனைவரும் வாருங்கள்!","100% பரிந்துரை!","நிச்சயம் வாருங்கள்!"],
-    "Telugu":   ["తప్పకుండా సిఫారసు చేస్తున్నాను!","మళ్ళీ వస్తాను!","అందరూ వెళ్ళండి!","100% సిఫారసు!","తప్పకుండా వెళ్ళండి!"],
-    "Kannada":  ["ಖಂಡಿತಾ ಶಿಫಾರಸು ಮಾಡುತ್ತೇನೆ!","ಮತ್ತೆ ಬರುತ್ತೇನೆ!","ಎಲ್ಲರೂ ಹೋಗಿ!","100% ಶಿಫಾರಸು!","ಖಂಡಿತಾ ಹೋಗಿ!"]
+  "naturalEndings": {
+    "note": "Used ONLY for 1-2 tag reviews, randomly, ~60% chance. Never 'Highly recommend'. Short, varied, human.",
+    "English":  ["Will visit again.","Good experience.","5 stars from me.","Worth it.","Happy with the visit.","Impressed.","No complaints at all.","Really good.","Satisfied customer.","","",""],
+    "Hindi":    ["Dobara zaroor aaunga.","Achha laga.","5 star deta hoon.","Worth it tha.","Khush hoon.","Impressed hua.","Koi shikayat nahi.","Bahut achha.","Santusht hoon.","","",""],
+    "Gujarati": ["ફરીથી આવીશ.","સારો અનુભવ.","5 star.","Worth it.","ખુશ છું.","Impressed.","કોઈ ફરિયાદ નથી.","ખૂબ સારું.","સંતુષ્ટ.","","",""],
+    "Hinglish": ["Dobara zaroor jaunga.","Acha laga yaar.","5 star deta hun.","Worth it tha.","Khush hun.","Impressed.","Koi complaint nahi.","Bahut acha.","","","",""],
+    "Marathi":  ["Paravach yein.","Chhan vatale.","5 star detoy.","Worth it hote.","Khush ahe.","Impressed jhalo.","Takrar nahi.","Khup chhan.","Santusht.","","",""],
+    "Tamil":    ["மீண்டும் வருவேன்.","நல்லது.","5 நட்சத்திரம்.","மதிப்புள்ளது.","மகிழ்ச்சி.","ஈர்க்கப்பட்டேன்.","புகார் இல்லை.","மிகவும் நல்லது.","","","",""],
+    "Telugu":   ["మళ్ళీ వస్తాను.","బాగుంది.","5 స్టార్.","విలువైనది.","సంతోషం.","ఆకట్టుకున్నాను.","ఫిర్యాదు లేదు.","చాలా బాగుంది.","","","",""],
+    "Kannada":  ["ಮತ್ತೆ ಬರುತ್ತೇನೆ.","ಚೆನ್ನಾಗಿದೆ.","5 ಸ್ಟಾರ್.","ಮೌಲ್ಯಯುತ.","ಸಂತೋಷ.","ಆಕರ್ಷಿತ.","ದೂರು ಇಲ್ಲ.","ತುಂಬಾ ಚೆನ್ನ.","","","",""]
   },
 
   "serviceQualityTags": {
     "Cleanliness": {
       "showFor": ["doctor_health","beauty_wellness","food_drinks","hotel_stay","retail_services","automobile","home_services","education_learning","events_entertainment","pets_animals","bank_loan"],
       "phrases": {
-        "English":  ["the place was very clean","hygiene was excellent","very clean and tidy","cleanliness was top-notch","very hygienic environment"],
-        "Hindi":    ["jagah bahut saaf thi","swachchhata bahut achhi thi","bahut saaf aur suthri jagah","swachchhata laajawab thi","bahut swachh mahaul"],
-        "Gujarati": ["સ્થળ ખૂબ સ્વચ્છ હતું","સ્વચ્છતા ઉત્તમ હતી","ખૂબ ચોખ્ખું અને સ્વચ્છ","સ્વચ્છતા અદ્ભુત","ખૂબ સ્વાસ્થ્યપ્રદ વાતાવરણ"],
-        "Hinglish": ["jagah ekdum clean thi yaar","hygiene bahut acha tha","bahut saaf suthra tha","cleanliness top class thi","hygienic environment tha"],
-        "Marathi":  ["jagah khup swachh hoti","swachhata uttam hoti","khup swachh ani surekh","swachhata laajawab hoti","khup swachh vatavaran"],
-        "Tamil":    ["இடம் மிகவும் சுத்தமாக இருந்தது","சுகாதாரம் சிறந்தது","மிகவும் சுத்தமான இடம்","சுத்தம் அருமை","மிகவும் சுகாதாரமான சூழல்"],
-        "Telugu":   ["చోటు చాలా శుభ్రంగా ఉంది","పరిశుభ్రత అద్భుతం","చాలా శుభ్రంగా ఉంది","శుభ్రత అత్యుత్తమం","చాలా పరిశుభ్రమైన వాతావరణం"],
-        "Kannada":  ["ಸ್ಥಳ ತುಂಬಾ ಸ್ವಚ್ಛವಾಗಿತ್ತು","ನೈರ್ಮಲ್ಯ ಅತ್ಯುತ್ತಮ","ತುಂಬಾ ಸ್ವಚ್ಛ ಮತ್ತು ಅಚ್ಚುಕಟ್ಟು","ಸ್ವಚ್ಛತೆ ಅದ್ಭುತ","ಸ್ವಚ್ಛ ವಾತಾವರಣ"]
+        "English": {
+          "long":   ["the place was spotlessly clean and well-maintained throughout my visit, which made the experience much more comfortable"],
+          "medium": ["very clean and hygienic environment","place was well-kept and tidy"],
+          "short":  ["very clean","spotlessly maintained"]
+        },
+        "Hindi": {
+          "long":   ["jagah bilkul saaf aur achchhe se maintained thi jo visit ko bahut comfortable bana diya"],
+          "medium": ["bahut saaf aur swachh mahaul","jagah achchhe se rakhi hui thi"],
+          "short":  ["bahut saaf","ekdum swachh"]
+        },
+        "Gujarati": {
+          "long":   ["સ્થળ ખૂ.qs.b સ્વચ્છ અને સ્hs.af.hy maintained હtui, જ'which visit sis wd hs.osy comfortable banayu"],
+          "medium": ["ખ.hy.b સ.fs.af aur suf.khj.a environment","s.thal ach.khy.s rakh.el.u"],
+          "short":  ["ખ.hy.b s.wach.kh","ek.dum sw.ach.kh"]
+        },
+        "Hinglish": {
+          "long":   ["place ekdum clean aur well-maintained thi yaar, visit bahut comfortable laga"],
+          "medium": ["bahut clean aur hygienic environment tha","jagah well-kept aur tidy thi"],
+          "short":  ["ekdum clean","bahut hygienic"]
+        },
+        "Marathi": {
+          "long":   ["jagah poornpaNe swachh ani chhan riti ne maintain kelelI hoti, visit khup comfortable vatali"],
+          "medium": ["khup swachh ani swachchh vatavaran","jagah nit thevleli hoti"],
+          "short":  ["khup swachh","ekdam nit"]
+        },
+        "Tamil": {
+          "long":   ["இடம் மிகவும் சுத்தமாகவும் நன்கு பராமரிக்கப்பட்டும் இருந்தது, இது அனுபவத்தை மிகவும் வசதியாக்கியது"],
+          "medium": ["மிகவும் சுத்தமான மற்றும் சுகாதாரமான சூழல்","இடம் நன்கு பராமரிக்கப்பட்டிருந்தது"],
+          "short":  ["மிகவும் சுத்தம்","சுகாதாரமான இடம்"]
+        },
+        "Telugu": {
+          "long":   ["స్థలం చాలా శుభ్రంగా మరియు బాగా నిర్వహించబడింది, ఇది అనుభవాన్ని చాలా సౌకర్యంగా చేసింది"],
+          "medium": ["చాలా శుభ్రంగా మరియు పరిశుభ్రమైన వాతావరణం","స్థలం చక్కగా నిర్వహించబడింది"],
+          "short":  ["చాలా శుభ్రం","పరిశుభ్రమైన స్థలం"]
+        },
+        "Kannada": {
+          "long":   ["ಸ್ಥಳ ತುಂಬಾ ಸ್ವಚ್ಛವಾಗಿ ಮತ್ತು ಉತ್ತಮ ನಿರ್ವಹಣೆಯೊಂದಿಗೆ ಇತ್ತು, ಇದು ಅನುಭವವನ್ನು ಆರಾಮದಾಯಕ ಮಾಡಿತು"],
+          "medium": ["ತುಂಬಾ ಸ್ವಚ್ಛ ಮತ್ತು ನೈರ್ಮಲ್ಯದ ವಾತಾವರಣ","ಸ್ಥಳ ಉತ್ತಮ ನಿರ್ವಹಣೆ ಹೊಂದಿತ್ತು"],
+          "short":  ["ತುಂಬಾ ಸ್ವಚ್ಛ","ಸ್ವಚ್ಛ ಸ್ಥಳ"]
+        }
       }
     },
     "Staff Behaviour": {
       "showFor": ["doctor_health","beauty_wellness","food_drinks","hotel_stay","retail_services","automobile","home_services","education_learning","events_entertainment","pets_animals","finance_legal","bank_loan","insurance","transport_logistics"],
       "phrases": {
-        "English":  ["staff was very helpful","staff behaviour was excellent","very friendly and courteous staff","staff was professional and kind","team was very supportive"],
-        "Hindi":    ["staff bahut helpful tha","staff ka vyavahaar bahut achha tha","bahut friendly aur vinammra staff","staff professional aur dayalu tha","team bahut supportive thi"],
-        "Gujarati": ["સ્ટાફ ખૂબ સહાયક હતો","સ્ટાફ વ્યવહાર ઉત્તમ હતો","ખૂબ ફ્રેન્ડલી અને નમ્ર સ્ટાફ","સ્ટાફ પ્રોફેશ્નલ અને દયાળુ","ટીમ ખૂબ સહકારી"],
-        "Hinglish": ["staff bahut helpful tha yaar","staff ka behaviour ekdum achha tha","friendly aur courteous staff tha","professional aur kind staff tha","team ne bahut help ki"],
-        "Marathi":  ["staff khup helpful hota","staff cha vagarNe khup chhan hote","khup friendly ani vinammra staff","staff professional ani dayaLu hota","team khup supportive hoti"],
-        "Tamil":    ["ஊழியர்கள் மிகவும் உதவியாக இருந்தனர்","ஊழியர்கள் நடத்தை சிறந்தது","மிகவும் நட்பான மற்றும் மரியாதையான ஊழியர்கள்","தொழில்முறை மற்றும் அன்பான ஊழியர்கள்","குழு மிகவும் ஆதரவாக இருந்தது"],
-        "Telugu":   ["సిబ్బంది చాలా సహాయకరంగా ఉన్నారు","సిబ్బంది ప్రవర్తన అద్భుతం","చాలా స్నేహపూర్వక సిబ్బంది","వృత్తిపరమైన మరియు దయగల సిబ్బంది","బృందం చాలా సహకారంగా ఉంది"],
-        "Kannada":  ["ಸಿಬ್ಬಂದಿ ತುಂಬಾ ಸಹಾಯಕರಾಗಿದ್ದರು","ಸಿಬ್ಬಂದಿ ನಡವಳಿಕೆ ಅತ್ಯುತ್ತಮ","ತುಂಬಾ ಸ್ನೇಹಪರ ಸಿಬ್ಬಂದಿ","ವೃತ್ತಿಪರ ಮತ್ತು ದಯಾಳು ಸಿಬ್ಬಂದಿ","ತಂಡ ತುಂಬಾ ಸಹಕಾರಿ"]
+        "English": {
+          "long":   ["the staff was extremely helpful, polite and professional throughout — they made sure I was comfortable and answered all my questions patiently"],
+          "medium": ["very friendly and professional staff","team was helpful and courteous throughout"],
+          "short":  ["staff was great","very helpful team"]
+        },
+        "Hindi": {
+          "long":   ["staff bahut helpful, vinammra aur professional tha — unhone mujhe comfortable rakhne mein poori madad ki aur saare sawaal dhyan se sunne"],
+          "medium": ["bahut friendly aur professional staff tha","team poori tarah helpful aur vinammra rahi"],
+          "short":  ["staff bahut achha","helpful team"]
+        },
+        "Gujarati": {
+          "long":   ["staff ख़ूb helpful, vinammra aur professional हtu — तेmney mane comfortable rakhvam.any poori madad kari"],
+          "medium": ["ख़ूb friendly aur professional staff","team poori tarah helpful rahi"],
+          "short":  ["staff ख़ूb saro","helpful team"]
+        },
+        "Hinglish": {
+          "long":   ["staff bahut helpful, polite aur professional tha yaar — sab questions ka patience se jawab diya"],
+          "medium": ["bahut friendly aur professional staff tha","team throughout helpful aur courteous rahi"],
+          "short":  ["staff was great","helpful team"]
+        },
+        "Marathi": {
+          "long":   ["staff khup helpful, vinammra ani professional hota — tyani malaa aRamdaayak thevayala poori madad keli ani savalle dhyan ne aikli"],
+          "medium": ["khup friendly ani professional staff","team poorn veLeS helpful hoti"],
+          "short":  ["staff khup chhan","helpful team"]
+        },
+        "Tamil": {
+          "long":   ["ஊழியர்கள் மிகவும் உதவியாக, மரியாதையாக மற்றும் தொழில்முறையாக இருந்தனர் — என் அனைத்து கேள்விகளுக்கும் பொறுமையாக பதிலளித்தனர்"],
+          "medium": ["மிகவும் நட்பான மற்றும் தொழில்முறை ஊழியர்கள்","குழு முழுவதும் உதவியாக இருந்தது"],
+          "short":  ["ஊழியர்கள் நல்லவர்கள்","உதவியான குழு"]
+        },
+        "Telugu": {
+          "long":   ["సిబ్బంది చాలా సహాయకరంగా, మర్యాదగా మరియు వృత్తిపరంగా ఉన్నారు — అన్ని ప్రశ్నలకు ఓపికగా సమాధానం ఇచ్చారు"],
+          "medium": ["చాలా స్నేహపూర్వక మరియు వృత్తిపరమైన సిబ్బంది","బృందం అంతటా సహాయకరంగా ఉంది"],
+          "short":  ["సిబ్బంది గొప్పగా ఉన్నారు","సహాయకరమైన బృందం"]
+        },
+        "Kannada": {
+          "long":   ["ಸಿಬ್ಬಂದಿ ತುಂಬಾ ಸಹಾಯಕರಾಗಿ, ವಿನಯಶೀಲರಾಗಿ ಮತ್ತು ವೃತ್ತಿಪರವಾಗಿ ಇದ್ದರು — ಎಲ್ಲ ಪ್ರಶ್ನೆಗಳಿಗೂ ತಾಳ್ಮೆಯಿಂದ ಉತ್ತರಿಸಿದರು"],
+          "medium": ["ತುಂಬಾ ಸ್ನೇಹಪರ ಮತ್ತು ವೃತ್ತಿಪರ ಸಿಬ್ಬಂದಿ","ತಂಡ ಅಂತಟೂ ಸಹಾಯಕರಾಗಿದ್ದರು"],
+          "short":  ["ಸಿಬ್ಬಂದಿ ತುಂಬಾ ಚೆನ್ನ","ಸಹಾಯಕ ತಂಡ"]
+        }
       }
     },
     "Value for Money": {
       "showFor": ["all"],
       "phrases": {
-        "English":  ["great value for money","very reasonable pricing","worth every rupee","excellent price for quality","affordable and top quality"],
-        "Hindi":    ["paison ki bahut achhi keemat mili","daam bahut sahi hain","har paisa vasool","quality ke liye daam bahut sahi","sasta aur badhiya"],
-        "Gujarati": ["ભાવ-ગુણ ઉત્કૃષ્ટ","ભાવ ખૂબ વ્યાજબી","પ્રત્યેક પૈસો વસૂલ","ગુણવત્તા માટે ભાવ ઉત્તમ","સસ્તું અને ઉત્તમ"],
-        "Hinglish": ["ekdum value for money hai yaar","daam bahut reasonable hain","paisa wasool tha","quality ke hisaab se price sahi tha","affordable aur top quality"],
-        "Marathi":  ["khup chhan value for money","daam khup yogya ahet","pratyek paisa vasool","quality sathi daam uttam","swast ani uttam"],
-        "Tamil":    ["பணத்திற்கு மிகவும் மதிப்பு","விலை மிகவும் நியாயமானது","ஒவ்வொரு ரூபாயும் மதிப்புள்ளது","தரத்திற்கு விலை சிறந்தது","மலிவான மற்றும் சிறந்த தரம்"],
-        "Telugu":   ["డబ్బుకు మంచి విలువ","ధర చాలా సహేతుకమైనది","ప్రతి రూపాయి సార్థకం","నాణ్యతకు ధర చాలా సరైనది","తక్కువ ధరలో అత్యుత్తమ నాణ్యత"],
-        "Kannada":  ["ಹಣಕ್ಕೆ ಉತ್ತಮ ಮೌಲ್ಯ","ಬೆಲೆ ತುಂಬಾ ಸಮಂಜಸ","ಪ್ರತಿ ರೂಪಾಯಿ ಸಾರ್ಥಕ","ಗುಣಮಟ್ಟಕ್ಕೆ ಬೆಲೆ ಉತ್ತಮ","ಕಡಿಮೆ ಬೆಲೆಯಲ್ಲಿ ಉತ್ತಮ ಗುಣ"]
+        "English": {
+          "long":   ["the pricing was very reasonable for the quality of service I received — honestly one of the best value experiences I've had in a while"],
+          "medium": ["great value for the money spent","very reasonable pricing for the quality"],
+          "short":  ["worth every rupee","great value"]
+        },
+        "Hindi": {
+          "long":   ["jitne paise lage uske liye service bahut achhi mili — sach mein bahut dino mein itna achha value nahi mila"],
+          "medium": ["paise ke hisaab se bahut achha mila","quality ke liye daam bilkul sahi the"],
+          "short":  ["paisa wasool","bahut achha value"]
+        },
+        "Gujarati": {
+          "long":   ["jem.aa paise lagya tem.aa service ख़ूb sari mili — sach mein aatle ghanasamay maan ittu saru value nathi malyu"],
+          "medium": ["paisaa badalaa ख़ूb saru milu","quality maate daam bilkul yogya"],
+          "short":  ["paisa vasool","saru value"]
+        },
+        "Hinglish": {
+          "long":   ["jo paisa diya uske liye service bahut achhi mili yaar — seriously itna achha value pehle nahi mila tha"],
+          "medium": ["paison ke hisaab se bahut achha mila","quality ke liye reasonable price tha"],
+          "short":  ["paisa wasool","great value"]
+        },
+        "Marathi": {
+          "long":   ["je paisa gele tyasathi seva khup chhan mili — kharchya hishabane ata paryant best value experience hota"],
+          "medium": ["paisyasathi khup chhan mila","quality sathi daam bilkul yogya hote"],
+          "short":  ["paisa vasool","khup chhan value"]
+        },
+        "Tamil": {
+          "long":   ["செலவழித்த பணத்திற்கு மிகவும் நல்ல சேவை கிடைத்தது — நீண்ட நாட்களில் இவ்வளவு நல்ல மதிப்பு கிடைக்கவில்லை"],
+          "medium": ["பணத்திற்கு சிறந்த மதிப்பு","தரத்திற்கு விலை மிகவும் சரியானது"],
+          "short":  ["பணம் சரியாக செலவானது","சிறந்த மதிப்பு"]
+        },
+        "Telugu": {
+          "long":   ["ఖర్చు చేసిన డబ్బుకు చాలా మంచి సేవ లభించింది — చాలా రోజులలో ఇంత మంచి విలువ రాలేదు"],
+          "medium": ["డబ్బుకు గొప్ప విలువ","నాణ్యతకు ధర చాలా సరైనది"],
+          "short":  ["డబ్బు సార్థకం","గొప్ప విలువ"]
+        },
+        "Kannada": {
+          "long":   ["ಖರ್ಚಾದ ಹಣಕ್ಕೆ ತುಂಬಾ ಉತ್ತಮ ಸೇವೆ ಸಿಕ್ಕಿತು — ತುಂಬಾ ದಿನಗಳಲ್ಲಿ ಇಷ್ಟು ಉತ್ತಮ ಮೌಲ್ಯ ಸಿಕ್ಕಿರಲಿಲ್ಲ"],
+          "medium": ["ಹಣಕ್ಕೆ ಉತ್ತಮ ಮೌಲ್ಯ","ಗುಣಮಟ್ಟಕ್ಕೆ ಬೆಲೆ ಸಮಂಜಸ"],
+          "short":  ["ಹಣ ಸಾರ್ಥಕ","ಉತ್ತಮ ಮೌಲ್ಯ"]
+        }
       }
     }
   },
@@ -87,669 +184,549 @@
       "subcategories": {
         "General Physician": {
           "tags": [
-            { "id": "general_checkup",    "label": "General Checkup" },
-            { "id": "fever_treatment",    "label": "Fever Treatment" },
-            { "id": "bp_diabetes",        "label": "BP & Diabetes Care" },
-            { "id": "child_health",       "label": "Child Health" },
-            { "id": "women_health",       "label": "Women's Health" },
-            { "id": "prescription",       "label": "Clear Prescription" },
-            { "id": "home_visit",         "label": "Home Visit" },
-            { "id": "senior_care",        "label": "Senior Care" },
-            { "id": "quick_diagnosis",    "label": "Quick Diagnosis" },
-            { "id": "patient_listening",  "label": "Listens Patiently" },
-            { "id": "affordable_fees",    "label": "Affordable Fees" },
-            { "id": "experienced_doctor", "label": "Experienced Doctor" }
+            {"id":"general_checkup","label":"General Checkup"},
+            {"id":"fever_treatment","label":"Fever Treatment"},
+            {"id":"bp_diabetes","label":"BP & Diabetes Care"},
+            {"id":"child_health","label":"Child Health"},
+            {"id":"patient_listening","label":"Listens Patiently"},
+            {"id":"clear_prescription","label":"Clear Prescription"},
+            {"id":"experienced_doctor","label":"Experienced Doctor"},
+            {"id":"affordable_fees","label":"Affordable Fees"},
+            {"id":"quick_diagnosis","label":"Quick Diagnosis"},
+            {"id":"home_visit","label":"Home Visit"},
+            {"id":"women_health","label":"Women's Health"},
+            {"id":"senior_care","label":"Senior Care"}
           ],
           "phrases": {
             "general_checkup": {
-              "English":  ["thorough checkup done","general checkup was very detailed","complete health checkup done professionally","checkup was done with great care","health evaluation was excellent"],
-              "Hindi":    ["achhe se checkup kiya","general checkup bahut detail mein tha","poori tarah se checkup kiya","bahut dhyan se checkup kiya","sehat jaanch bahut achhi rahi"],
-              "Gujarati": ["સારી રીતે ચેકઅપ કર્યું","જનરલ ચેકઅપ ખૂબ વિગતવાર","સંપૂર્ણ તપાસ ઉત્તમ","ખૂબ કાળજીથી ચેકઅપ","સ્વાસ્થ્ય મૂલ્યાંકન ઉત્તમ"],
-              "Hinglish": ["achhe se checkup kiya yaar","general checkup bahut detailed tha","poori tarah checkup kiya","bahut carefully checkup kiya","health check bahut achha raha"],
-              "Marathi":  ["nit checkup kele","sampoorna checkup khup chhan hote","poorn tpasni utttam hoti","khup kaLajipurvak checkup kele","arogya tapasni uttam hoti"],
-              "Tamil":    ["முழுமையான பரிசோதனை செய்தனர்","பொது பரிசோதனை மிகவும் விரிவானது","முழுமையான உடல் நல பரிசோதனை","மிகவும் கவனமாக பரிசோதனை","உடல் நல மதிப்பீடு சிறந்தது"],
-              "Telugu":   ["పూర్తిగా తనిఖీ చేశారు","జనరల్ చెకప్ చాలా వివరంగా ఉంది","పూర్తి ఆరోగ్య పరీక్ష చేశారు","చాలా జాగ్రత్తగా తనిఖీ చేశారు","ఆరోగ్య మూల్యాంకనం అద్భుతం"],
-              "Kannada":  ["ಸಂಪೂರ್ಣ ತಪಾಸಣೆ ಮಾಡಿದರು","ಸಾಮಾನ್ಯ ತಪಾಸಣೆ ತುಂಬಾ ವಿಸ್ತಾರವಾಗಿತ್ತು","ಪೂರ್ಣ ಆರೋಗ್ಯ ತಪಾಸಣೆ ಮಾಡಿದರು","ತುಂಬಾ ಜಾಗ್ರತೆಯಿಂದ ತಪಾಸಿದರು","ಆರೋಗ್ಯ ಮೌಲ್ಯಮಾಪನ ಉತ್ತಮ"]
+              "English": {
+                "long":   ["doctor did a very thorough checkup, took time to understand every symptom and explained the findings in simple language that was easy to follow"],
+                "medium": ["detailed and careful checkup done","thorough examination with clear explanation"],
+                "short":  ["very thorough checkup","detailed examination"]
+              },
+              "Hindi": {
+                "long":   ["doctor ne bahut dhyan se checkup kiya, har symptom ko samajhne mein time liya aur sab kuch simple bhasha mein samjhaya"],
+                "medium": ["detail mein aur dhyan se checkup kiya","poori tarah jaanch aur clear explanation"],
+                "short":  ["bahut achhi jaanch","detail mein checkup"]
+              },
+              "Gujarati": {
+                "long":   ["dn.aktur.e ख़ूb dhyan.thi checkup kar.yu, dar.ek lakshn.ne sam.jh.vam.a samay lay.yu aur bar.ab.ar sa.m.j.hu pad.e te.m sam.j.avyu"],
+                "medium": ["v.is.t.aar.thi aur dhyan.thi checkup","puri tapaas aur spaShT sp.aShTi.kar.aN"],
+                "short":  ["ख़ूb puri tapaas","v.is.t.ar.it checkup"]
+              },
+              "Hinglish": {
+                "long":   ["doctor ne bahut thoroughly checkup kiya yaar, har symptom dhyan se suna aur simple language mein sab samjhaya"],
+                "medium": ["detailed checkup kiya carefully","complete examination with clear explanation"],
+                "short":  ["bahut thorough checkup","detailed examination"]
+              },
+              "Marathi": {
+                "long":   ["doctrane khup kaaLajipurvak checkup keli, pratyek lakshaN samajhun ghenyasathi vel ghyatla ani sarvv saral bhashet samjavun dile"],
+                "medium": ["vistar ani kaaLajipurvak checkup keli","sampUrNa tapasni ani spaSht spashTikaraN"],
+                "short":  ["khup sampUrNa checkup","vistar tapasni"]
+              },
+              "Tamil": {
+                "long":   ["மருத்துவர் மிகவும் கவனமாக பரிசோதனை செய்தார், ஒவ்வொரு அறிகுறியையும் புரிந்துகொள்ள நேரம் எடுத்து எளிய மொழியில் விளக்கினார்"],
+                "medium": ["விரிவான மற்றும் கவனமான பரிசோதனை","முழுமையான பரிசோதனை மற்றும் தெளிவான விளக்கம்"],
+                "short":  ["மிகவும் முழுமையான பரிசோதனை","விரிவான பரிசோதனை"]
+              },
+              "Telugu": {
+                "long":   ["డాక్టర్ చాలా జాగ్రత్తగా తనిఖీ చేశారు, ప్రతి లక్షణాన్ని అర్థం చేసుకోవడానికి సమయం తీసుకుని సరళమైన భాషలో వివరించారు"],
+                "medium": ["వివరంగా మరియు జాగ్రత్తగా తనిఖీ చేశారు","పూర్తి పరీక్ష మరియు స్పష్టమైన వివరణ"],
+                "short":  ["చాలా పూర్తి తనిఖీ","వివరమైన పరీక్ష"]
+              },
+              "Kannada": {
+                "long":   ["ವೈದ್ಯರು ತುಂಬಾ ಕಾಳಜಿಯಿಂದ ತಪಾಸಿದರು, ಪ್ರತಿ ಲಕ್ಷಣ ಅರ್ಥ ಮಾಡಿಕೊಳ್ಳಲು ಸಮಯ ತೆಗೆದುಕೊಂಡು ಸರಳ ಭಾಷೆಯಲ್ಲಿ ವಿವರಿಸಿದರು"],
+                "medium": ["ವಿಸ್ತಾರ ಮತ್ತು ಕಾಳಜಿಯ ತಪಾಸಣೆ","ಸಂಪೂರ್ಣ ತಪಾಸಣೆ ಮತ್ತು ಸ್ಪಷ್ಟ ವಿವರಣೆ"],
+                "short":  ["ತುಂಬಾ ಸಂಪೂರ್ಣ ತಪಾಸಣೆ","ವಿಸ್ತಾರ ತಪಾಸಣೆ"]
+              }
             },
             "patient_listening": {
-              "English":  ["doctor listened very patiently","took time to understand my problem","never felt rushed","explained everything clearly","very attentive and caring"],
-              "Hindi":    ["doctor ne bahut dhyan se suna","mere masle ko samajhne mein time liya","kabhi jaldi nahi lagayi","sab kuch clearly samjhaya","bahut attentive aur caring the"],
-              "Gujarati": ["ડૉક્ટરે ખૂબ ધ્યાનથી સાંભળ્યું","સમસ્યા સમજવામાં સમય લીધો","ઉતાવળ ક્યારેય ન લાગી","બધું સ્પષ્ટ સમજાવ્યું","ખૂબ ધ્યાન આપ્યું"],
-              "Hinglish": ["doctor ne bahut patiently suna yaar","problem samajhne mein time liya","kabhi rush nahi kiya","sab clearly explain kiya","bahut caring the"],
-              "Marathi":  ["doctor ne khup sabr ne aikle","mazhi samasya samajhun ghenyasathi vel gheta","kadhi ghaai keli nahi","sab kahi spashT sangitle","khup lakshdeen ani kaLajivahoo"],
-              "Tamil":    ["மருத்துவர் மிகவும் பொறுமையாக கேட்டனர்","என் பிரச்சனையை புரிந்துகொள்ள நேரம் எடுத்தனர்","எப்போதும் அவசரப்படவில்லை","எல்லாவற்றையும் தெளிவாக விளக்கினார்","மிகவும் கவனமாக இருந்தனர்"],
-              "Telugu":   ["డాక్టర్ చాలా ఓపికగా విన్నారు","నా సమస్యను అర్థం చేసుకోవడానికి సమయం తీసుకున్నారు","ఎప్పుడూ తొందర చేయలేదు","అన్నీ స్పష్టంగా వివరించారు","చాలా శ్రద్ధగా ఉన్నారు"],
-              "Kannada":  ["ವೈದ್ಯರು ತುಂಬಾ ತಾಳ್ಮೆಯಿಂದ ಕೇಳಿದರು","ನನ್ನ ಸಮಸ್ಯೆ ಅರ್ಥ ಮಾಡಿಕೊಳ್ಳಲು ಸಮಯ ತೆಗೆದುಕೊಂಡರು","ಎಂದಿಗೂ ಅವಸರ ಮಾಡಲಿಲ್ಲ","ಎಲ್ಲವನ್ನೂ ಸ್ಪಷ್ಟವಾಗಿ ವಿವರಿಸಿದರು","ತುಂಬಾ ಗಮನ ನೀಡಿದರು"]
+              "English": {
+                "long":   ["doctor gave full attention, listened to every concern without rushing and made sure I understood the diagnosis and treatment plan completely"],
+                "medium": ["listened patiently and explained everything clearly","took time for every question — never felt rushed"],
+                "short":  ["very attentive doctor","listens patiently"]
+              },
+              "Hindi": {
+                "long":   ["doctor ne poora dhyan diya, bina jaldi kiye har baat suni aur diagnosis aur treatment plan sab clearly samjhaya"],
+                "medium": ["sabr se suna aur sab kuch clearly samjhaya","har sawaal ke liye time liya — kabhi jaldi nahi lagayi"],
+                "short":  ["bahut dhyanpurwak doctor","sabr se sunne wale"]
+              },
+              "Gujarati": {
+                "long":   ["doctor.e puru dhyan aapyu, ub.adh.aat vaagya v.ag.ar dar.ek v.at.e sun.i aur diagnosis aur treatment plan bar.ab.ar sam.j.avyu"],
+                "medium": ["sab.r.thi sun.yu aur sab kahn.i sp.aSh.T sam.j.avyu","dar.ek prashn.ne samay aap.yo — kadhi u.tavad n.athi lag.i"],
+                "short":  ["ख़ूb dhyan.pur.wak doctor","sab.r.thi sun.nar"]
+              },
+              "Hinglish": {
+                "long":   ["doctor ne full attention diya yaar, bina rush kiye sab suna aur treatment plan clearly explain kiya"],
+                "medium": ["patiently suna aur sab clearly explain kiya","har question ke liye time liya"],
+                "short":  ["very attentive doctor","listens patiently"]
+              },
+              "Marathi": {
+                "long":   ["doctrane poornpaNe laks dile, ghaai n karta pratyek goshT aaikli ani diagnosis ani treatment plan spashT samjavun dile"],
+                "medium": ["sabrane aikle ani sarvv clearly samjavle","pratyek prashnaasathi vel ghyatla"],
+                "short":  ["khup lakshdeen doctor","sabrane aikanar"]
+              },
+              "Tamil": {
+                "long":   ["மருத்துவர் முழு கவனம் செலுத்தி, அவசரமின்றி ஒவ்வொரு கவலையையும் கேட்டு நோயறிதல் மற்றும் சிகிச்சை திட்டம் முழுவதையும் தெளிவாக விளக்கினார்"],
+                "medium": ["பொறுமையாக கேட்டு தெளிவாக விளக்கினார்","ஒவ்வொரு கேள்விக்கும் நேரம் எடுத்தார்"],
+                "short":  ["மிகவும் கவனமான மருத்துவர்","பொறுமையாக கேட்கிறார்"]
+              },
+              "Telugu": {
+                "long":   ["డాక్టర్ పూర్తి శ్రద్ధ ఇచ్చారు, తొందర లేకుండా ప్రతి ఆందోళన విని నిర్ధారణ మరియు చికిత్స ప్రణాళికను స్పష్టంగా వివరించారు"],
+                "medium": ["ఓపికగా విని అన్నీ స్పష్టంగా వివరించారు","ప్రతి ప్రశ్నకు సమయం తీసుకున్నారు"],
+                "short":  ["చాలా శ్రద్ధగల డాక్టర్","ఓపికగా వినే వారు"]
+              },
+              "Kannada": {
+                "long":   ["ವೈದ್ಯರು ಪೂರ್ಣ ಗಮನ ನೀಡಿ, ಅವಸರ ಮಾಡದೆ ಪ್ರತಿ ಕಾಳಜಿ ಕೇಳಿ ರೋಗನಿರ್ಣಯ ಮತ್ತು ಚಿಕಿತ್ಸಾ ಯೋಜನೆ ಸ್ಪಷ್ಟವಾಗಿ ವಿವರಿಸಿದರು"],
+                "medium": ["ತಾಳ್ಮೆಯಿಂದ ಕೇಳಿ ಎಲ್ಲವನ್ನೂ ಸ್ಪಷ್ಟವಾಗಿ ವಿವರಿಸಿದರು","ಪ್ರತಿ ಪ್ರಶ್ನೆಗೂ ಸಮಯ ತೆಗೆದುಕೊಂಡರು"],
+                "short":  ["ತುಂಬಾ ಗಮನ ನೀಡುವ ವೈದ್ಯ","ತಾಳ್ಮೆಯಿಂದ ಕೇಳುತ್ತಾರೆ"]
+              }
             },
             "experienced_doctor": {
-              "English":  ["very experienced doctor","years of expertise visible","highly qualified and experienced","vast medical knowledge","trusted and experienced"],
-              "Hindi":    ["bahut anubhavi doctor hain","saalon ka anubhav dikhai deta hai","bahut qualified aur experienced","vast medical knowledge hai","vishwasniy aur anubhavi"],
-              "Gujarati": ["ખૂબ અનુભવી ડૉક્ટર","વર્ષોનો અનુભવ દેખાય","ખૂબ qualified અને અનુભવી","વ્યાપક તબીબી જ્ઞાન","વિશ્વસ્ત અને અનુભવી"],
-              "Hinglish": ["bahut experienced doctor hain yaar","saalon ka experience dikhai deta hai","highly qualified hain","vast medical knowledge hai","trusted aur experienced hain"],
-              "Marathi":  ["khup anubhavi doctor ahet","varshanche anubhav dikhtaat","khup qualified ani anubhavi","vistareet vaidyakiy gyan ahe","vishwasniy ani anubhavi"],
-              "Tamil":    ["மிகவும் அனுபவமிக்க மருத்துவர்","பல வருட அனுபவம் தெரிகிறது","மிகவும் தகுதி வாய்ந்த மற்றும் அனுபவமிக்க","விரிவான மருத்துவ அறிவு","நம்பகமான மற்றும் அனுபவமிக்க"],
-              "Telugu":   ["చాలా అనుభవజ్ఞులైన డాక్టర్","సంవత్సరాల అనుభవం కనిపిస్తుంది","చాలా అర్హులు మరియు అనుభవజ్ఞులు","విస్తృత వైద్య జ్ఞానం","నమ్మకమైన మరియు అనుభవజ్ఞులు"],
-              "Kannada":  ["ತುಂಬಾ ಅನುಭವಿ ವೈದ್ಯರು","ವರ್ಷಗಳ ಅನುಭವ ಕಾಣಿಸುತ್ತದೆ","ತುಂಬಾ ಅರ್ಹರು ಮತ್ತು ಅನುಭವಿ","ವಿಸ್ತಾರ ವೈದ್ಯಕೀಯ ಜ್ಞಾನ","ವಿಶ್ವಾಸಾರ್ಹ ಮತ್ತು ಅನುಭವಿ"]
+              "English": {
+                "long":   ["you can clearly see the years of experience in the way the doctor handles patients — diagnosis was spot-on and the approach very reassuring"],
+                "medium": ["very experienced and knowledgeable doctor","years of expertise clearly visible in the approach"],
+                "short":  ["very experienced","trusted doctor"]
+              },
+              "Hindi": {
+                "long":   ["doctor ke tarike se clearly pata chalta hai ki woh kitne experience wale hain — diagnosis bilkul sahi tha aur approach bahut reassuring thi"],
+                "medium": ["bahut anubhavi aur knowledgeable doctor hain","approach mein saalon ka anubhav dikh.ta hai"],
+                "short":  ["bahut anubhavi","trustworthy doctor"]
+              },
+              "Gujarati": {
+                "long":   ["doctor.na tarik.a thi sp.aSh.T thay che ke te.o ket.la experience.dh.ar che — diagnosis bilkul sahi hatu aur approach reassuring hati"],
+                "medium": ["ख़ूb anub.h.avi aur knowl.edg.e.able doctor","approach mam.n saal.on.no anub.hav dikhe che"],
+                "short":  ["ख़ूb anub.h.avi","v.ish.v.as.niy doctor"]
+              },
+              "Hinglish": {
+                "long":   ["doctor ki approach se clearly pata chal.ta hai kitna experience hai yaar — diagnosis accurate tha aur very reassuring feel hua"],
+                "medium": ["very experienced aur knowledgeable doctor hain","years of expertise clearly visible hai"],
+                "short":  ["very experienced","trusted doctor"]
+              },
+              "Marathi": {
+                "long":   ["doctrancha approach pahun spashT disto ki tyancha kitka anubhav ahe — diagnosis ekdam baro.bar hota ani driShTikon khup reassuring hota"],
+                "medium": ["khup anubhavi ani gyaani doctor ahet","approach madhe varshanche anubhav distat"],
+                "short":  ["khup anubhavi","vishvasniy doctor"]
+              },
+              "Tamil": {
+                "long":   ["மருத்துவரின் அணுகுமுறையிலிருந்து அவர்களின் அனுபவம் தெளிவாக தெரிகிறது — நோயறிதல் துல்லியமாக இருந்தது மற்றும் அணுகுமுறை மிகவும் நம்பிக்கை தந்தது"],
+                "medium": ["மிகவும் அனுபவமிக்க மற்றும் அறிவாளி மருத்துவர்","அணுகுமுறையில் வருட அனுபவம் தெரிகிறது"],
+                "short":  ["மிகவும் அனுபவமிக்க","நம்பகமான மருத்துவர்"]
+              },
+              "Telugu": {
+                "long":   ["డాక్టర్ విధానం నుండి వారి అనుభవం స్పష్టంగా తెలుస్తుంది — నిర్ధారణ ఖచ్చితంగా ఉంది మరియు విధానం చాలా ధైర్యం ఇచ్చింది"],
+                "medium": ["చాలా అనుభవజ్ఞులు మరియు జ్ఞానవంతుడు","విధానంలో సంవత్సరాల అనుభవం కనిపిస్తుంది"],
+                "short":  ["చాలా అనుభవజ్ఞులు","నమ్మకమైన డాక్టర్"]
+              },
+              "Kannada": {
+                "long":   ["ವೈದ್ಯರ ವಿಧಾನದಿಂದ ಅವರ ಅನುಭವ ಸ್ಪಷ್ಟವಾಗಿ ತಿಳಿಯುತ್ತದೆ — ರೋಗನಿರ್ಣಯ ನಿಖರ ಮತ್ತು ವಿಧಾನ ತುಂಬಾ ಭರವಸೆ ನೀಡಿತು"],
+                "medium": ["ತುಂಬಾ ಅನುಭವಿ ಮತ್ತು ಜ್ಞಾನಿ ವೈದ್ಯ","ವಿಧಾನದಲ್ಲಿ ವರ್ಷಗಳ ಅನುಭವ ಕಾಣಿಸುತ್ತದೆ"],
+                "short":  ["ತುಂಬಾ ಅನುಭವಿ","ನಂಬಕಾರ್ಹ ವೈದ್ಯ"]
+              }
+            },
+            "affordable_fees": {
+              "English": {
+                "long":   ["fees are very reasonable considering the quality of consultation — did not feel overcharged at all, very fair and transparent pricing"],
+                "medium": ["very affordable consultation fees","reasonable fees for the quality of care"],
+                "short":  ["affordable fees","very reasonable"]
+              },
+              "Hindi": {
+                "long":   ["consultation ki quality ke hisaab se fees bilkul sahi hai — zyada charge karne ka bilkul ehsaas nahi hua, bilkul fair pricing"],
+                "medium": ["bahut affordable consultation fees hain","care ki quality ke liye fees sahi hain"],
+                "short":  ["sasti fees","bilkul sahi fees"]
+              },
+              "Gujarati": {
+                "long":   ["consultation.ni quality.ne dhyan.maa laita fees bilkul yogya che — vad.hare charge.nu bilkul lag.yu nahi, fair pricing"],
+                "medium": ["ख़ूb affordable consultation fees","care.ni quality maate fees yogya"],
+                "short":  ["oc.hi fees","bilkul yogya fees"]
+              },
+              "Hinglish": {
+                "long":   ["consultation quality ke hisaab se fees ekdum reasonable hai yaar — overcharged feel bilkul nahi hua, fair pricing hai"],
+                "medium": ["bahut affordable consultation fees hain","quality care ke liye reasonable fees"],
+                "short":  ["affordable fees","very reasonable"]
+              },
+              "Marathi": {
+                "long":   ["consultation.chya quality.cha vichar karta fees khup yogya ahe — jasta charge jhalo asa bilkul vatale nahi, fair pricing"],
+                "medium": ["khup affordable consultation fees","kaaLji.chya quality sathi yogya fees"],
+                "short":  ["svast fees","khup yogya fees"]
+              },
+              "Tamil": {
+                "long":   ["ஆலோசனையின் தரத்தை கருத்தில் கொண்டு கட்டணம் மிகவும் நியாயமானது — அதிக கட்டணம் வசூலிக்கப்பட்ட உணர்வே இல்லை"],
+                "medium": ["மிகவும் மலிவான ஆலோசனை கட்டணம்","சேவையின் தரத்திற்கு கட்டணம் சரியானது"],
+                "short":  ["மலிவான கட்டணம்","மிகவும் நியாயமானது"]
+              },
+              "Telugu": {
+                "long":   ["సంప్రదింపు నాణ్యతను బట్టి రుసుము చాలా సరైనది — అతిగా వసూలు చేసినట్లు అనిపించలేదు, న్యాయమైన ధర"],
+                "medium": ["చాలా సరసమైన సంప్రదింపు రుసుము","సేవా నాణ్యతకు సరైన రుసుము"],
+                "short":  ["సరసమైన రుసుము","చాలా సరైనది"]
+              },
+              "Kannada": {
+                "long":   ["ಸಮಾಲೋಚನೆ ಗುಣಮಟ್ಟ ಪರಿಗಣಿಸಿದಾಗ ಶುಲ್ಕ ತುಂಬಾ ಸಮಂಜಸ — ಹೆಚ್ಚು ವಸೂಲು ಎಂಬ ಭಾವನೆ ಬಿಲ್ಕುಲ್ ಇಲ್ಲ, ನ್ಯಾಯ ಬೆಲೆ"],
+                "medium": ["ತುಂಬಾ ಕೈಗೆಟುಕುವ ಸಮಾಲೋಚನೆ ಶುಲ್ಕ","ಸೇವೆ ಗುಣಮಟ್ಟಕ್ಕೆ ಸಮಂಜಸ ಶುಲ್ಕ"],
+                "short":  ["ಕೈಗೆಟುಕುವ ಶುಲ್ಕ","ತುಂಬಾ ಸಮಂಜಸ"]
+              }
             }
           }
         },
         "Dentist": {
           "tags": [
-            { "id": "root_canal",      "label": "Root Canal" },
-            { "id": "braces",          "label": "Braces & Aligners" },
-            { "id": "whitening",       "label": "Teeth Whitening" },
-            { "id": "extraction",      "label": "Tooth Extraction" },
-            { "id": "implant",         "label": "Dental Implant" },
-            { "id": "kids_dentistry",  "label": "Kids Dentistry" },
-            { "id": "gum_treatment",   "label": "Gum Treatment" },
-            { "id": "scaling",         "label": "Scaling & Cleaning" },
-            { "id": "painless",        "label": "Painless Treatment" },
-            { "id": "crown_bridge",    "label": "Crown & Bridge" },
-            { "id": "emergency",       "label": "Emergency Dental" },
-            { "id": "xray",            "label": "Digital X-Ray" }
+            {"id":"painless","label":"Painless Treatment"},
+            {"id":"braces","label":"Braces & Aligners"},
+            {"id":"root_canal","label":"Root Canal"},
+            {"id":"whitening","label":"Teeth Whitening"},
+            {"id":"scaling","label":"Scaling & Cleaning"},
+            {"id":"implant","label":"Dental Implant"},
+            {"id":"kids_dentistry","label":"Kids Dentistry"},
+            {"id":"gum_treatment","label":"Gum Treatment"},
+            {"id":"extraction","label":"Tooth Extraction"},
+            {"id":"crown_bridge","label":"Crown & Bridge"},
+            {"id":"emergency","label":"Emergency Dental"},
+            {"id":"xray","label":"Digital X-Ray"}
           ],
           "phrases": {
             "painless": {
-              "English":  ["treatment was completely painless","no pain at all during treatment","very comfortable treatment","painless procedure — very impressed","gentle and painless throughout"],
-              "Hindi":    ["treatment bilkul dard-free tha","treatment mein bilkul dard nahi tha","bahut comfortable treatment tha","dard-free procedure — bahut impressed","poore time gentle aur painless"],
-              "Gujarati": ["સારવાર સંપૂર્ણ દર્દ-મુક્ત","સારવારમાં કોઈ દર્દ નહীં","ખૂબ આરામદાયક સારવાર","દર્દ-મુક્ત — ખૂબ પ્રભાવિત","સૌમ્ય અને દર્દ-મુક્ત"],
-              "Hinglish": ["treatment ekdum painless tha yaar","koi dard nahi tha treatment mein","bahut comfortable treatment tha","painless procedure — impressed hun","gentle aur painless tha poora"],
-              "Marathi":  ["upchar poornpaNe vedanarahit hota","upcharat bilkul vedana navhati","khup aramadaayak upchar hota","vedanarashit prakriya — khup impressed","poornveLes komal ani vedanarashit"],
-              "Tamil":    ["சிகிச்சை முற்றிலும் வலியற்றது","சிகிச்சையில் சிறிதும் வலி இல்லை","மிகவும் வசதியான சிகிச்சை","வலியற்ற செயல்முறை — மிகவும் ஈர்க்கப்பட்டேன்","மென்மையான மற்றும் வலியற்ற சிகிச்சை"],
-              "Telugu":   ["చికిత్స పూర్తిగా నొప్పి లేకుండా ఉంది","చికిత్సలో అస్సలు నొప్పి లేదు","చాలా సౌకర్యంగా చికిత్స","నొప్పి లేని ప్రక్రియ — చాలా ఆకట్టుకున్నాను","సున్నితంగా మరియు నొప్పి లేకుండా"],
-              "Kannada":  ["ಚಿಕಿತ್ಸೆ ಸಂಪೂರ್ಣ ನೋವಿಲ್ಲದೆ ಇತ್ತು","ಚಿಕಿತ್ಸೆಯಲ್ಲಿ ಸ್ವಲ್ಪವೂ ನೋವಿಲ್ಲ","ತುಂಬಾ ಆರಾಮದಾಯಕ ಚಿಕಿತ್ಸೆ","ನೋವಿಲ್ಲದ ಪ್ರಕ್ರಿಯೆ — ತುಂಬಾ ಪ್ರಭಾವಿತ","ಮೃದುವಾದ ಮತ್ತು ನೋವಿಲ್ಲದ ಚಿಕಿತ್ಸೆ"]
-            },
-            "braces": {
-              "English":  ["braces fitted very professionally","aligner treatment was excellent","teeth alignment done perfectly","braces consultation was very helpful","orthodontic treatment was superb"],
-              "Hindi":    ["braces bahut professionally lagaye","aligner treatment bahut achha raha","teeth alignment perfectly ki","braces consultation bahut helpful raha","orthodontic treatment laajawab tha"],
-              "Gujarati": ["બ્રેસ ખૂબ પ્રોફેશ્નલ રીતે","aligner treatment ઉત્તમ","દાંત alignment સંપૂર્ણ","બ્રેસ consultation ઉત્કૃષ્ટ","orthodontic treatment અદ્ભુત"],
-              "Hinglish": ["braces bahut professionally lagate hain yaar","aligner treatment ekdum mast tha","teeth alignment perfectly kiya","braces consultation helpful tha","orthodontic treatment superb tha"],
-              "Marathi":  ["braces khup professionally lavle","aligner upchar uttam hota","dant saravNe perfectly kele","braces samupdeshan khup upayukt hote","orthodontic upchar laajawab hota"],
-              "Tamil":    ["பிரேஸ்கள் மிகவும் தொழில்முறையாக பொருத்தப்பட்டன","அலைனர் சிகிச்சை சிறந்தது","பல் சீரமைப்பு சரியாக செய்யப்பட்டது","பிரேஸ் ஆலோசனை மிகவும் உதவியாக இருந்தது","ஆர்த்தோடான்டிக் சிகிச்சை அருமை"],
-              "Telugu":   ["బ్రేసెస్ చాలా వృత్తిపరంగా అమర్చారు","అలైనర్ చికిత్స అద్భుతంగా ఉంది","దంత సమలేఖనం పరిపూర్ణంగా చేశారు","బ్రేసెస్ సంప్రదింపు చాలా సహాయకరం","ఆర్థోడాంటిక్ చికిత్స అత్యుత్తమం"],
-              "Kannada":  ["ಬ್ರೇಸ್ಗಳು ತುಂಬಾ ವೃತ್ತಿಪರವಾಗಿ ಅಳವಡಿಸಲಾಯಿತು","ಅಲೈನರ್ ಚಿಕಿತ್ಸೆ ಅದ್ಭುತ","ಹಲ್ಲಿನ ಜೋಡಣೆ ಪರಿಪೂರ್ಣ","ಬ್ರೇಸ್ ಸಮಾಲೋಚನೆ ತುಂಬಾ ಸಹಾಯಕ","ಆರ್ಥೋಡಾಂಟಿಕ್ ಚಿಕಿತ್ಸೆ ಅತ್ಯುತ್ತಮ"]
+              "English": {
+                "long":   ["I was very nervous before but the treatment was completely painless — the doctor was gentle throughout and made sure I was comfortable at every step"],
+                "medium": ["totally painless treatment, very impressed","gentle and comfortable procedure throughout"],
+                "short":  ["completely painless","no pain at all"]
+              },
+              "Hindi": {
+                "long":   ["pehle bahut dara hua tha lekin treatment bilkul dard-free rahi — doctor bahut gentle the aur har step pe comfortable rakha"],
+                "medium": ["poori tarah dard-free treatment, bahut impressed hua","gentle aur comfortable procedure tha"],
+                "short":  ["bilkul dard-free","zero pain"]
+              },
+              "Gujarati": {
+                "long":   ["pehla.n ख़ूb darat.o h.ato pan treatment bilkul dard-mu.kt rahi — doctor ख़ूb gentle h.ata aur dar.ek tabbe.e pe comfortable rakh.yo"],
+                "medium": ["puri tarah dard-mu.kt treatment","gentle aur comfortable procedure"],
+                "short":  ["bilkul dard-mu.kt","zero pain"]
+              },
+              "Hinglish": {
+                "long":   ["pehle bahut scared tha yaar but treatment ekdum painless rahi — doctor bahut gentle the, comfortable feel kiya"],
+                "medium": ["totally painless treatment, very impressed","gentle and comfortable throughout"],
+                "short":  ["completely painless","no pain at all"]
+              },
+              "Marathi": {
+                "long":   ["aadhi khup bheet hoto pan upchar poornpaNe vedanarashit hota — doctor khup komal hote ani pratitek paayari comfortable thevale"],
+                "medium": ["poornpaNe vedanarashit upchar, khup impressed","komal ani aRamdaayak prakriya"],
+                "short":  ["poornpaNe vedanarashit","vedana navhaticha"]
+              },
+              "Tamil": {
+                "long":   ["முதலில் மிகவும் பயமாக இருந்தது ஆனால் சிகிச்சை முற்றிலும் வலியற்றது — மருத்துவர் மென்மையாக இருந்தார் மற்றும் ஒவ்வொரு கட்டத்திலும் வசதியாக இருந்தது"],
+                "medium": ["முற்றிலும் வலியற்ற சிகிச்சை","மென்மையான மற்றும் வசதியான செயல்முறை"],
+                "short":  ["முற்றிலும் வலியற்றது","வலியே இல்லை"]
+              },
+              "Telugu": {
+                "long":   ["ముందు చాలా భయంగా ఉంది కానీ చికిత్స పూర్తిగా నొప్పి లేకుండా ఉంది — డాక్టర్ సున్నితంగా ఉన్నారు మరియు ప్రతి దశలో సౌకర్యంగా ఉంచారు"],
+                "medium": ["పూర్తిగా నొప్పి లేని చికిత్స","సున్నితమైన మరియు సౌకర్యమైన ప్రక్రియ"],
+                "short":  ["పూర్తిగా నొప్పి లేదు","అసలు నొప్పి లేదు"]
+              },
+              "Kannada": {
+                "long":   ["ಮೊದಲು ತುಂಬಾ ಭಯ ಆಗಿತ್ತು ಆದರೆ ಚಿಕಿತ್ಸೆ ಸಂಪೂರ್ಣ ನೋವಿಲ್ಲದೆ ಇತ್ತು — ವೈದ್ಯರು ಮೃದುವಾಗಿ ಇದ್ದರು ಮತ್ತು ಪ್ರತಿ ಹಂತದಲ್ಲೂ ಆರಾಮವಾಗಿ ಇಟ್ಟರು"],
+                "medium": ["ಸಂಪೂರ್ಣ ನೋವಿಲ್ಲದ ಚಿಕಿತ್ಸೆ","ಮೃದು ಮತ್ತು ಆರಾಮದಾಯಕ ಪ್ರಕ್ರಿಯೆ"],
+                "short":  ["ಸಂಪೂರ್ಣ ನೋವಿಲ್ಲ","ನೋವೇ ಇಲ್ಲ"]
+              }
             }
           }
         }
       }
     },
-
     "beauty_wellness": {
       "name": "Beauty & Wellness",
       "subcategories": {
         "Saloon / Barbershop": {
           "tags": [
-            { "id": "haircut",         "label": "Haircut" },
-            { "id": "beard",           "label": "Beard Styling" },
-            { "id": "hair_colour",     "label": "Hair Colour" },
-            { "id": "keratin",         "label": "Keratin Treatment" },
-            { "id": "facial",          "label": "Facial" },
-            { "id": "head_massage",    "label": "Head Massage" },
-            { "id": "kids_haircut",    "label": "Kids Haircut" },
-            { "id": "hair_spa",        "label": "Hair Spa" },
-            { "id": "smoothening",     "label": "Smoothening" },
-            { "id": "clean_up",        "label": "Clean-up" },
-            { "id": "skilled_stylist", "label": "Skilled Stylist" },
-            { "id": "hygienic_tools",  "label": "Hygienic Tools" }
+            {"id":"haircut","label":"Haircut"},
+            {"id":"beard","label":"Beard Styling"},
+            {"id":"hair_colour","label":"Hair Colour"},
+            {"id":"keratin","label":"Keratin Treatment"},
+            {"id":"head_massage","label":"Head Massage"},
+            {"id":"kids_haircut","label":"Kids Haircut"},
+            {"id":"hair_spa","label":"Hair Spa"},
+            {"id":"smoothening","label":"Smoothening"},
+            {"id":"facial","label":"Facial"},
+            {"id":"skilled_stylist","label":"Skilled Stylist"},
+            {"id":"hygienic_tools","label":"Hygienic Tools"},
+            {"id":"clean_up","label":"Clean-up"}
           ],
           "phrases": {
             "haircut": {
-              "English":  ["haircut was done perfectly","great haircut exactly as requested","best haircut in a long time","very precise and neat haircut","haircut exceeded expectations"],
-              "Hindi":    ["haircut bilkul perfect tha","exactly jaisa manga waisa haircut","bahut dino mein sabse achha haircut","bahut precise aur neat haircut","haircut expectations se zyada achha tha"],
-              "Gujarati": ["હેરકટ સંપૂર્ણ perfect","ઇચ્છ્યા પ્રમાણે haircut","ખૂબ સ્વચ્છ અને precise","haircut ઉત્તમ","ઘણા સમય પછી આટલો સારો haircut"],
-              "Hinglish": ["haircut ekdum perfect tha yaar","exactly as requested haircut kiya","bahut dino mein best haircut","bahut precise haircut tha","expectations se zyada achha tha"],
-              "Marathi":  ["haircut bilkul perfect hota","naemkepaNe sangitlyapramaaNe haircut","khup diwasaat sabse chhan haircut","khup precise ani neat haircut","haircut apekshapeksha chhan hota"],
-              "Tamil":    ["ஹேர்கட் மிகவும் சரியாக செய்யப்பட்டது","கேட்டபடி சரியான ஹேர்கட்","நீண்ட நாட்களில் சிறந்த ஹேர்கட்","மிகவும் துல்லியமான ஹேர்கட்","ஹேர்கட் எதிர்பார்ப்பை மீறியது"],
-              "Telugu":   ["హేర్‌కట్ పరిపూర్ణంగా చేశారు","అడిగినట్లు సరిగ్గా హేర్‌కట్","చాలా రోజులలో ఉత్తమ హేర్‌కట్","చాలా ఖచ్చితమైన హేర్‌కట్","హేర్‌కట్ అంచనాలను మించింది"],
-              "Kannada":  ["ಹೇರ್‌ಕಟ್ ಪರಿಪೂರ್ಣವಾಗಿ ಮಾಡಿದರು","ಕೇಳಿದಂತೆ ಸರಿಯಾಗಿ ಹೇರ್‌ಕಟ್","ತುಂಬಾ ದಿನಗಳಲ್ಲಿ ಅತ್ಯುತ್ತಮ ಹೇರ್‌ಕಟ್","ತುಂಬಾ ನಿಖರ ಮತ್ತು ಅಚ್ಚುಕಟ್ಟಾದ ಹೇರ್‌ಕಟ್","ಹೇರ್‌ಕಟ್ ನಿರೀಕ್ಷೆಗಿಂತ ಮೀರಿತು"]
-            },
-            "beard": {
-              "English":  ["beard styling was excellent","perfect beard shape","beard trim was very precise","beard grooming done with expertise","loved the beard design"],
-              "Hindi":    ["beard styling bahut badhiya tha","perfect beard shape mili","beard trim bahut precise tha","beard grooming expertly kiya","beard design bahut pasand aaya"],
-              "Gujarati": ["beard styling ઉત્તમ","perfect beard shape","beard trim ખૂબ precise","beard grooming expertly","beard design ખૂબ ગમ્યો"],
-              "Hinglish": ["beard styling ekdum mast tha yaar","perfect beard shape di","beard trim bahut precise tha","expertly beard grooming kiya","beard design loved it"],
-              "Marathi":  ["beard styling khup badhiya hote","perfect beard aakaar mili","beard trim khup precise hota","beard grooming taJdkharitenat kele","beard design khup avadla"],
-              "Tamil":    ["தாடி ஸ்டைலிங் சிறந்தது","சரியான தாடி வடிவம்","தாடி டிரிம் மிகவும் துல்லியம்","தாடி அழகு திறமையாக செய்யப்பட்டது","தாடி வடிவமைப்பு மிகவும் பிடித்தது"],
-              "Telugu":   ["గడ్డం స్టైలింగ్ అద్భుతం","సరైన గడ్డం ఆకారం","గడ్డం ట్రిమ్ చాలా ఖచ్చితం","గడ్డం గ్రూమింగ్ నైపుణ్యంగా చేశారు","గడ్డం డిజైన్ చాలా నచ్చింది"],
-              "Kannada":  ["ಗಡ್ಡ ಸ್ಟೈಲಿಂಗ್ ಅತ್ಯುತ್ತಮ","ಸರಿಯಾದ ಗಡ್ಡ ಆಕಾರ","ಗಡ್ಡ ಟ್ರಿಮ್ ತುಂಬಾ ನಿಖರ","ಗಡ್ಡ ಗ್ರೂಮಿಂಗ್ ಪರಿಣಾಮಕಾರಿ","ಗಡ್ಡ ವಿನ್ಯಾಸ ತುಂಬಾ ಇಷ್ಟವಾಯಿತು"]
-            }
-          }
-        },
-        "Beauty Parlour": {
-          "tags": [
-            { "id": "bridal_makeup",  "label": "Bridal Makeup" },
-            { "id": "facial_beauty",  "label": "Facial" },
-            { "id": "waxing",         "label": "Waxing" },
-            { "id": "threading",      "label": "Threading" },
-            { "id": "party_makeup",   "label": "Party Makeup" },
-            { "id": "hair_spa_b",     "label": "Hair Spa" },
-            { "id": "manicure",       "label": "Manicure & Pedicure" },
-            { "id": "bleach",         "label": "Bleach" },
-            { "id": "mehendi",        "label": "Mehendi" },
-            { "id": "saree_draping",  "label": "Saree Draping" },
-            { "id": "eyebrow",        "label": "Eyebrow Shaping" },
-            { "id": "skin_treatment", "label": "Skin Treatment" }
-          ],
-          "phrases": {
-            "bridal_makeup": {
-              "English":  ["bridal makeup was absolutely stunning","looked like a dream on my wedding day","bridal look was perfect and long-lasting","makeup artist understood my vision perfectly","bride looked absolutely beautiful"],
-              "Hindi":    ["bridal makeup bilkul stunning tha","shaadi ke din sapne jaisi lagi","bridal look perfect aur long-lasting tha","makeup artist ne meri vision samjhi","dulhan bilkul sundar lagi"],
-              "Gujarati": ["bridal makeup ખૂબ stunning","લગ્નના દિવસે સ્વપ્ન જેવું","bridal look perfect અને long-lasting","makeup artist એ vision સમજ્યો","花 ખૂબ સુંદર"],
-              "Hinglish": ["bridal makeup ekdum stunning tha yaar","wedding day pe dream jaisi lagi","bridal look perfect aur long-lasting tha","artist ne meri vision samjh li","bride bilkul beautiful lagi"],
-              "Marathi":  ["bridal makeup khup stunning hota","lagnachya divshi swapnasarkhi vatale","bridal look perfect ani long-lasting hota","makeup artist ne mazi kalpana samajavun ghyatli","vadhu khup sundar disat hoti"],
-              "Tamil":    ["திருமண மேக்கப் மிகவும் அற்புதமாக இருந்தது","திருமண நாளில் கனவு போல் தெரிந்தேன்","திருமண தோற்றம் சரியாகவும் நீடித்தும் இருந்தது","மேக்கப் கலைஞர் என் கருத்தை புரிந்துகொண்டார்","மணப்பெண் மிகவும் அழகாக இருந்தாள்"],
-              "Telugu":   ["పెళ్లి మేకప్ అద్భుతంగా ఉంది","పెళ్లి రోజు కలలాగా కనిపించాను","పెళ్లి లుక్ పరిపూర్ణంగా మరియు దీర్ఘకాలం ఉంది","మేకప్ ఆర్టిస్ట్ నా దృష్టిని పూర్తిగా అర్థం చేసుకున్నారు","వధువు మిక్కిలి అందంగా కనిపించింది"],
-              "Kannada":  ["ಮದುವೆ ಮೇಕಪ್ ತುಂಬಾ ಅದ್ಭುತ","ಮದುವೆ ದಿನ ಕನಸಿನಂತೆ ಕಾಣಿಸಿದೆ","ಮದುವೆ ನೋಟ ಪರಿಪೂರ್ಣ ಮತ್ತು ದೀರ್ಘಕಾಲ","ಮೇಕಪ್ ಕಲಾವಿದ ನನ್ನ ದೃಷ್ಟಿ ಅರ್ಥ ಮಾಡಿಕೊಂಡರು","ವಧು ತುಂಬಾ ಸುಂದರ ಕಾಣಿಸಿದಳು"]
+              "English": {
+                "long":   ["got exactly the haircut I wanted — showed a reference photo and the stylist understood it perfectly, very neat and precise work"],
+                "medium": ["perfect haircut, exactly as I asked","very precise and neat styling"],
+                "short":  ["great haircut","exactly what I wanted"]
+              },
+              "Hindi": {
+                "long":   ["exactly waisa haircut mila jo chahta tha — reference photo dikhaya aur stylist ne bilkul samjha, bahut neat aur precise kaam"],
+                "medium": ["perfect haircut, exactly jaisa manga","bahut precise aur neat styling"],
+                "short":  ["badhiya haircut","bilkul mana mafik"]
+              },
+              "Gujarati": {
+                "long":   ["exact.ly te.vo haircut m.al.yo jo joit.o h.ato — reference photo b.at.avyu aur stylist.e bilkul sam.j.yu, ख़ूb neat kaam"],
+                "medium": ["perfect haircut, exact.ly m.ang.ya pra.m.ane","ख़ूb precise aur neat styling"],
+                "short":  ["saras haircut","bilkul m.an gam.tu"]
+              },
+              "Hinglish": {
+                "long":   ["exactly waisa haircut mila jo chahta tha yaar — stylist ne reference photo dekh ke perfectly kiya, very neat work"],
+                "medium": ["perfect haircut exactly as requested","very precise styling"],
+                "short":  ["great haircut","exactly what I wanted"]
+              },
+              "Marathi": {
+                "long":   ["exactly tevha haircut mila jo hava hota — reference photo daakhavla aur stylist.ne bilkul samjavun ghyatla, khup neat kaam"],
+                "medium": ["perfect haircut, exactly sangitlyapramaaNe","khup precise ani neat styling"],
+                "short":  ["chhan haircut","bilkul hava tevha"]
+              },
+              "Tamil": {
+                "long":   ["நான் விரும்பிய ஹேர்கட் சரியாக கிடைத்தது — ஒரு reference photo காட்டினேன், ஸ்டைலிஸ்ட் அதை சரியாக புரிந்துகொண்டார்"],
+                "medium": ["சரியான ஹேர்கட், கேட்டபடி","மிகவும் நேர்த்தியான styling"],
+                "short":  ["சிறந்த ஹேர்கட்","விரும்பியது கிடைத்தது"]
+              },
+              "Telugu": {
+                "long":   ["నేను కోరుకున్న హేర్‌కట్ సరిగ్గా వచ్చింది — రిఫరెన్స్ ఫోటో చూపించాను, స్టైలిస్ట్ పరిపూర్ణంగా అర్థం చేసుకున్నారు"],
+                "medium": ["సరైన హేర్‌కట్, అడిగినట్లు","చాలా నిర్దుష్టమైన స్టైలింగ్"],
+                "short":  ["గొప్ప హేర్‌కట్","కోరుకున్నది వచ్చింది"]
+              },
+              "Kannada": {
+                "long":   ["ನಾನು ಬೇಕಾದ ಹೇರ್‌ಕಟ್ ಸರಿಯಾಗಿ ಸಿಕ್ಕಿತು — ರಿಫರೆನ್ಸ್ ಫೋಟೊ ತೋರಿಸಿದೆ, ಸ್ಟೈಲಿಸ್ಟ್ ಚೆನ್ನಾಗಿ ಅರ್ಥ ಮಾಡಿಕೊಂಡರು"],
+                "medium": ["ಸರಿಯಾದ ಹೇರ್‌ಕಟ್, ಕೇಳಿದಂತೆ","ತುಂಬಾ ನಿಖರ styling"],
+                "short":  ["ಉತ್ತಮ ಹೇರ್‌ಕಟ್","ಬೇಕಾದ್ದು ಸಿಕ್ಕಿತು"]
+              }
             }
           }
         }
       }
     },
-
     "food_drinks": {
       "name": "Food & Drinks",
       "subcategories": {
         "Restaurant": {
           "tags": [
-            { "id": "kathiavadi",    "label": "Kathiavadi" },
-            { "id": "gujarati",     "label": "Gujarati Thali" },
-            { "id": "south_indian", "label": "South Indian" },
-            { "id": "chinese",      "label": "Chinese" },
-            { "id": "punjabi",      "label": "Punjabi" },
-            { "id": "jain_food",    "label": "Jain Food" },
-            { "id": "veg_only",     "label": "Veg Only" },
-            { "id": "buffet",       "label": "Unlimited Buffet" },
-            { "id": "home_delivery","label": "Home Delivery" },
-            { "id": "ac_dining",    "label": "AC Dining" },
-            { "id": "family_dining","label": "Family Dining" },
-            { "id": "fresh_food",   "label": "Fresh Food" }
+            {"id":"taste","label":"Great Taste"},
+            {"id":"fresh_food","label":"Fresh Food"},
+            {"id":"gujarati","label":"Gujarati Thali"},
+            {"id":"kathiavadi","label":"Kathiavadi"},
+            {"id":"jain_food","label":"Jain Food"},
+            {"id":"veg_only","label":"Pure Veg"},
+            {"id":"buffet","label":"Unlimited Buffet"},
+            {"id":"ac_dining","label":"AC Dining"},
+            {"id":"home_delivery","label":"Home Delivery"},
+            {"id":"quick_service","label":"Quick Service"},
+            {"id":"family_dining","label":"Family Dining"},
+            {"id":"good_portions","label":"Good Portions"}
           ],
           "phrases": {
-            "kathiavadi": {
-              "English":  ["the Kathiavadi food was absolutely delicious","Kathiavadi thali was authentic and amazing","the Kathiavadi flavors felt like home","authentic Kathiavadi cuisine at its best","Kathiavadi dishes were outstanding"],
-              "Hindi":    ["Kathiavadi khana bilkul laajawab tha","Kathiavadi thali authentic aur amazing thi","Kathiavadi swaad ghar jaisa tha","behtareen authentic Kathiavadi khana","Kathiavadi dishes outstanding thi"],
-              "Gujarati": ["કાઠિયાવાડી ભોજન ઉત્તમ","કાઠિયાવાડી થાળી ઓથેન્ટિક અને અદ્ભુત","કાઠિયાવાડી સ્વાદ ઘરઘોડો","ઉત્તમ ઓથેન્ટિક કાઠિયાવાડી ભોજન","કાઠિયાવાડી ડિશ ખૂબ ઉત્કૃષ્ટ"],
-              "Hinglish": ["Kathiavadi khana ekdum laajawab tha yaar","Kathiavadi thali authentic aur amazing thi","Kathiavadi taste ghar jaisa tha","best authentic Kathiavadi food tha","Kathiavadi dishes outstanding thi"],
-              "Marathi":  ["Kathiavadi jewan khup laajawab hote","Kathiavadi thali authentic ani amazing hoti","Kathiavadi swaad gharasarkha hota","uttam authentic Kathiavadi jewan","Kathiavadi padaarth outstanding hote"],
-              "Tamil":    ["காத்தியாவாடி உணவு மிகவும் சுவையாக இருந்தது","காத்தியாவாடி தாலி அசல் மற்றும் அற்புதம்","காத்தியாவாடி சுவை வீட்டு சமையல் போல் இருந்தது","சிறந்த அசல் காத்தியாவாடி உணவு","காத்தியாவாடி உணவுகள் அருமை"],
-              "Telugu":   ["కాఠియావాడి ఆహారం చాలా రుచిగా ఉంది","కాఠియావాడి తాలి అసలైనది మరియు అద్భుతం","కాఠియావాడి రుచి ఇంటి వంటలా అనిపించింది","ఉత్తమ అసలైన కాఠియావాడి వంటకాలు","కాఠియావాడి వంటకాలు అత్యుత్తమం"],
-              "Kannada":  ["ಕಾಠಿಯಾವಾಡಿ ಆಹಾರ ತುಂಬಾ ರುಚಿಕರ","ಕಾಠಿಯಾವಾಡಿ ತಾಲಿ ಅಸಲು ಮತ್ತು ಅದ್ಭುತ","ಕಾಠಿಯಾವಾಡಿ ರುಚಿ ಮನೆ ಅಡುಗೆ ಹಾಗಿದೆ","ಉತ್ತಮ ಅಸಲು ಕಾಠಿಯಾವಾಡಿ ಆಹಾರ","ಕಾಠಿಯಾವಾಡಿ ತಿನಿಸುಗಳು ಅತ್ಯುತ್ತಮ"]
+            "taste": {
+              "English": {
+                "long":   ["the food was absolutely delicious — every dish had great flavour and it was clear that fresh ingredients were used, really felt like home cooking"],
+                "medium": ["food was delicious, loved every dish","great flavour and fresh ingredients"],
+                "short":  ["food was amazing","delicious food"]
+              },
+              "Hindi": {
+                "long":   ["khana bilkul laajawab tha — har dish mein bahut achha swaad tha aur clearly fresh ingredients use hue the, ghar jaisa lag raha tha"],
+                "medium": ["khana swadisht tha, har dish pasand aayi","badhiya swaad aur fresh ingredients"],
+                "short":  ["khana laajawab","bahut swadisht"]
+              },
+              "Gujarati": {
+                "long":   ["jam.an bilkul laazawab h.atu — dar.ek vaan.gi.maa ख़ूb saro sw.aad h.ato, sp.aShT fre.sh sam.agri vap.araya.ti, gh.ar.anu jam.an lag.tu h.atu"],
+                "medium": ["jam.an sw.adish.T h.atu, dar.ek vaan.gi gam.i","saro sw.aad aur fresh sam.agri"],
+                "short":  ["jam.an laazawab","ख़ूb sw.adish.T"]
+              },
+              "Hinglish": {
+                "long":   ["khana ekdum laajawab tha yaar — har dish mein amazing flavour tha, fresh ingredients clearly use hue the, ghar jaisa feel"],
+                "medium": ["khana delicious tha, har dish loved it","great flavour and fresh ingredients"],
+                "short":  ["khana amazing","ekdum delicious"]
+              },
+              "Marathi": {
+                "long":   ["jevan bilkul laajawab hote — pratyek padarth mein khup chhan chav hoti ani spashT fresh saahitya vaaparle hote, gharasarakh vatale"],
+                "medium": ["jevan swadishT hote, pratyek padarth avadla","badhiya chav ani fresh saahitya"],
+                "short":  ["jevan laajawab","khup swadishT"]
+              },
+              "Tamil": {
+                "long":   ["உணவு மிகவும் சுவையாக இருந்தது — ஒவ்வொரு உணவிலும் சிறந்த சுவை இருந்தது, புதிய பொருட்கள் பயன்படுத்தப்பட்டது தெளிவாக தெரிந்தது"],
+                "medium": ["உணவு சுவையாக இருந்தது, ஒவ்வொரு உணவும் பிடித்தது","சிறந்த சுவை மற்றும் புதிய பொருட்கள்"],
+                "short":  ["உணவு அற்புதம்","மிகவும் சுவையானது"]
+              },
+              "Telugu": {
+                "long":   ["ఆహారం చాలా రుచిగా ఉంది — ప్రతి వంటకంలో గొప్ప రుచి ఉంది, తాజా పదార్థాలు వాడినట్లు స్పష్టంగా తెలుసింది"],
+                "medium": ["ఆహారం రుచిగా ఉంది, ప్రతి వంటకం నచ్చింది","గొప్ప రుచి మరియు తాజా పదార్థాలు"],
+                "short":  ["ఆహారం అద్భుతం","చాలా రుచిగా"]
+              },
+              "Kannada": {
+                "long":   ["ಊಟ ತುಂಬಾ ರುಚಿಕರ ಇತ್ತು — ಪ್ರತಿ ತಿನಿಸಿನಲ್ಲೂ ಉತ್ತಮ ರುಚಿ ಇತ್ತು, ತಾಜಾ ಪದಾರ್ಥ ಬಳಸಿದ್ದು ಸ್ಪಷ್ಟ ತಿಳಿಯಿತು"],
+                "medium": ["ಊಟ ರುಚಿಕರ ಇತ್ತು, ಪ್ರತಿ ತಿನಿಸು ಇಷ್ಟ","ಉತ್ತಮ ರುಚಿ ಮತ್ತು ತಾಜಾ ಪದಾರ್ಥ"],
+                "short":  ["ಊಟ ಅದ್ಭುತ","ತುಂಬಾ ರುಚಿಕರ"]
+              }
             },
             "jain_food": {
-              "English":  ["Jain food options were excellent","great Jain food available","Jain menu was authentic and tasty","Jain options were widely available","perfect Jain dining experience"],
-              "Hindi":    ["Jain food options bahut achhe the","bahut achha Jain khana mila","Jain menu authentic aur swadisht tha","Jain options khub available the","perfect Jain dining experience raha"],
-              "Gujarati": ["જૈન ભોજન ઉત્તમ","ઉત્તમ જૈન ભોજન","જૈન menu ઓથેન્ટિક","જૈન options ખૂબ ઉપલબ્ધ","perfect જૈન dining"],
-              "Hinglish": ["Jain food options bahut achhe the yaar","bahut achha Jain khana mila","Jain menu authentic aur tasty tha","Jain options khub available the","perfect Jain dining raha"],
-              "Marathi":  ["Jain khanyache paryaay khup chhan hote","khup chhan Jain jevan milale","Jain menu authentic ani tasty hote","Jain paryaay khup uplabdh hote","perfect Jain dining anubhav hota"],
-              "Tamil":    ["ஜைன் உணவு விருப்பங்கள் சிறந்தவை","நல்ல ஜைன் உணவு கிடைத்தது","ஜைன் மெனு அசல் மற்றும் சுவையானது","ஜைன் விருப்பங்கள் பரவலாக கிடைத்தன","சரியான ஜைன் உணவு அனுபவம்"],
-              "Telugu":   ["జైన్ ఆహార ఎంపికలు అద్భుతంగా ఉన్నాయి","మంచి జైన్ ఆహారం దొరికింది","జైన్ మెనూ అసలైనది మరియు రుచికరం","జైన్ ఎంపికలు విస్తారంగా ఉన్నాయి","పరిపూర్ణ జైన్ భోజన అనుభవం"],
-              "Kannada":  ["ಜೈನ್ ಆಹಾರ ಆಯ್ಕೆಗಳು ಅತ್ಯುತ್ತಮ","ಉತ್ತಮ ಜೈನ್ ಆಹಾರ ಸಿಕ್ಕಿತು","ಜೈನ್ ಮೆನು ಅಸಲು ಮತ್ತು ರುಚಿಕರ","ಜೈನ್ ಆಯ್ಕೆಗಳು ವ್ಯಾಪಕವಾಗಿ ಲಭ್ಯ","ಪರಿಪೂರ್ಣ ಜೈನ್ ಊಟದ ಅನುಭವ"]
-            },
-            "buffet": {
-              "English":  ["unlimited buffet was amazing","great variety in the buffet","buffet was well-stocked and fresh","loved the unlimited buffet spread","excellent value buffet"],
-              "Hindi":    ["unlimited buffet bahut amazing tha","buffet mein bahut variety thi","buffet fresh aur achhe se bhara tha","unlimited buffet spread bahut pasand aaya","bahut achha value buffet tha"],
-              "Gujarati": ["unlimited buffet ઉત્તમ","buffet માં ઉત્તમ variety","buffet fresh અને સારી રીતે","unlimited buffet ખૂબ ગમ્યો","ઉત્કૃષ્ટ value buffet"],
-              "Hinglish": ["unlimited buffet ekdum amazing tha yaar","buffet mein bahut variety thi","buffet fresh aur accha tha","unlimited spread loved kiya","value for money buffet tha"],
-              "Marathi":  ["unlimited buffet khup amazing hota","buffet madhe khup variety hoti","buffet fresh ani bharpoora hota","unlimited buffet spread khup avadla","uttam value buffet hota"],
-              "Tamil":    ["வரம்பற்ற பஃபே அற்புதமாக இருந்தது","பஃபேயில் சிறந்த வகை","பஃபே நன்கு நிரப்பப்பட்டு புதியதாக இருந்தது","வரம்பற்ற பஃபே பரப்பு மிகவும் பிடித்தது","சிறந்த மதிப்பு பஃபே"],
-              "Telugu":   ["అనిమిటెడ్ బఫె అద్భుతంగా ఉంది","బఫేలో గొప్ప వైవిధ్యం","బఫే తాజాగా మరియు నిండుగా ఉంది","అనిమిటెడ్ బఫే స్ప్రెడ్ చాలా నచ్చింది","అత్యుత్తమ వేల్యూ బఫే"],
-              "Kannada":  ["ಅನ್ಲಿಮಿಟೆಡ್ ಬಫೆ ಅದ್ಭುತ","ಬಫೆಯಲ್ಲಿ ಉತ್ತಮ ವೈವಿಧ್ಯ","ಬಫೆ ತಾಜಾ ಮತ್ತು ತುಂಬಿತ್ತು","ಅನ್ಲಿಮಿಟೆಡ್ ಬಫೆ ತುಂಬಾ ಇಷ್ಟವಾಯಿತು","ಉತ್ತಮ ಮೌಲ್ಯದ ಬಫೆ"]
-            }
-          }
-        },
-        "Cafe / Tea Shop": {
-          "tags": [
-            { "id": "filter_coffee",  "label": "Filter Coffee" },
-            { "id": "masala_chai",    "label": "Masala Chai" },
-            { "id": "cold_coffee",    "label": "Cold Coffee" },
-            { "id": "sandwiches",     "label": "Sandwiches" },
-            { "id": "waffles",        "label": "Waffles & Desserts" },
-            { "id": "wifi",           "label": "WiFi Available" },
-            { "id": "study_friendly", "label": "Study Friendly" },
-            { "id": "cozy_ambiance",  "label": "Cozy Ambiance" },
-            { "id": "quick_service",  "label": "Quick Service" },
-            { "id": "outdoor_seating","label": "Outdoor Seating" },
-            { "id": "pet_friendly",   "label": "Pet Friendly" },
-            { "id": "live_music_c",   "label": "Live Music" }
-          ],
-          "phrases": {
-            "masala_chai": {
-              "English":  ["masala chai was absolutely perfect","best masala chai I've had in a while","chai was perfectly spiced and hot","masala chai was authentic and delicious","the chai here is a must-try"],
-              "Hindi":    ["masala chai bilkul perfect thi","bahut dino mein sabse achhi chai","chai perfectly spiced aur garam thi","masala chai authentic aur swadisht thi","yahan ki chai zaroor try karein"],
-              "Gujarati": ["મસાલા ચા ઉત્તમ","ઘણા સમય પછી આટલી સારી ચા","ચા perfectly spiced","ઓથેન્ટિક મસાલા ચા","અહીંની ચા જરૂર try કરો"],
-              "Hinglish": ["masala chai ekdum perfect thi yaar","bahut time baad itni achhi chai mili","chai perfectly spiced thi","authentic masala chai thi","yahan ki chai must try hai"],
-              "Marathi":  ["masala chai bilkul perfect hoti","khup diwasaat itki chhan chai mili","chai perfectly spiced aur garam hoti","masala chai authentic ani swadisht hoti","ethli chai nakki try kara"],
-              "Tamil":    ["மசாலா தேநீர் மிகவும் சரியாக இருந்தது","நீண்ட நாட்களில் சிறந்த மசாலா தேநீர்","தேநீர் சரியாக மசாலை சேர்க்கப்பட்டு சூடாக இருந்தது","மசாலா தேநீர் அசல் மற்றும் சுவையானது","இங்கே தேநீர் கட்டாயம் முயற்சிக்க வேண்டும்"],
-              "Telugu":   ["మసాలా చాయ్ పరిపూర్ణంగా ఉంది","చాలా రోజులలో ఉత్తమ మసాలా చాయ్","చాయ్ సరిగ్గా మసాలా వేసి వేడిగా ఉంది","అసలైన మసాలా చాయ్ రుచిగా ఉంది","ఇక్కడి చాయ్ తప్పకుండా ప్రయత్నించండి"],
-              "Kannada":  ["ಮಸಾಲ ಚಹಾ ಪರಿಪೂರ್ಣ","ತುಂಬಾ ದಿನಗಳಲ್ಲಿ ಅತ್ಯುತ್ತಮ ಮಸಾಲ ಚಹಾ","ಚಹಾ ಸರಿಯಾಗಿ ಮಸಾಲೆ ಹಾಕಿ ಬಿಸಿ","ಅಸಲು ಮಸಾಲ ಚಹಾ ರುಚಿಕರ","ಇಲ್ಲಿನ ಚಹಾ ತಪ್ಪಕ ಪ್ರಯತ್ನಿಸಿ"]
-            },
-            "wifi": {
-              "English":  ["WiFi was fast and reliable","great WiFi — perfect for work","WiFi speed was excellent","good WiFi — stayed for hours","reliable WiFi throughout"],
-              "Hindi":    ["WiFi bahut fast aur reliable tha","kaam ke liye perfect WiFi tha","WiFi speed bahut achhi thi","achha WiFi — ghanton baithe rahe","poore time reliable WiFi raha"],
-              "Gujarati": ["WiFi ઝડપી અને reliable","કામ માટે perfect WiFi","WiFi speed ઉત્તમ","સારો WiFi — ઘણો સમય","reliable WiFi"],
-              "Hinglish": ["WiFi bahut fast tha yaar","work ke liye perfect tha","WiFi speed achhi thi","achha WiFi — ghanto ruke","poore time reliable raha"],
-              "Marathi":  ["WiFi khup fast ani reliable hota","kaamासाठी perfect WiFi hota","WiFi speed uttam hoti","chhan WiFi — tasaat basalelo raho","bharosha layak WiFi hota"],
-              "Tamil":    ["WiFi வேகமாகவும் நம்பகமாகவும் இருந்தது","வேலைக்கு சரியான WiFi","WiFi வேகம் சிறந்தது","நல்ல WiFi — மணிக்கணக்கில் இருந்தேன்","நம்பகமான WiFi"],
-              "Telugu":   ["WiFi వేగంగా మరియు నమ్మకంగా ఉంది","పని కోసం పరిపూర్ణమైన WiFi","WiFi వేగం అద్భుతం","మంచి WiFi — గంటల పాటు ఉన్నాను","అంతటా నమ్మకమైన WiFi"],
-              "Kannada":  ["WiFi ವೇಗ ಮತ್ತು ವಿಶ್ವಾಸಾರ್ಹ","ಕೆಲಸಕ್ಕೆ ಸರಿಯಾದ WiFi","WiFi ವೇಗ ಅತ್ಯುತ್ತಮ","ಒಳ್ಳೆ WiFi — ಗಂಟೆಗಟ್ಟಲೆ ಇದ್ದೆ","ನಂಬಕಾರ್ಹ WiFi"]
+              "English": {
+                "long":   ["so relieved to find such good Jain food options here — everything was genuinely prepared without root vegetables, taste was excellent too"],
+                "medium": ["great Jain food options available","authentic Jain food, very tasty"],
+                "short":  ["excellent Jain food","Jain options available"]
+              },
+              "Hindi": {
+                "long":   ["yahan itna achha Jain khana milne se bahut khushi hui — sach mein bina kand-mool ke banaya gaya tha, swaad bhi bahut achha tha"],
+                "medium": ["badhiya Jain food options available hain","authentic Jain khana, bahut swadisht"],
+                "short":  ["badhiya Jain food","Jain options hain"]
+              },
+              "Gujarati": {
+                "long":   ["ah.iy.aa itet.lun saru Jain jam.an m.al.va.thi ख़ूb aanan.d thay.o — sach.u.kh.u.m kaand-m.ool v.ag.ar banaavyu h.atu, sw.aad pan ख़ूb saro h.ato"],
+                "medium": ["saro Jain food options uch.h.a che","authentic Jain jam.an, ख़ूb sw.adish.T"],
+                "short":  ["u.ttar.am Jain food","Jain options ch.he"]
+              },
+              "Hinglish": {
+                "long":   ["itna achha Jain food milne se bahut khush hua yaar — genuinely bina root vegetables ke banaya, taste bhi amazing tha"],
+                "medium": ["bahut achhe Jain food options hain","authentic Jain food, very tasty"],
+                "short":  ["excellent Jain food","Jain options available"]
+              },
+              "Marathi": {
+                "long":   ["ithe itke chhan Jain jevan milale yavar khup khush zaalo — khara Jain paddhatit banvale hote, chav pan khup chhan hoti"],
+                "medium": ["badhiya Jain food options uplabdh","authentic Jain jevan, khup swadishT"],
+                "short":  ["chhan Jain jevan","Jain paryaay ahet"]
+              },
+              "Tamil": {
+                "long":   ["இங்கே இவ்வளவு நல்ல ஜைன் உணவு விருப்பங்கள் கிடைத்ததால் மிகவும் மகிழ்ச்சி — தண்ணீர் காய்கறிகள் இல்லாமல் உண்மையிலேயே தயாரிக்கப்பட்டது"],
+                "medium": ["சிறந்த ஜைன் உணவு விருப்பங்கள்","அசல் ஜைன் உணவு, மிகவும் சுவையானது"],
+                "short":  ["சிறந்த ஜைன் உணவு","ஜைன் விருப்பங்கள் உள்ளன"]
+              },
+              "Telugu": {
+                "long":   ["ఇక్కడ ఇంత మంచి జైన్ ఆహార ఎంపికలు దొరికినందుకు చాలా సంతోషం — నిజంగా వేరు కూరగాయలు లేకుండా తయారు చేయబడింది"],
+                "medium": ["గొప్ప జైన్ ఆహార ఎంపికలు","అసలైన జైన్ ఆహారం, చాలా రుచిగా"],
+                "short":  ["అద్భుతమైన జైన్ ఆహారం","జైన్ ఎంపికలు ఉన్నాయి"]
+              },
+              "Kannada": {
+                "long":   ["ಇಲ್ಲಿ ಇಷ್ಟು ಉತ್ತಮ ಜೈನ್ ಆಹಾರ ಆಯ್ಕೆಗಳು ಸಿಕ್ಕಿದ್ದಕ್ಕೆ ತುಂಬಾ ಸಂತೋಷ — ನಿಜವಾಗಿ ಮೂಲ ತರಕಾರಿ ಇಲ್ಲದೆ ತಯಾರಿಸಲಾಗಿದೆ"],
+                "medium": ["ಉತ್ತಮ ಜೈನ್ ಆಹಾರ ಆಯ್ಕೆಗಳು","ಅಸಲು ಜೈನ್ ಆಹಾರ, ತುಂಬಾ ರುಚಿಕರ"],
+                "short":  ["ಉತ್ತಮ ಜೈನ್ ಆಹಾರ","ಜೈನ್ ಆಯ್ಕೆಗಳು ಇವೆ"]
+              }
             }
           }
         }
       }
     },
-
     "automobile": {
       "name": "Automobile",
       "subcategories": {
         "Car Service Centre": {
           "tags": [
-            { "id": "general_service",  "label": "General Service" },
-            { "id": "ac_repair_car",    "label": "AC Repair" },
-            { "id": "denting_painting", "label": "Denting & Painting" },
-            { "id": "oil_change",       "label": "Oil Change" },
-            { "id": "brake_service",    "label": "Brake Service" },
-            { "id": "insurance_claim",  "label": "Insurance Claim" },
-            { "id": "pickup_drop",      "label": "Pickup & Drop" },
-            { "id": "quick_service_a",  "label": "Quick Service" },
-            { "id": "all_brands",       "label": "All Car Brands" },
-            { "id": "transparent_bill", "label": "Transparent Billing" },
-            { "id": "genuine_parts",    "label": "Genuine Parts" },
-            { "id": "doorstep_service", "label": "Doorstep Service" }
+            {"id":"general_service","label":"General Service"},
+            {"id":"transparent_bill","label":"Transparent Billing"},
+            {"id":"quick_service_a","label":"Quick Service"},
+            {"id":"genuine_parts","label":"Genuine Parts"},
+            {"id":"ac_repair_car","label":"AC Repair"},
+            {"id":"doorstep_service","label":"Doorstep Service"},
+            {"id":"pickup_drop","label":"Pickup & Drop"},
+            {"id":"insurance_claim","label":"Insurance Claim"},
+            {"id":"denting_painting","label":"Denting & Painting"},
+            {"id":"all_brands","label":"All Car Brands"},
+            {"id":"oil_change","label":"Oil Change"},
+            {"id":"brake_service","label":"Brake Service"}
           ],
           "phrases": {
-            "insurance_claim": {
-              "English":  ["insurance claim handled smoothly","claim process was hassle-free","helped with insurance claim efficiently","insurance paperwork done perfectly","claim settled without any issues"],
-              "Hindi":    ["insurance claim smoothly handle kiya","claim process bilkul tension-free tha","insurance claim mein bahut help ki","insurance paperwork perfect se kiya","koi dikkat ke bina claim settle hua"],
-              "Gujarati": ["insurance claim સ્મૂધ","claim process tension-free","insurance claim માં ઉત્તમ help","insurance paperwork perfect","claim settle without issues"],
-              "Hinglish": ["insurance claim smoothly handle kiya yaar","claim process tension-free tha","insurance mein bahut help kiya","paperwork perfectly kiya","bina dikkat claim settle hua"],
-              "Marathi":  ["insurance claim smoothly handle kele","claim prakriya bilkul tension-free hoti","insurance claim madhe khup madad keli","insurance paperwork perfect kele","konatyahi adachaNishivay claim settle jhale"],
-              "Tamil":    ["காப்பீட்டு கோரிக்கை சுமூகமாக நிர்வகிக்கப்பட்டது","கோரிக்கை செயல்முறை சிக்கலற்றது","காப்பீட்டு கோரிக்கையில் திறமையாக உதவினார்கள்","காப்பீட்டு ஆவணங்கள் சரியாக செய்யப்பட்டன","எந்த பிரச்சனையும் இல்லாமல் கோரிக்கை தீர்க்கப்பட்டது"],
-              "Telugu":   ["బీమా క్లెయిమ్ సులభంగా నిర్వహించారు","క్లెయిమ్ ప్రక్రియ ఇబ్బంది లేకుండా ఉంది","బీమా క్లెయిమ్‌లో సమర్థంగా సహాయం చేశారు","బీమా పత్రాలు పరిపూర్ణంగా చేశారు","ఎటువంటి సమస్య లేకుండా క్లెయిమ్ పరిష్కరించారు"],
-              "Kannada":  ["ವಿಮಾ ಕ್ಲೇಮ್ ಸುಗಮವಾಗಿ ನಿರ್ವಹಿಸಲಾಯಿತು","ಕ್ಲೇಮ್ ಪ್ರಕ್ರಿಯೆ ತೊಂದರೆ ಇಲ್ಲದೆ","ವಿಮಾ ಕ್ಲೇಮ್‌ನಲ್ಲಿ ಸಮರ್ಥವಾಗಿ ಸಹಾಯ","ವಿಮಾ ಕಾಗದ ಪತ್ರ ಪರಿಪೂರ್ಣ","ಯಾವುದೇ ಸಮಸ್ಯೆ ಇಲ್ಲದೆ ಕ್ಲೇಮ್ ಇತ್ಯರ್ಥ"]
-            },
             "transparent_bill": {
-              "English":  ["billing was fully transparent","no hidden charges at all","clear and honest billing","exact estimate given before work","billing matched the quote perfectly"],
-              "Hindi":    ["billing poori tarah transparent thi","koi hidden charge nahi tha","clear aur honest billing thi","kaam se pehle exact estimate diya","billing quote se bilkul match ki"],
-              "Gujarati": ["billing transparent","hidden charges નહીં","clear billing","exact estimate","billing quote match"],
-              "Hinglish": ["billing ekdum transparent thi yaar","koi hidden charge nahi tha","clear aur honest billing thi","pehle exact estimate diya","quote se match kiya"],
-              "Marathi":  ["billing poornpaNe transparent hoti","konatyahi hidden charge navhata","spasht aur pramaaNik billing hoti","kaam sadhu exact estimate dile","billing quote shee sutt jhali"],
-              "Tamil":    ["பில்லிங் முழுமையாக வெளிப்படையானது","மறைக்கப்பட்ட கட்டணங்கள் இல்லை","தெளிவான மற்றும் நேர்மையான பில்லிங்","வேலைக்கு முன் சரியான மதிப்பீடு","பில்லிங் மேற்கோளுடன் சரியாக பொருந்தியது"],
-              "Telugu":   ["బిల్లింగ్ పూర్తిగా పారదర్శకంగా ఉంది","దాచిన చార్జీలు అస్సలు లేవు","స్పష్టంగా మరియు నిజాయితీగా బిల్లింగ్","పని ముందు ఖచ్చితమైన అంచనా","బిల్లింగ్ కోట్‌తో సరిగ్గా సరిపోయింది"],
-              "Kannada":  ["ಬಿಲ್ಲಿಂಗ್ ಸಂಪೂರ್ಣ ಪಾರದರ್ಶಕ","ಯಾವುದೇ ಮರೆಮಾಡಿದ ಶುಲ್ಕ ಇಲ್ಲ","ಸ್ಪಷ್ಟ ಮತ್ತು ಪ್ರಾಮಾಣಿಕ ಬಿಲ್ಲಿಂಗ್","ಕೆಲಸಕ್ಕೆ ಮೊದಲು ನಿಖರ ಅಂದಾಜು","ಬಿಲ್ಲಿಂಗ್ ಕೋಟ್‌ನೊಂದಿಗೆ ಹೊಂದಿಕೆ"]
+              "English": {
+                "long":   ["billing was completely transparent with no surprise charges — they gave me a detailed estimate before starting work and the final bill matched exactly"],
+                "medium": ["no hidden charges, very honest billing","exact estimate given upfront, no surprises"],
+                "short":  ["transparent billing","no hidden charges"]
+              },
+              "Hindi": {
+                "long":   ["billing poori tarah transparent thi, koi hidden charge nahi — kaam shuru karne se pehle detail estimate diya aur final bill exactly match kiya"],
+                "medium": ["koi hidden charge nahi, bahut honest billing","pehle exact estimate diya, koi surprise nahi"],
+                "short":  ["transparent billing","koi hidden charge nahi"]
+              },
+              "Gujarati": {
+                "long":   ["bill.ing puri tarah parad.arsh.ak h.ati, koi chh.upta charge nahi — kaam shuru karva pehla detail estimate aapyu aur final bill exact match karyu"],
+                "medium": ["koi chhup.ta charge nahi, pra.m.aNik billing","aag.aathi exact estimate aapyu"],
+                "short":  ["paarad.arsh.ak billing","koi chhup.ta charge nahi"]
+              },
+              "Hinglish": {
+                "long":   ["billing ekdum transparent thi yaar, koi hidden charge nahi tha — pehle estimate diya aur final bill exactly same tha"],
+                "medium": ["no hidden charges, very honest billing","exact estimate upfront, no surprises"],
+                "short":  ["transparent billing","no hidden charges"]
+              },
+              "Marathi": {
+                "long":   ["billing poornpaNe spashT hoti, koi chhupi ki.mmat nahi — kaam suruwaat karaayachya aadhi detail estimate dile ani final bill exactly match jhale"],
+                "medium": ["koi chhupa shulk nahi, khup pramaaNik billing","aadhi exact estimate dile"],
+                "short":  ["spashT billing","koi chhupi ki.mmat nahi"]
+              },
+              "Tamil": {
+                "long":   ["பில்லிங் முழுமையாக வெளிப்படையானது, திடீர் கட்டணங்கள் இல்லை — வேலை தொடங்குவதற்கு முன்பு விரிவான மதிப்பீடு கொடுத்தனர்"],
+                "medium": ["மறைக்கப்பட்ட கட்டணங்கள் இல்லை, நேர்மையான பில்லிங்","முன்னமே சரியான மதிப்பீடு"],
+                "short":  ["வெளிப்படையான பில்லிங்","மறைவான கட்டணம் இல்லை"]
+              },
+              "Telugu": {
+                "long":   ["బిల్లింగ్ పూర్తిగా పారదర్శకంగా ఉంది, ఆశ్చర్యపు చార్జీలు లేవు — పని ప్రారంభించే ముందు వివరమైన అంచనా ఇచ్చారు"],
+                "medium": ["దాచిన చార్జీలు లేవు, నిజాయితీగల బిల్లింగ్","ముందుగా ఖచ్చితమైన అంచనా"],
+                "short":  ["పారదర్శక బిల్లింగ్","దాచిన చార్జీలు లేవు"]
+              },
+              "Kannada": {
+                "long":   ["ಬಿಲ್ಲಿಂಗ್ ಸಂಪೂರ್ಣ ಪಾರದರ್ಶಕ, ಅಚ್ಚರಿ ಶುಲ್ಕಗಳಿಲ್ಲ — ಕೆಲಸ ಪ್ರಾರಂಭಿಸುವ ಮೊದಲು ವಿಸ್ತಾರ ಅಂದಾಜು ಕೊಟ್ಟರು"],
+                "medium": ["ಮರೆಮಾಡಿದ ಶುಲ್ಕ ಇಲ್ಲ, ಪ್ರಾಮಾಣಿಕ ಬಿಲ್ಲಿಂಗ್","ಮೊದಲೇ ಸರಿಯಾದ ಅಂದಾಜು"],
+                "short":  ["ಪಾರದರ್ಶಕ ಬಿಲ್ಲಿಂಗ್","ಮರೆ ಶುಲ್ಕ ಇಲ್ಲ"]
+              }
             }
           }
         }
       }
     },
-
     "finance_legal": {
       "name": "Finance & Legal",
       "subcategories": {
         "CA / Chartered Accountant": {
           "tags": [
-            { "id": "itr_filing",    "label": "ITR Filing" },
-            { "id": "gst_return",    "label": "GST Return" },
-            { "id": "audit",         "label": "Audit" },
-            { "id": "co_registration","label": "Company Registration" },
-            { "id": "tax_planning",  "label": "Tax Planning" },
-            { "id": "tds_filing",    "label": "TDS Filing" },
-            { "id": "startup_help",  "label": "Startup Consulting" },
-            { "id": "bookkeeping",   "label": "Bookkeeping" },
-            { "id": "tax_notice",    "label": "Tax Notice Reply" },
-            { "id": "payroll",       "label": "Payroll" },
-            { "id": "on_time",       "label": "On-Time Filing" },
-            { "id": "clear_advice",  "label": "Clear Tax Advice" }
+            {"id":"itr_filing","label":"ITR Filing"},
+            {"id":"gst_return","label":"GST Return"},
+            {"id":"tax_planning","label":"Tax Planning"},
+            {"id":"on_time","label":"On-Time Filing"},
+            {"id":"clear_advice","label":"Clear Tax Advice"},
+            {"id":"affordable_c","label":"Affordable Fees"},
+            {"id":"startup_help","label":"Startup Consulting"},
+            {"id":"audit","label":"Audit"},
+            {"id":"tds_filing","label":"TDS Filing"},
+            {"id":"bookkeeping","label":"Bookkeeping"},
+            {"id":"co_registration","label":"Company Registration"},
+            {"id":"tax_notice","label":"Tax Notice Reply"}
           ],
           "phrases": {
             "itr_filing": {
-              "English":  ["ITR filed quickly and accurately","income tax return filed on time","hassle-free ITR filing experience","all ITR done perfectly","tax filing was smooth and fast"],
-              "Hindi":    ["ITR jaldi aur sahi se file ki","income tax return samay par file ki","tension-free ITR filing rahi","sab ITR perfectly kiya","tax filing smooth aur fast rahi"],
-              "Gujarati": ["ITR ઝડપી અને સ્ચ્ .ck accurate","income tax return સમય પર","tension-free ITR filing","ITR perfectly","tax filing smooth"],
-              "Hinglish": ["ITR jaldi aur accurately file ki yaar","income tax on time file ki","tension-free ITR experience raha","sab ITR perfectly kiya","tax filing smooth rahi"],
-              "Marathi":  ["ITR lavkar ani achuk file keli","income tax return veLevi file keli","tension-mukt ITR filing anubhav","sarvv ITR perfectly keli","tax filing smooth ani fast hoti"],
-              "Tamil":    ["ITR விரைவாகவும் துல்லியமாகவும் தாக்கல் செய்யப்பட்டது","வருமான வரி ரிட்டர்ன் சரியான நேரத்தில் தாக்கல்","சிக்கலற்ற ITR தாக்கல் அனுபவம்","அனைத்து ITR சரியாக செய்யப்பட்டது","வரி தாக்கல் சுமூகமாகவும் வேகமாகவும்"],
-              "Telugu":   ["ITR వేగంగా మరియు ఖచ్చితంగా దాఖలు","ఆదాయపు పన్ను రిటర్న్ సకాలంలో దాఖలు","ఇబ్బంది లేని ITR దాఖలు అనుభవం","అన్ని ITR పరిపూర్ణంగా చేశారు","పన్ను దాఖలు సుగమంగా మరియు వేగంగా"],
-              "Kannada":  ["ITR ವೇಗವಾಗಿ ಮತ್ತು ನಿಖರವಾಗಿ ಸಲ್ಲಿಕೆ","ಆದಾಯ ತೆರಿಗೆ ರಿಟರ್ನ್ ಸಮಯಕ್ಕೆ ಸಲ್ಲಿಕೆ","ತೊಂದರೆ ಇಲ್ಲದ ITR ಸಲ್ಲಿಕೆ ಅನುಭವ","ಎಲ್ಲಾ ITR ಪರಿಪೂರ್ಣ","ತೆರಿಗೆ ಸಲ್ಲಿಕೆ ಸುಗಮ ಮತ್ತು ವೇಗ"]
-            }
-          }
-        }
-      }
-    },
-
-    "education_learning": {
-      "name": "Education & Learning",
-      "subcategories": {
-        "Coaching Centre": {
-          "tags": [
-            { "id": "small_batch",    "label": "Small Batches" },
-            { "id": "doubt_class",    "label": "Doubt Classes" },
-            { "id": "study_material", "label": "Study Material" },
-            { "id": "test_series",    "label": "Test Series" },
-            { "id": "expert_faculty", "label": "Expert Faculty" },
-            { "id": "result_oriented","label": "Result Oriented" },
-            { "id": "affordable_c",   "label": "Affordable Fees" },
-            { "id": "online_offline", "label": "Online + Offline" },
-            { "id": "parent_meeting", "label": "Regular Parent Meeting" },
-            { "id": "personal_attention","label": "Personal Attention" },
-            { "id": "revision_class", "label": "Revision Classes" },
-            { "id": "mock_test",      "label": "Mock Tests" }
-          ],
-          "phrases": {
-            "small_batch": {
-              "English":  ["small batches ensure personal attention","limited students per batch is excellent","small batch size made learning effective","individual attention due to small batch","small batch helped me understand better"],
-              "Hindi":    ["small batch mein personal attention milta hai","limited students per batch bahut achha hai","small batch size se learning effective rahi","small batch ki wajah se individual attention mila","small batch ne samajhne mein help ki"],
-              "Gujarati": ["small batch ઉત્તમ ध्यान","limited students excellent","small batch effective","individual attention","સારી સમજ"],
-              "Hinglish": ["small batch mein personal attention milta yaar","limited students bahut achha hai","small batch effective learning ke liye","individual attention mila","better samajhne mein help kiya"],
-              "Marathi":  ["small batch madhe vyaktigat laks milate","pratyeka batch la mandyankite vidhyarathi khup chhan aahet","small batch aakaaraamule shikshaN parabhavi jhale","small batch mule vyaktigat laks milale","small batch ne samajhnyaat madhat keli"],
-              "Tamil":    ["சிறிய குழுக்கள் தனிப்பட்ட கவனத்தை உறுதிசெய்கின்றன","ஒரு குழுவிற்கு மட்டுப்படுத்தப்பட்ட மாணவர்கள் சிறந்தது","சிறிய குழு அளவு கற்றலை பயனுள்ளதாக்கியது","சிறிய குழு காரணமாக தனிப்பட்ட கவனம்","சிறிய குழு புரிந்துகொள்ள உதவியது"],
-              "Telugu":   ["చిన్న బ్యాచ్‌లు వ్యక్తిగత శ్రద్ధను నిర్ధారిస్తాయి","బ్యాచ్‌కు పరిమిత విద్యార్థులు అద్భుతం","చిన్న బ్యాచ్ సైజ్ నేర్చుకోవడం ప్రభావవంతం","చిన్న బ్యాచ్ వల్ల వ్యక్తిగత శ్రద్ధ","చిన్న బ్యాచ్ అర్థం చేసుకోవడంలో సహాయపడింది"],
-              "Kannada":  ["ಸಣ್ಣ ಬ್ಯಾಚ್‌ಗಳು ವೈಯಕ್ತಿಕ ಗಮನ ಖಾತ್ರಿ","ಬ್ಯಾಚ್‌ಗೆ ಸೀಮಿತ ವಿದ್ಯಾರ್ಥಿಗಳು ಅದ್ಭುತ","ಸಣ್ಣ ಬ್ಯಾಚ್ ಗಾತ್ರ ಕಲಿಕೆ ಪರಿಣಾಮಕಾರಿ","ಸಣ್ಣ ಬ್ಯಾಚ್ ಕಾರಣ ವೈಯಕ್ತಿಕ ಗಮನ","ಸಣ್ಣ ಬ್ಯಾಚ್ ಅರ್ಥ ಮಾಡಿಕೊಳ್ಳಲು ಸಹಾಯ"]
-            }
-          }
-        }
-      }
-    },
-
-    "home_services": {
-      "name": "Home Services",
-      "subcategories": {
-        "Plumber": {
-          "tags": [
-            { "id": "pipe_repair",     "label": "Pipe Repair" },
-            { "id": "emergency_plumb", "label": "Emergency Service" },
-            { "id": "geyser",          "label": "Geyser Installation" },
-            { "id": "waterproofing",   "label": "Waterproofing" },
-            { "id": "bathroom_fit",    "label": "Bathroom Fitting" },
-            { "id": "tap_fix",         "label": "Tap Fix" },
-            { "id": "reasonable_rate", "label": "Reasonable Rates" },
-            { "id": "on_time_p",       "label": "On-Time Arrival" },
-            { "id": "clean_work",      "label": "Clean Work" },
-            { "id": "drainage",        "label": "Drainage Cleaning" },
-            { "id": "motor_repair",    "label": "Motor Repair" },
-            { "id": "tank_cleaning",   "label": "Tank Cleaning" }
-          ],
-          "phrases": {
-            "emergency_plumb": {
-              "English":  ["responded to emergency very quickly","arrived within an hour for emergency","emergency service was prompt and efficient","very quick emergency response","saved the day with quick emergency help"],
-              "Hindi":    ["emergency mein bahut jaldi aaye","emergency ke liye ek ghante mein aa gaye","emergency service bahut prompt thi","bahut jaldi emergency response diya","emergency mein bahut help ki"],
-              "Gujarati": ["emergency માં ઝડપી","1 કલاك માં આવ્યા","prompt emergency service","ઝડپ emergency response","ઉત્તम emergency help"],
-              "Hinglish": ["emergency mein bahut jaldi aaye yaar","ek ghante mein aa gaye emergency ke liye","emergency service prompt thi","jaldi response diya","emergency mein bachaya"],
-              "Marathi":  ["emergency la khup lavkar aale","emergency sathi ek tasyaat aale","emergency seva khup laukar hoti","khup lavkar emergency pratisaad dila","emergency madhe khup madad keli"],
-              "Tamil":    ["அவசரகாலத்தில் மிகவும் விரைவாக பதிலளித்தார்","அவசரகாலத்திற்காக ஒரு மணி நேரத்திற்குள் வந்தார்","அவசரகால சேவை உடனடியாகவும் திறமையாகவும்","மிகவும் விரைவான அவசரகால பதில்","விரைவான அவசரகால உதவியால் காப்பாற்றினார்"],
-              "Telugu":   ["అత్యవసర పరిస్థితిలో చాలా వేగంగా స్పందించారు","అత్యవసరానికి ఒక గంటలోపు వచ్చారు","అత్యవసర సేవ వేగంగా మరియు సమర్థంగా","చాలా వేగమైన అత్యవసర స్పందన","వేగమైన అత్యవసర సహాయంతో కాపాడారు"],
-              "Kannada":  ["ತುರ್ತು ಸ್ಥಿತಿಯಲ್ಲಿ ತುಂಬಾ ವೇಗವಾಗಿ ಸ್ಪಂದಿಸಿದರು","ತುರ್ತಿಗಾಗಿ ಒಂದು ಗಂಟೆಯೊಳಗೆ ಬಂದರು","ತುರ್ತು ಸೇವೆ ತ್ವರಿತ ಮತ್ತು ದಕ್ಷ","ತುಂಬಾ ವೇಗದ ತುರ್ತು ಪ್ರತಿಕ್ರಿಯೆ","ವೇಗದ ತುರ್ತು ಸಹಾಯದಿಂದ ರಕ್ಷಿಸಿದರು"]
-            }
-          }
-        }
-      }
-    },
-
-    "retail_services": {
-      "name": "Retail & Services",
-      "subcategories": {
-        "Clothing Store": {
-          "tags": [
-            { "id": "variety",         "label": "Wide Variety" },
-            { "id": "latest_fashion",  "label": "Latest Fashion" },
-            { "id": "good_quality",    "label": "Good Quality" },
-            { "id": "affordable_r",    "label": "Affordable Prices" },
-            { "id": "alteration",      "label": "Alteration Service" },
-            { "id": "ethnic_wear",     "label": "Ethnic Wear" },
-            { "id": "western_wear",    "label": "Western Wear" },
-            { "id": "bridal_wear",     "label": "Bridal Collection" },
-            { "id": "kids_wear",       "label": "Kids Wear" },
-            { "id": "festive_wear",    "label": "Festive Collection" },
-            { "id": "helpful_staff_r", "label": "Helpful Staff" },
-            { "id": "good_fitting",    "label": "Good Fitting" }
-          ],
-          "phrases": {
-            "variety": {
-              "English":  ["wide variety of clothing available","excellent collection to choose from","great range of options","huge variety — hard to choose","best collection I've seen"],
-              "Hindi":    ["bahut variety ke kapde available hain","chunne ke liye bahut achha collection","bahut wide range of options","itni variety ki chunna mushkil","sabse achha collection dekha"],
-              "Gujarati": ["ખૂબ variety","ઉત્તmsm collection","wide range","variety ની choice","best collection"],
-              "Hinglish": ["bahut variety hai yaar","excellent collection tha","wide range of options the","itni variety hard to choose","best collection tha"],
-              "Marathi":  ["khup variety che kapde uplabdh ahet","निवडण्यासाठी खूप छान संग्रह","khup wide range of paryaay","itki variety ki निवडणे kathin","sarvottam collection pahile"],
-              "Tamil":    ["பரந்த வகையிலான ஆடைகள் கிடைக்கின்றன","தேர்வு செய்ய சிறந்த சேகரிப்பு","சிறந்த வகையிலான விருப்பங்கள்","பரந்த வகை — தேர்வு செய்வது கஷ்டம்","பார்த்த சிறந்த சேகரிப்பு"],
-              "Telugu":   ["విస్తృత వైవిధ్యమైన దుస్తులు అందుబాటులో","ఎంచుకోవడానికి అద్భుతమైన సేకరణ","గొప్ప శ్రేణి ఎంపికలు","భారీ వైవిధ్యం — ఎంచుకోవడం కష్టం","నేను చూసిన ఉత్తమ సేకరణ"],
-              "Kannada":  ["ವ್ಯಾಪಕ ವೈವಿಧ್ಯದ ಬಟ್ಟೆ ಲಭ್ಯ","ಆಯ್ಕೆ ಮಾಡಲು ಅದ್ಭುತ ಸಂಗ್ರಹ","ಉತ್ತಮ ಆಯ್ಕೆಗಳ ಶ್ರೇಣಿ","ವಿಶಾಲ ವೈವಿಧ್ಯ — ಆಯ್ಕೆ ಕಷ್ಟ","ನಾನು ನೋಡಿದ ಅತ್ಯುತ್ತಮ ಸಂಗ್ರಹ"]
-            }
-          }
-        }
-      }
-    },
-
-    "hotel_stay": {
-      "name": "Hotel & Stay",
-      "subcategories": {
-        "Hotel": {
-          "tags": [
-            { "id": "ac_rooms",        "label": "AC Rooms" },
-            { "id": "restaurant_h",    "label": "In-House Restaurant" },
-            { "id": "free_parking_h",  "label": "Free Parking" },
-            { "id": "wifi_h",          "label": "WiFi" },
-            { "id": "room_service",    "label": "Room Service" },
-            { "id": "clean_rooms",     "label": "Clean Rooms" },
-            { "id": "good_location",   "label": "Good Location" },
-            { "id": "friendly_staff_h","label": "Friendly Staff" },
-            { "id": "good_breakfast",  "label": "Good Breakfast" },
-            { "id": "value_hotel",     "label": "Value for Money" },
-            { "id": "conference",      "label": "Conference Facility" },
-            { "id": "comfortable_bed", "label": "Comfortable Beds" }
-          ],
-          "phrases": {
-            "clean_rooms": {
-              "English":  ["rooms were spotlessly clean","very well-maintained rooms","room cleanliness was excellent","fresh and clean rooms","housekeeping was outstanding"],
-              "Hindi":    ["rooms bilkul saaf the","bahut achhe se maintained rooms the","room ki swachchhata laajawab thi","taaze aur saaf rooms the","housekeeping outstanding thi"],
-              "Gujarati": ["rooms ખૂb clean","well-maintained rooms","room cleanliness ઉત્tms","fresh rooms","housekeeping outstanding"],
-              "Hinglish": ["rooms ekdum clean the yaar","well-maintained the","room cleanliness laajawab thi","fresh aur clean rooms the","housekeeping outstanding thi"],
-              "Marathi":  ["kholia bilkul swachh hoti","khup chhan riti ne maintain kelelya kholia hoti","kholi chi swachhata laajawab hoti","ताज्या आणि स्वच्छ खोल्या","housekeeping outstanding hoti"],
-              "Tamil":    ["அறைகள் மிகவும் சுத்தமாக இருந்தன","நன்கு பராமரிக்கப்பட்ட அறைகள்","அறை சுத்தம் சிறந்தது","புதியதாகவும் சுத்தமாகவும் அறைகள்","ஹவுஸ்கீப்பிங் அருமை"],
-              "Telugu":   ["గదులు చాలా శుభ్రంగా ఉన్నాయి","చాలా బాగా నిర్వహించిన గదులు","గది పరిశుభ్రత అద్భుతం","తాజాగా మరియు శుభ్రంగా గదులు","హౌస్‌కీపింగ్ అత్యుత్తమం"],
-              "Kannada":  ["ಕೊಠಡಿಗಳು ಮಿನಿಮಮ್ ಶುಭ್ರ","ಉತ್ತಮ ನಿರ್ವಹಣೆ ಕೊಠಡಿಗಳು","ಕೊಠಡಿ ಸ್ವಚ್ಛತೆ ಅತ್ಯುತ್ತಮ","ತಾಜಾ ಮತ್ತು ಸ್ವಚ್ಛ ಕೊಠಡಿಗಳು","ಹೌಸ್‌ಕೀಪಿಂಗ್ ಅದ್ಭುತ"]
-            }
-          }
-        }
-      }
-    },
-
-    "events_entertainment": {
-      "name": "Events & Entertainment",
-      "subcategories": {
-        "Wedding Planner": {
-          "tags": [
-            { "id": "full_planning",   "label": "Full Wedding Planning" },
-            { "id": "decoration",      "label": "Decoration" },
-            { "id": "catering_w",      "label": "Catering Arrangement" },
-            { "id": "budget_wedding",  "label": "Budget Wedding" },
-            { "id": "venue_selection", "label": "Venue Selection" },
-            { "id": "mehendi_fn",      "label": "Mehendi Function" },
-            { "id": "sangeet",         "label": "Sangeet Night" },
-            { "id": "photography_b",   "label": "Photography Booking" },
-            { "id": "on_time_w",       "label": "On-Time Execution" },
-            { "id": "stress_free",     "label": "Stress-Free Planning" },
-            { "id": "theme_wedding",   "label": "Theme Wedding" },
-            { "id": "guest_mgmt",      "label": "Guest Management" }
-          ],
-          "phrases": {
-            "stress_free": {
-              "English":  ["made the entire wedding stress-free","handled everything perfectly so we could enjoy","zero stress on wedding day","took all the worry away","completely tension-free wedding experience"],
-              "Hindi":    ["poori shaadi bilkul stress-free rahi","sab kuch handle kiya taaki hum enjoy kar sakein","shaadi ke din zero stress tha","sab chinta door kar di","poori tarah tension-free shaadi rahi"],
-              "Gujarati": ["સ્ness-free wedding","બધ handle","wedding day zero stress","ચTH door","tension-free wedding"],
-              "Hinglish": ["poori wedding stress-free rahi yaar","sab handle kiya hum enjoy kar sake","zero stress wedding day pe","sab chinta door kar di","ekdum tension-free raha"],
-              "Marathi":  ["sampoorn lagna bilkul tension-mukt hote","sarvv handle kele aamhi aanand gheu shakalo","lagnachya divashi zero taaN hota","sarvv kaalji door keli","poornpaNe taaNmukt lagna hote"],
-              "Tamil":    ["முழு திருமணத்தையும் மன அழுத்தமில்லாமல் செய்தனர்","நாங்கள் மகிழ்ந்திருக்க எல்லாவற்றையும் சரியாக கையாண்டனர்","திருமண நாளில் எந்த அழுத்தமும் இல்லை","அனைத்து கவலைகளையும் நீக்கினர்","முற்றிலும் பதட்டமில்லாத திருமண அனுபவம்"],
-              "Telugu":   ["మొత్తం పెళ్లిని ఒత్తిడి లేకుండా చేశారు","మేము ఆనందించడానికి అన్నీ పరిపూర్ణంగా నిర్వహించారు","పెళ్లి రోజు సున్నా ఒత్తిడి","అన్ని ఆందోళనలను తొలగించారు","పూర్తిగా ఒత్తిడి లేని పెళ్లి అనుభవం"],
-              "Kannada":  ["ಇಡೀ ಮದುವೆಯನ್ನು ಒತ್ತಡ ರಹಿತ ಮಾಡಿದರು","ನಾವು ಆನಂದಿಸಲು ಎಲ್ಲವನ್ನೂ ಪರಿಪೂರ್ಣ ನಿರ್ವಹಿಸಿದರು","ಮದುವೆ ದಿನ ಶೂನ್ಯ ಒತ್ತಡ","ಎಲ್ಲಾ ಚಿಂತೆ ದೂರ ಮಾಡಿದರು","ಸಂಪೂರ್ಣ ಒತ್ತಡ ರಹಿತ ಮದುವೆ ಅನುಭವ"]
-            }
-          }
-        }
-      }
-    },
-
-    "pets_animals": {
-      "name": "Pets & Animals",
-      "subcategories": {
-        "Veterinary Clinic": {
-          "tags": [
-            { "id": "vaccination_p",  "label": "Vaccination" },
-            { "id": "emergency_vet",  "label": "Emergency Care" },
-            { "id": "surgery_p",      "label": "Surgery" },
-            { "id": "dog_care",       "label": "Dog Care" },
-            { "id": "cat_care",       "label": "Cat Care" },
-            { "id": "deworming",      "label": "Deworming" },
-            { "id": "home_visit_p",   "label": "Home Visit" },
-            { "id": "caring_vet",     "label": "Caring Vet" },
-            { "id": "diet_advice",    "label": "Diet Advice" },
-            { "id": "dental_pet",     "label": "Pet Dental" },
-            { "id": "xray_pet",       "label": "X-Ray & Lab" },
-            { "id": "spay_neuter",    "label": "Spay & Neuter" }
-          ],
-          "phrases": {
-            "caring_vet": {
-              "English":  ["vet was extremely caring and gentle","treated my pet like family","very compassionate vet","my pet felt comfortable and safe","vet showed great love for animals"],
-              "Hindi":    ["vet bahut caring aur gentle the","mere pet ko family ki tarah treat kiya","bahut compassionate vet hain","mera pet comfortable aur safe tha","vet ne jaanwaron ke liye bahut pyaar dikhaya"],
-              "Gujarati": ["vet ખૂbs caring","pet ને family","compassionate vet","pet comfortable","animals love"],
-              "Hinglish": ["vet bahut caring the yaar","pet ko family ki tarah treat kiya","bahut compassionate hain","pet comfortable tha","jaanwaron se pyaar karte hain"],
-              "Marathi":  ["vet khup turaaL ani komal hote","maze pet la kutumbasarkhe treat kele","khup sahanubhuti dakhavNare vet","maze pet aRamdaayak ani surakshit hote","vet ne praaNyaansaaThi khup prem dakhavle"],
-              "Tamil":    ["கால்நடை மருத்துவர் மிகவும் அக்கறையுடனும் மென்மையாகவும் இருந்தார்","என் செல்லத்தை குடும்பமாக நடத்தினார்","மிகவும் அனுதாபமுள்ள மருத்துவர்","என் செல்லம் வசதியாகவும் பாதுகாப்பாகவும் உணர்ந்தது","மருத்துவர் விலங்குகளுக்கு அரிய அன்பு காட்டினார்"],
-              "Telugu":   ["వెటర్నరీ డాక్టర్ చాలా శ్రద్ధగా మరియు సున్నితంగా ఉన్నారు","నా పెంపుడు జంతువుని కుటుంబంగా చూసుకున్నారు","చాలా సానుభూతిగల వైద్యుడు","నా పెంపుడు జంతువు సౌకర్యంగా మరియు సురక్షితంగా ఉంది","డాక్టర్ జంతువులపై గొప్ప ప్రేమ చూపించారు"],
-              "Kannada":  ["ವೈದ್ಯರು ತುಂಬಾ ಕಾಳಜಿ ಮತ್ತು ಸೌಮ್ಯ","ನನ್ನ ಸಾಕುಪ್ರಾಣಿಯನ್ನು ಕುಟುಂಬದಂತೆ ನಡೆಸಿದರು","ತುಂಬಾ ಸಹಾನುಭೂತಿ ವೈದ್ಯ","ನನ್ನ ಸಾಕುಪ್ರಾಣಿ ಆರಾಮ ಮತ್ತು ಸುರಕ್ಷಿತ","ಪ್ರಾಣಿಗಳ ಬಗ್ಗೆ ಅಪಾರ ಪ್ರೇಮ ತೋರಿದರು"]
-            }
-          }
-        }
-      }
-    },
-
-    "transport_logistics": {
-      "name": "Transport & Logistics",
-      "subcategories": {
-        "Packers & Movers": {
-          "tags": [
-            { "id": "safe_packing",   "label": "Safe Packing" },
-            { "id": "on_time_move",   "label": "On-Time Delivery" },
-            { "id": "insurance_m",    "label": "Insurance Covered" },
-            { "id": "careful_handling","label": "Careful Handling" },
-            { "id": "affordable_m",   "label": "Affordable Rates" },
-            { "id": "local_shift",    "label": "Local Shifting" },
-            { "id": "intercity",      "label": "Intercity Move" },
-            { "id": "office_shift",   "label": "Office Shifting" },
-            { "id": "no_damage",      "label": "Zero Damage" },
-            { "id": "good_coord",     "label": "Good Coordination" },
-            { "id": "prompt_service", "label": "Prompt Service" },
-            { "id": "unpacking",      "label": "Unpacking Help" }
-          ],
-          "phrases": {
-            "no_damage": {
-              "English":  ["all items delivered without any damage","zero damage — excellent packing","everything arrived in perfect condition","not a single item damaged","careful handling resulted in zero damage"],
-              "Hindi":    ["sab saamaan bina kisi nuksan ke pahuncha","zero damage — bahut achhi packing","sab kuch perfect condition mein aaya","ek bhi cheez nahi tooti","dhyan se handle karne ki wajah se koi damage nahi"],
-              "Gujarati": ["saman without damage","zero damage","perfect condition","nothing damaged","careful handling"],
-              "Hinglish": ["sab saamaan bina damage pahuncha yaar","zero damage tha","sab perfect condition mein","ek bhi nahi tuta","careful handling se koi damage nahi"],
-              "Marathi":  ["sarvv vaStu kontyahi nukasaanishivay pahochle","zero nukasaan — khup chhan packing","sarvv kahi perfect sthitit aale","ek hi vaStu damage jhali nahi","saavadhgiri ne haataLNyaamule koi nukasaan nahi"],
-              "Tamil":    ["அனைத்து பொருட்களும் எந்த சேதமும் இல்லாமல் வந்தன","பூஜ்ய சேதம் — சிறந்த பேக்கிங்","எல்லாம் சரியான நிலையில் வந்தது","ஒரு பொருளும் சேதமடையவில்லை","கவனமான கையாளுதல் பூஜ்ய சேதத்தில் முடிந்தது"],
-              "Telugu":   ["అన్ని వస్తువులు ఎటువంటి నష్టం లేకుండా వచ్చాయి","జీరో డ్యామేజ్ — అద్భుతమైన ప్యాకింగ్","అన్నీ సరైన స్థితిలో వచ్చాయి","ఒక్క వస్తువు కూడా దెబ్బతినలేదు","జాగ్రత్తగా నిర్వహించడం వల్ల జీరో డ్యామేజ్"],
-              "Kannada":  ["ಎಲ್ಲ ವಸ್ತುಗಳು ಯಾವುದೇ ಹಾನಿ ಇಲ್ಲದೆ ತಲುಪಿದವು","ಶೂನ್ಯ ಹಾನಿ — ಅದ್ಭುತ ಪ್ಯಾಕಿಂಗ್","ಎಲ್ಲವೂ ಸರಿಯಾದ ಸ್ಥಿತಿಯಲ್ಲಿ ಬಂತು","ಒಂದೇ ಒಂದು ವಸ್ತು ಹಾಳಾಗಲಿಲ್ಲ","ಜಾಗ್ರತೆಯ ನಿರ್ವಹಣೆ ಶೂನ್ಯ ಹಾನಿ"]
-            }
-          }
-        }
-      }
-    },
-
-    "real_estate": {
-      "name": "Real Estate",
-      "subcategories": {
-        "Real Estate Agent": {
-          "tags": [
-            { "id": "good_deal",     "label": "Got Good Deal" },
-            { "id": "local_expert",  "label": "Local Expert" },
-            { "id": "honest_agent",  "label": "Honest Agent" },
-            { "id": "quick_process", "label": "Quick Process" },
-            { "id": "legal_help",    "label": "Legal Help" },
-            { "id": "loan_assist",   "label": "Loan Assistance" },
-            { "id": "nri_service",   "label": "NRI Services" },
-            { "id": "investment",    "label": "Investment Advice" },
-            { "id": "wide_listings", "label": "Wide Listings" },
-            { "id": "no_pressure",   "label": "No Pressure Selling" },
-            { "id": "follow_up",     "label": "Regular Follow-Up" },
-            { "id": "documentation", "label": "Documentation Help" }
-          ],
-          "phrases": {
-            "honest_agent": {
-              "English":  ["very honest and transparent agent","no hidden terms — fully honest","complete transparency throughout","never tried to mislead","trustworthy and reliable agent"],
-              "Hindi":    ["bahut imaandaar aur transparent agent hain","koi hidden terms nahi — poori tarah honest","poori process mein transparency thi","kabhi galat nahi bataya","vishwasniy aur reliable agent hain"],
-              "Gujarati": ["honest agent","transparent","no hidden terms","poori transparency","trustworthy"],
-              "Hinglish": ["bahut honest agent hain yaar","koi hidden terms nahi the","poori transparency rahi","kabhi mislead nahi kiya","trustworthy hain"],
-              "Marathi":  ["khup pramaaNik ani spaShT agent ahet","koi hidden aThi nahi — poori tarah pramaaNik","sampoorn prakriyeत transparency hoti","kabhi chukichya margadarshan kele nahi","vishwasniy ani bharosha layak agent ahet"],
-              "Tamil":    ["மிகவும் நேர்மையான மற்றும் வெளிப்படையான முகவர்","மறைக்கப்பட்ட விதிமுறைகள் இல்லை — முற்றிலும் நேர்மையான","முழு செயல்முறையில் வெளிப்படைத்தன்மை","ஒருபோதும் தவறாக வழிநடத்தவில்லை","நம்பகமான முகவர்"],
-              "Telugu":   ["చాలా నిజాయితీగా మరియు పారదర్శకంగా ఏజెంట్","దాచిన నిబంధనలు లేవు — పూర్తి నిజాయితీ","మొత్తం ప్రక్రియలో పారదర్శకత","ఎప్పుడూ తప్పుదారి పట్టించలేదు","నమ్మకమైన ఏజెంట్"],
-              "Kannada":  ["ತುಂಬಾ ಪ್ರಾಮಾಣಿಕ ಮತ್ತು ಪಾರದರ್ಶಕ ಏಜೆಂಟ್","ಮರೆಮಾಡಿದ ನಿಯಮಗಳಿಲ್ಲ — ಸಂಪೂರ್ಣ ಪ್ರಾಮಾಣಿಕ","ಇಡೀ ಪ್ರಕ್ರಿಯೆಯಲ್ಲಿ ಪಾರದರ್ಶಕತೆ","ಎಂದಿಗೂ ತಪ್ಪಾಗಿ ಮಾರ್ಗದರ್ಶನ ಮಾಡಲಿಲ್ಲ","ವಿಶ್ವಾಸಾರ್ಹ ಏಜೆಂಟ್"]
-            }
-          }
-        }
-      }
-    },
-
-    "bank_loan": {
-      "name": "Bank & Loan",
-      "subcategories": {
-        "Home Loan Agent": {
-          "tags": [
-            { "id": "quick_sanction", "label": "Quick Sanction" },
-            { "id": "low_interest",   "label": "Low Interest Rate" },
-            { "id": "all_banks",      "label": "All Banks" },
-            { "id": "cibil_help",     "label": "CIBIL Help" },
-            { "id": "min_docs",       "label": "Minimal Documents" },
-            { "id": "balance_tf",     "label": "Balance Transfer" },
-            { "id": "topup_loan",     "label": "Top-Up Loan" },
-            { "id": "doorstep_loan",  "label": "Doorstep Service" },
-            { "id": "emi_calc",       "label": "EMI Planning" },
-            { "id": "clear_explain",  "label": "Clear Explanation" },
-            { "id": "follow_up_l",    "label": "Regular Follow-Up" },
-            { "id": "nri_loan",       "label": "NRI Loan" }
-          ],
-          "phrases": {
-            "quick_sanction": {
-              "English":  ["loan sanctioned very quickly","got sanction letter within days","quickest loan approval I've experienced","sanction was faster than expected","very fast loan processing"],
-              "Hindi":    ["loan bahut jaldi sanction hua","kuch dino mein sanction letter mila","sabse jaldi loan approval mili","sanction expected se pehle aaya","bahut fast loan processing rahi"],
-              "Gujarati": ["loan ઝ ado sanction","sanction letter ઝ ado","quick approval","faster than expected","fast processing"],
-              "Hinglish": ["loan bahut jaldi sanction hua yaar","kuch dino mein letter mila","quickest approval tha","expected se pehle aaya","bahut fast processing rahi"],
-              "Marathi":  ["loan khup lavkar sanction jhala","kahi diwasaat sanction patra milale","sabse lavkar loan approval","sanction expected peksha lavkar aali","khup fast loan processing hoti"],
-              "Tamil":    ["கடன் மிகவும் விரைவாக அனுமதிக்கப்பட்டது","நாட்களிலேயே அனுமதி கடிதம் கிடைத்தது","நான் அனுபவித்த விரைவான கடன் அனுமதி","எதிர்பார்த்ததை விட விரைவாக அனுமதி","மிகவும் வேகமான கடன் செயலாக்கம்"],
-              "Telugu":   ["రుణం చాలా వేగంగా మంజూరు","కొన్ని రోజులలో మంజూరు లేఖ","నేను అనుభవించిన వేగవంతమైన రుణ మంజూరు","అంచనా కంటే వేగంగా మంజూరు","చాలా వేగంగా రుణ ప్రాసెసింగ్"],
-              "Kannada":  ["ಸಾಲ ತುಂಬಾ ವೇಗವಾಗಿ ಮಂಜೂರು","ಕೆಲವೇ ದಿನಗಳಲ್ಲಿ ಮಂಜೂರು ಪತ್ರ","ನಾನು ಅನುಭವಿಸಿದ ವೇಗದ ಸಾಲ ಮಂಜೂರು","ನಿರೀಕ್ಷೆಗಿಂತ ವೇಗವಾಗಿ ಮಂಜೂರು","ತುಂಬಾ ವೇಗದ ಸಾಲ ಪ್ರಕ್ರಿಯೆ"]
-            }
-          }
-        }
-      }
-    },
-
-    "insurance": {
-      "name": "Insurance",
-      "subcategories": {
-        "Life Insurance Agent": {
-          "tags": [
-            { "id": "term_plan",     "label": "Term Plan" },
-            { "id": "child_plan",    "label": "Child Plan" },
-            { "id": "claim_help",    "label": "Claim Assistance" },
-            { "id": "tax_saving_i",  "label": "Tax Saving" },
-            { "id": "free_advice_i", "label": "Free Advice" },
-            { "id": "clear_explain_i","label": "Clear Explanation" },
-            { "id": "no_pressure_i", "label": "No Pressure" },
-            { "id": "all_companies", "label": "All Companies" },
-            { "id": "online_policy", "label": "Online Policy" },
-            { "id": "after_sales",   "label": "After-Sales Support" },
-            { "id": "best_premium",  "label": "Best Premium" },
-            { "id": "retirement",    "label": "Retirement Planning" }
-          ],
-          "phrases": {
-            "no_pressure_i": {
-              "English":  ["no pressure selling at all","explained options without pushing","gave time to decide — no rush","never felt forced to buy","respectful and pressure-free advice"],
-              "Hindi":    ["bilkul koi pressure nahi diya","push kiye bina options samjhaye","decide karne ka time diya — koi jaldi nahi","khareedne ke liye kabhi force nahi kiya","izzat se aur pressure-free advice di"],
-              "Gujarati": ["no pressure","without push","time to decide","never forced","pressure-free advice"],
-              "Hinglish": ["koi pressure nahi diya yaar","bina push ke samjhaya","decide karne ka time diya","force nahi kiya","pressure-free advice thi"],
-              "Marathi":  ["bilkul koi dabaav navhata","dhaka n deता paryaayanche spashTikaraN kele","nirnay ghenyasathi vel dila — ghaai nahi","kharedi karayala kabhi force kele nahi","aadar ani dabaav-mukt salla dila"],
-              "Tamil":    ["அழுத்தமான விற்பனை எதுவும் இல்லை","தள்ளாமல் விருப்பங்களை விளக்கினார்","முடிவெடுக்க நேரம் கொடுத்தனர் — அவசரம் இல்லை","வாங்கும்படி நிர்பந்திக்கவில்லை","மரியாதையான மற்றும் அழுத்தமில்லாத ஆலோசனை"],
-              "Telugu":   ["అస్సలు ఒత్తిడి అమ్మకం లేదు","నెట్టకుండా ఎంపికలు వివరించారు","నిర్ణయించడానికి సమయం ఇచ్చారు — తొందర లేదు","కొనమని ఎప్పుడూ బలవంతం చేయలేదు","గౌరవపూర్వకంగా మరియు ఒత్తిడి లేని సలహా"],
-              "Kannada":  ["ಯಾವುದೇ ಒತ್ತಡದ ಮಾರಾಟ ಇಲ್ಲ","ತಳ್ಳದೆ ಆಯ್ಕೆಗಳನ್ನು ವಿವರಿಸಿದರು","ನಿರ್ಧರಿಸಲು ಸಮಯ ಕೊಟ್ಟರು — ಅವಸರ ಇಲ್ಲ","ಖರೀದಿಸಲು ಎಂದಿಗೂ ಒತ್ತಾಯಿಸಲಿಲ್ಲ","ಗೌರವಪೂರ್ವಕ ಮತ್ತು ಒತ್ತಡ ರಹಿತ ಸಲಹೆ"]
+              "English": {
+                "long":   ["ITR was filed quickly and correctly without me having to follow up even once — they handled all the documentation and kept me updated throughout"],
+                "medium": ["ITR filed on time without any hassle","smooth and accurate income tax filing"],
+                "short":  ["ITR filed on time","hassle-free filing"]
+              },
+              "Hindi": {
+                "long":   ["ITR bahut jaldi aur sahi se file ki, mujhe ek baar bhi follow-up nahi karna pada — documentation sab unhone handle kiya"],
+                "medium": ["ITR bina tension ke time par file hui","smooth aur accurate income tax filing"],
+                "short":  ["ITR time par file","tension-free filing"]
+              },
+              "Gujarati": {
+                "long":   ["ITR ख़ूb jaldi aur sari rote file thai, mane ek vaar pan follow-up karvu padyu nahi — documentation sab tamne handle karyu"],
+                "medium": ["ITR bina tension.e samay par file thai","smooth aur accurate income tax filing"],
+                "short":  ["ITR samay par file","tension-free filing"]
+              },
+              "Hinglish": {
+                "long":   ["ITR bahut quickly aur accurately file kiya yaar, ek baar bhi follow-up nahi karna pada — sab documents handle kiya unhone"],
+                "medium": ["ITR on time without any hassle","smooth income tax filing"],
+                "short":  ["ITR on time","hassle-free"]
+              },
+              "Marathi": {
+                "long":   ["ITR khup lavkar ani baro.bar file keli, malaa ek veLa bhi follow-up karaave lagale nahi — documentation sarv tyani handle keli"],
+                "medium": ["ITR tension.shivay veLevi file","smooth ani accurate income tax filing"],
+                "short":  ["ITR veLevi file","tension-mukt filing"]
+              },
+              "Tamil": {
+                "long":   ["ITR மிகவும் விரைவாகவும் சரியாகவும் தாக்கல் செய்யப்பட்டது, ஒரு முறைகூட follow-up செய்ய வேண்டியதில்லை"],
+                "medium": ["ITR சரியான நேரத்தில் தாக்கல்","சுமூகமான வருமான வரி தாக்கல்"],
+                "short":  ["ITR சரியான நேரத்தில்","சிக்கலற்ற தாக்கல்"]
+              },
+              "Telugu": {
+                "long":   ["ITR చాలా వేగంగా మరియు సరిగ్గా దాఖలు చేయబడింది, ఒక్కసారి కూడా follow-up చేయాల్సిన అవసరం రాలేదు"],
+                "medium": ["ITR సకాలంలో ఇబ్బంది లేకుండా","సుగమంగా ఆదాయపు పన్ను దాఖలు"],
+                "short":  ["ITR సకాలంలో","ఇబ్బంది లేని దాఖలు"]
+              },
+              "Kannada": {
+                "long":   ["ITR ತುಂಬಾ ವೇಗವಾಗಿ ಮತ್ತು ಸರಿಯಾಗಿ ಸಲ್ಲಿಕೆ ಮಾಡಲಾಯಿತು, ಒಂದು ಬಾರಿಯೂ follow-up ಮಾಡಬೇಕಾಗಲಿಲ್ಲ"],
+                "medium": ["ITR ಸಮಯಕ್ಕೆ ತೊಂದರೆ ಇಲ್ಲದೆ","ಸುಗಮ ಆದಾಯ ತೆರಿಗೆ ಸಲ್ಲಿಕೆ"],
+                "short":  ["ITR ಸಮಯಕ್ಕೆ","ತೊಂದರೆ ಇಲ್ಲದ ಸಲ್ಲಿಕೆ"]
+              }
             }
           }
         }
