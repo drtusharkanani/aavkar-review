@@ -117,6 +117,14 @@ select.input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xml
 .overlay-text{color:#fff;font-size:15px;font-weight:600}
 @keyframes spin{to{transform:rotate(360deg)}}
 .section-label{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--text-soft);margin-bottom:8px}
+.coupon-wrap{display:flex;gap:8px;margin-top:14px}
+.coupon-input{flex:1;padding:12px 15px;border-radius:12px;border:2px solid var(--border);font-family:'Nunito',sans-serif;font-size:14px;outline:none;transition:border-color 0.2s;text-transform:uppercase;letter-spacing:2px;font-weight:700}
+.coupon-input:focus{border-color:var(--saffron)}
+.coupon-input.valid{border-color:var(--green);background:var(--green-light);color:var(--green)}
+.coupon-input.invalid{border-color:#E24B4A;background:#FCEBEB}
+.coupon-btn{padding:12px 18px;border-radius:12px;background:var(--text);color:#fff;border:none;font-weight:800;font-size:13px;cursor:pointer;font-family:'Nunito',sans-serif;white-space:nowrap}
+.coupon-success{background:var(--green-light);border:1px solid #97C459;border-radius:10px;padding:10px 14px;font-size:13px;color:var(--green);font-weight:700;margin-top:8px;display:none}
+.coupon-error{font-size:12px;color:#E24B4A;margin-top:6px;display:none}
 .char-count{font-size:11px;color:var(--text-soft);text-align:right;margin-top:3px}
 </style>
 </head>
@@ -286,6 +294,16 @@ select.input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xml
   <div class="warn-box" style="margin-top:14px">
     📦 Physical items (NFC card, Standee) will be shipped within 5–7 days after payment. QR code access is immediate.
   </div>
+
+  <!-- COUPON CODE -->
+  <div class="divider"></div>
+  <div class="section-label">Have a Coupon Code?</div>
+  <div class="coupon-wrap">
+    <input class="coupon-input" id="couponInput" placeholder="ENTER CODE" maxlength="20">
+    <button class="coupon-btn" onclick="applyCoupon()">Apply</button>
+  </div>
+  <div class="coupon-success" id="couponSuccess">🎉 100% discount applied — registration is free!</div>
+  <div class="coupon-error" id="couponError">Invalid coupon code. Please try again.</div>
 </div>
 
 <!-- SUCCESS -->
@@ -365,6 +383,7 @@ const PLANS = {
 // ─── STATE ────────────────────────────────────────────────────────
 let currentStep = 1
 let selectedCat = null
+let couponApplied = false
 let selectedSubCat = ''
 let selectedLangs = []
 let selectedPlan = null
@@ -373,6 +392,35 @@ let ownerTags = []
 let tagLimit = 0
 
 // ─── INIT ─────────────────────────────────────────────────────────
+// ── Valid coupon codes ────────────────────────────────────────
+const COUPONS = ['TEST100', 'TUSHAR100', 'GOODREVIEW100', 'LAUNCH100']
+
+function applyCoupon() {
+  const code = document.getElementById('couponInput').value.trim().toUpperCase()
+  const successEl = document.getElementById('couponSuccess')
+  const errorEl = document.getElementById('couponError')
+  const input = document.getElementById('couponInput')
+
+  if (COUPONS.includes(code)) {
+    couponApplied = true
+    input.classList.add('valid')
+    input.classList.remove('invalid')
+    successEl.style.display = 'block'
+    errorEl.style.display = 'none'
+    input.disabled = true
+    // Update button to show free registration
+    const btn = document.getElementById('btnNext')
+    btn.textContent = '✓ Register Free (Coupon Applied)'
+    btn.className = 'btn-next green'
+  } else {
+    couponApplied = false
+    input.classList.add('invalid')
+    input.classList.remove('valid')
+    errorEl.style.display = 'block'
+    successEl.style.display = 'none'
+  }
+}
+
 function init() {
   renderCategories()
   renderLanguages()
@@ -796,7 +844,11 @@ window.nextStep = function() {
 
   if(currentStep === 3) {
     if(!validateStep(3)) return
-    if(selectedPlan.price === 0) { registerBusiness(); return }
+    // Free plan OR valid coupon → skip payment
+    if(selectedPlan.price === 0 || couponApplied) {
+      registerBusiness()
+      return
+    }
     else initiatePayment()
   }
 }
