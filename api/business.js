@@ -50,8 +50,9 @@ export default async function handler(req, res) {
       })
     }
 
-    // Expiry check
-    if (r.ExpiryDate) {
+    // Expiry check — free plan never expires, only capped at 10 reviews
+    const plan = r.Plan || 'free'
+    if (plan !== 'free' && r.ExpiryDate) {
       const expiry = new Date(r.ExpiryDate)
       const today  = new Date()
       today.setHours(0, 0, 0, 0)
@@ -77,14 +78,13 @@ export default async function handler(req, res) {
     }
 
     // Customer custom tag limit derived from plan — no extra Airtable field
-    const plan = r.Plan || 'free'
     let customerCustomTagLimit = 0
     if      (plan.startsWith('ultimate')) customerCustomTagLimit = 5
     else if (plan.startsWith('premium'))  customerCustomTagLimit = 2
 
     // Free plan review cap
     const isFreePlan     = plan === 'free'
-    const freeReviewCap  = 3
+    const freeReviewCap  = 10
     const reviewCount    = r.ReviewCount || 0
 
     if (isFreePlan && reviewCount >= freeReviewCap) {
