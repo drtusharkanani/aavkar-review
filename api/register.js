@@ -1,165 +1,273 @@
-// api/register.js
-// POST /api/register
+import { Resend } from 'resend'
+import QRCode from 'qrcode'
 
 export default async function handler(req, res) {
-  if (req.method === 'OPTIONS') return res.status(200).end();
-  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+  if (req.method === 'OPTIONS') return res.status(200).end()
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
 
-  const body = req.body;
-  const required = ['name', 'email', 'phone', 'plan'];
-  for (const f of required) {
-    if (!body[f]) return res.status(400).json({ error: `Missing field: ${f}` });
+  const AIRTABLE_TOKEN   = process.env.AIRTABLE_TOKEN
+  const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID
+  const RESEND_API_KEY   = process.env.RESEND_API_KEY
+  const TABLE            = 'Doctors'
+  const BASE_URL         = 'https://goodreview.in'
+
+  const {
+    ownerName, qualification, businessName, phone, email,
+    city, area, state, gmbUrl, referralCode,
+    businessType, subCategory, languages, customTags,
+    plan, paymentId, paymentType
+  } = req.body
+
+  // ── Basic validation ─────────────────────────────────────────
+  if (!ownerName || !businessName || !phone || !email || !city || !gmbUrl || !businessType || !plan) {
+    return res.status(400).json({ error: 'Missing required fields' })
   }
 
   try {
-    const BASE    = process.env.AIRTABLE_BASE_ID;
-    const TOKEN   = process.env.AIRTABLE_TOKEN;
-    const HEADERS = {
-      Authorization: `Bearer ${TOKEN}`,
-      'Content-Type': 'application/json'
-    };
+    // ── Step 1: Get next OwnerID ────────────────────────────────
+    // Fetch all records sorted by OwnerID descending to get max
+    const listUrl = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE}`
+      + `?fields[]=OwnerID&sort[0][field]=OwnerID&sort[0][direction]=desc&maxRecords=1`
 
-    // Step 1: Get highest existing DoctorID
-    const listUrl  = `https://api.airtable.com/v0/${BASE}/Doctors?fields[]=DoctorID&sort[0][field]=DoctorID&sort[0][direction]=desc&maxRecords=1`;
-    const listRes  = await fetch(listUrl, { headers: HEADERS });
-    const listData = await listRes.json();
-    const lastId   = listData.records?.[0]?.fields?.DoctorID || 100;
-    const newId    = lastId + 1;
+    const listRes = await fetch(listUrl, {
+      headers: { Authorization: `Bearer ${AIRTABLE_TOKEN}` }
+    })
+    const listData = await listRes.json()
+    const lastId = listData.records?.[0]?.fields?.OwnerID || 100
+    const newId  = lastId + 1
 
-    // 1 month free access from today
-    const expiryDate = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
-                         .toISOString().split('T')[0];
+    // ── Step 2: Calculate expiry ────────────────────────────────
+    // Free plan: no expiry | Paid: based on duration suffix
+    let expiryDate = null
+    if (plan !== 'free') {
+      const days = plan.endsWith('5yr') ? 1825
+                 : plan.endsWith('2yr') ? 730
+                 : 365
+      const expiry = new Date()
+      expiry.setDate(expiry.getDate() + days)
+      expiryDate = expiry.toISOString().split('T')[0]
+    }
 
-    // Step 2: Create new Airtable row
+    // ── Step 3: Build Airtable record ──────────────────────────
+    const referralCodeNew = `GR${newId}`
+
+    // Handle referral — find referring owner and increment their count
+    if (referralCode) {
+      try {
+        const refFilter = encodeURIComponent(`({ReferralCode}="${referralCode.toUpperCase()}")`)
+        const refRes = await fetch(
+          `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE}?filterByFormula=${refFilter}&fields[]=ReferralCount`,
+          { headers: { Authorization: `Bearer ${AIRTABLE_TOKEN}` } }
+        )
+        const refData = await refRes.json()
+        if (refData.records?.length) {
+          const refRecord  = refData.records[0]
+          const refCount   = (refRecord.fields.ReferralCount || 0) + 1
+          await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE}/${refRecord.id}`, {
+            method: 'PATCH',
+            headers: { Authorization: `Bearer ${AIRTABLE_TOKEN}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ fields: { ReferralCount: refCount } })
+          })
+        }
+      } catch (_) { /* referral update failure is non-critical */ }
+    }
+
+    const fields = {
+      OwnerID:        newId,
+      OwnerName:      ownerName,
+      Qualification:  qualification || '',
+      BusinessName:   businessName,
+      SubCategory:    subCategory   || '',
+      BusinessType:   businessType,
+      City:           city,
+      Area:           area          || '',
+      State:          state         || '',
+      Phone:          phone,
+      Email:          email,
+      'GMB URL':      gmbUrl,
+      Plan:           plan,
+      Active:         true,
+      PaymentType:    paymentType   || 'Free',
+      ReviewCount:    0,
+      ReferralCode:   referralCodeNew,
+      ReferralCount:  0,
+      ShippingStatus: needsShipping(plan) ? 'Pending' : 'Not Required',
+      Languages:      languages     || '["English","Hindi","Gujarati","Hinglish"]',
+      CustomTags:     customTags    || '[]',
+    }
+
+    // Only set ExpiryDate for paid plans
+    if (expiryDate) fields.ExpiryDate = expiryDate
+
+    // ── Step 4: Create Airtable record ─────────────────────────
     const createRes = await fetch(
-      `https://api.airtable.com/v0/${BASE}/Doctors`,
+      `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${TABLE}`,
       {
         method: 'POST',
-        headers: HEADERS,
-        body: JSON.stringify({
-          fields: {
-            DoctorID:       newId,
-            DoctorName:     body.name,
-            Degree:         body.degree || '',
-            Specialty:      body.specialty || '',
-            Hospital:       body.hospital || '',
-            City:           body.city || '',
-            Area:           body.area || '',
-            State:          body.state || '',
-            Phone:          body.phone,
-            Email:          body.email,
-            'GMB URL':      body.gmbUrl || '',
-            Plan:           body.plan,
-            PaymentType:    body.paymentType || 'Online',
-            Active:         true,
-            ExpiryDate:     expiryDate,
-            ReviewCount:    0,
-            ReferralCode:   `GR${newId}`,
-            CustomTags:     body.customTags || '[]',
-            ShippingStatus: (body.plan || '').includes('premium') || (body.plan || '').includes('ultimate')
-                            ? 'Pending' : 'Not Required',
-          }
-        })
+        headers: { Authorization: `Bearer ${AIRTABLE_TOKEN}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fields })
       }
-    );
+    )
 
     if (!createRes.ok) {
-      const err = await createRes.json();
-      throw new Error(JSON.stringify(err));
+      const err = await createRes.text()
+      console.error('Airtable create error:', err)
+      return res.status(500).json({ error: 'Failed to create record' })
     }
 
-    const created  = await createRes.json();
-    const recordId = created.id;
-
-    // Step 3: Send welcome email with QR code (non-fatal if it fails)
+    // ── Step 5: Generate QR code as base64 PNG ─────────────────
+    const reviewUrl = `${BASE_URL}/review.html?id=${newId}`
+    let qrDataUrl = ''
     try {
-      if (process.env.RESEND_API_KEY) {
-        const reviewUrl = `https://goodreview.in/review.html?id=${newId}`;
-        const qrUrl     = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(reviewUrl)}`;
+      qrDataUrl = await QRCode.toDataURL(reviewUrl, {
+        width: 400,
+        margin: 2,
+        color: { dark: '#1A1A2E', light: '#FFFFFF' }
+      })
+    } catch (_) { /* QR generation failure non-critical */ }
 
-        await fetch('https://api.resend.com/emails', {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            from:    'GoodReview <noreply@goodreview.in>',
-            to:      body.email,
-            subject: `Welcome to GoodReview! Your review page is LIVE, ${body.name}`,
-            html: `
-              <div style="font-family:sans-serif;max-width:520px;margin:0 auto;padding:24px;color:#1a2e3b;">
+    // ── Step 6: Send welcome email ─────────────────────────────
+    if (RESEND_API_KEY && email) {
+      try {
+        const resend = new Resend(RESEND_API_KEY)
 
-                <div style="text-align:center;margin-bottom:24px;">
-                  <div style="display:inline-block;background:#0a7c6e;color:white;font-size:22px;font-weight:800;padding:10px 24px;border-radius:50px;letter-spacing:1px;">
-                    ✚ GoodReview
-                  </div>
-                </div>
+        const planLabel  = getPlanLabel(plan)
+        const expiryText = expiryDate
+          ? `Your plan is active until <strong>${formatDate(expiryDate)}</strong>.`
+          : `Your Free plan is active with up to <strong>10 reviews</strong>.`
 
-                <h2 style="color:#0a7c6e;margin-bottom:8px;">Welcome, ${body.name}!</h2>
-                <p style="color:#6b8191;margin-bottom:20px;">Your registration is confirmed. Here are your details:</p>
+        const shippingText = needsShipping(plan)
+          ? `<p style="background:#FFF3E8;border-radius:8px;padding:12px 16px;font-size:13px;color:#B85C00">
+               📦 Your physical items (NFC card / Standee) will be shipped to ${city} within 5–7 working days.
+             </p>`
+          : ''
 
-                <div style="background:#f4f9f8;border-radius:12px;padding:16px;margin-bottom:24px;">
-                  <table style="width:100%;border-collapse:collapse;">
-                    <tr><td style="padding:6px 0;color:#6b8191;font-size:13px;">Doctor ID</td><td style="padding:6px 0;font-weight:700;color:#0d2340;">#${newId}</td></tr>
-                    <tr><td style="padding:6px 0;color:#6b8191;font-size:13px;">Name</td><td style="padding:6px 0;font-weight:600;color:#0d2340;">${body.name}</td></tr>
-                    <tr><td style="padding:6px 0;color:#6b8191;font-size:13px;">Hospital</td><td style="padding:6px 0;font-weight:600;color:#0d2340;">${body.hospital || '—'}</td></tr>
-                    <tr><td style="padding:6px 0;color:#6b8191;font-size:13px;">Plan</td><td style="padding:6px 0;font-weight:600;color:#0d2340;">${body.plan.replace(/_/g,' ').toUpperCase()}</td></tr>
-                    <tr><td style="padding:6px 0;color:#6b8191;font-size:13px;">Free Access Until</td><td style="padding:6px 0;font-weight:700;color:#27ae60;">${expiryDate}</td></tr>
-                    <tr><td style="padding:6px 0;color:#6b8191;font-size:13px;">Referral Code</td><td style="padding:6px 0;font-weight:700;color:#c9993a;">GR${newId}</td></tr>
-                  </table>
-                </div>
+        const qrImg = qrDataUrl
+          ? `<div style="text-align:center;margin:20px 0">
+               <img src="${qrDataUrl}" width="200" height="200" alt="QR Code"
+                    style="border-radius:12px;border:4px solid #FF6B00"/>
+               <p style="font-size:12px;color:#5A5A7A;margin-top:8px">Your QR Code — print and display at your business</p>
+             </div>`
+          : ''
 
-                <div style="text-align:center;margin-bottom:24px;">
-                  <p style="font-weight:700;color:#0d2340;margin-bottom:12px;">📱 Your Patient Review QR Code</p>
-                  <img src="${qrUrl}" alt="QR Code" width="200" height="200"
-                       style="border:2px solid #d4e8e5;border-radius:12px;padding:10px;background:white;">
-                  <p style="font-size:12px;color:#6b8191;margin-top:8px;">
-                    Print this and place it at your reception desk.<br>
-                    Patients scan → review generates → posts on Google!
-                  </p>
-                </div>
+        await resend.emails.send({
+          from:    'GoodReview <noreply@goodreview.in>',
+          to:      email,
+          subject: `🎉 Welcome to GoodReview — Your review page is live!`,
+          html: `
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#F7F7FC;font-family:'Nunito',Arial,sans-serif">
+<div style="max-width:560px;margin:0 auto;padding:20px">
 
-                <div style="text-align:center;margin-bottom:24px;">
-                  <a href="${reviewUrl}"
-                     style="display:inline-block;background:#0a7c6e;color:white;padding:14px 28px;border-radius:10px;text-decoration:none;font-weight:700;font-size:15px;">
-                    🔗 View Your Review Page
-                  </a>
-                </div>
+  <!-- Header -->
+  <div style="background:linear-gradient(135deg,#FF6B00,#F5A623);border-radius:16px;padding:28px 24px;text-align:center;margin-bottom:16px">
+    <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,0.85);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">⭐ GOODREVIEW</div>
+    <div style="font-size:24px;font-weight:800;color:#fff;margin-bottom:4px">You're Live, ${ownerName.split(' ')[0]}!</div>
+    <div style="font-size:14px;color:rgba(255,255,255,0.9)">${businessName}</div>
+  </div>
 
-                <div style="background:#e8f7f5;border:1px solid #b0ddd8;border-radius:10px;padding:14px;margin-bottom:20px;">
-                  <p style="font-size:13px;color:#0a7c6e;margin:0;">
-                    ✅ <strong>Your review page is now LIVE!</strong><br>
-                    Share your QR code with patients today.<br>
-                    Free access valid for <strong>30 days</strong> from registration.
-                  </p>
-                </div>
+  <!-- Main card -->
+  <div style="background:#fff;border-radius:16px;padding:24px;box-shadow:0 2px 16px rgba(0,0,0,0.08);margin-bottom:14px">
+    <p style="font-size:15px;color:#1A1A2E;margin-bottom:16px">
+      Your GoodReview page is active. Customers can now scan the QR code or visit the link below to leave you a Google review in seconds.
+    </p>
 
-                <hr style="border:none;border-top:1px solid #eee;margin:20px 0;">
-                <p style="font-size:12px;color:#aac3be;text-align:center;">
-                  Questions? WhatsApp us at <strong>+91 7984939486</strong><br>
-                  <a href="https://goodreview.in" style="color:#0a7c6e;">goodreview.in</a>
-                </p>
+    <!-- Review URL -->
+    <div style="background:#F7F7FC;border-radius:10px;padding:14px;margin-bottom:16px;text-align:center">
+      <div style="font-size:11px;font-weight:700;color:#5A5A7A;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">Your Review Page</div>
+      <a href="${reviewUrl}" style="font-size:14px;font-weight:800;color:#FF6B00;text-decoration:none">${reviewUrl}</a>
+    </div>
 
-              </div>
-            `
-          })
-        });
+    ${qrImg}
+
+    <!-- Plan info -->
+    <div style="background:#E8F5EE;border-radius:10px;padding:14px;margin-bottom:14px">
+      <div style="font-size:11px;font-weight:700;color:#5A5A7A;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px">Your Plan</div>
+      <div style="font-size:15px;font-weight:800;color:#1A7A4A">${planLabel}</div>
+      <div style="font-size:13px;color:#5A5A7A;margin-top:4px">${expiryText}</div>
+    </div>
+
+    ${shippingText}
+
+    <!-- Details -->
+    <table style="width:100%;border-collapse:collapse;font-size:13px">
+      <tr><td style="padding:6px 0;color:#5A5A7A;width:40%">Business ID</td><td style="padding:6px 0;font-weight:700;color:#1A1A2E">${newId}</td></tr>
+      <tr><td style="padding:6px 0;color:#5A5A7A">Referral Code</td><td style="padding:6px 0;font-weight:700;color:#FF6B00">${referralCodeNew}</td></tr>
+      <tr><td style="padding:6px 0;color:#5A5A7A">City</td><td style="padding:6px 0;font-weight:700;color:#1A1A2E">${city}${area ? ', ' + area : ''}</td></tr>
+    </table>
+  </div>
+
+  <!-- Tips -->
+  <div style="background:#fff;border-radius:16px;padding:20px;box-shadow:0 2px 16px rgba(0,0,0,0.08);margin-bottom:14px">
+    <div style="font-size:14px;font-weight:800;color:#1A1A2E;margin-bottom:12px">🚀 How to get more reviews</div>
+    <div style="font-size:13px;color:#5A5A7A;line-height:1.8">
+      ✅ Print the QR code and place it at your reception / counter<br>
+      ✅ Ask customers to scan after their visit<br>
+      ✅ Share your review link on WhatsApp<br>
+      ✅ Add to your Instagram / Facebook bio
+    </div>
+  </div>
+
+  <!-- Support -->
+  <div style="text-align:center;padding:16px;font-size:12px;color:#5A5A7A">
+    Questions? WhatsApp us at <a href="https://wa.me/917984939486" style="color:#FF6B00;font-weight:700">+91 79849 39486</a><br>
+    or email <a href="mailto:support.goodreview@gmail.com" style="color:#FF6B00">support.goodreview@gmail.com</a><br><br>
+    <a href="${BASE_URL}" style="color:#FF6B00;font-weight:700">goodreview.in</a>
+  </div>
+
+</div>
+</body>
+</html>`
+        })
+      } catch (emailErr) {
+        console.error('Email send error:', emailErr)
+        // Non-critical — registration still succeeds
       }
-    } catch (emailErr) {
-      console.log('Email send skipped:', emailErr.message);
     }
 
+    // ── Step 7: Return success ──────────────────────────────────
     return res.status(200).json({
-      success:      true,
-      doctorId:     newId,
-      recordId,
-      referralCode: `GR${newId}`,
-      reviewUrl:    `https://goodreview.in/review.html?id=${newId}`
-    });
+      success:    true,
+      ownerId:    newId,
+      reviewUrl,
+      plan,
+      expiryDate: expiryDate || null,
+      referralCode: referralCodeNew
+    })
 
   } catch (err) {
-    console.error('register.js error:', err);
-    return res.status(500).json({ error: 'Registration failed', detail: err.message });
+    console.error('Register error:', err)
+    return res.status(500).json({ error: 'Registration failed. Please try again.' })
   }
+}
+
+// ── Helpers ─────────────────────────────────────────────────────
+function needsShipping(plan) {
+  return plan.startsWith('premium') || plan.startsWith('ultimate')
+}
+
+function getPlanLabel(plan) {
+  const map = {
+    free:         'Free Plan',
+    starter_1yr:  'Starter — 1 Year',
+    starter_2yr:  'Starter — 2 Years',
+    starter_5yr:  'Starter — 5 Years',
+    premium_1yr:  'Premium — 1 Year',
+    premium_2yr:  'Premium — 2 Years',
+    premium_5yr:  'Premium — 5 Years',
+    ultimate_1yr: 'Ultimate — 1 Year',
+    ultimate_2yr: 'Ultimate — 2 Years',
+    ultimate_5yr: 'Ultimate — 5 Years',
+  }
+  return map[plan] || plan
+}
+
+function formatDate(dateStr) {
+  const d = new Date(dateStr)
+  return d.toLocaleDateString('en-IN', { day:'numeric', month:'long', year:'numeric' })
 }
