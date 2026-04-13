@@ -134,7 +134,6 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
       <div class="tags-wrap" id="sqTags"></div>
     </div>
 
-    <p class="fav-hint">💛 Tap a selected tag again to mark as favourite — it appears first in your review</p>
 
     <!-- Customer custom tag -->
     <div id="customTagArea">
@@ -280,20 +279,15 @@ function makePill(id,label,isOwner,isSQ){
 function toggleTag(pill,id,label,isOwner,isSQ){
   const idx=selectedTags.findIndex(t=>t.id===id)
   if(idx===-1){
+    // Not selected → select
     tapCount++
     const lang=getCurrentLang()
     const phrase=getPhrase(id,label,isOwner,isSQ,lang)
-    selectedTags.push({id,label,phrase,lang,favourite:false,isOwner,isSQ,isCustom:false})
+    selectedTags.push({id,label,phrase,lang,isOwner,isSQ,isCustom:false})
     pill.classList.add('selected')
   }else{
-    const tag=selectedTags[idx]
-    if(!tag.favourite){
-      tag.favourite=true
-      pill.classList.remove('selected');pill.classList.add('favourite')
-      pill.innerHTML=`<span class="tag-prefix">💛</span>${label}<span class="tag-remove" onclick="event.stopPropagation();removeTag(event,'${id}')">✕</span>`
-    }else{
-      removeTagById(pill,id);return
-    }
+    // Selected → deselect
+    removeTagById(pill,id);return
   }
   updateCount();refreshReview()
 }
@@ -308,7 +302,7 @@ function removeTagById(pill,id){
   selectedTags=selectedTags.filter(t=>t.id!==id)
   const isOwner=pill.dataset.isOwner==='true'
   const isSQ=pill.dataset.isSQ==='true'
-  pill.classList.remove('selected','favourite')
+  pill.classList.remove('selected')
   const prefix=isOwner?'★ ':isSQ?'✓ ':''
   pill.innerHTML=`<span class="tag-prefix">${prefix}</span>${pill.dataset.label}`
   pill.onclick=()=>toggleTag(pill,id,pill.dataset.label,isOwner,isSQ)
@@ -386,7 +380,7 @@ async function generatePhrase(){
 }
 function addCustomTag(tagName,phrase,lang){
   const id='custom_'+Date.now()
-  selectedTags.push({id,label:tagName,phrase,lang,favourite:false,isOwner:false,isSQ:false,isCustom:true})
+  selectedTags.push({id,label:tagName,phrase,lang,isOwner:false,isSQ:false,isCustom:true})
   customerCustomCount++
   const pill=document.createElement('div')
   pill.className='tag-pill selected'
@@ -433,9 +427,7 @@ function buildVersions(){
       const arr=tagMaster.openers?.withoutLocation?.[lang]||tagMaster.openers?.withoutLocation?.English||[]
       opener=arr[v%arr.length]||arr[0]||''
     }
-    const favs=selectedTags.filter(t=>t.favourite)
-    const others=selectedTags.filter(t=>!t.favourite)
-    const ordered=[...favs,...others]
+    const ordered=[...selectedTags]
     const parts=ordered.map(tag=>{
       if(!tag.isCustom)return getPhrase(tag.id,tag.label,tag.isOwner,tag.isSQ,lang)
       return tag.phrase
