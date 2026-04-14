@@ -150,7 +150,7 @@ async function init() {
   try {
     const [bizRes, tmRes] = await Promise.all([
       fetch('/api/business?id=' + id),
-      fetch('/tag-master.json')
+      fetch('/public/tag-master.json')
     ])
     if (!bizRes.ok) {
       const e = await bizRes.json()
@@ -171,7 +171,11 @@ async function init() {
 // ── RENDER PAGE ───────────────────────────────────────────────────
 function renderPage() {
   document.getElementById('hBusinessName').textContent = business.businessName
-  const sub = [business.subCategory, business.qualification].filter(Boolean).join(' · ')
+  // Clean up subCategory display (e.g. general_physician → General Physician)
+  const subCatDisplay = (business.subCategory || '')
+    .replace(/_/g, ' ')
+    .replace(/\b\w/g, c => c.toUpperCase())
+  const sub = [subCatDisplay, business.qualification].filter(Boolean).join(' · ')
   document.getElementById('hBusinessSub').textContent = sub
   document.title = 'Review — ' + business.businessName
   renderLanguages()
@@ -219,14 +223,49 @@ function getLangForVersion(versionIdx) {
 }
 
 // ── TAGS ──────────────────────────────────────────────────────────
+function buildFallbackTags() {
+  // Owner hasn't configured tags yet — show all preset tags for their business type
+  const tags = []
+  const bType = business.businessType
+  const cat   = tagMaster.categories?.[bType]
+
+  // Service quality tags first
+  Object.entries(tagMaster.serviceQualityTags || {}).forEach(([key, val]) => {
+    if ((val.showFor || []).includes('all') || (val.showFor || []).includes(bType)) {
+      tags.push({ id: key, label: key, type: 'quality' })
+    }
+  })
+
+  // Preset category tags
+  if (cat) {
+    const subCat  = (business.subCategory || '').toLowerCase().replace(/[^a-z]/g, '')
+    const keys    = Object.keys(cat.subcategories || {})
+    const matchKey = keys.find(k => k.toLowerCase().replace(/[^a-z]/g, '') === subCat)
+                  || keys.find(k => k.toLowerCase().replace(/[^a-z]/g, '').includes(subCat.slice(0, 4)))
+                  || keys[0]
+    const subData = matchKey ? cat.subcategories[matchKey] : null
+    subData?.tags?.forEach(tag => tags.push({ id: tag.id, label: tag.label, type: 'preset' }))
+  }
+
+  // Owner custom tags
+  ;(business.ownerCustomTags || []).forEach(label => {
+    tags.push({ id: null, label, type: 'custom' })
+  })
+
+  return tags
+}
+
 function renderTags() {
   const wrap = document.getElementById('allTagsWrap')
   wrap.innerHTML = ''
 
-  const tags = business.selectedTags || []
+  let tags = business.selectedTags || []
+
+  // Fallback: if owner hasn't selected tags yet, show all preset tags
+  if (tags.length === 0) tags = buildFallbackTags()
 
   if (tags.length === 0) {
-    wrap.innerHTML = '<div class="no-tags-msg">No tags set up yet. Ask the business owner to configure their review page.</div>'
+    wrap.innerHTML = '<div class="no-tags-msg">No tags available for this business yet.</div>'
     return
   }
 
