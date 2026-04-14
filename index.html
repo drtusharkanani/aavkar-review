@@ -3,267 +3,160 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="GoodReview — Get 40+ Google reviews every month. Smart review platform for Indian doctors with NFC card, QR code and 4 languages.">
-<title>GoodReview — Get More Google Reviews. Grow Your Practice.</title>
+<meta name="description" content="GoodReview — Make it easy for your customers to leave Google reviews. QR code, NFC card, 8 languages. Works for any Indian business.">
+<title>GoodReview — More Google Reviews For Your Business</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --navy:   #07192e;
-  --navy2:  #0d2340;
-  --teal:   #0a7c6e;
-  --teal2:  #0fa390;
-  --teal3:  #1ec7b0;
-  --gold:   #c9993a;
-  --gold2:  #e8b84b;
-  --white:  #ffffff;
-  --off:    #f0f7f5;
-  --muted:  #8ba5b5;
-  --text:   #1a2e3b;
-  --card:   rgba(255,255,255,0.04);
-  --border: rgba(255,255,255,0.08);
+:root{
+  --navy:#07192e;--navy2:#0d2340;--teal:#0a7c6e;--teal2:#0fa390;--teal3:#1ec7b0;
+  --gold:#c9993a;--gold2:#e8b84b;--white:#ffffff;--off:#f0f7f5;--muted:#8ba5b5;
+  --text:#1a2e3b;--card:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.08);
 }
-
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
 body{font-family:'Sora',sans-serif;background:var(--navy);color:var(--white);overflow-x:hidden;}
-
-/* ── NOISE TEXTURE ── */
 body::before{
   content:'';position:fixed;inset:0;
   background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
   pointer-events:none;z-index:0;opacity:0.4;
 }
 
-/* ── NAV ── */
+/* NAV */
 nav{
   position:fixed;top:0;left:0;right:0;z-index:100;
   padding:16px 24px;
   display:flex;align-items:center;justify-content:space-between;
-  background:rgba(7,25,46,0.85);
-  backdrop-filter:blur(20px);
-  border-bottom:1px solid var(--border);
-  transition:all 0.3s;
+  background:rgba(7,25,46,0.85);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);transition:all 0.3s;
 }
 .nav-brand{
-  font-family:'Playfair Display',serif;
-  font-size:22px;color:var(--gold);font-weight:800;
-  text-decoration:none;
-  display:flex;align-items:center;gap:8px;
+  font-family:'Playfair Display',serif;font-size:22px;color:var(--gold);font-weight:800;
+  text-decoration:none;display:flex;align-items:center;gap:8px;
 }
 .nav-brand span{
   width:28px;height:28px;background:var(--gold);border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  font-size:14px;font-weight:900;color:var(--navy2);
+  display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:var(--navy2);
 }
 .nav-links{display:flex;align-items:center;gap:24px;}
-.nav-links a{
-  font-size:13px;color:rgba(255,255,255,0.7);text-decoration:none;
-  transition:color 0.2s;font-weight:500;
-}
+.nav-links a{font-size:13px;color:rgba(255,255,255,0.7);text-decoration:none;transition:color 0.2s;font-weight:500;}
 .nav-links a:hover{color:var(--white);}
-.nav-cta{
-  background:var(--teal);color:white;
-  padding:9px 20px;border-radius:8px;
-  font-size:13px;font-weight:700;text-decoration:none;
-  transition:all 0.2s;
-}
+.nav-cta{background:var(--teal);color:white;padding:9px 20px;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;transition:all 0.2s;}
 .nav-cta:hover{background:var(--teal2);transform:translateY(-1px);}
 .nav-mobile-cta{display:none;}
 
-/* ── HERO ── */
+/* HERO */
 .hero{
-  min-height:100vh;
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  text-align:center;
-  padding:120px 20px 80px;
-  position:relative;
-  overflow:hidden;
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:120px 20px 80px;position:relative;overflow:hidden;
 }
-
-.blob{
-  position:absolute;border-radius:50%;filter:blur(80px);
-  pointer-events:none;z-index:0;
-}
-.blob-1{
-  width:600px;height:600px;
-  background:radial-gradient(circle,rgba(10,124,110,0.25),transparent 70%);
-  top:-200px;left:-200px;
-  animation:drift 12s ease-in-out infinite alternate;
-}
-.blob-2{
-  width:500px;height:500px;
-  background:radial-gradient(circle,rgba(201,153,58,0.15),transparent 70%);
-  bottom:-150px;right:-150px;
-  animation:drift 15s ease-in-out infinite alternate-reverse;
-}
-.blob-3{
-  width:400px;height:400px;
-  background:radial-gradient(circle,rgba(10,124,110,0.12),transparent 70%);
-  top:50%;left:50%;transform:translate(-50%,-50%);
-}
-@keyframes drift{
-  from{transform:translate(0,0);}
-  to{transform:translate(40px,30px);}
-}
-
-.hero-content{position:relative;z-index:1;max-width:780px;}
-
+.blob{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0;}
+.blob-1{width:600px;height:600px;background:radial-gradient(circle,rgba(10,124,110,0.25),transparent 70%);top:-200px;left:-200px;animation:drift 12s ease-in-out infinite alternate;}
+.blob-2{width:500px;height:500px;background:radial-gradient(circle,rgba(201,153,58,0.15),transparent 70%);bottom:-150px;right:-150px;animation:drift 15s ease-in-out infinite alternate-reverse;}
+.blob-3{width:400px;height:400px;background:radial-gradient(circle,rgba(10,124,110,0.12),transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);}
+@keyframes drift{from{transform:translate(0,0);}to{transform:translate(40px,30px);}}
+.hero-content{position:relative;z-index:1;max-width:820px;}
 .hero-badge{
-  display:inline-flex;align-items:center;gap:8px;
-  background:rgba(10,124,110,0.15);
-  border:1px solid rgba(10,124,110,0.4);
-  border-radius:50px;
-  padding:6px 16px;
-  font-size:12px;font-weight:600;color:var(--teal3);
-  margin-bottom:28px;
-  animation:fadeUp 0.6s ease both;
+  display:inline-flex;align-items:center;gap:8px;background:rgba(10,124,110,0.15);
+  border:1px solid rgba(10,124,110,0.4);border-radius:50px;padding:6px 16px;
+  font-size:12px;font-weight:600;color:var(--teal3);margin-bottom:28px;animation:fadeUp 0.6s ease both;
 }
-.hero-badge::before{
-  content:'';width:6px;height:6px;
-  background:var(--teal3);border-radius:50%;
-  animation:pulse 2s infinite;
-}
-@keyframes pulse{
-  0%,100%{opacity:1;transform:scale(1);}
-  50%{opacity:0.4;transform:scale(1.4);}
-}
-
+.hero-badge::before{content:'';width:6px;height:6px;background:var(--teal3);border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(1.4);}}
 .hero h1{
-  font-family:'Playfair Display',serif;
-  font-size:clamp(36px,7vw,72px);
-  line-height:1.08;font-weight:800;color:var(--white);
-  margin-bottom:24px;
-  animation:fadeUp 0.6s ease 0.1s both;
+  font-family:'Playfair Display',serif;font-size:clamp(32px,6vw,66px);
+  line-height:1.1;font-weight:800;color:var(--white);margin-bottom:24px;animation:fadeUp 0.6s ease 0.1s both;
 }
-.hero h1 em{
-  font-style:italic;color:var(--gold);
-  position:relative;display:inline-block;
-}
+.hero h1 em{font-style:italic;color:var(--gold);position:relative;display:inline-block;}
 .hero h1 em::after{
-  content:'';
-  position:absolute;bottom:-4px;left:0;right:0;
-  height:3px;
-  background:linear-gradient(90deg,var(--gold),transparent);
-  border-radius:2px;
+  content:'';position:absolute;bottom:-4px;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--gold),transparent);border-radius:2px;
 }
 .hero-sub{
-  font-size:clamp(15px,2.5vw,19px);
-  color:rgba(255,255,255,0.65);
-  line-height:1.7;max-width:560px;
-  margin:0 auto 36px;font-weight:300;
-  animation:fadeUp 0.6s ease 0.2s both;
+  font-size:clamp(14px,2.2vw,18px);color:rgba(255,255,255,0.65);line-height:1.7;
+  max-width:580px;margin:0 auto 36px;font-weight:300;animation:fadeUp 0.6s ease 0.2s both;
 }
-
 .hero-actions{
   display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
-  animation:fadeUp 0.6s ease 0.3s both;
-  margin-bottom:56px;
+  animation:fadeUp 0.6s ease 0.3s both;margin-bottom:48px;
 }
 .btn-hero{
-  padding:16px 32px;border-radius:12px;
-  font-family:'Sora',sans-serif;font-size:15px;font-weight:700;
-  text-decoration:none;transition:all 0.2s;display:inline-flex;
-  align-items:center;gap:8px;
+  padding:15px 30px;border-radius:12px;font-family:'Sora',sans-serif;font-size:15px;font-weight:700;
+  text-decoration:none;transition:all 0.2s;display:inline-flex;align-items:center;gap:8px;
 }
-.btn-primary-hero{
-  background:linear-gradient(135deg,var(--teal),var(--teal2));
-  color:white;box-shadow:0 8px 32px rgba(10,124,110,0.4);
-}
+.btn-primary-hero{background:linear-gradient(135deg,var(--teal),var(--teal2));color:white;box-shadow:0 8px 32px rgba(10,124,110,0.4);}
 .btn-primary-hero:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(10,124,110,0.5);}
-.btn-secondary-hero{
-  background:var(--card);color:rgba(255,255,255,0.85);
-  border:1px solid var(--border);backdrop-filter:blur(10px);
-}
+.btn-secondary-hero{background:var(--card);color:rgba(255,255,255,0.85);border:1px solid var(--border);backdrop-filter:blur(10px);}
 .btn-secondary-hero:hover{background:rgba(255,255,255,0.08);transform:translateY(-2px);}
 
-.floating-reviews{
-  position:relative;z-index:1;
-  display:flex;gap:12px;justify-content:center;flex-wrap:wrap;
-  animation:fadeUp 0.6s ease 0.4s both;
+/* CATEGORY SCROLL STRIP */
+.cat-strip{
+  position:relative;z-index:1;width:100%;overflow:hidden;
+  animation:fadeUp 0.6s ease 0.4s both;margin-bottom:48px;
 }
-.review-float{
-  background:rgba(255,255,255,0.06);
-  border:1px solid rgba(255,255,255,0.1);
-  backdrop-filter:blur(20px);
-  border-radius:16px;padding:14px 16px;
-  text-align:left;max-width:240px;
-  animation:float 4s ease-in-out infinite;
+.cat-track{
+  display:flex;gap:12px;
+  animation:scrollLeft 30s linear infinite;
+  width:max-content;
 }
-.review-float:nth-child(2){animation-delay:1.5s;}
-.review-float:nth-child(3){animation-delay:3s;}
-@keyframes float{
-  0%,100%{transform:translateY(0);}
-  50%{transform:translateY(-8px);}
+.cat-track:hover{animation-play-state:paused;}
+.cat-pill{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);
+  border-radius:50px;padding:8px 16px;white-space:nowrap;font-size:13px;font-weight:600;
+  color:rgba(255,255,255,0.8);
 }
-.rf-stars{color:var(--gold);font-size:12px;margin-bottom:6px;}
-.rf-text{font-size:12px;color:rgba(255,255,255,0.8);line-height:1.5;margin-bottom:8px;}
-.rf-name{font-size:10px;color:var(--muted);font-weight:600;}
+.cat-pill span{font-size:16px;}
+@keyframes scrollLeft{
+  0%{transform:translateX(0);}
+  100%{transform:translateX(-50%);}
+}
 
 .hero-stats{
   display:flex;gap:32px;justify-content:center;flex-wrap:wrap;
-  margin-top:48px;padding-top:48px;
-  border-top:1px solid var(--border);
+  padding-top:40px;border-top:1px solid var(--border);
   animation:fadeUp 0.6s ease 0.5s both;
 }
 .stat-item{text-align:center;}
-.stat-num{
-  font-family:'Playfair Display',serif;
-  font-size:clamp(28px,5vw,40px);font-weight:800;color:var(--white);line-height:1;
-}
+.stat-num{font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,38px);font-weight:800;color:var(--white);line-height:1;}
 .stat-num span{color:var(--gold);}
 .stat-label{font-size:12px;color:var(--muted);margin-top:4px;font-weight:500;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
 
-@keyframes fadeUp{
-  from{opacity:0;transform:translateY(24px);}
-  to{opacity:1;transform:translateY(0);}
-}
-
-/* ── SECTIONS ── */
+/* SECTIONS */
 section{padding:80px 20px;position:relative;}
 .section-center{text-align:center;max-width:640px;margin:0 auto 56px;}
-.section-tag{
-  display:inline-block;font-size:11px;font-weight:700;
-  text-transform:uppercase;letter-spacing:2px;color:var(--teal3);margin-bottom:14px;
-}
-.section-title{
-  font-family:'Playfair Display',serif;
-  font-size:clamp(28px,5vw,44px);font-weight:800;color:var(--white);
-  line-height:1.2;margin-bottom:16px;
-}
+.section-tag{display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--teal3);margin-bottom:14px;}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(26px,5vw,42px);font-weight:800;color:var(--white);line-height:1.2;margin-bottom:16px;}
 .section-sub{font-size:16px;color:rgba(255,255,255,0.55);line-height:1.7;font-weight:300;}
 
-/* ── PROBLEM ── */
-.problem-section{background:var(--navy2);}
-.problem-grid{
-  max-width:960px;margin:0 auto;
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;
+/* WORKS FOR */
+.works-section{background:var(--navy2);}
+.works-grid{
+  max-width:1000px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;
 }
-.problem-card{
-  background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);
-  border-radius:16px;padding:24px;transition:all 0.3s;
+.works-card{
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);
+  border-radius:16px;padding:20px;transition:all 0.3s;text-align:center;
 }
-.problem-card:hover{background:rgba(255,255,255,0.06);transform:translateY(-4px);}
-.prob-icon{font-size:32px;margin-bottom:14px;}
-.prob-title{font-size:16px;font-weight:700;color:var(--white);margin-bottom:8px;}
-.prob-text{font-size:13.5px;color:rgba(255,255,255,0.5);line-height:1.7;}
+.works-card:hover{background:rgba(255,255,255,0.08);transform:translateY(-4px);border-color:rgba(10,124,110,0.4);}
+.works-icon{font-size:32px;margin-bottom:10px;}
+.works-name{font-size:14px;font-weight:700;color:var(--white);margin-bottom:6px;}
+.works-example{font-size:11px;color:var(--muted);line-height:1.5;}
 
-/* ── HOW IT WORKS ── */
+/* HOW IT WORKS */
 .how-section{background:var(--navy);}
 .steps-row{
   max-width:900px;margin:0 auto;
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:0;position:relative;
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0;position:relative;
 }
 .steps-row::before{
-  content:'';position:absolute;
-  top:40px;left:15%;right:15%;height:1px;
-  background:linear-gradient(90deg,transparent,var(--teal),transparent);display:block;
+  content:'';position:absolute;top:40px;left:15%;right:15%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--teal),transparent);
 }
 .step-item{text-align:center;padding:20px;position:relative;z-index:1;}
 .step-num{
-  width:80px;height:80px;
-  background:linear-gradient(135deg,var(--teal),var(--teal2));
+  width:80px;height:80px;background:linear-gradient(135deg,var(--teal),var(--teal2));
   border-radius:50%;display:flex;align-items:center;justify-content:center;
   font-family:'Playfair Display',serif;font-size:28px;font-weight:800;color:white;
   margin:0 auto 20px;box-shadow:0 8px 32px rgba(10,124,110,0.35);
@@ -271,12 +164,9 @@ section{padding:80px 20px;position:relative;}
 .step-title{font-size:16px;font-weight:700;color:var(--white);margin-bottom:8px;}
 .step-text{font-size:13px;color:rgba(255,255,255,0.5);line-height:1.6;}
 
-/* ── FEATURES ── */
+/* FEATURES */
 .features-section{background:var(--navy2);}
-.features-grid{
-  max-width:1000px;margin:0 auto;
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:20px;
-}
+.features-grid{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:20px;}
 .feature-card{
   background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);
   border-radius:20px;padding:28px;transition:all 0.3s;position:relative;overflow:hidden;
@@ -288,160 +178,91 @@ section{padding:80px 20px;position:relative;}
 }
 .feature-card:hover::before{transform:scaleX(1);}
 .feature-card:hover{background:rgba(255,255,255,0.07);transform:translateY(-4px);}
-.feat-icon{
-  width:52px;height:52px;background:rgba(10,124,110,0.15);border-radius:14px;
-  display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:18px;
-}
+.feat-icon{width:52px;height:52px;background:rgba(10,124,110,0.15);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:18px;}
 .feat-title{font-size:16px;font-weight:700;color:var(--white);margin-bottom:8px;}
 .feat-text{font-size:13px;color:rgba(255,255,255,0.5);line-height:1.7;}
-.feat-tag{
-  display:inline-block;margin-top:12px;font-size:10px;font-weight:700;
-  color:var(--teal3);background:rgba(10,124,110,0.15);
-  padding:3px 10px;border-radius:20px;letter-spacing:0.5px;
-}
+.feat-tag{display:inline-block;margin-top:12px;font-size:10px;font-weight:700;color:var(--teal3);background:rgba(10,124,110,0.15);padding:3px 10px;border-radius:20px;letter-spacing:0.5px;}
 
-/* ── PRICING ── */
+/* PRICING */
 .pricing-section{background:var(--navy);}
 .pricing-tabs{
-  display:flex;gap:6px;justify-content:center;
-  background:rgba(255,255,255,0.05);border-radius:14px;padding:4px;
-  max-width:320px;margin:0 auto 40px;border:1px solid var(--border);
+  display:flex;gap:6px;justify-content:center;background:rgba(255,255,255,0.05);
+  border-radius:14px;padding:4px;max-width:320px;margin:0 auto 40px;border:1px solid var(--border);
 }
-.ptab{
-  flex:1;padding:10px;border:none;border-radius:10px;
-  font-family:'Sora',sans-serif;font-size:13px;font-weight:600;
-  cursor:pointer;transition:all 0.2s;color:rgba(255,255,255,0.5);background:transparent;
-}
+.ptab{flex:1;padding:10px;border:none;border-radius:10px;font-family:'Sora',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;color:rgba(255,255,255,0.5);background:transparent;}
 .ptab.active{background:var(--teal);color:white;box-shadow:0 4px 12px rgba(10,124,110,0.3);}
-.pricing-grid{
-  max-width:960px;margin:0 auto;
-  display:none;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;
-}
+.pricing-grid{max-width:960px;margin:0 auto;display:none;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;}
 .pricing-grid.show{display:grid;}
-.price-card{
-  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);
-  border-radius:20px;padding:28px;transition:all 0.3s;position:relative;
-}
-.price-card.hero-plan{
-  background:linear-gradient(145deg,rgba(10,124,110,0.2),rgba(7,25,46,0.5));
-  border:2px solid var(--teal);transform:scale(1.02);
-}
-.price-badge{
-  position:absolute;top:-12px;left:50%;transform:translateX(-50%);
-  background:var(--gold);color:var(--navy2);
-  font-size:10px;font-weight:800;padding:4px 14px;border-radius:20px;
-  letter-spacing:1px;white-space:nowrap;
-}
+.price-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:28px;transition:all 0.3s;position:relative;}
+.price-card.hero-plan{background:linear-gradient(145deg,rgba(10,124,110,0.2),rgba(7,25,46,0.5));border:2px solid var(--teal);transform:scale(1.02);}
+.price-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--navy2);font-size:10px;font-weight:800;padding:4px 14px;border-radius:20px;letter-spacing:1px;white-space:nowrap;}
 .price-name{font-size:14px;font-weight:700;color:rgba(255,255,255,0.7);margin-bottom:4px;}
-.price-amount{
-  font-family:'Playfair Display',serif;
-  font-size:36px;font-weight:800;color:var(--white);line-height:1;margin-bottom:2px;
-}
+.price-amount{font-family:'Playfair Display',serif;font-size:36px;font-weight:800;color:var(--white);line-height:1;margin-bottom:2px;}
 .price-amount span{font-size:20px;color:var(--muted);}
 .price-strike{font-size:14px;color:rgba(255,255,255,0.3);text-decoration:line-through;margin-bottom:4px;}
 .price-per{font-size:11px;color:var(--teal3);font-weight:600;margin-bottom:20px;}
 .price-features{margin-bottom:24px;}
-.pf-item{
-  display:flex;align-items:center;gap:8px;
-  font-size:13px;color:rgba(255,255,255,0.7);padding:5px 0;
-}
+.pf-item{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(255,255,255,0.7);padding:5px 0;}
 .pf-item::before{content:'✓';color:var(--teal3);font-weight:700;flex-shrink:0;}
 .pf-item.no{color:rgba(255,255,255,0.25);}
 .pf-item.no::before{content:'✗';color:rgba(255,255,255,0.2);}
-.price-btn{
-  width:100%;padding:13px;border-radius:12px;
-  font-family:'Sora',sans-serif;font-size:14px;font-weight:700;
-  cursor:pointer;border:none;transition:all 0.2s;text-decoration:none;
-  display:block;text-align:center;
-}
+.price-btn{width:100%;padding:13px;border-radius:12px;font-family:'Sora',sans-serif;font-size:14px;font-weight:700;cursor:pointer;border:none;transition:all 0.2s;text-decoration:none;display:block;text-align:center;}
 .price-btn-primary{background:linear-gradient(135deg,var(--teal),var(--teal2));color:white;box-shadow:0 4px 16px rgba(10,124,110,0.3);}
 .price-btn-primary:hover{transform:translateY(-2px);}
 .price-btn-outline{background:transparent;color:rgba(255,255,255,0.7);border:1px solid rgba(255,255,255,0.15);}
 .price-btn-outline:hover{background:rgba(255,255,255,0.06);}
 
-/* ── TESTIMONIALS ── */
+/* TESTIMONIALS */
 .testi-section{background:var(--navy2);}
-.testi-grid{
-  max-width:960px;margin:0 auto;
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;
-}
-.testi-card{
-  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);
-  border-radius:20px;padding:28px;
-}
+.testi-grid{max-width:960px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
+.testi-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:28px;}
 .testi-stars{color:var(--gold);font-size:14px;margin-bottom:14px;}
 .testi-text{font-size:14px;color:rgba(255,255,255,0.75);line-height:1.75;font-style:italic;margin-bottom:20px;}
 .testi-doc{display:flex;align-items:center;gap:12px;}
-.testi-avatar{
-  width:44px;height:44px;border-radius:50%;
-  background:linear-gradient(135deg,var(--teal),var(--teal2));
-  display:flex;align-items:center;justify-content:center;
-  font-weight:800;font-size:16px;color:white;flex-shrink:0;
-}
+.testi-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--teal2));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;color:white;flex-shrink:0;}
 .testi-name{font-size:14px;font-weight:700;color:var(--white);}
 .testi-spec{font-size:11px;color:var(--muted);}
-.testi-reviews{
-  display:inline-block;margin-top:6px;font-size:10px;font-weight:700;
-  color:var(--teal3);background:rgba(10,124,110,0.15);padding:2px 8px;border-radius:10px;
-}
+.testi-reviews{display:inline-block;margin-top:6px;font-size:10px;font-weight:700;color:var(--teal3);background:rgba(10,124,110,0.15);padding:2px 8px;border-radius:10px;}
 
-/* ── FAQ ── */
+/* FAQ */
 .faq-section{background:var(--navy);}
 .faq-list{max-width:680px;margin:0 auto;}
 .faq-item{border-bottom:1px solid rgba(255,255,255,0.07);}
-.faq-q{
-  width:100%;background:none;border:none;color:var(--white);
-  font-family:'Sora',sans-serif;font-size:15px;font-weight:600;
-  text-align:left;padding:20px 0;cursor:pointer;
-  display:flex;justify-content:space-between;align-items:center;gap:16px;
-}
+.faq-q{width:100%;background:none;border:none;color:var(--white);font-family:'Sora',sans-serif;font-size:15px;font-weight:600;text-align:left;padding:20px 0;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;}
 .faq-q::after{content:'+';font-size:24px;color:var(--teal3);transition:transform 0.3s;flex-shrink:0;line-height:1;}
 .faq-item.open .faq-q::after{transform:rotate(45deg);}
-.faq-a{
-  font-size:14px;color:rgba(255,255,255,0.55);line-height:1.8;
-  padding:0;max-height:0;overflow:hidden;transition:all 0.3s;
-}
+.faq-a{font-size:14px;color:rgba(255,255,255,0.55);line-height:1.8;padding:0;max-height:0;overflow:hidden;transition:all 0.3s;}
 .faq-item.open .faq-a{max-height:300px;padding-bottom:20px;}
 
-/* ── FINAL CTA ── */
-.cta-section{
-  background:linear-gradient(145deg,rgba(10,124,110,0.25),rgba(7,25,46,0.8));
-  border-top:1px solid rgba(10,124,110,0.2);border-bottom:1px solid rgba(10,124,110,0.2);
-  text-align:center;padding:80px 20px;
-}
-.cta-title{
-  font-family:'Playfair Display',serif;
-  font-size:clamp(28px,5vw,48px);font-weight:800;color:var(--white);
-  margin-bottom:16px;line-height:1.2;
-}
+/* FINAL CTA */
+.cta-section{background:linear-gradient(145deg,rgba(10,124,110,0.25),rgba(7,25,46,0.8));border-top:1px solid rgba(10,124,110,0.2);border-bottom:1px solid rgba(10,124,110,0.2);text-align:center;padding:80px 20px;}
+.cta-title{font-family:'Playfair Display',serif;font-size:clamp(28px,5vw,48px);font-weight:800;color:var(--white);margin-bottom:16px;line-height:1.2;}
 .cta-sub{font-size:16px;color:rgba(255,255,255,0.55);margin-bottom:36px;font-weight:300;}
 .cta-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
 
-/* ── FOOTER ── */
-footer{
-  background:var(--navy2);border-top:1px solid var(--border);
-  padding:40px 20px;text-align:center;
-}
+/* FOOTER */
+footer{background:var(--navy2);border-top:1px solid var(--border);padding:40px 20px;text-align:center;}
 .footer-brand{font-family:'Playfair Display',serif;font-size:20px;color:var(--gold);font-weight:800;margin-bottom:12px;}
-.footer-links{
-  display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:12px;
-}
+.footer-links{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:12px;}
 .footer-links a{font-size:13px;color:var(--muted);text-decoration:none;}
 .footer-links a:hover{color:var(--white);}
-.footer-policy-links{
-  display:flex;gap:16px;justify-content:center;flex-wrap:wrap;
-  margin-bottom:16px;padding-top:12px;
-  border-top:1px solid rgba(255,255,255,0.06);
-}
+.footer-policy-links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:16px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.06);}
 .footer-policy-links a{font-size:12px;color:rgba(255,255,255,0.35);text-decoration:none;transition:color 0.2s;}
 .footer-policy-links a:hover{color:var(--teal3);}
 .footer-copy{font-size:12px;color:rgba(255,255,255,0.25);}
 
-/* ── SCROLL REVEAL ── */
+/* PROBLEM */
+.problem-section{background:var(--navy2);}
+.problem-grid{max-width:960px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
+.problem-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:24px;transition:all 0.3s;}
+.problem-card:hover{background:rgba(255,255,255,0.06);transform:translateY(-4px);}
+.prob-icon{font-size:32px;margin-bottom:14px;}
+.prob-title{font-size:16px;font-weight:700;color:var(--white);margin-bottom:8px;}
+.prob-text{font-size:13.5px;color:rgba(255,255,255,0.5);line-height:1.7;}
+
 .reveal{opacity:0;transform:translateY(32px);transition:all 0.6s ease;}
 .reveal.visible{opacity:1;transform:translateY(0);}
 
-/* ── MOBILE ── */
 @media(max-width:640px){
   .nav-links{display:none;}
   .nav-mobile-cta{display:block;}
@@ -456,14 +277,14 @@ footer{
 
 <!-- NAV -->
 <nav>
-  <a href="/" class="nav-brand"><span>✚</span> GoodReview</a>
+  <a href="/" class="nav-brand"><span>⭐</span> GoodReview</a>
   <div class="nav-links">
     <a href="#how">How It Works</a>
+    <a href="#works-for">Who It's For</a>
     <a href="#features">Features</a>
     <a href="#pricing">Pricing</a>
     <a href="#faq">FAQ</a>
-    <a href="dashboard.html">Doctor Login</a>
-    <a href="policies.html">Policies</a>
+    <a href="edit.html">Business Login</a>
     <a href="register.html" class="nav-cta">Get Started →</a>
   </div>
   <a href="register.html" class="nav-cta nav-mobile-cta" style="font-size:12px;padding:8px 16px;">Get Started →</a>
@@ -476,57 +297,40 @@ footer{
   <div class="blob blob-3"></div>
 
   <div class="hero-content">
-    <div class="hero-badge">🇮🇳 500+ Doctors Already Ahead of Their Competition</div>
+    <div class="hero-badge">🇮🇳 Built for Indian Businesses · 15 Categories · 8 Languages</div>
 
-    <h1>Get <em>40+ Google Reviews</em><br>Every Month — Automatically</h1>
+    <h1>Your Customers Want to Review You —<br><em>Make It Simple,</em> Get More Google Reviews</h1>
 
     <p class="hero-sub">
-      Every day without reviews, your competitor gets chosen over you. Your patients ARE willing to review — they just need it made easy. GoodReview does that in 30 seconds.
+      No typing struggle. No language barrier. Customer scans QR or taps NFC → selects experience → review ready in 30 seconds. Works for any Indian business.
     </p>
 
     <div class="hero-actions">
-      <a href="register.html" class="btn-hero btn-primary-hero">
-        🚀 Don't Let Competitor Win — Start Now
-      </a>
-      <a href="#how" class="btn-hero btn-secondary-hero">
-        ▶ See How It Works
-      </a>
+      <a href="register.html" class="btn-hero btn-primary-hero">🚀 Start Free — No Credit Card</a>
+      <a href="#how" class="btn-hero btn-secondary-hero">▶ See How It Works</a>
     </div>
 
-    <div class="floating-reviews">
-      <div class="review-float">
-        <div class="rf-stars">★★★★★</div>
-        <div class="rf-text">"Dr. Patel explained everything clearly. Best cardiologist in Ahmedabad!"</div>
-        <div class="rf-name">— Ramesh M. · Verified Patient</div>
-      </div>
-      <div class="review-float">
-        <div class="rf-stars">★★★★★</div>
-        <div class="rf-text">"Very caring doctor. Staff is friendly. Highly recommended for diabetes."</div>
-        <div class="rf-name">— Priya S. · Verified Patient</div>
-      </div>
-      <div class="review-float" style="display:none;" id="r3">
-        <div class="rf-stars">★★★★★</div>
-        <div class="rf-text">"Accurate diagnosis. Clean clinic. Will visit again for sure."</div>
-        <div class="rf-name">— Amit K. · Verified Patient</div>
-      </div>
+    <!-- SCROLLING CATEGORY STRIP -->
+    <div class="cat-strip">
+      <div class="cat-track" id="catTrack"></div>
     </div>
 
     <div class="hero-stats">
       <div class="stat-item">
-        <div class="stat-num">40<span>+</span></div>
-        <div class="stat-label">Reviews/month avg</div>
+        <div class="stat-num">8<span>+</span></div>
+        <div class="stat-label">Indian languages</div>
       </div>
       <div class="stat-item">
-        <div class="stat-num">4.8<span>★</span></div>
-        <div class="stat-label">Avg Google rating</div>
+        <div class="stat-num">15<span>+</span></div>
+        <div class="stat-label">Business categories</div>
       </div>
       <div class="stat-item">
         <div class="stat-num">30<span>s</span></div>
-        <div class="stat-label">Time to post review</div>
+        <div class="stat-label">To post a review</div>
       </div>
       <div class="stat-item">
-        <div class="stat-num">4</div>
-        <div class="stat-label">Languages supported</div>
+        <div class="stat-num">₹0</div>
+        <div class="stat-label">To start (free plan)</div>
       </div>
     </div>
   </div>
@@ -536,30 +340,84 @@ footer{
 <section class="problem-section reveal">
   <div class="section-center">
     <div class="section-tag">The Problem</div>
-    <div class="section-title">Why Your Patients Don't Leave Reviews</div>
-    <div class="section-sub">Right now, a doctor near you is getting 5 new Google reviews today. Tomorrow, your patient searches "best doctor near me" — and chooses them. Not you.</div>
+    <div class="section-title">Why Your Customers Don't Leave Reviews</div>
+    <div class="section-sub">A business near you is getting 5 new Google reviews today. Your customer searched, saw their reviews, and chose them — not you.</div>
   </div>
   <div class="problem-grid">
     <div class="problem-card reveal">
       <div class="prob-icon">😓</div>
       <div class="prob-title">Typing is too much effort</div>
-      <div class="prob-text">Patients want to write reviews but finding the Google page, typing their experience — it's 5 minutes they don't have.</div>
+      <div class="prob-text">Customers want to write reviews but finding the Google page, typing their experience — it's 5 minutes they don't have.</div>
     </div>
     <div class="problem-card reveal">
       <div class="prob-icon">🔍</div>
       <div class="prob-title">They can't find your Google page</div>
-      <div class="prob-text">Many patients search, get confused between similar names, and give up. No review written.</div>
+      <div class="prob-text">Customers search, get confused between similar business names, and give up. No review written.</div>
     </div>
     <div class="problem-card reveal">
       <div class="prob-icon">📉</div>
       <div class="prob-title">Competitors are winning online</div>
-      <div class="prob-text">Doctors with 200+ reviews appear first on Google. New patients choose them over you — even if you're better.</div>
+      <div class="prob-text">Businesses with 200+ reviews appear first on Google. New customers choose them — even if you're better.</div>
     </div>
     <div class="problem-card reveal">
       <div class="prob-icon">🌐</div>
       <div class="prob-title">Language barrier</div>
-      <div class="prob-text">Patients comfortable in Gujarati or Hindi struggle to write in English. They never bother.</div>
+      <div class="prob-text">Customers comfortable in Gujarati, Hindi or Marathi struggle to write in English. They never bother.</div>
     </div>
+  </div>
+</section>
+
+<!-- WHO IT'S FOR -->
+<section class="works-section reveal" id="works-for">
+  <div class="section-center">
+    <div class="section-tag">Who It's For</div>
+    <div class="section-title">Works For Any Indian Business</div>
+    <div class="section-sub">From doctors to garages, salons to CAs — if your customers can give a review, GoodReview makes it happen.</div>
+  </div>
+  <div class="works-grid">
+    <div class="works-card reveal">
+      <div class="works-icon">🏥</div>
+      <div class="works-name">Doctors & Clinics</div>
+      <div class="works-example">"Experienced Doctor", "Painless Treatment", "Affordable Fees"</div>
+    </div>
+    <div class="works-card reveal">
+      <div class="works-icon">✂️</div>
+      <div class="works-name">Beauty & Salons</div>
+      <div class="works-example">"Great Haircut", "Skilled Stylist", "Hygienic Tools"</div>
+    </div>
+    <div class="works-card reveal">
+      <div class="works-icon">🍽️</div>
+      <div class="works-name">Restaurants</div>
+      <div class="works-example">"Delicious Food", "Quick Service", "Jain Food Available"</div>
+    </div>
+    <div class="works-card reveal">
+      <div class="works-icon">🚗</div>
+      <div class="works-name">Automobile</div>
+      <div class="works-example">"Transparent Billing", "Genuine Parts", "Quick Service"</div>
+    </div>
+    <div class="works-card reveal">
+      <div class="works-icon">📚</div>
+      <div class="works-name">Education</div>
+      <div class="works-example">"Experienced Faculty", "Good Results", "Affordable Fees"</div>
+    </div>
+    <div class="works-card reveal">
+      <div class="works-icon">💼</div>
+      <div class="works-name">CA & Finance</div>
+      <div class="works-example">"ITR Filed on Time", "Clear Tax Advice", "Affordable"</div>
+    </div>
+    <div class="works-card reveal">
+      <div class="works-icon">🏨</div>
+      <div class="works-name">Hotels & Stay</div>
+      <div class="works-example">"Clean Rooms", "Helpful Staff", "Good Breakfast"</div>
+    </div>
+    <div class="works-card reveal">
+      <div class="works-icon">🔧</div>
+      <div class="works-name">Home Services</div>
+      <div class="works-example">"On-Time Service", "Fair Pricing", "Professional Work"</div>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:28px;">
+    <p style="font-size:13px;color:var(--muted);">+ Retail, Hotels, Insurance, Real Estate, Transport, Events, Pets & more</p>
   </div>
 </section>
 
@@ -567,24 +425,24 @@ footer{
 <section class="how-section reveal" id="how">
   <div class="section-center">
     <div class="section-tag">How It Works</div>
-    <div class="section-title">3 Steps to Automatic Reviews</div>
-    <div class="section-sub">While your competitor struggles with zero reviews, your patients are posting 5-star reviews in 30 seconds. Setup takes 10 minutes. ROI starts the same day.</div>
+    <div class="section-title">3 Steps to More Reviews</div>
+    <div class="section-sub">Your customer scans once — review posted in 30 seconds. No app download. Works on any phone.</div>
   </div>
   <div class="steps-row">
     <div class="step-item reveal">
       <div class="step-num">1</div>
-      <div class="step-title">Patient Scans or Taps</div>
-      <div class="step-text">Patient scans your QR code or taps your NFC card at reception — instantly opens your review page.</div>
+      <div class="step-title">Customer Scans or Taps</div>
+      <div class="step-text">Customer scans your QR code or taps your NFC card — instantly opens your personalised review page.</div>
     </div>
     <div class="step-item reveal">
       <div class="step-num">2</div>
-      <div class="step-title">Selects Tags → Review Generated</div>
-      <div class="step-text">Patient taps what describes their visit — a personalized 5-star review is auto-generated in their language.</div>
+      <div class="step-title">Selects Experience Tags</div>
+      <div class="step-text">Customer picks what describes their visit — a natural review is generated instantly in their language.</div>
     </div>
     <div class="step-item reveal">
       <div class="step-num">3</div>
-      <div class="step-title">Posts on Google</div>
-      <div class="step-text">Review is copied → Google opens → patient pastes and posts. Done in 30 seconds. Your rating goes up!</div>
+      <div class="step-title">Copies & Posts on Google</div>
+      <div class="step-text">Review copied → Google Maps opens → customer pastes and posts. Done in 30 seconds.</div>
     </div>
   </div>
 </section>
@@ -593,44 +451,44 @@ footer{
 <section class="features-section reveal" id="features">
   <div class="section-center">
     <div class="section-tag">Features</div>
-    <div class="section-title">Everything You Need to Dominate Google</div>
-    <div class="section-sub">One new patient from Google = ₹500 to ₹5,000 consultation. GoodReview costs less than one consultation — and brings you hundreds.</div>
+    <div class="section-title">Everything You Need</div>
+    <div class="section-sub">One new customer from Google pays for years of GoodReview. Simple maths.</div>
   </div>
   <div class="features-grid">
     <div class="feature-card reveal">
       <div class="feat-icon">📱</div>
       <div class="feat-title">NFC Card + QR Code</div>
-      <div class="feat-text">Physical NFC card for tap-to-review. QR stickers for walls, tables, and prescriptions. Patients always have a way to review.</div>
+      <div class="feat-text">Physical NFC card for tap-to-review. QR stickers for reception, tables, and packaging. Customers always have a way to review.</div>
       <span class="feat-tag">Premium & Ultimate</span>
     </div>
     <div class="feature-card reveal">
       <div class="feat-icon">🌐</div>
-      <div class="feat-title">4 Languages — Auto Generated</div>
-      <div class="feat-text">English, Hindi, Hinglish, Gujarati — all in Roman script. Random language every time so reviews look natural, not bot-generated.</div>
+      <div class="feat-title">8 Indian Languages</div>
+      <div class="feat-text">English, Hindi, Gujarati, Hinglish, Marathi, Tamil, Telugu, Kannada. Customer picks their language — review sounds completely natural.</div>
       <span class="feat-tag">All Plans</span>
     </div>
     <div class="feature-card reveal">
       <div class="feat-icon">🏷️</div>
-      <div class="feat-title">Specialty-Specific Tags</div>
-      <div class="feat-text">50+ specialties with custom medical tags. Cardiologist gets heart tags, dermatologist gets skin tags — each review sounds authentic.</div>
+      <div class="feat-title">Business-Specific Tags</div>
+      <div class="feat-text">15 categories, 50+ subcategories. Doctor gets medical tags. Salon gets hair tags. Restaurant gets food tags. Every review sounds authentic.</div>
       <span class="feat-tag">All Plans</span>
     </div>
     <div class="feature-card reveal">
       <div class="feat-icon">✨</div>
-      <div class="feat-title">Custom Tags for Your Clinic</div>
-      <div class="feat-text">Add your own unique services — Insulin Therapy, Hair Transplant, IVF Success. Patients highlight exactly what you offer.</div>
+      <div class="feat-title">Your Own Custom Tags</div>
+      <div class="feat-text">Add tags unique to your business — "Jain Food", "Home Visit", "Insulin Therapy". Customers highlight exactly what you offer.</div>
       <span class="feat-tag">Premium & Ultimate</span>
     </div>
     <div class="feature-card reveal">
       <div class="feat-icon">🖼️</div>
       <div class="feat-title">Table Standee</div>
-      <div class="feat-text">Beautiful branded standee for your reception desk. Patients scan while waiting. Maximum visibility = maximum reviews.</div>
+      <div class="feat-text">Branded standee for your reception. Customers scan while waiting. Maximum visibility, maximum reviews.</div>
       <span class="feat-tag">Ultimate Only</span>
     </div>
     <div class="feature-card reveal">
       <div class="feat-icon">📊</div>
-      <div class="feat-title">Doctor Dashboard</div>
-      <div class="feat-text">Track how many reviews your page generated. See your Google rating. Monitor your subscription. All in one place.</div>
+      <div class="feat-title">Business Dashboard</div>
+      <div class="feat-text">Track reviews generated, see your Google rating, manage your profile and subscription. All in one place.</div>
       <span class="feat-tag">All Plans</span>
     </div>
   </div>
@@ -641,13 +499,13 @@ footer{
   <div class="section-center">
     <div class="section-tag">Pricing</div>
     <div class="section-title">Simple, Honest Pricing</div>
-    <div class="section-sub">While you think, the doctor down the street is getting your patients' reviews. Every day without GoodReview is a day your competitor wins.</div>
+    <div class="section-sub">Start free — 10 reviews at ₹0. One new customer from Google pays back your entire subscription.</div>
   </div>
 
   <div class="pricing-tabs">
-    <button class="ptab active" onclick="showPricing('starter')">⚡ Starter</button>
-    <button class="ptab" onclick="showPricing('premium')">🏆 Premium</button>
-    <button class="ptab" onclick="showPricing('ultimate')">💎 Ultimate</button>
+    <button class="ptab active" onclick="showPricing('starter',this)">⚡ Starter</button>
+    <button class="ptab" onclick="showPricing('premium',this)">🏆 Premium</button>
+    <button class="ptab" onclick="showPricing('ultimate',this)">💎 Ultimate</button>
   </div>
 
   <!-- STARTER -->
@@ -658,8 +516,9 @@ footer{
       <div class="price-per">₹42/month · less than one chai per day</div>
       <div class="price-features">
         <div class="pf-item">Unlimited reviews</div>
-        <div class="pf-item">QR code page</div>
-        <div class="pf-item">4 languages</div>
+        <div class="pf-item">QR code review page</div>
+        <div class="pf-item">8 Indian languages</div>
+        <div class="pf-item">All 15 business categories</div>
         <div class="pf-item">WhatsApp support</div>
         <div class="pf-item no">No NFC card</div>
         <div class="pf-item no">No custom tags</div>
@@ -671,14 +530,15 @@ footer{
       <div class="price-name">⚡ Starter — 2 Years</div>
       <div class="price-strike">₹998</div>
       <div class="price-amount">₹<span>799</span></div>
-      <div class="price-per">₹33/month · 1 new patient pays this back!</div>
+      <div class="price-per">₹33/month · 1 new customer pays this back!</div>
       <div class="price-features">
         <div class="pf-item">Unlimited reviews</div>
-        <div class="pf-item">QR code page</div>
-        <div class="pf-item">4 languages</div>
-        <div class="pf-item">WhatsApp support</div>
-        <div class="pf-item">Priority support</div>
+        <div class="pf-item">QR code review page</div>
+        <div class="pf-item">8 Indian languages</div>
+        <div class="pf-item">All 15 business categories</div>
+        <div class="pf-item">Priority WhatsApp support</div>
         <div class="pf-item no">No NFC card</div>
+        <div class="pf-item no">No custom tags</div>
       </div>
       <a href="register.html" class="price-btn price-btn-primary">Get Started →</a>
     </div>
@@ -686,14 +546,15 @@ footer{
       <div class="price-name">⚡ Starter — 5 Years</div>
       <div class="price-strike">₹2,495</div>
       <div class="price-amount">₹<span>1,499</span></div>
-      <div class="price-per">₹25/month · cheapest decision you'll make</div>
+      <div class="price-per">₹25/month · set once, earn forever</div>
       <div class="price-features">
         <div class="pf-item">Unlimited reviews</div>
-        <div class="pf-item">QR code page</div>
-        <div class="pf-item">4 languages</div>
-        <div class="pf-item">Priority support</div>
+        <div class="pf-item">QR code review page</div>
+        <div class="pf-item">8 Indian languages</div>
+        <div class="pf-item">All 15 business categories</div>
         <div class="pf-item">5-year guarantee</div>
         <div class="pf-item no">No NFC card</div>
+        <div class="pf-item no">No custom tags</div>
       </div>
       <a href="register.html" class="price-btn price-btn-outline">Get Started</a>
     </div>
@@ -704,12 +565,12 @@ footer{
     <div class="price-card reveal">
       <div class="price-name">🏆 Premium — 1 Year</div>
       <div class="price-amount">₹<span>999</span></div>
-      <div class="price-per">₹83/month · NFC makes patients tap & review</div>
+      <div class="price-per">₹83/month · NFC makes customers tap & review</div>
       <div class="price-features">
         <div class="pf-item">Everything in Starter</div>
         <div class="pf-item">NFC Card (physical)</div>
         <div class="pf-item">5 QR Stickers</div>
-        <div class="pf-item">10 Custom tags</div>
+        <div class="pf-item">2 owner custom tags</div>
         <div class="pf-item no">Shipping extra</div>
       </div>
       <a href="register.html" class="price-btn price-btn-outline">Get Started</a>
@@ -719,26 +580,26 @@ footer{
       <div class="price-name">🏆 Premium — 2 Years</div>
       <div class="price-strike">₹1,998</div>
       <div class="price-amount">₹<span>1,699</span></div>
-      <div class="price-per">₹71/month · 1 new patient = 14 months paid</div>
+      <div class="price-per">₹71/month · 1 new customer = 14 months paid</div>
       <div class="price-features">
         <div class="pf-item">Everything in Starter</div>
         <div class="pf-item">NFC Card (physical)</div>
         <div class="pf-item">5 QR Stickers</div>
-        <div class="pf-item">10 Custom tags</div>
+        <div class="pf-item">2 owner custom tags</div>
         <div class="pf-item">FREE home delivery</div>
       </div>
       <a href="register.html" class="price-btn price-btn-primary">Get Started →</a>
     </div>
     <div class="price-card reveal">
       <div class="price-name">🏆 Premium — 5 Years</div>
-      <div class="price-strike">₹5,995</div>
+      <div class="price-strike">₹4,995</div>
       <div class="price-amount">₹<span>2,999</span></div>
       <div class="price-per">₹50/month · set once, earn forever</div>
       <div class="price-features">
         <div class="pf-item">Everything in Starter</div>
         <div class="pf-item">NFC Card (physical)</div>
         <div class="pf-item">5 QR Stickers</div>
-        <div class="pf-item">10 Custom tags</div>
+        <div class="pf-item">2 owner custom tags</div>
         <div class="pf-item">FREE shipping</div>
       </div>
       <a href="register.html" class="price-btn price-btn-outline">Get Started</a>
@@ -750,12 +611,13 @@ footer{
     <div class="price-card reveal">
       <div class="price-name">💎 Ultimate — 1 Year</div>
       <div class="price-amount">₹<span>1,499</span></div>
-      <div class="price-per">₹125/month · standee in reception = daily reviews</div>
+      <div class="price-per">₹125/month · standee at reception = daily reviews</div>
       <div class="price-features">
         <div class="pf-item">Everything in Premium</div>
         <div class="pf-item">Table Standee</div>
         <div class="pf-item">NFC Card</div>
         <div class="pf-item">5 QR Stickers</div>
+        <div class="pf-item">5 owner custom tags</div>
         <div class="pf-item no">Shipping extra</div>
       </div>
       <a href="register.html" class="price-btn price-btn-outline">Get Started</a>
@@ -765,12 +627,13 @@ footer{
       <div class="price-name">💎 Ultimate — 2 Years</div>
       <div class="price-strike">₹2,998</div>
       <div class="price-amount">₹<span>2,499</span></div>
-      <div class="price-per">₹104/month · reception standee brings daily reviews</div>
+      <div class="price-per">₹104/month · standee brings reviews daily</div>
       <div class="price-features">
         <div class="pf-item">Everything in Premium</div>
         <div class="pf-item">Table Standee</div>
         <div class="pf-item">NFC Card</div>
         <div class="pf-item">5 QR Stickers</div>
+        <div class="pf-item">5 owner custom tags</div>
         <div class="pf-item">FREE home delivery</div>
       </div>
       <a href="register.html" class="price-btn price-btn-primary">Get Started →</a>
@@ -779,12 +642,13 @@ footer{
       <div class="price-name">💎 Ultimate — 5 Years</div>
       <div class="price-strike">₹7,495</div>
       <div class="price-amount">₹<span>4,999</span></div>
-      <div class="price-per">₹83/month · 5 years — zero worry, maximum reviews</div>
+      <div class="price-per">₹83/month · zero worry, maximum reviews</div>
       <div class="price-features">
         <div class="pf-item">Everything in Premium</div>
         <div class="pf-item">Table Standee</div>
         <div class="pf-item">NFC Card</div>
         <div class="pf-item">5 QR Stickers</div>
+        <div class="pf-item">5 owner custom tags</div>
         <div class="pf-item">FREE shipping</div>
       </div>
       <a href="register.html" class="price-btn price-btn-outline">Get Started</a>
@@ -793,8 +657,8 @@ footer{
 
   <div style="text-align:center;margin-top:28px;">
     <p style="font-size:13px;color:var(--muted);">
-      ⚡ Not sure yet? Try free — 3 reviews costs ₹0. One good review brings one new patient worth ₹500-5000.
-      <a href="register.html" style="color:var(--teal3);font-weight:700;text-decoration:none;">Start Free → upgrade anytime</a>
+      ⚡ Start free — first 10 reviews cost ₹0. No credit card needed.
+      <a href="register.html" style="color:var(--teal3);font-weight:700;text-decoration:none;">Try free → upgrade anytime</a>
     </p>
   </div>
 </section>
@@ -802,48 +666,108 @@ footer{
 <!-- TESTIMONIALS -->
 <section class="testi-section reveal">
   <div class="section-center">
-    <div class="section-tag">Doctor Stories</div>
-    <div class="section-title">These doctors acted fast. Their competitors are still waiting.</div>
+    <div class="section-tag">Early Users</div>
+    <div class="section-title">What Our First Businesses Say</div>
+    <div class="section-sub">We are just getting started — here is honest feedback from our early users.</div>
   </div>
-  <div class="testi-grid">
+  <div class="testi-grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr));">
     <div class="testi-card reveal">
       <div class="testi-stars">★★★★★</div>
-      <div class="testi-text">"Before GoodReview I had 12 reviews in 3 years. After 2 months I have 67. My appointment bookings increased by 40%. Best investment for my practice."</div>
+      <div class="testi-text">"Before GoodReview I had very few reviews. After using it, patients started leaving reviews regularly. My Gujarati and Hindi patients love that they can review in their own language."</div>
       <div class="testi-doc">
-        <div class="testi-avatar">RP</div>
+        <div class="testi-avatar">🏥</div>
         <div>
-          <div class="testi-name">Dr. Rajesh Patel</div>
-          <div class="testi-spec">DM Cardiology · Ahmedabad</div>
-          <div class="testi-reviews">+55 reviews in 2 months</div>
+          <div class="testi-name">A General Physician</div>
+          <div class="testi-spec">Mumbai, Maharashtra</div>
+          <div class="testi-reviews">Starter Plan ⚡</div>
         </div>
       </div>
     </div>
     <div class="testi-card reveal">
       <div class="testi-stars">★★★★★</div>
-      <div class="testi-text">"NFC card is genius. Patients just tap when leaving — review done. My Gujarati-speaking patients especially love that they can write in their own language."</div>
+      <div class="testi-text">"My customers scan the QR code after their haircut and review in seconds. The NFC card at reception is genius — people just tap and it opens automatically."</div>
       <div class="testi-doc">
-        <div class="testi-avatar">PS</div>
+        <div class="testi-avatar">✂️</div>
         <div>
-          <div class="testi-name">Dr. Priya Shah</div>
-          <div class="testi-spec">MS Gynecology · Surat</div>
-          <div class="testi-reviews">+80 reviews in 3 months</div>
+          <div class="testi-name">A Salon Owner</div>
+          <div class="testi-spec">Surat, Gujarat</div>
+          <div class="testi-reviews">Premium Plan 🏆</div>
         </div>
       </div>
     </div>
     <div class="testi-card reveal">
       <div class="testi-stars">★★★★★</div>
-      <div class="testi-text">"Setup took 10 minutes. The QR sticker on my prescription pad is the best idea — patients scan before they leave the clinic. Reviews come in daily now."</div>
+      <div class="testi-text">"Our Gujarati and Hindi customers always wanted to review but struggled with English. Now they select their language and review in 30 seconds. Very practical tool."</div>
       <div class="testi-doc">
-        <div class="testi-avatar">AM</div>
+        <div class="testi-avatar">🍽️</div>
         <div>
-          <div class="testi-name">Dr. Amit Mehta</div>
-          <div class="testi-spec">MD Pediatrics · Vadodara</div>
-          <div class="testi-reviews">+42 reviews in 6 weeks</div>
+          <div class="testi-name">A Restaurant Owner</div>
+          <div class="testi-spec">Ahmedabad, Gujarat</div>
+          <div class="testi-reviews">Premium Plan 🏆</div>
         </div>
       </div>
+    </div>
+    <div class="testi-card reveal">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-text">"The standee at my reception desk works on its own. Clients scan while sitting and review before they leave. Setup was 10 minutes. Results started the same day."</div>
+      <div class="testi-doc">
+        <div class="testi-avatar">💼</div>
+        <div>
+          <div class="testi-name">A CA Office</div>
+          <div class="testi-spec">Vadodara, Gujarat</div>
+          <div class="testi-reviews">Ultimate Plan 💎</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:28px;">
+    <p style="font-size:13px;color:var(--muted);">We are a new platform — growing honestly. More real testimonials coming soon as we grow together. 🙏</p>
+  </div>
+</section>
+
+<!-- VIDEO SECTION -->
+<section class="how-section reveal" id="demo">
+  <div class="section-center">
+    <div class="section-tag">See It In Action</div>
+    <div class="section-title">Watch How It Works</div>
+    <div class="section-sub">A quick demo showing exactly what your customer sees when they scan your QR code.</div>
+  </div>
+  <div style="max-width:800px;margin:0 auto;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:32px;">
+      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:24px;text-align:center;">
+        <div style="font-size:40px;margin-bottom:12px;">🏥</div>
+        <div style="font-size:14px;font-weight:700;color:var(--white);margin-bottom:6px;">Doctor Use Case</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:16px;">Patient scans → picks language → selects experience → posts review</div>
+        <div style="background:rgba(10,124,110,0.15);border:1px dashed rgba(10,124,110,0.4);border-radius:12px;padding:16px;">
+          <div style="font-size:12px;color:var(--teal3);font-weight:600;">📹 Video coming soon</div>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:24px;text-align:center;">
+        <div style="font-size:40px;margin-bottom:12px;">✂️</div>
+        <div style="font-size:14px;font-weight:700;color:var(--white);margin-bottom:6px;">Salon Use Case</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:16px;">Customer taps NFC → selects haircut + staff tags → review ready</div>
+        <div style="background:rgba(10,124,110,0.15);border:1px dashed rgba(10,124,110,0.4);border-radius:12px;padding:16px;">
+          <div style="font-size:12px;color:var(--teal3);font-weight:600;">📹 Video coming soon</div>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:24px;text-align:center;">
+        <div style="font-size:40px;margin-bottom:12px;">🍽️</div>
+        <div style="font-size:14px;font-weight:700;color:var(--white);margin-bottom:6px;">Restaurant Use Case</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:16px;">Diner scans QR on table → picks taste + service → Gujarati review posted</div>
+        <div style="background:rgba(10,124,110,0.15);border:1px dashed rgba(10,124,110,0.4);border-radius:12px;padding:16px;">
+          <div style="font-size:12px;color:var(--teal3);font-weight:600;">📹 Video coming soon</div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;">
+      <a href="https://wa.me/917984939486?text=Hi%2C%20can%20you%20show%20me%20a%20demo%20of%20GoodReview%3F" target="_blank" class="btn-hero btn-secondary-hero" style="display:inline-flex;">
+        💬 Request a Live Demo on WhatsApp
+      </a>
     </div>
   </div>
 </section>
+
+
 
 <!-- FAQ -->
 <section class="faq-section reveal" id="faq">
@@ -853,12 +777,12 @@ footer{
   </div>
   <div class="faq-list">
     <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">Does my existing QR code / NFC card change when I renew?</button>
-      <div class="faq-a">No! Your QR code and NFC card are based on your permanent Doctor ID — they never change. Renewing just extends your subscription. Same card, same stickers, forever.</div>
+      <button class="faq-q" onclick="toggleFaq(this)">Does my QR code or NFC card change when I renew?</button>
+      <div class="faq-a">No! Your QR code and NFC card are tied to your permanent Business ID — they never change. Renewing just extends your subscription. Same card, same stickers, forever.</div>
     </div>
     <div class="faq-item">
       <button class="faq-q" onclick="toggleFaq(this)">Will reviews look fake or repetitive to Google?</button>
-      <div class="faq-a">No — every review is unique. We randomly pick from English, Hindi, Hinglish or Gujarati. Different sentence structures, different words, different tags selected. Google sees completely natural, varied reviews.</div>
+      <div class="faq-a">No — every review is unique. AI generates natural, varied sentences based on tags selected. Different language each time, different words, different structure. Google sees completely natural reviews.</div>
     </div>
     <div class="faq-item">
       <button class="faq-q" onclick="toggleFaq(this)">How long until my page is live after registration?</button>
@@ -866,23 +790,35 @@ footer{
     </div>
     <div class="faq-item">
       <button class="faq-q" onclick="toggleFaq(this)">What if my Google review link changes?</button>
-      <div class="faq-a">No problem! Login to your dashboard at goodreview.in/edit.html and update your Google link anytime. Your review page updates instantly — no need to contact us.</div>
+      <div class="faq-a">No problem! Login at goodreview.in/edit.html and update your Google link anytime. Your review page updates instantly — no need to contact us.</div>
     </div>
     <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">Do I need to install any app or software?</button>
-      <div class="faq-a">Nothing to install — for you or your patients. It's a simple webpage that works on every phone with any browser. Patients just scan and tap — no download required.</div>
+      <button class="faq-q" onclick="toggleFaq(this)">Do customers need to install any app?</button>
+      <div class="faq-a">Nothing to install — for you or your customers. It works on every phone with any browser. Customers just scan and tap — no download required.</div>
     </div>
     <div class="faq-item">
       <button class="faq-q" onclick="toggleFaq(this)">What happens after my plan expires?</button>
-      <div class="faq-a">Your review page goes offline and shows "subscription expired" to patients. Your QR code stops working. Simply renew to reactivate — same link, same QR, same NFC card. We send reminders 30 days before expiry.</div>
+      <div class="faq-a">Your review page goes offline. Simply renew to reactivate — same link, same QR, same NFC card. We send reminders 30 days before expiry.</div>
     </div>
     <div class="faq-item">
       <button class="faq-q" onclick="toggleFaq(this)">What is your refund policy?</button>
-      <div class="faq-a">We offer a 20% refund if your Google My Business listing gets blocked or your GMB link stops working within 2 months of activation. Physical products (NFC cards, stickers, standees) cannot be returned or refunded once shipped. Full details at <a href="policies.html" style="color:var(--teal3);">goodreview.in/policies.html</a></div>
+      <div class="faq-a">We offer a 20% refund if your Google My Business listing gets blocked within 2 months of activation. Physical products cannot be returned once shipped. Full details at <a href="policies.html" style="color:var(--teal3);">goodreview.in/policies.html</a></div>
     </div>
     <div class="faq-item">
       <button class="faq-q" onclick="toggleFaq(this)">Is payment secure?</button>
-      <div class="faq-a">Yes — payments are processed by Razorpay, India's most trusted payment gateway. We accept UPI, all credit/debit cards, net banking, and more. We never store your payment information.</div>
+      <div class="faq-a">Yes — payments processed by Razorpay, India's most trusted payment gateway. UPI, credit/debit cards, net banking all accepted. We never store your payment information.</div>
+    </div>
+    <div class="faq-item" style="border-top:1px solid rgba(255,200,0,0.2);margin-top:8px;">
+      <button class="faq-q" onclick="toggleFaq(this)" style="color:rgba(255,200,100,0.9);">⚠️ Can Google remove my reviews?</button>
+      <div class="faq-a">Yes — Google's algorithm can automatically remove reviews it considers suspicious, even genuine ones. This is completely outside our control and happens to every business on Google. It is normal. Do not panic if a few reviews disappear. The best protection is steady, natural review collection over time — not rushing.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)" style="color:rgba(255,200,100,0.9);">⚠️ How many reviews per day is safe?</button>
+      <div class="faq-a">We strongly recommend 2 to 5 reviews per day maximum. Getting 20 reviews in one day looks unnatural to Google and can flag your listing. Week 1 — start with 2 to 3 per day. Week 2 onwards — 3 to 5 per day. As your profile gets established, Google trusts it more and reviews stick better. GoodReview is designed for daily consistent use — not bulk collection in one day.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)" style="color:rgba(255,200,100,0.9);">⚠️ Can my Google listing get suspended?</button>
+      <div class="faq-a">In rare cases, Google may flag or suspend a GMB listing if review activity looks unnatural or violates their policies. GoodReview generates varied, human-sounding reviews from real customers to reduce this risk — but we cannot guarantee it will never happen. Always use the tool responsibly. Every review must come from a genuine customer who actually visited your business. That is the right way — and the safe way.</div>
     </div>
   </div>
 </section>
@@ -890,22 +826,22 @@ footer{
 <!-- FINAL CTA -->
 <section class="cta-section reveal">
   <div class="section-tag" style="color:var(--gold2);">Start Today</div>
-  <div class="cta-title">Your Competitor Just Got<br><em style="font-style:italic;color:var(--gold);">5 More Reviews</em> While You Read This</div>
-  <div class="cta-sub">Every month you wait = reviews your competitor gets instead. The doctor who starts today will have 200+ reviews by the time you decide.</div>
+  <div class="cta-title">Your Customers Are Ready to Review —<br><em style="font-style:italic;color:var(--gold);">Make It Easy for Them</em></div>
+  <div class="cta-sub">10 reviews free. No credit card. Setup in 10 minutes. Works for any business in India.</div>
   <div class="cta-actions">
-    <a href="register.html" class="btn-hero btn-primary-hero">🚀 Register Now — Free Plan Available</a>
+    <a href="register.html" class="btn-hero btn-primary-hero">🚀 Start Free — Register Now</a>
     <a href="https://wa.me/917984939486?text=Hi%2C%20I%20want%20to%20know%20more%20about%20GoodReview" target="_blank" class="btn-hero btn-secondary-hero">💬 WhatsApp Us</a>
   </div>
-  <p style="font-size:12px;color:rgba(255,255,255,0.3);margin-top:20px;">✅ Free plan available · Setup 10 minutes · Every day you delay = reviews lost forever</p>
+  <p style="font-size:12px;color:rgba(255,255,255,0.3);margin-top:20px;">✅ Free plan available · No credit card · Setup 10 minutes · Cancel anytime</p>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-brand">✚ GoodReview</div>
+  <div class="footer-brand">⭐ GoodReview</div>
   <div class="footer-links">
     <a href="register.html">Register</a>
-    <a href="dashboard.html">Doctor Login</a>
-    <a href="edit.html">Edit Profile</a>
+    <a href="edit.html">Business Login</a>
+    <a href="dashboard.html">Dashboard</a>
     <a href="https://wa.me/917984939486">WhatsApp Support</a>
   </div>
   <div class="footer-policy-links">
@@ -913,48 +849,67 @@ footer{
     <a href="policies.html">🔒 Privacy Policy</a>
     <a href="policies.html">📄 Terms of Service</a>
   </div>
-  <div class="footer-copy">© 2026 GoodReview · goodreview.in · Powered by GoodReview Team</div>
+  <div class="footer-copy">© 2026 GoodReview · goodreview.in · Made in India 🇮🇳</div>
 </footer>
 
 <script>
-// ── SCROLL REVEAL ──
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(el => {
-    if (el.isIntersecting) el.target.classList.add('visible');
-  });
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+// CATEGORY STRIP
+const CATS = [
+  {icon:'🏥', name:'Doctor & Health'},
+  {icon:'💅', name:'Beauty & Wellness'},
+  {icon:'🍽️', name:'Food & Drinks'},
+  {icon:'🏨', name:'Hotel & Stay'},
+  {icon:'🛍️', name:'Retail & Services'},
+  {icon:'🚗', name:'Automobile'},
+  {icon:'🔧', name:'Home Services'},
+  {icon:'📚', name:'Education'},
+  {icon:'💼', name:'Finance & Legal'},
+  {icon:'🎉', name:'Events'},
+  {icon:'🐾', name:'Pets & Animals'},
+  {icon:'🚚', name:'Transport'},
+  {icon:'🏠', name:'Real Estate'},
+  {icon:'🏦', name:'Bank & Loan'},
+  {icon:'🛡️', name:'Insurance'}
+]
 
-// ── PRICING TABS ──
-function showPricing(group) {
-  ['starter','premium','ultimate'].forEach(g => {
-    document.getElementById('pg-' + g).classList.remove('show');
-  });
-  document.getElementById('pg-' + group).classList.add('show');
-  document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
-  event.target.classList.add('active');
+const track = document.getElementById('catTrack')
+// Duplicate for seamless loop
+;[...CATS, ...CATS].forEach(cat => {
+  const pill = document.createElement('div')
+  pill.className = 'cat-pill'
+  pill.innerHTML = `<span>${cat.icon}</span>${cat.name}`
+  track.appendChild(pill)
+})
+
+// SCROLL REVEAL
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(el => { if (el.isIntersecting) el.target.classList.add('visible') })
+}, { threshold: 0.1 })
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el))
+
+// PRICING TABS
+function showPricing(group, btn) {
+  ['starter','premium','ultimate'].forEach(g =>
+    document.getElementById('pg-' + g).classList.remove('show')
+  )
+  document.getElementById('pg-' + group).classList.add('show')
+  document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'))
+  btn.classList.add('active')
 }
 
-// ── FAQ ──
+// FAQ
 function toggleFaq(btn) {
-  const item = btn.parentElement;
-  const isOpen = item.classList.contains('open');
-  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-  if (!isOpen) item.classList.add('open');
+  const item = btn.parentElement
+  const isOpen = item.classList.contains('open')
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'))
+  if (!isOpen) item.classList.add('open')
 }
 
-// ── Show 3rd review card on desktop ──
-if (window.innerWidth > 768) {
-  document.getElementById('r3').style.display = 'block';
-}
-
-// ── NAV scroll effect ──
+// NAV scroll
 window.addEventListener('scroll', () => {
-  const nav = document.querySelector('nav');
-  nav.style.background = window.scrollY > 60
-    ? 'rgba(7,25,46,0.97)'
-    : 'rgba(7,25,46,0.85)';
-});
+  document.querySelector('nav').style.background = window.scrollY > 60
+    ? 'rgba(7,25,46,0.97)' : 'rgba(7,25,46,0.85)'
+})
 </script>
 </body>
 </html>
