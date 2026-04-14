@@ -10,6 +10,7 @@ export default async function handler(req, res) {
     languages,
     customTags,
     selectedTags,
+    nameVariations,
     gmbUrl,
     city,
     area,
@@ -22,7 +23,8 @@ export default async function handler(req, res) {
   const fields = {}
   if (languages    !== undefined) fields['Languages']    = languages
   if (customTags   !== undefined) fields['CustomTags']   = customTags
-  if (selectedTags !== undefined) fields['SelectedTags'] = selectedTags
+  if (selectedTags     !== undefined) fields['SelectedTags']    = selectedTags
+  if (nameVariations  !== undefined) fields['NameVariations'] = nameVariations
   if (gmbUrl       !== undefined) fields['GMB URL']      = gmbUrl
   if (city         !== undefined) fields['City']         = city
   if (area         !== undefined) fields['Area']         = area
