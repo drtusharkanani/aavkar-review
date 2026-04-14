@@ -16,11 +16,11 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .business-name{font-family:'Poppins',sans-serif;font-size:24px;font-weight:700;color:#fff;line-height:1.2;margin-bottom:4px}
 .business-sub{font-size:13px;color:rgba(255,255,255,0.85);font-weight:500}
 .stars-row{display:flex;justify-content:center;gap:4px;margin-top:10px}
-.star{font-size:18px;color:#FFE066}
 .card{background:var(--white);border-radius:var(--radius);margin:-28px 14px 12px;padding:18px;box-shadow:var(--shadow);position:relative;z-index:1;animation:fadeIn 0.35s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 .section-title{font-family:'Poppins',sans-serif;font-size:14px;font-weight:600;color:var(--text);margin-bottom:12px;display:flex;align-items:center;gap:7px}
 .section-title .icon{font-size:17px}
+
 /* LANGUAGE */
 .lang-grid{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
 .lang-btn{padding:8px 15px;border-radius:var(--tag-radius);border:2px solid var(--border);background:var(--white);font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;color:var(--text-soft);cursor:pointer;transition:all 0.18s}
@@ -30,39 +30,22 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .lang-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 11px;border-radius:20px;font-size:12px;font-weight:700;margin-bottom:12px}
 .lang-badge.locked{background:#E8F5EE;color:var(--green)}
 .lang-badge.auto{background:#FFF3E8;color:var(--saffron)}
+
 /* TAGS */
 .tags-wrap{display:flex;flex-wrap:wrap;gap:7px}
 .tag-pill{display:inline-flex;align-items:center;gap:5px;padding:7px 13px;border-radius:var(--tag-radius);border:2px solid var(--border);background:var(--white);font-size:13px;font-weight:600;color:var(--text);cursor:pointer;transition:all 0.15s;user-select:none}
 .tag-pill:hover{border-color:var(--saffron);background:var(--saffron-light)}
 .tag-pill.selected{background:var(--saffron-light);border-color:var(--saffron);color:var(--saffron)}
-.tag-pill.favourite{background:#FFF8E1;border-color:var(--gold);color:#8B6914}
-.tag-pill.owner-tag{border-style:dashed;border-color:var(--green);color:var(--green)}
-.tag-pill.owner-tag.selected{background:var(--green-light);border-style:solid}
+.tag-pill.quality-tag{border-color:#97C459;color:var(--green)}
+.tag-pill.quality-tag:hover{background:var(--green-light)}
+.tag-pill.quality-tag.selected{background:var(--green-light);border-color:var(--green);color:var(--green)}
+.tag-pill.custom-tag{border-style:dashed;border-color:var(--gold);color:#7A5800}
+.tag-pill.custom-tag.selected{background:#FFF8E1;border-style:solid;border-color:var(--gold)}
 .tag-prefix{font-size:10px;opacity:0.7}
-.tag-remove{font-size:13px;opacity:0.6;margin-left:1px}
-.sq-label{font-size:11px;font-weight:700;color:var(--text-soft);letter-spacing:1px;text-transform:uppercase;margin:13px 0 7px}
-.fav-hint{font-size:11px;color:var(--text-soft);margin-top:9px;text-align:center}
 .sel-count{display:inline-flex;align-items:center;justify-content:center;width:19px;height:19px;border-radius:50%;background:var(--saffron);color:#fff;font-size:10px;font-weight:800;margin-left:5px}
 .sel-count.hidden{display:none}
-/* CUSTOM TAG */
-.divider{height:1px;background:var(--border);margin:14px 0}
-.custom-tag-btn{display:flex;align-items:center;gap:7px;padding:10px 16px;border-radius:var(--tag-radius);border:2px dashed var(--saffron);background:var(--saffron-light);font-size:13px;font-weight:700;color:var(--saffron);cursor:pointer;width:100%;justify-content:center;font-family:'Nunito',sans-serif}
-.custom-input-wrap{display:none;flex-direction:column;gap:9px;margin-top:9px}
-.custom-input-wrap.open{display:flex}
-.ctag-input{width:100%;padding:11px 15px;border-radius:12px;border:2px solid var(--border);font-family:'Nunito',sans-serif;font-size:14px;color:var(--text);outline:none;transition:border-color 0.2s}
-.ctag-input:focus{border-color:var(--saffron)}
-.ctag-hint{font-size:11px;color:var(--text-soft)}
-.phrase-options{display:flex;flex-direction:column;gap:7px}
-.phrase-opt{padding:10px 13px;border-radius:10px;border:2px solid var(--border);font-size:13px;cursor:pointer;transition:all 0.15s;background:var(--white);font-family:'Nunito',sans-serif}
-.phrase-opt:hover,.phrase-opt.chosen{border-color:var(--green);background:var(--green-light);color:var(--green);font-weight:700}
-.btn-generate{width:100%;padding:13px;border-radius:var(--radius);border:none;background:linear-gradient(135deg,#FF6B00,#F5A623);color:#fff;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all 0.2s}
-.btn-generate:disabled{opacity:0.5;cursor:not-allowed}
-.ai-loading{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--text-soft);justify-content:center;padding:9px}
-.ai-dot{width:6px;height:6px;border-radius:50%;background:var(--saffron);animation:bounce 1.2s infinite}
-.ai-dot:nth-child(2){animation-delay:0.2s}
-.ai-dot:nth-child(3){animation-delay:0.4s}
-@keyframes bounce{0%,80%,100%{transform:scale(0.8);opacity:0.5}40%{transform:scale(1.2);opacity:1}}
-.upgrade-nudge{background:linear-gradient(135deg,#FFF3E8,#FFF8F0);border:1px solid #FFD4A8;border-radius:12px;padding:11px 13px;font-size:12px;color:#B85C00;text-align:center;margin-top:9px}
+.no-tags-msg{font-size:13px;color:var(--text-soft);text-align:center;padding:16px;background:var(--bg);border-radius:10px}
+
 /* REVIEW */
 .review-box{background:linear-gradient(135deg,#F0FFF6,#E8F5EE);border:2px solid #97C459;border-radius:var(--radius);padding:16px;margin-top:4px}
 .review-lang-label{font-size:11px;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:1px;margin-bottom:7px}
@@ -75,6 +58,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .btn-copy.copied{background:var(--gold);color:#fff}
 .btn-google{width:100%;padding:14px;border-radius:var(--radius);border:2px solid var(--border);background:var(--white);color:var(--text);font-family:'Poppins',sans-serif;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;margin-top:9px;text-decoration:none;transition:all 0.2s}
 .btn-google:hover{border-color:#4285F4;color:#4285F4}
+
 /* STATES */
 .loading{text-align:center;padding:70px 20px}
 .spinner{width:46px;height:46px;border:4px solid var(--border);border-top-color:var(--saffron);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 14px}
@@ -113,7 +97,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
   <div class="card" id="langCard">
     <div class="section-title"><span class="icon">🌐</span>Select your language</div>
     <div class="lang-grid" id="langGrid"></div>
-    <span class="lang-skip" onclick="skipLanguage()">Skip — rotate automatically with each tag</span>
+    <span class="lang-skip" onclick="skipLanguage()">Skip — use a random language</span>
   </div>
 
   <!-- TAGS CARD -->
@@ -122,36 +106,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
       <span class="icon">🏷️</span>What did you experience?
       <span class="sel-count hidden" id="selCount">0</span>
     </div>
-    <div class="tags-wrap" id="presetTags"></div>
-
-    <div id="ownerTagsSection" style="display:none">
-      <div class="sq-label">★ Special Services</div>
-      <div class="tags-wrap" id="ownerTags"></div>
-    </div>
-
-    <div id="sqSection" style="display:none">
-      <div class="sq-label">Service Quality</div>
-      <div class="tags-wrap" id="sqTags"></div>
-    </div>
-
-
-    <!-- Customer custom tag -->
-    <div id="customTagArea">
-      <div class="divider"></div>
-      <button class="custom-tag-btn" id="addCustomBtn" onclick="openCustomTag()">✦ Add your own tag</button>
-      <div class="custom-input-wrap" id="customTagWrap">
-        <input class="ctag-input" id="cTagName" placeholder="Tag name (any language or script)" maxlength="30">
-        <input class="ctag-input" id="cTagContext" placeholder="Describe it briefly — helps AI write better (optional)">
-        <p class="ctag-hint">Example: "Rooftop seating", "Jain food", "Home delivery"</p>
-        <div id="phraseOptions" class="phrase-options"></div>
-        <div id="aiLoading" class="ai-loading" style="display:none">
-          <div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div>
-          Creating your phrase...
-        </div>
-        <button class="btn-generate" onclick="generatePhrase()">✦ Generate Phrase</button>
-      </div>
-      <div class="upgrade-nudge" id="upgradeNudge" style="display:none">🔒 Custom tags available in Premium & Ultimate plans. Ask the business to upgrade.</div>
-    </div>
+    <div class="tags-wrap" id="allTagsWrap"></div>
   </div>
 
   <!-- REVIEW CARD -->
@@ -174,345 +129,329 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 </div>
 
 <script>
-let business=null,tagMaster=null,selectedLang=null,tapCount=0
-let selectedTags=[],customerCustomCount=0,currentVersionIdx=0,reviewVersions=[]
-const LANG_DISPLAY={English:'English',Hindi:'हिंदी',Gujarati:'ગુજરાતી',Hinglish:'Hinglish',Marathi:'मराठी',Tamil:'தமிழ்',Telugu:'తెలుగు',Kannada:'ಕನ್ನಡ'}
+// ── STATE ─────────────────────────────────────────────────────────
+let business = null
+let tagMaster = null
+let selectedLang = null          // null = auto (random per version)
+let langLocked = false           // true = user explicitly picked a language
+let selectedTags = []            // [{id, label, type, ...}] — visitor's picks
+let currentVersionIdx = 0
+let reviewVersions = []
 
-async function init(){
-  const id=new URLSearchParams(window.location.search).get('id')
-  if(!id)return showError('Invalid Link','No business ID in URL.')
-  try{
-    const[bizRes,tmRes]=await Promise.all([fetch('/api/business?id='+id),fetch('/tag-master.json')])
-    if(!bizRes.ok){
-      const e=await bizRes.json()
-      if(e.error==='expired'||e.error==='inactive')return showError('Subscription Expired',`${e.businessName||''} — Please contact the business owner.`)
-      if(e.error==='free_limit_reached')return showError('Review Limit Reached','This business has reached its free plan limit.')
-      return showError('Not Found','This review page does not exist.')
-    }
-    business=await bizRes.json()
-    tagMaster=await tmRes.json()
-    renderPage()
-  }catch(e){showError('Connection Error','Please check your internet and try again.')}
+const LANG_DISPLAY = {
+  English:'English', Hindi:'हिंदी', Gujarati:'ગુજરાતી', Hinglish:'Hinglish',
+  Marathi:'मराठी', Tamil:'தமிழ்', Telugu:'తెలుగు', Kannada:'ಕನ್ನಡ'
 }
 
-function renderPage(){
-  document.getElementById('hBusinessName').textContent=business.businessName
-  const sub=[business.subCategory,business.qualification].filter(Boolean).join(' · ')
-  document.getElementById('hBusinessSub').textContent=sub
-  document.title='Review — '+business.businessName
+// ── INIT ──────────────────────────────────────────────────────────
+async function init() {
+  const id = new URLSearchParams(window.location.search).get('id')
+  if (!id) return showError('Invalid Link', 'No business ID in URL.')
+  try {
+    const [bizRes, tmRes] = await Promise.all([
+      fetch('/api/business?id=' + id),
+      fetch('/public/tag-master.json')
+    ])
+    if (!bizRes.ok) {
+      const e = await bizRes.json()
+      if (e.error === 'expired' || e.error === 'inactive')
+        return showError('Subscription Expired', `${e.businessName || ''} — Please contact the business owner.`)
+      if (e.error === 'free_limit_reached')
+        return showError('Review Limit Reached', 'This business has reached its free plan limit.')
+      return showError('Not Found', 'This review page does not exist.')
+    }
+    business = await bizRes.json()
+    tagMaster = await tmRes.json()
+    renderPage()
+  } catch(e) {
+    showError('Connection Error', 'Please check your internet and try again.')
+  }
+}
+
+// ── RENDER PAGE ───────────────────────────────────────────────────
+function renderPage() {
+  document.getElementById('hBusinessName').textContent = business.businessName
+  const sub = [business.subCategory, business.qualification].filter(Boolean).join(' · ')
+  document.getElementById('hBusinessSub').textContent = sub
+  document.title = 'Review — ' + business.businessName
   renderLanguages()
   renderTags()
-  setupCustomArea()
-  document.getElementById('loadingState').style.display='none'
-  document.getElementById('mainContent').style.display='block'
+  document.getElementById('loadingState').style.display = 'none'
+  document.getElementById('mainContent').style.display  = 'block'
 }
 
-// LANGUAGE
-function renderLanguages(){
-  const grid=document.getElementById('langGrid')
-  business.languages.forEach(lang=>{
-    const btn=document.createElement('button')
-    btn.className='lang-btn'
-    btn.textContent=LANG_DISPLAY[lang]||lang
-    btn.dataset.lang=lang
-    btn.onclick=()=>pickLanguage(lang)
+// ── LANGUAGE ──────────────────────────────────────────────────────
+function renderLanguages() {
+  const grid = document.getElementById('langGrid')
+  grid.innerHTML = ''
+  business.languages.forEach(lang => {
+    const btn = document.createElement('button')
+    btn.className = 'lang-btn'
+    btn.textContent = LANG_DISPLAY[lang] || lang
+    btn.dataset.lang = lang
+    btn.onclick = () => pickLanguage(lang)
     grid.appendChild(btn)
   })
 }
-function pickLanguage(lang){
-  selectedLang=lang
-  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('selected',b.dataset.lang===lang))
+
+function pickLanguage(lang) {
+  selectedLang = lang
+  langLocked   = true
+  document.querySelectorAll('.lang-btn').forEach(b =>
+    b.classList.toggle('selected', b.dataset.lang === lang)
+  )
   refreshReview()
 }
-function skipLanguage(){
-  selectedLang=null
-  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('selected'))
+
+function skipLanguage() {
+  selectedLang = null
+  langLocked   = false
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('selected'))
   refreshReview()
 }
-function getCurrentLang(){
-  if(selectedLang)return selectedLang
-  const l=business.languages
-  return l[Math.floor(Math.random()*l.length)]
+
+// Returns a language for a given version index
+function getLangForVersion(versionIdx) {
+  if (langLocked && selectedLang) return selectedLang
+  // Auto: rotate through owner's selected languages
+  const langs = business.languages
+  return langs[versionIdx % langs.length] || 'English'
 }
 
-// TAGS
-function renderTags(){
-  const bType=business.businessType
-  const subCat=(business.subCategory||'').toLowerCase().replace(/[^a-z]/g,'')
-  const catData=tagMaster.categories?.[bType]
-  if(!catData)return
-  const keys=Object.keys(catData.subcategories||{})
-  const matchKey=keys.find(k=>k.toLowerCase().replace(/[^a-z]/g,'')===subCat)||keys.find(k=>k.toLowerCase().replace(/[^a-z]/g,'').includes(subCat.split('_')[0]))||keys[0]
-  const subData=matchKey?catData.subcategories[matchKey]:null
+// ── TAGS ──────────────────────────────────────────────────────────
+function renderTags() {
+  const wrap = document.getElementById('allTagsWrap')
+  wrap.innerHTML = ''
 
-  const presetWrap=document.getElementById('presetTags')
-  subData?.tags?.forEach(tag=>presetWrap.appendChild(makePill(tag.id,tag.label,false,false)))
+  const tags = business.selectedTags || []
 
-  if(business.ownerCustomTags?.length){
-    document.getElementById('ownerTagsSection').style.display='block'
-    const ownerWrap=document.getElementById('ownerTags')
-    business.ownerCustomTags.forEach((label,i)=>ownerWrap.appendChild(makePill('owner_'+i,label,true,false)))
+  if (tags.length === 0) {
+    wrap.innerHTML = '<div class="no-tags-msg">No tags set up yet. Ask the business owner to configure their review page.</div>'
+    return
   }
 
-  const sqWrap=document.getElementById('sqTags')
-  let hasSQ=false
-  Object.entries(tagMaster.serviceQualityTags||{}).forEach(([label,data])=>{
-    if((data.showFor||[]).includes('all')||(data.showFor||[]).includes(bType)){
-      sqWrap.appendChild(makePill('sq_'+label,label,false,true))
-      hasSQ=true
-    }
+  tags.forEach((tag, i) => {
+    const pill = document.createElement('div')
+    const typeClass = tag.type === 'quality' ? 'quality-tag'
+                    : tag.type === 'custom'  ? 'custom-tag'
+                    : ''
+    pill.className   = 'tag-pill ' + typeClass
+    pill.dataset.idx = i
+    pill.dataset.id  = tag.id   || ''
+    pill.dataset.label = tag.label
+    pill.dataset.type  = tag.type
+
+    const prefix = tag.type === 'quality' ? '✓ '
+                 : tag.type === 'custom'  ? '★ '
+                 : ''
+    pill.innerHTML = `<span class="tag-prefix">${prefix}</span>${tag.label}`
+    pill.onclick   = () => toggleTag(pill, tag)
+    wrap.appendChild(pill)
   })
-  if(hasSQ)document.getElementById('sqSection').style.display='block'
 }
 
-function makePill(id,label,isOwner,isSQ){
-  const pill=document.createElement('div')
-  pill.className='tag-pill'+(isOwner?' owner-tag':'')
-  pill.dataset.id=id;pill.dataset.label=label
-  pill.dataset.isOwner=isOwner;pill.dataset.isSQ=isSQ
-  const prefix=isOwner?'★ ':isSQ?'✓ ':''
-  pill.innerHTML=`<span class="tag-prefix">${prefix}</span>${label}`
-  pill.onclick=()=>toggleTag(pill,id,label,isOwner,isSQ)
-  return pill
-}
-
-function toggleTag(pill,id,label,isOwner,isSQ){
-  const idx=selectedTags.findIndex(t=>t.id===id)
-  if(idx===-1){
-    // Not selected → select
-    tapCount++
-    // phrase computed at review-build time based on tag count
-    selectedTags.push({id,label,isOwner,isSQ,isCustom:false})
+function toggleTag(pill, tag) {
+  const existingIdx = selectedTags.findIndex(t =>
+    (t.id && t.id === tag.id) || (!t.id && t.label === tag.label)
+  )
+  if (existingIdx === -1) {
+    selectedTags.push({ ...tag })
     pill.classList.add('selected')
-  }else{
-    // Selected → deselect
-    removeTagById(pill,id);return
+  } else {
+    selectedTags.splice(existingIdx, 1)
+    pill.classList.remove('selected')
   }
-  updateCount();refreshReview()
+  updateCount()
+  refreshReview()
 }
 
-function removeTag(e,id){
-  e.stopPropagation()
-  const pill=document.querySelector(`[data-id="${id}"]`)
-  if(pill)removeTagById(pill,id)
-}
-
-function removeTagById(pill,id){
-  selectedTags=selectedTags.filter(t=>t.id!==id)
-  const isOwner=pill.dataset.isOwner==='true'
-  const isSQ=pill.dataset.isSQ==='true'
-  pill.classList.remove('selected')
-  const prefix=isOwner?'★ ':isSQ?'✓ ':''
-  pill.innerHTML=`<span class="tag-prefix">${prefix}</span>${pill.dataset.label}`
-  pill.onclick=()=>toggleTag(pill,id,pill.dataset.label,isOwner,isSQ)
-  updateCount();refreshReview()
-}
-
-function getSubData(){
-  const bType=business.businessType
-  const subCat=(business.subCategory||'').toLowerCase().replace(/[^a-z]/g,'')
-  const catData=tagMaster.categories?.[bType]
-  const keys=Object.keys(catData?.subcategories||{})
-  const matchKey=keys.find(k=>k.toLowerCase().replace(/[^a-z]/g,'')===subCat)
-    ||keys.find(k=>k.toLowerCase().replace(/[^a-z]/g,'').includes(subCat.split('_')[0]))
-    ||keys[0]
-  return matchKey?catData?.subcategories?.[matchKey]:null
-}
-
-// size: 'long' | 'medium' | 'short'
-function getPhrase(id,label,isOwner,isSQ,lang,size){
-  const subData=getSubData()
-  function pick(arr){return arr&&arr.length?arr[Math.floor(Math.random()*arr.length)]:null}
-  function fromLMS(lms){
-    if(!lms)return null
-    if(size==='long')return pick(lms.long)||pick(lms.medium)||pick(lms.short)||null
-    if(size==='medium'){const opts=[...(lms.medium||[])];return pick(opts)||pick(lms.long)||pick(lms.short)||null}
-    return pick(lms.short)||pick(lms.medium)||null
-  }
-  if(!isOwner&&!isSQ){
-    const lms=subData?.phrases?.[id]?.[lang]||subData?.phrases?.[id]?.English
-    const r=fromLMS(lms)
-    if(r)return r
-  }
-  if(isSQ){
-    const lms=tagMaster.serviceQualityTags?.[label]?.phrases?.[lang]
-      ||tagMaster.serviceQualityTags?.[label]?.phrases?.English
-    const r=fromLMS(lms)
-    if(r)return r
-  }
-  return label
-}
-
-function updateCount(){
-  const badge=document.getElementById('selCount')
-  if(selectedTags.length>0){badge.textContent=selectedTags.length;badge.classList.remove('hidden')}
-  else badge.classList.add('hidden')
-}
-
-// CUSTOM TAG
-function setupCustomArea(){
-  const limit=business.customerCustomTagLimit||0
-  if(limit===0){
-    document.getElementById('addCustomBtn').style.display='none'
-    document.getElementById('upgradeNudge').style.display='block'
+function updateCount() {
+  const badge = document.getElementById('selCount')
+  if (selectedTags.length > 0) {
+    badge.textContent = selectedTags.length
+    badge.classList.remove('hidden')
+  } else {
+    badge.classList.add('hidden')
   }
 }
-function openCustomTag(){
-  document.getElementById('customTagWrap').classList.add('open')
-  document.getElementById('addCustomBtn').style.display='none'
-  document.getElementById('cTagName').focus()
+
+// ── PHRASE LOOKUP ─────────────────────────────────────────────────
+function pick(arr) {
+  return arr && arr.length ? arr[Math.floor(Math.random() * arr.length)] : null
 }
-async function generatePhrase(){
-  const tagName=document.getElementById('cTagName').value.trim()
-  if(!tagName){document.getElementById('cTagName').focus();return}
-  const context=document.getElementById('cTagContext').value.trim()
-  const lang=selectedLang||business.languages[0]||'English'
-  document.getElementById('aiLoading').style.display='flex'
-  document.getElementById('phraseOptions').innerHTML=''
-  try{
-    const res=await fetch('/api/generate-phrase',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({tagName,context,language:lang,businessType:business.businessType,businessName:business.businessName})})
-    const data=await res.json()
-    document.getElementById('aiLoading').style.display='none'
-    if(data.phrases?.length){
-      const wrap=document.getElementById('phraseOptions')
-      data.phrases.forEach(phrase=>{
-        const opt=document.createElement('div')
-        opt.className='phrase-opt'
-        opt.textContent=phrase
-        opt.onclick=()=>{
-          document.querySelectorAll('.phrase-opt').forEach(o=>o.classList.remove('chosen'))
-          opt.classList.add('chosen')
-          addCustomTag(tagName,phrase,lang)
-        }
-        wrap.appendChild(opt)
-      })
+
+function fromLMS(lms, size) {
+  if (!lms) return null
+  if (size === 'long')   return pick(lms.long)   || pick(lms.medium) || pick(lms.short) || null
+  if (size === 'medium') return pick(lms.medium)  || pick(lms.long)  || pick(lms.short) || null
+  return                        pick(lms.short)   || pick(lms.medium) || null
+}
+
+function getPhrase(tag, lang, size) {
+  // Custom owner tag — use label as phrase
+  if (tag.type === 'custom') return tag.label
+
+  // Quality tag — look up in serviceQualityTags
+  if (tag.type === 'quality') {
+    const key = tag.id  // e.g. "Cleanliness"
+    const lms = tagMaster.serviceQualityTags?.[key]?.phrases?.[lang]
+             || tagMaster.serviceQualityTags?.[key]?.phrases?.English
+    return fromLMS(lms, size) || tag.label
+  }
+
+  // Preset tag — find in category subcategories
+  if (tag.type === 'preset') {
+    const cat = tagMaster.categories?.[business.businessType]
+    if (cat) {
+      for (const sub of Object.values(cat.subcategories || {})) {
+        const lms = sub.phrases?.[tag.id]?.[lang]
+                 || sub.phrases?.[tag.id]?.English
+        const r = fromLMS(lms, size)
+        if (r) return r
+      }
     }
-  }catch(e){document.getElementById('aiLoading').style.display='none';alert('Could not generate phrase. Try again.')}
-}
-function addCustomTag(tagName,phrase,lang){
-  const id='custom_'+Date.now()
-  selectedTags.push({id,label:tagName,phrase,lang,isOwner:false,isSQ:false,isCustom:true})
-  customerCustomCount++
-  const pill=document.createElement('div')
-  pill.className='tag-pill selected'
-  pill.dataset.id=id;pill.dataset.label=tagName
-  pill.dataset.isOwner='false';pill.dataset.isSQ='false'
-  pill.innerHTML=`<span class="tag-prefix">✦</span>${tagName}<span class="tag-remove" onclick="event.stopPropagation();removeCustomTag('${id}',this)">✕</span>`
-  document.getElementById('presetTags').appendChild(pill)
-  document.getElementById('customTagWrap').classList.remove('open')
-  document.getElementById('cTagName').value=''
-  document.getElementById('cTagContext').value=''
-  document.getElementById('phraseOptions').innerHTML=''
-  if(customerCustomCount<(business.customerCustomTagLimit||0))document.getElementById('addCustomBtn').style.display='flex'
-  updateCount();refreshReview()
-}
-function removeCustomTag(id,el){
-  selectedTags=selectedTags.filter(t=>t.id!==id)
-  el.closest('.tag-pill').remove()
-  customerCustomCount--
-  updateCount();refreshReview()
+    return tag.label
+  }
+
+  return tag.label
 }
 
-// REVIEW
-function refreshReview(){
-  if(selectedTags.length===0){document.getElementById('reviewCard').style.display='none';return}
-  reviewVersions=buildVersions()
-  currentVersionIdx=0
-  renderVersion(0)
-  document.getElementById('reviewCard').style.display='block'
-  const badge=document.getElementById('langBadge')
-  if(selectedLang){badge.className='lang-badge locked';badge.innerHTML='🔒 '+( LANG_DISPLAY[selectedLang]||selectedLang)}
-  else{badge.className='lang-badge auto';badge.innerHTML='🔄 Auto-rotating language'}
-}
+// ── BUILD REVIEW VERSIONS ─────────────────────────────────────────
+function buildVersions() {
+  const n    = selectedTags.length
+  const SIZE = n === 1 ? 'long' : n === 2 ? 'medium' : 'short'
+  const versions = []
 
-function buildVersions(){
-  const n=selectedTags.length
-  // Smart size selection: 1 tag=long, 2 tags=medium, 3+=short
-  const SIZE=n===1?'long':n===2?'medium':'short'
-  const versions=[]
+  for (let v = 0; v < 5; v++) {
+    const lang = getLangForVersion(v)
 
-  for(let v=0;v<5;v++){
-    const lang=selectedLang||business.languages[v%business.languages.length]||'English'
-
-    // Opener — empty 40% of time to avoid pattern, location on 1 version
-    let opener=''
-    if(v===1&&business.area&&business.city){
-      const arr=tagMaster.openers?.withLocation?.[lang]||tagMaster.openers?.withLocation?.English||[]
-      const tmpl=arr[Math.floor(Math.random()*arr.length)]||''
-      opener=tmpl.replace('{business}',business.businessName).replace('{area}',business.area).replace('{city}',business.city)
-    }else{
-      const arr=(tagMaster.openers?.withoutLocation?.[lang]||tagMaster.openers?.withoutLocation?.English||[]).filter(s=>s!=='')
-      // 40% chance of no opener for shorter reviews
-      if(n>1&&Math.random()<0.4)opener=''
-      else opener=arr[v%arr.length]||''
+    // Opener
+    let opener = ''
+    if (v === 1 && business.area && business.city) {
+      const arr = tagMaster.openers?.withLocation?.[lang]
+               || tagMaster.openers?.withLocation?.English || []
+      const tmpl = arr[Math.floor(Math.random() * arr.length)] || ''
+      opener = tmpl
+        .replace('{business}', business.businessName)
+        .replace('{area}',     business.area)
+        .replace('{city}',     business.city)
+    } else {
+      const arr = (tagMaster.openers?.withoutLocation?.[lang]
+                || tagMaster.openers?.withoutLocation?.English || []).filter(s => s !== '')
+      if (n > 1 && Math.random() < 0.4) opener = ''
+      else opener = arr[v % arr.length] || ''
     }
 
-    // Build phrases with correct size
-    const parts=selectedTags.map(tag=>{
-      if(tag.isCustom)return tag.phrase
-      return getPhrase(tag.id,tag.label,tag.isOwner,tag.isSQ,lang,SIZE)
-    }).filter(Boolean)
+    // Phrases
+    const parts = selectedTags
+      .map(tag => getPhrase(tag, lang, SIZE))
+      .filter(Boolean)
 
-    // Natural ending — only for 1-2 tag reviews, ~60% chance
-    let ending=''
-    if(n<=2&&Math.random()<0.6){
-      const endArr=tagMaster.naturalEndings?.[lang]||tagMaster.naturalEndings?.English||[]
-      const nonEmpty=endArr.filter(e=>e!=='')
-      ending=nonEmpty[Math.floor(Math.random()*nonEmpty.length)]||''
+    // Natural ending (1-2 tags only, ~60% chance)
+    let ending = ''
+    if (n <= 2 && Math.random() < 0.6) {
+      const endArr = (tagMaster.naturalEndings?.[lang]
+                   || tagMaster.naturalEndings?.English || []).filter(e => e !== '')
+      ending = endArr[Math.floor(Math.random() * endArr.length)] || ''
     }
 
-    // Assemble — join parts naturally
-    let review=opener
-    parts.forEach((part,i)=>{
-      if(i===0){
-        review+=review.endsWith(' ')||review===''?part:' '+part
-      }else{
-        // vary connectors to avoid pattern
-        const connectors=[', ','. ','! ','— ']
-        const conn=n>=3?', ':connectors[i%connectors.length]
-        review+=conn+part
+    // Assemble
+    let review = opener
+    parts.forEach((part, i) => {
+      if (i === 0) {
+        review += (review.endsWith(' ') || review === '') ? part : ' ' + part
+      } else {
+        const conn = n >= 3 ? ', ' : [', ', '. ', '! ', '— '][i % 4]
+        review += conn + part
       }
     })
 
-    if(review&&!review.match(/[.।!—]$/)&&!review.endsWith(' '))review+='.'
-    if(ending)review+=' '+ending
+    if (review && !review.match(/[.।!—]$/) && !review.endsWith(' ')) review += '.'
+    if (ending) review += ' ' + ending
 
-    versions.push({text:review.trim(),lang})
+    versions.push({ text: review.trim(), lang })
   }
   return versions
 }
 
-function renderVersion(idx){
-  const v=reviewVersions[idx]
-  document.getElementById('reviewText').textContent=v.text
-  document.getElementById('reviewLangLabel').textContent=LANG_DISPLAY[v.lang]||v.lang
-  const dotsEl=document.getElementById('reviewDots')
-  dotsEl.innerHTML=''
-  reviewVersions.forEach((_,i)=>{
-    const dot=document.createElement('div')
-    dot.className='dot'+(i===idx?' active':'')
-    dot.onclick=()=>{currentVersionIdx=i;renderVersion(i)}
+// ── REFRESH REVIEW ────────────────────────────────────────────────
+function refreshReview() {
+  if (selectedTags.length === 0) {
+    document.getElementById('reviewCard').style.display = 'none'
+    return
+  }
+  reviewVersions    = buildVersions()
+  currentVersionIdx = 0
+  renderVersion(0)
+  document.getElementById('reviewCard').style.display = 'block'
+
+  // Language badge
+  const badge = document.getElementById('langBadge')
+  if (langLocked && selectedLang) {
+    badge.className = 'lang-badge locked'
+    badge.innerHTML = '🔒 ' + (LANG_DISPLAY[selectedLang] || selectedLang)
+  } else {
+    badge.className = 'lang-badge auto'
+    badge.innerHTML = '🔄 Rotating languages per version'
+  }
+}
+
+function renderVersion(idx) {
+  const v = reviewVersions[idx]
+  document.getElementById('reviewText').textContent      = v.text
+  document.getElementById('reviewLangLabel').textContent = LANG_DISPLAY[v.lang] || v.lang
+
+  const dotsEl = document.getElementById('reviewDots')
+  dotsEl.innerHTML = ''
+  reviewVersions.forEach((_, i) => {
+    const dot = document.createElement('div')
+    dot.className = 'dot' + (i === idx ? ' active' : '')
+    dot.onclick   = () => { currentVersionIdx = i; renderVersion(i) }
     dotsEl.appendChild(dot)
   })
 }
 
-async function copyReview(){
-  const text=reviewVersions[currentVersionIdx]?.text
-  if(!text)return
-  try{await navigator.clipboard.writeText(text)}
-  catch(e){const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta)}
-  const btn=document.getElementById('copyBtn')
-  btn.classList.add('copied');btn.innerHTML='✅ Copied!'
-  setTimeout(()=>{btn.classList.remove('copied');btn.innerHTML='📋 Copy Review'},2000)
-  if(business.gmbUrl)document.getElementById('googleBtn').href=business.gmbUrl
-  if(business.isFreePlan)fetch('/api/increment-count',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:business.id})}).catch(()=>{})
+// ── COPY & POST ───────────────────────────────────────────────────
+async function copyReview() {
+  const text = reviewVersions[currentVersionIdx]?.text
+  if (!text) return
+
+  try {
+    await navigator.clipboard.writeText(text)
+  } catch(e) {
+    const ta = document.createElement('textarea')
+    ta.value = text
+    document.body.appendChild(ta)
+    ta.select()
+    document.execCommand('copy')
+    document.body.removeChild(ta)
+  }
+
+  const btn = document.getElementById('copyBtn')
+  btn.classList.add('copied')
+  btn.innerHTML = '✅ Copied!'
+  setTimeout(() => {
+    btn.classList.remove('copied')
+    btn.innerHTML = '📋 Copy Review'
+  }, 2000)
+
+  if (business.gmbUrl) document.getElementById('googleBtn').href = business.gmbUrl
+
+  if (business.isFreePlan) {
+    fetch('/api/increment-count', {
+      method:  'POST',
+      headers: {'Content-Type': 'application/json'},
+      body:    JSON.stringify({ id: business.id })
+    }).catch(() => {})
+  }
 }
 
-function showError(title,msg){
-  document.getElementById('loadingState').style.display='none'
-  document.getElementById('errorState').style.display='block'
-  document.getElementById('errorTitle').textContent=title
-  document.getElementById('errorMsg').textContent=msg
+// ── ERROR ─────────────────────────────────────────────────────────
+function showError(title, msg) {
+  document.getElementById('loadingState').style.display = 'none'
+  document.getElementById('errorState').style.display   = 'block'
+  document.getElementById('errorTitle').textContent     = title
+  document.getElementById('errorMsg').textContent       = msg
 }
 
 init()
