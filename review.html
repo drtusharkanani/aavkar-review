@@ -241,284 +241,14 @@ const LANG_DISPLAY = {
 }
 
 // ── INIT ──────────────────────────────────────────────────────────
-async function function closePasteOverlay() {
-  document.getElementById('pasteOverlay').classList.remove('show')
-}
-
-function openGoogleMaps() {
-  closePasteOverlay()
-  if (business.gmbUrl) window.open(business.gmbUrl, '_blank')
-}
-
-init() {
-  const id = new URLSearchParams(window.location.search).get('id')
-  if (!id) return showError('Invalid Link', 'No business ID in URL.')
-
-  try {
-    const bizRes = await fetch('/api/business?id=' + id)
-
-    if (!bizRes.ok) {
-      const e = await bizRes.json()
-      if (e.error === 'expired' || e.error === 'inactive')
-        return showError('Subscription Expired', `${e.businessName || ''} — Please contact the business owner.`)
-      if (e.error === 'free_limit_reached')
-        return showError('Review Limit Reached', 'This business has reached its free plan limit.')
-      return showError('Not Found', 'This review page does not exist.')
-    }
-
-    business = await bizRes.json()
-
-    // Only load tag-master if no selectedTags (for fallback display)
-    if (!business.selectedTags?.length) {
-      try {
-        const tmRes = await fetch('/tag-master.json')
-        tagMaster = await tmRes.json()
-      } catch(e) {}
-    }
-
-    renderPage()
-
-  } catch(e) {
-    showError('Connection Error', 'Please check your internet and try again.')
-  }
-}
-
-// ── RENDER PAGE ───────────────────────────────────────────────────
-function renderPage() {
-  document.getElementById('hBusinessName').textContent = business.businessName
-
-  const subCatDisplay = (business.subCategory || '')
-    .replace(/_/g, ' ')
-    .replace(/\b\w/g, c => c.toUpperCase())
-  const sub = [subCatDisplay, business.qualification].filter(Boolean).join(' · ')
-  document.getElementById('hBusinessSub').textContent = sub
-  document.title = 'Review — ' + business.businessName
-
-  renderLanguages()
-  renderTags()
-
+// ── ERROR ─────────────────────────────────────────────────────────
+function showError(title, msg) {
   document.getElementById('loadingState').style.display = 'none'
-  document.getElementById('mainContent').style.display  = 'block'
+  document.getElementById('errorState').style.display   = 'block'
+  document.getElementById('errorTitle').textContent     = title
+  document.getElementById('errorMsg').textContent       = msg
 }
 
-// ── LANGUAGES ─────────────────────────────────────────────────────
-function renderLanguages() {
-  const grid = document.getElementById('langGrid')
-  grid.innerHTML = ''
-  business.languages.forEach(lang => {
-    const btn = document.createElement('button')
-    btn.className = 'lang-btn'
-    btn.textContent = LANG_DISPLAY[lang] || lang
-    btn.dataset.lang = lang
-    btn.onclick = () => pickLanguage(lang)
-    grid.appendChild(btn)
-  })
-}
-
-function pickLanguage(lang) {
-  selectedLang = lang
-  langLocked   = true
-  document.querySelectorAll('.lang-btn').forEach(b =>
-    b.classList.toggle('selected', b.dataset.lang === lang)
-  )
-  // Regenerate if tags already selected
-  if (selectedTags.length > 0) generateReviews()
-}
-
-function skipLanguage() {
-  selectedLang = null
-  langLocked   = false
-  // Pick a random language once for this visitor session
-  if (!sessionLang) {
-    const langs = business.languages
-    sessionLang = langs[Math.floor(Math.random() * langs.length)]
-  }
-  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('selected'))
-  if (selectedTags.length > 0) generateReviews()
-}
-
-// ── TAGS ──────────────────────────────────────────────────────────
-function buildFallbackTags() {
-  if (!tagMaster) return []
-  const tags  = []
-  const bType = business.businessType
-
-  // Quality tags
-  Object.entries(tagMaster.serviceQualityTags || {}).forEach(([key, val]) => {
-    if ((val.showFor || []).includes('all') || (val.showFor || []).includes(bType)) {
-      tags.push({ id: key, label: key, type: 'quality' })
-    }
-  })
-
-  // Preset category tags
-  const cat    = tagMaster.categories?.[bType]
-  const subCat = (business.subCategory || '').toLowerCase().replace(/[^a-z]/g, '')
-  const keys   = Object.keys(cat?.subcategories || {})
-  const matchKey = keys.find(k => k.toLowerCase().replace(/[^a-z]/g,'') === subCat)
-                || keys.find(k => k.toLowerCase().replace(/[^a-z]/g,'').includes(subCat.slice(0,4)))
-                || keys[0]
-  const subData = matchKey ? cat?.subcategories[matchKey] : null
-  subData?.tags?.forEach(tag => tags.push({ id: tag.id, label: tag.label, type: 'preset' }))
-
-  // Owner custom tags
-  ;(business.ownerCustomTags || []).forEach(label =>
-    tags.push({ id: null, label, type: 'custom' })
-  )
-  return tags
-}
-
-function renderTags() {
-  const wrap = document.getElementById('allTagsWrap')
-  wrap.innerHTML = ''
-
-  let tags = business.selectedTags?.length ? business.selectedTags : buildFallbackTags()
-
-  if (!tags.length) {
-    wrap.innerHTML = '<p style="font-size:13px;color:var(--text-soft);text-align:center;padding:16px">No tags configured yet.</p>'
-    return
-  }
-
-  // Filter out name variations — hidden from visitor, used by AI only
-  const visibleTags = tags.filter(t => t.type !== 'name')
-
-  // Sort: favourites first, then rest
-  const sorted = [...visibleTags].sort((a, b) => (b.favourite ? 1 : 0) - (a.favourite ? 1 : 0))
-
-  sorted.forEach(tag => {
-    const pill = document.createElement('div')
-    const isFav = tag.favourite
-    // Only favourite gets special class — everything else plain
-    const cls  = isFav ? 'favourite-tag' : ''
-    pill.className = `tag-pill ${cls}`
-    pill.dataset.label = tag.label
-    pill.dataset.type  = tag.type
-    const prefix = isFav ? '★ ' : ''
-    pill.innerHTML = `<span class="tag-prefix">${prefix}</span>${tag.label}`
-    pill.onclick   = () => toggleTag(pill, tag)
-    wrap.appendChild(pill)
-  })
-}
-
-function toggleTag(pill, tag) {
-  const idx = selectedTags.findIndex(t => t.label === tag.label)
-  if (idx === -1) {
-    selectedTags.push({ ...tag })
-    pill.classList.add('selected')
-  } else {
-    selectedTags.splice(idx, 1)
-    pill.classList.remove('selected')
-  }
-  updateCount()
-  if (selectedTags.length > 0) generateReviews()
-  else document.getElementById('reviewCard').style.display = 'none'
-}
-
-function updateCount() {
-  const badge = document.getElementById('selCount')
-  if (selectedTags.length > 0) {
-    badge.textContent = selectedTags.length
-    badge.classList.remove('hidden')
-  } else {
-    badge.classList.add('hidden')
-  }
-}
-
-// ── GENERATE REVIEWS (single AI call) ────────────────────────────
-let generateTimer = null
-
-function generateReviews() {
-  // Debounce — wait 400ms after last tag tap before calling AI
-  clearTimeout(generateTimer)
-  generateTimer = setTimeout(() => doGenerate(), 2000)
-}
-
-// Returns the language to use — locked choice or random session language
-function getActiveLang() {
-  if (langLocked && selectedLang) return selectedLang
-  if (!sessionLang) {
-    const langs = business.languages
-    sessionLang = langs[Math.floor(Math.random() * langs.length)]
-  }
-  return sessionLang
-}
-
-async function doGenerate() {
-  if (isGenerating) return
-  isGenerating = true
-
-  // Show review card in generating state
-  document.getElementById('reviewCard').style.display   = 'block'
-  document.getElementById('generatingBox').style.display = 'flex'
-  document.getElementById('reviewsBox').style.display    = 'none'
-  document.getElementById('reviewError').style.display   = 'none'
-
-  // Update language badge
-  const badge = document.getElementById('langBadge')
-  const activeLang = getActiveLang()
-  if (langLocked) {
-    badge.className = 'lang-badge locked'
-    badge.innerHTML = '🔒 ' + (LANG_DISPLAY[activeLang] || activeLang)
-  } else {
-    badge.className = 'lang-badge auto'
-    badge.innerHTML = '🔄 ' + (LANG_DISPLAY[activeLang] || activeLang)
-  }
-
-  try {
-    const res = await fetch('/api/generate-reviews', {
-      method:  'POST',
-      headers: {'Content-Type': 'application/json'},
-      body:    JSON.stringify({
-        businessName:   business.businessName,
-        subCategory:    business.subCategory || '',
-        city:           business.city || '',
-        area:           business.area || '',
-        nameVariations: business.nameVariations || [],
-        tags:           selectedTags.map(t => t.label),
-        lang:           getActiveLang()
-      })
-    })
-
-    const data = await res.json()
-
-    if (!res.ok || !data.reviews?.length) {
-      throw new Error(data.error || 'No reviews returned')
-    }
-
-    reviewVersions    = data.reviews
-    currentVersionIdx = 0
-    renderVersion(0)
-
-    document.getElementById('generatingBox').style.display = 'none'
-    document.getElementById('reviewsBox').style.display    = 'block'
-
-  } catch(err) {
-    console.error('Generate reviews error:', err)
-    document.getElementById('generatingBox').style.display = 'none'
-    document.getElementById('reviewError').style.display   = 'block'
-    document.getElementById('reviewError').textContent     = 'Could not generate review. Tap a tag again to retry.'
-  }
-
-  isGenerating = false
-}
-
-// ── RENDER VERSION ────────────────────────────────────────────────
-function renderVersion(idx) {
-  const v = reviewVersions[idx]
-  if (!v) return
-  document.getElementById('reviewText').textContent      = v.text
-  document.getElementById('reviewLangLabel').textContent = LANG_DISPLAY[v.lang] || v.lang
-
-  const dotsEl = document.getElementById('reviewDots')
-  dotsEl.innerHTML = ''
-  reviewVersions.forEach((_, i) => {
-    const dot = document.createElement('div')
-    dot.className = 'dot' + (i === idx ? ' active' : '')
-    dot.onclick   = () => { currentVersionIdx = i; renderVersion(i) }
-    dotsEl.appendChild(dot)
-  })
-}
-
-// ── COPY & POST ───────────────────────────────────────────────────
 async function copyReview() {
   const text = reviewVersions[currentVersionIdx]?.text
   if (!text) return
@@ -533,31 +263,21 @@ async function copyReview() {
     document.body.removeChild(ta)
   }
 
-  // Show copy success
   const btn = document.getElementById('copyBtn')
   btn.classList.add('copied')
   btn.innerHTML = '✅ Copied!'
   setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = '📋 Copy Review' }, 3000)
 
-  // Show paste overlay
   document.getElementById('pasteBusinessName').textContent = business.businessName || 'Share your experience'
   document.getElementById('pasteOverlay').classList.add('show')
 
   if (business.isFreePlan) {
     fetch('/api/increment-count', {
-      method:  'POST',
+      method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body:    JSON.stringify({ id: business.id })
+      body: JSON.stringify({ id: business.id })
     }).catch(() => {})
   }
-}
-
-// ── ERROR ─────────────────────────────────────────────────────────
-function showError(title, msg) {
-  document.getElementById('loadingState').style.display = 'none'
-  document.getElementById('errorState').style.display   = 'block'
-  document.getElementById('errorTitle').textContent     = title
-  document.getElementById('errorMsg').textContent       = msg
 }
 
 function closePasteOverlay() {
