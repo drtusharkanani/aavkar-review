@@ -321,11 +321,7 @@ function renderTags() {
     pill.className = `tag-pill ${cls}`
     pill.dataset.label = tag.label
     pill.dataset.type  = tag.type
-    const prefix = isFav ? '★ '
-                 : tag.type === 'quality' ? '✓ '
-                 : tag.type === 'custom'  ? '★ '
-                 : tag.type === 'name'    ? '👤 '
-                 : ''
+    const prefix = isFav ? '★ ' : ''
     pill.innerHTML = `<span class="tag-prefix">${prefix}</span>${tag.label}`
     pill.onclick   = () => toggleTag(pill, tag)
     wrap.appendChild(pill)
@@ -362,7 +358,7 @@ let generateTimer = null
 function generateReviews() {
   // Debounce — wait 400ms after last tag tap before calling AI
   clearTimeout(generateTimer)
-  generateTimer = setTimeout(() => doGenerate(), 400)
+  generateTimer = setTimeout(() => doGenerate(), 1000)
 }
 
 // Returns the language to use — locked choice or random session language
