@@ -44,13 +44,26 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 
 /* SELECTABLE TAG PILLS */
 .tag-sel-wrap{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
-.tag-sel-pill{display:inline-flex;align-items:center;padding:8px 14px;border-radius:20px;border:2px solid var(--border);background:var(--white);font-size:13px;font-weight:700;color:var(--text-soft);cursor:pointer;transition:all 0.15s;user-select:none}
+.tag-sel-pill{display:inline-flex;align-items:center;gap:4px;padding:8px 14px;border-radius:20px;border:2px solid var(--border);background:var(--white);font-size:13px;font-weight:700;color:var(--text-soft);cursor:pointer;transition:all 0.15s;user-select:none}
 .tag-sel-pill:hover{border-color:var(--saffron);color:var(--saffron)}
 .tag-sel-pill.selected{background:var(--saffron-light);border-color:var(--saffron);color:var(--saffron)}
-.tag-sel-pill.selected::before{content:'✓ ';font-size:12px}
+.tag-sel-pill.favourite{background:#FFF8E1;border-color:var(--gold);color:#7A5800}
+.tag-sel-pill.favourite .fav-btn{color:var(--gold)}
+.fav-btn{font-size:13px;margin-left:4px;cursor:pointer;opacity:0.6;transition:all 0.15s;display:none;background:none;border:none;padding:0;line-height:1}
+.tag-sel-pill.selected .fav-btn{display:inline}
+.fav-btn:hover{opacity:1;transform:scale(1.2)}
 .tag-group-label{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--text-soft);margin:12px 0 8px;display:block}
 .tag-count-badge{display:inline-block;background:var(--saffron);color:#fff;border-radius:20px;font-size:11px;font-weight:800;padding:2px 8px;margin-left:8px}
 .no-tags-note{font-size:13px;color:var(--text-soft);padding:12px;background:var(--bg);border-radius:10px;text-align:center}
+.name-tag-row{display:flex;align-items:center;gap:10px;padding:10px 0}
+.name-tag-toggle{display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:12px;border:2px solid var(--border);background:var(--white);cursor:pointer;transition:all 0.15s;width:100%}
+.name-tag-toggle.active{background:#E8F5EE;border-color:var(--green)}
+.toggle-icon{font-size:20px}
+.toggle-text{flex:1;text-align:left}
+.toggle-label{font-size:13px;font-weight:700;color:var(--text)}
+.toggle-sub{font-size:11px;color:var(--text-soft);margin-top:2px}
+.toggle-check{width:22px;height:22px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;transition:all 0.15s}
+.name-tag-toggle.active .toggle-check{background:var(--green);border-color:var(--green);color:#fff}
 
 /* OWNER CUSTOM TAGS */
 .tags-wrap{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px}
@@ -215,6 +228,20 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
     <div class="error-msg" id="err-tags">Please select at least 1 tag</div>
   </div>
 
+  <!-- PROFESSIONAL NAME TAG -->
+  <div class="card" id="nameTagCard" style="margin-top:0;display:none">
+    <div class="section-title">👤 Professional Name in Reviews</div>
+    <div class="info-box">When enabled — 1 of 2 reviews will naturally mention your name. The other will mention your location. Makes reviews feel more personal and genuine.</div>
+    <div class="name-tag-toggle" id="nameTagToggle" onclick="toggleNameTag()">
+      <div class="toggle-icon">👤</div>
+      <div class="toggle-text">
+        <div class="toggle-label" id="nameTagLabel">Include my name in reviews</div>
+        <div class="toggle-sub">e.g. "Dr. Tushar was very helpful and explained everything clearly"</div>
+      </div>
+      <div class="toggle-check" id="nameTagCheck"></div>
+    </div>
+  </div>
+
   <!-- EDITABLE: Owner Custom Tags (plan-based) -->
   <div class="card" id="ownerTagsCard" style="margin-top:0;display:none">
     <div class="section-title">★ Add Custom Tags</div>
@@ -273,7 +300,9 @@ let tagLimit      = 0
 let otpTimer      = null
 let timerSeconds  = 0
 let tagMasterData = null
-let selectedTagIds = [] // IDs of selected quality + preset tags
+let selectedTagIds  = []  // IDs of selected quality + preset tags
+let favouriteTagIds = []  // IDs marked as favourite
+let nameTagEnabled  = false // whether professional name tag is included
 
 // ── OTP FLOW ─────────────────────────────────────────────────────
 async function sendOtp() {
@@ -491,11 +520,14 @@ function renderSelectableTags() {
   // Load previously saved selectedTags
   try {
     const saved = JSON.parse(b.selectedTags || '[]')
-    selectedTagIds = saved
-      .map(t => (typeof t === 'object' ? t.id : t))
-      .filter(Boolean)
+    selectedTagIds  = saved.map(t => (typeof t === 'object' ? t.id : t)).filter(Boolean)
+    favouriteTagIds = saved.filter(t => typeof t === 'object' && t.favourite && t.id).map(t => t.id)
+    // Check if name tag was saved
+    nameTagEnabled  = saved.some(t => t.type === 'name')
   } catch(e) {
-    selectedTagIds = []
+    selectedTagIds  = []
+    favouriteTagIds = []
+    nameTagEnabled  = false
   }
 
   // ── Service Quality Tags ──
@@ -535,37 +567,95 @@ function renderSelectableTags() {
   }
 
   document.getElementById('selectTagsCard').style.display = 'block'
+
+  // Show professional name tag toggle
+  const nameCard = document.getElementById('nameTagCard')
+  if (nameCard && b.ownerName) {
+    nameCard.style.display = 'block'
+    document.getElementById('nameTagLabel').textContent = `Include "${b.ownerName}" in reviews`
+    if (nameTagEnabled) {
+      document.getElementById('nameTagToggle').classList.add('active')
+      document.getElementById('nameTagCheck').textContent = '✓'
+    }
+  }
+
   updateTagCountBadge()
 }
 
 function makeSelectablePill(id, label, type) {
   const pill    = document.createElement('div')
   const isSel   = selectedTagIds.includes(id)
-  pill.className = 'tag-sel-pill' + (isSel ? ' selected' : '')
+  const isFav   = favouriteTagIds.includes(id)
+  pill.className = 'tag-sel-pill' + (isFav ? ' favourite' : isSel ? ' selected' : '')
   pill.id        = 'tpill_' + id
   pill.dataset.id    = id
   pill.dataset.label = label
   pill.dataset.type  = type
-  pill.textContent   = label
-  pill.onclick = () => toggleSelectTag(id, pill)
+
+  const checkSpan = `<span class="tag-check-icon">${isFav ? '★ ' : isSel ? '✓ ' : ''}</span>`
+  const favBtn    = `<button class="fav-btn" title="Mark as favourite" onclick="event.stopPropagation();toggleFavourite('${id}')">${isFav ? '★' : '☆'}</button>`
+  pill.innerHTML  = checkSpan + label + favBtn
+  pill.onclick    = () => toggleSelectTag(id)
   return pill
 }
 
-function toggleSelectTag(id, pill) {
+function toggleSelectTag(id) {
+  const pill = document.getElementById('tpill_' + id)
+  if (!pill) return
   const idx = selectedTagIds.indexOf(id)
   if (idx === -1) {
     selectedTagIds.push(id)
     pill.classList.add('selected')
-    pill.textContent = id  // reset then let CSS ::before handle checkmark
-    // re-get element to refresh
-    const el = document.getElementById('tpill_' + id)
-    if (el) el.classList.add('selected')
+    pill.querySelector('.tag-check-icon').textContent = '✓ '
   } else {
     selectedTagIds.splice(idx, 1)
-    const el = document.getElementById('tpill_' + id)
-    if (el) el.classList.remove('selected')
+    pill.classList.remove('selected')
+    pill.querySelector('.tag-check-icon').textContent = ''
+    // Also remove from favourites if deselected
+    const fidx = favouriteTagIds.indexOf(id)
+    if (fidx !== -1) {
+      favouriteTagIds.splice(fidx, 1)
+      pill.classList.remove('favourite')
+      pill.querySelector('.fav-btn').textContent = '☆'
+    }
   }
   document.getElementById('err-tags').classList.remove('show')
+  updateTagCountBadge()
+}
+
+function toggleFavourite(id) {
+  const pill = document.getElementById('tpill_' + id)
+  if (!pill) return
+  // Must be selected first
+  if (!selectedTagIds.includes(id)) return
+  const idx = favouriteTagIds.indexOf(id)
+  if (idx === -1) {
+    favouriteTagIds.push(id)
+    pill.classList.add('favourite')
+    pill.classList.remove('selected')
+    pill.querySelector('.tag-check-icon').textContent = '★ '
+    pill.querySelector('.fav-btn').textContent = '★'
+  } else {
+    favouriteTagIds.splice(idx, 1)
+    pill.classList.remove('favourite')
+    pill.classList.add('selected')
+    pill.querySelector('.tag-check-icon').textContent = '✓ '
+    pill.querySelector('.fav-btn').textContent = '☆'
+  }
+  updateTagCountBadge()
+}
+
+function toggleNameTag() {
+  nameTagEnabled = !nameTagEnabled
+  const toggle = document.getElementById('nameTagToggle')
+  const check  = document.getElementById('nameTagCheck')
+  if (nameTagEnabled) {
+    toggle.classList.add('active')
+    check.textContent = '✓'
+  } else {
+    toggle.classList.remove('active')
+    check.textContent = ''
+  }
   updateTagCountBadge()
 }
 
@@ -635,36 +725,40 @@ document.addEventListener('DOMContentLoaded', () => {
 // ── BUILD SELECTED TAGS ARRAY FOR SAVING ─────────────────────────
 function buildSelectedTagsForSave() {
   const result = []
-
-  if (!tagMasterData) return result
-
   const b = business
 
-  selectedTagIds.forEach(id => {
-    // Check quality tags
-    if (tagMasterData.serviceQualityTags[id]) {
-      result.push({ id, label: id, type: 'quality' })
-      return
-    }
-    // Check preset tags
-    const cat = tagMasterData.categories[b.businessType]
-    if (cat) {
-      for (const sub of Object.values(cat.subcategories)) {
-        const found = sub.tags.find(t => t.id === id)
-        if (found) {
-          result.push({ id, label: found.label, type: 'preset' })
-          return
+  if (tagMasterData) {
+    selectedTagIds.forEach(id => {
+      const isFav = favouriteTagIds.includes(id)
+      // Check quality tags
+      if (tagMasterData.serviceQualityTags[id]) {
+        result.push({ id, label: id, type: 'quality', favourite: isFav })
+        return
+      }
+      // Check preset tags
+      const cat = tagMasterData.categories[b.businessType]
+      if (cat) {
+        for (const sub of Object.values(cat.subcategories)) {
+          const found = sub.tags.find(t => t.id === id)
+          if (found) {
+            result.push({ id, label: found.label, type: 'preset', favourite: isFav })
+            return
+          }
         }
       }
-    }
-    // Fallback
-    result.push({ id, label: id, type: 'preset' })
-  })
+      result.push({ id, label: id, type: 'preset', favourite: isFav })
+    })
+  }
 
   // Add custom tags
   ownerTags.forEach(tag => {
-    result.push({ id: null, label: tag, type: 'custom' })
+    result.push({ id: null, label: tag, type: 'custom', favourite: false })
   })
+
+  // Add professional name tag if enabled
+  if (nameTagEnabled && b.ownerName) {
+    result.push({ id: 'pro_name', label: b.ownerName, type: 'name', favourite: false })
+  }
 
   return result
 }
