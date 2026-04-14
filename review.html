@@ -313,11 +313,8 @@ function renderTags() {
   sorted.forEach(tag => {
     const pill = document.createElement('div')
     const isFav = tag.favourite
-    const cls  = isFav ? 'favourite-tag'
-               : tag.type === 'quality' ? 'quality-tag'
-               : tag.type === 'custom'  ? 'custom-tag'
-               : tag.type === 'name'    ? 'quality-tag'
-               : ''
+    // Only favourite gets special class — everything else plain
+    const cls  = isFav ? 'favourite-tag' : ''
     pill.className = `tag-pill ${cls}`
     pill.dataset.label = tag.label
     pill.dataset.type  = tag.type
