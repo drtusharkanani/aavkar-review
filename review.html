@@ -41,6 +41,9 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .tag-pill.custom-tag{border-style:dashed;border-color:var(--gold);color:#7A5800}
 .tag-pill.custom-tag.selected{background:#FFF8E1;border-style:solid;border-color:var(--gold)}
 .tag-prefix{font-size:10px;opacity:0.7}
+.tag-pill.favourite-tag{border-color:var(--gold);background:#FFF8E1;color:#7A5800}
+.tag-pill.favourite-tag:hover{background:#FFF0C0}
+.tag-pill.favourite-tag.selected{background:#FFE680;border-color:var(--gold);color:#5A3E00}
 .sel-count{display:inline-flex;align-items:center;justify-content:center;min-width:19px;height:19px;border-radius:10px;background:var(--saffron);color:#fff;font-size:10px;font-weight:800;margin-left:5px;padding:0 4px}
 .sel-count.hidden{display:none}
 
@@ -301,13 +304,25 @@ function renderTags() {
     return
   }
 
-  tags.forEach(tag => {
+  // Sort: favourites first, then rest
+  const sorted = [...tags].sort((a, b) => (b.favourite ? 1 : 0) - (a.favourite ? 1 : 0))
+
+  sorted.forEach(tag => {
     const pill = document.createElement('div')
-    const cls  = tag.type === 'quality' ? 'quality-tag' : tag.type === 'custom' ? 'custom-tag' : ''
+    const isFav = tag.favourite
+    const cls  = isFav ? 'favourite-tag'
+               : tag.type === 'quality' ? 'quality-tag'
+               : tag.type === 'custom'  ? 'custom-tag'
+               : tag.type === 'name'    ? 'quality-tag'
+               : ''
     pill.className = `tag-pill ${cls}`
     pill.dataset.label = tag.label
     pill.dataset.type  = tag.type
-    const prefix = tag.type === 'quality' ? '✓ ' : tag.type === 'custom' ? '★ ' : ''
+    const prefix = isFav ? '★ '
+                 : tag.type === 'quality' ? '✓ '
+                 : tag.type === 'custom'  ? '★ '
+                 : tag.type === 'name'    ? '👤 '
+                 : ''
     pill.innerHTML = `<span class="tag-prefix">${prefix}</span>${tag.label}`
     pill.onclick   = () => toggleTag(pill, tag)
     wrap.appendChild(pill)
@@ -387,6 +402,7 @@ async function doGenerate() {
         subCategory:  business.subCategory || '',
         city:         business.city || '',
         area:         business.area || '',
+        ownerName:    business.ownerName || '',
         tags:         selectedTags.map(t => t.label),
         lang:         getActiveLang()
       })
