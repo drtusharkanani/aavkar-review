@@ -3,354 +3,554 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>GoodReview — Doctor Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>GoodReview — My Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --teal:#0a7c6e;--teal-pale:#e8f7f5;--gold:#c9993a;--gold-light:#fdf6e3;
-  --navy:#0d2340;--text:#1a2e3b;--muted:#6b8191;--bg:#f4f9f8;--white:#fff;
-  --red:#e74c3c;--radius:16px;--shadow:0 4px 24px rgba(10,124,110,0.10);
-}
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+:root{--saffron:#FF6B00;--saffron-light:#FFF3E8;--green:#1A7A4A;--green-light:#E8F5EE;--gold:#F5A623;--red:#E24B4A;--red-light:#FFEBEB;--yellow:#F5A623;--yellow-light:#FFF8E1;--text:#1A1A2E;--text-soft:#5A5A7A;--border:#E8E8F0;--bg:#F7F7FC;--white:#FFFFFF;--shadow:0 2px 16px rgba(0,0,0,0.08);--radius:16px}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:40px}
 
-.hero{background:linear-gradient(145deg,var(--navy) 0%,#104a5e 55%,var(--teal) 100%);padding:32px 20px 48px;text-align:center;}
-.brand-name{font-family:'Playfair Display',serif;font-size:22px;color:var(--gold);font-weight:800;}
-.hero h1{font-family:'Playfair Display',serif;font-size:20px;color:white;margin:12px 0 4px;}
-.hero p{font-size:12px;color:rgba(255,255,255,0.65);}
+/* HEADER */
+.header{background:linear-gradient(135deg,#FF6B00,#FF8C00,#F5A623);padding:28px 20px 48px;text-align:center;position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;top:-40px;right:-40px;width:150px;height:150px;background:rgba(255,255,255,0.07);border-radius:50%}
+.brand{font-family:'Poppins',sans-serif;font-size:12px;font-weight:700;color:rgba(255,255,255,0.85);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+.header-title{font-family:'Poppins',sans-serif;font-size:22px;font-weight:700;color:#fff;margin-bottom:4px}
+.header-sub{font-size:13px;color:rgba(255,255,255,0.85)}
 
-.container{max-width:520px;margin:-16px auto 60px;padding:0 16px;}
-.card{background:white;border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin-bottom:14px;}
+/* CARD */
+.card{background:var(--white);border-radius:var(--radius);margin:-24px 16px 14px;padding:20px;box-shadow:var(--shadow);position:relative;z-index:1}
+.card+.card{margin-top:0}
+.section-title{font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px}
 
-/* LOGIN */
-.field{margin-bottom:14px;}
-label{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);margin-bottom:5px;}
-input{width:100%;padding:12px 14px;border:1.5px solid #d4e8e5;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);background:#fafdfc;outline:none;transition:border-color 0.2s;-webkit-appearance:none;}
-input:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(10,124,110,0.1);}
+/* FORM */
+.field{margin-bottom:14px}
+.field label{display:block;font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px}
+.input{width:100%;padding:12px 15px;border-radius:12px;border:2px solid var(--border);font-family:'Nunito',sans-serif;font-size:14px;color:var(--text);outline:none;transition:border-color 0.2s;background:var(--white)}
+.input:focus{border-color:var(--saffron)}
+.error-msg{font-size:12px;color:var(--red);margin-top:4px;display:none}
+.error-msg.show{display:block}
 
-.btn-primary{width:100%;padding:14px;background:linear-gradient(135deg,var(--teal),#0fa390);color:white;border:none;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(10,124,110,0.25);transition:all 0.2s;}
-.btn-sm{padding:8px 16px;background:var(--teal);color:white;border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;}
+/* OTP */
+.otp-input{width:100%;padding:16px;border-radius:12px;border:2px solid var(--border);font-family:'Poppins',sans-serif;font-size:28px;font-weight:800;text-align:center;letter-spacing:10px;outline:none;transition:border-color 0.2s;color:var(--saffron)}
+.otp-input:focus{border-color:var(--saffron)}
+.resend-link{font-size:13px;color:var(--saffron);text-align:center;cursor:pointer;display:block;font-weight:700;margin-top:8px}
+.resend-link.disabled{color:var(--text-soft);cursor:not-allowed}
+.timer{font-size:12px;color:var(--text-soft);text-align:center;margin-top:4px}
 
-/* STATS */
-.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
-.stat-card{background:white;border-radius:12px;box-shadow:var(--shadow);padding:16px;text-align:center;}
-.stat-number{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:var(--teal);}
-.stat-label{font-size:11px;color:var(--muted);margin-top:2px;}
-.stat-card.gold .stat-number{color:var(--gold);}
-.stat-card.navy .stat-number{color:var(--navy);}
-.stat-card.red .stat-number{color:var(--red);}
+/* BUTTONS */
+.btn-primary{width:100%;padding:15px;border-radius:var(--radius);border:none;background:linear-gradient(135deg,#FF6B00,#F5A623);color:#fff;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-primary:disabled{opacity:0.5;cursor:not-allowed}
+.btn-outline{width:100%;padding:14px;border-radius:var(--radius);border:2px solid var(--border);background:var(--white);color:var(--text-soft);font-family:'Poppins',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s}
+.btn-outline:hover{border-color:var(--saffron);color:var(--saffron)}
+
+/* INFO BOXES */
+.info-box{background:var(--green-light);border:1px solid #97C459;border-radius:10px;padding:11px 14px;font-size:12px;color:#27500A;margin-bottom:12px;line-height:1.6}
+.warn-box{background:var(--yellow-light);border:1px solid #FFD4A8;border-radius:10px;padding:11px 14px;font-size:12px;color:#B85C00;margin-bottom:12px;line-height:1.6}
+.danger-box{background:var(--red-light);border:1px solid #FFB3B3;border-radius:10px;padding:11px 14px;font-size:12px;color:#C0392B;margin-bottom:12px;line-height:1.6}
+
+/* STATS GRID */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:0}
+.stat-card{background:var(--white);border-radius:12px;box-shadow:var(--shadow);padding:16px;text-align:center}
+.stat-number{font-family:'Poppins',sans-serif;font-size:30px;font-weight:800;color:var(--saffron);line-height:1}
+.stat-label{font-size:11px;color:var(--text-soft);margin-top:4px;font-weight:600}
+.stat-card.green .stat-number{color:var(--green)}
+.stat-card.gold .stat-number{color:var(--gold)}
+.stat-card.red .stat-number{color:var(--red)}
 
 /* PROGRESS BAR */
-.prog-wrap{background:#f0f0f0;border-radius:6px;height:8px;margin-top:6px;}
-.prog-bar{height:100%;border-radius:6px;transition:width 0.6s ease;}
+.prog-wrap{background:var(--border);border-radius:6px;height:8px;margin-top:8px;overflow:hidden}
+.prog-bar{height:100%;border-radius:6px;transition:width 0.6s ease}
 
-/* INFO ROW */
-.info-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f0f0f0;font-size:13px;}
-.info-row:last-child{border-bottom:none;}
-.info-label{color:var(--muted);font-weight:500;}
-.info-value{font-weight:600;color:var(--navy);text-align:right;}
-.badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:10px;font-weight:700;}
-.badge.active{background:#e8f7f5;color:#0a7c6e;}
-.badge.free{background:#f5f5f5;color:#999;}
-.badge.expired{background:#ffebee;color:#c0392b;}
+/* INFO ROWS */
+.info-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px}
+.info-row:last-child{border-bottom:none}
+.info-label{color:var(--text-soft);font-weight:600}
+.info-value{font-weight:700;color:var(--text);text-align:right}
+.badge{display:inline-block;padding:3px 12px;border-radius:20px;font-size:11px;font-weight:800}
+.badge.active{background:var(--green-light);color:var(--green)}
+.badge.inactive{background:var(--red-light);color:var(--red)}
+.badge.free{background:var(--border);color:var(--text-soft)}
+
+/* ACTION GRID */
+.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.action-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--white);border:2px solid var(--border);border-radius:12px;padding:16px 10px;cursor:pointer;text-decoration:none;transition:all 0.2s;gap:6px}
+.action-btn:hover{border-color:var(--saffron);background:var(--saffron-light)}
+.action-icon{font-size:26px}
+.action-label{font-size:12px;font-weight:700;color:var(--text);text-align:center;line-height:1.3}
 
 /* REFERRAL */
-.referral-box{background:var(--gold-light);border:1.5px solid #e8c87a;border-radius:12px;padding:16px;text-align:center;}
-.referral-code{font-size:28px;font-weight:900;color:var(--navy);letter-spacing:4px;font-family:'Playfair Display',serif;margin:8px 0;}
-.copy-btn{background:var(--gold);color:white;border:none;border-radius:8px;padding:8px 20px;font-size:12px;font-weight:700;cursor:pointer;}
+.referral-box{background:var(--yellow-light);border:2px solid #FFD4A8;border-radius:12px;padding:16px;text-align:center}
+.referral-code{font-family:'Poppins',sans-serif;font-size:28px;font-weight:800;color:var(--text);letter-spacing:4px;margin:8px 0}
+.copy-btn{background:var(--gold);color:#fff;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif}
 
-/* ACTIONS */
-.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.action-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;background:white;border:1.5px solid #d4e8e5;border-radius:12px;padding:14px;cursor:pointer;text-decoration:none;transition:all 0.2s;gap:6px;}
-.action-btn:hover{border-color:var(--teal);background:var(--teal-pale);}
-.action-icon{font-size:24px;}
-.action-label{font-size:12px;font-weight:600;color:var(--navy);text-align:center;}
+/* PLAN BADGE */
+.plan-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:20px;font-size:13px;font-weight:800;background:var(--saffron-light);color:var(--saffron);margin-bottom:12px}
 
 /* SCREEN */
-.screen{display:none;}
-.screen.active{display:block;}
+.screen{display:none}
+.screen.active{display:block}
 
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--navy);color:white;padding:12px 22px;border-radius:50px;font-size:13px;font-weight:500;transition:transform 0.35s cubic-bezier(.34,1.56,.64,1);z-index:999;white-space:nowrap;}
-.toast.show{transform:translateX(-50%) translateY(0);}
+/* LOADING */
+.loading{text-align:center;padding:50px 20px}
+.spinner{width:44px;height:44px;border:4px solid var(--border);border-top-color:var(--saffron);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 14px}
+@keyframes spin{to{transform:rotate(360deg)}}
 
-footer{text-align:center;font-size:11px;color:#aac3be;padding:10px 16px 40px;}
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--text);color:#fff;padding:12px 22px;border-radius:50px;font-size:13px;font-weight:600;transition:transform 0.35s;z-index:999;white-space:nowrap}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+.footer{text-align:center;padding:18px;font-size:12px;color:var(--text-soft)}
+.footer a{color:var(--saffron);text-decoration:none;font-weight:700}
 </style>
 </head>
 <body>
 
-<div class="hero">
-  <div class="brand-name">GoodReview</div>
-  <h1>Doctor Dashboard</h1>
-  <p>Track your reviews, manage your profile</p>
+<div class="header">
+  <div class="brand">⭐ GoodReview</div>
+  <div class="header-title">My Dashboard</div>
+  <div class="header-sub">Track reviews · Manage your profile</div>
 </div>
 
-<div class="container">
+<!-- STEP 1: EMAIL -->
+<div class="card screen active" id="emailScreen">
+  <div class="section-title">📧 Login to Dashboard</div>
+  <div class="info-box">Enter your registered email to receive a login code.</div>
+  <div class="field">
+    <label>Registered Email</label>
+    <input class="input" id="emailInput" type="email" placeholder="you@gmail.com" maxlength="100">
+    <div class="error-msg" id="err-email">Please enter a valid email</div>
+  </div>
+  <button class="btn-primary" id="sendOtpBtn" onclick="sendOtp()">Send Login Code →</button>
+</div>
 
-  <!-- LOGIN -->
-  <div class="card screen active" id="loginScreen">
-    <div style="font-size:36px;text-align:center;margin-bottom:14px;">📊</div>
-    <div style="font-family:'Playfair Display',serif;font-size:18px;color:var(--navy);text-align:center;margin-bottom:4px;">Login to Dashboard</div>
-    <div style="font-size:12px;color:var(--muted);text-align:center;margin-bottom:20px;">Enter your Doctor ID and phone number</div>
-    <div class="field">
-      <label>Doctor ID</label>
-      <input type="text" id="loginId" placeholder="e.g. 101" inputmode="numeric">
+<!-- STEP 2: OTP -->
+<div class="card screen" id="otpScreen">
+  <div class="section-title">🔐 Enter Login Code</div>
+  <div class="info-box" id="otpSentMsg">Code sent to your email.</div>
+  <input class="otp-input" id="otpInput" type="number" placeholder="——————" maxlength="6"
+    oninput="if(this.value.length>6)this.value=this.value.slice(0,6)">
+  <div class="error-msg" id="err-otp"></div>
+  <button class="btn-primary" id="verifyBtn" onclick="verifyOtp()" style="margin-top:12px">Verify →</button>
+  <div class="timer" id="otpTimer"></div>
+  <span class="resend-link disabled" id="resendLink" onclick="resendOtp()">Resend code</span>
+</div>
+
+<!-- LOADING -->
+<div class="loading screen" id="loadingScreen">
+  <div class="spinner"></div>
+  <p style="color:var(--text-soft);font-size:14px">Loading your dashboard...</p>
+</div>
+
+<!-- DASHBOARD -->
+<div class="screen" id="dashScreen">
+
+  <!-- EXPIRY WARNING (shown conditionally) -->
+  <div id="expiryWarning" style="display:none;margin:0 16px 14px;position:relative;z-index:1"></div>
+
+  <!-- WELCOME CARD -->
+  <div class="card" style="margin-top:0">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
+      <div>
+        <div style="font-family:'Poppins',sans-serif;font-size:17px;font-weight:700" id="d_name">—</div>
+        <div style="font-size:12px;color:var(--text-soft);margin-top:2px" id="d_spec">—</div>
+      </div>
+      <span class="badge active" id="d_status">ACTIVE</span>
     </div>
-    <div class="field">
-      <label>Registered Phone</label>
-      <input type="tel" id="loginPhone" placeholder="10-digit number" maxlength="10" inputmode="numeric" oninput="this.value=this.value.replace(/\D/g,'').slice(0,10)">
+    <div class="plan-badge" id="d_planBadge">⭐ Plan</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <a id="d_reviewLink" href="#" target="_blank"
+         style="flex:1;padding:10px;border-radius:10px;background:var(--saffron);color:#fff;font-size:13px;font-weight:700;text-decoration:none;text-align:center">
+        🔗 My Review Page
+      </a>
+      <a href="https://goodreview.in/edit.html"
+         style="flex:1;padding:10px;border-radius:10px;background:var(--green);color:#fff;font-size:13px;font-weight:700;text-decoration:none;text-align:center">
+        ✏️ Edit Profile
+      </a>
     </div>
-    <button class="btn-primary" onclick="login()">🔍 View My Dashboard</button>
   </div>
 
-  <!-- LOADING -->
-  <div class="card screen" id="loadingScreen" style="text-align:center;padding:40px;">
-    <div style="font-size:36px;margin-bottom:12px;">⏳</div>
-    <div style="font-size:15px;font-weight:600;color:var(--navy);">Loading...</div>
-  </div>
-
-  <!-- DASHBOARD -->
-  <div class="screen" id="dashScreen">
-
-    <!-- WELCOME -->
-    <div class="card" id="welcomeCard">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-        <div>
-          <div style="font-family:'Playfair Display',serif;font-size:18px;color:var(--navy);" id="d_name">Dr. Name</div>
-          <div style="font-size:12px;color:var(--muted);margin-top:2px;" id="d_spec">Specialty · City</div>
-        </div>
-        <span class="badge active" id="d_status">ACTIVE</span>
-      </div>
-      <div style="margin-top:12px;padding-top:12px;border-top:1px solid #f0f0f0;display:flex;gap:12px;">
-        <a id="d_reviewLink" href="#" target="_blank" class="btn-sm">🔗 My Review Page</a>
-        <a href="https://goodreview.in/edit.html" class="btn-sm" style="background:var(--gold);">✏️ Edit Profile</a>
-      </div>
-    </div>
-
-    <!-- STATS GRID -->
+  <!-- STATS -->
+  <div style="margin:0 16px 14px;position:relative;z-index:1">
     <div class="stats-grid">
       <div class="stat-card">
         <div class="stat-number" id="d_reviewCount">0</div>
-        <div class="stat-label">Total Reviews Sent</div>
+        <div class="stat-label">Reviews Generated</div>
       </div>
       <div class="stat-card gold">
         <div class="stat-number" id="d_rating">—</div>
         <div class="stat-label">Google Rating</div>
       </div>
-      <div class="stat-card navy">
+      <div class="stat-card green">
         <div class="stat-number" id="d_daysLeft">—</div>
-        <div class="stat-label">Days Until Expiry</div>
+        <div class="stat-label">Days to Expiry</div>
       </div>
-      <div class="stat-card red">
+      <div class="stat-card">
         <div class="stat-number" id="d_referrals">0</div>
         <div class="stat-label">Referrals Made</div>
       </div>
     </div>
+  </div>
 
-    <!-- PLAN INFO -->
-    <div class="card">
-      <div style="font-family:'Playfair Display',serif;font-size:16px;color:var(--navy);margin-bottom:14px;">📋 Subscription</div>
-      <div class="info-row">
-        <span class="info-label">Plan</span>
-        <span class="info-value" id="d_plan">—</span>
-      </div>
-      <div class="info-row">
-        <span class="info-label">Payment Type</span>
-        <span class="info-value" id="d_payment">—</span>
-      </div>
-      <div class="info-row">
-        <span class="info-label">Paid Date</span>
-        <span class="info-value" id="d_paidDate">—</span>
-      </div>
-      <div class="info-row">
-        <span class="info-label">Expiry Date</span>
-        <span class="info-value" id="d_expiry">—</span>
-      </div>
-
-      <!-- Free plan progress bar -->
-      <div id="freePlanSection" style="display:none;margin-top:14px;">
-        <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:6px;">
-          <span>Free plan reviews used</span>
-          <span id="freeCount">0 / 3</span>
-        </div>
-        <div class="prog-wrap">
-          <div class="prog-bar" id="freeBar" style="width:0%;background:var(--teal);"></div>
-        </div>
-        <div style="margin-top:10px;text-align:center;">
-          <a href="https://goodreview.in/register.html" style="font-size:12px;color:var(--teal);font-weight:700;text-decoration:none;">⬆️ Upgrade Plan →</a>
-        </div>
-      </div>
+  <!-- SUBSCRIPTION -->
+  <div class="card" style="margin-top:0">
+    <div class="section-title">📋 Subscription</div>
+    <div class="info-row">
+      <span class="info-label">Plan</span>
+      <span class="info-value" id="d_plan">—</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">Payment</span>
+      <span class="info-value" id="d_payment">—</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">Expiry</span>
+      <span class="info-value" id="d_expiry">—</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">Languages Active</span>
+      <span class="info-value" id="d_langs">—</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">Tags Configured</span>
+      <span class="info-value" id="d_tags">—</span>
     </div>
 
-    <!-- REFERRAL CARD -->
-    <div class="card">
-      <div style="font-family:'Playfair Display',serif;font-size:16px;color:var(--navy);margin-bottom:6px;">🎁 Your Referral Code</div>
-      <div style="font-size:12px;color:var(--muted);margin-bottom:14px;">Share with other doctors — they get discount, you get 1 month FREE!</div>
-      <div class="referral-box">
-        <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;">Your Code</div>
-        <div class="referral-code" id="d_refCode">GR101</div>
-        <div style="font-size:11px;color:#8a6010;margin-bottom:10px;">Share this code with doctor friends</div>
-        <button class="copy-btn" onclick="copyReferral()">📋 Copy & Share</button>
+    <!-- Free plan bar -->
+    <div id="freePlanSection" style="display:none;margin-top:12px">
+      <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text-soft);margin-bottom:4px">
+        <span>Free reviews used</span>
+        <span id="freeCount">0 / 10</span>
       </div>
-      <div style="margin-top:12px;background:#f8fffe;border-radius:10px;padding:12px;font-size:12px;color:var(--muted);line-height:1.7;">
-        ✅ When a doctor pays using your code → you get <strong>1 month plan extension FREE</strong><br>
-        ✅ They get <strong>₹100 off</strong> their plan
+      <div class="prog-wrap">
+        <div class="prog-bar" id="freeBar" style="width:0%;background:var(--green)"></div>
       </div>
-    </div>
-
-    <!-- QUICK ACTIONS -->
-    <div class="card">
-      <div style="font-family:'Playfair Display',serif;font-size:16px;color:var(--navy);margin-bottom:14px;">⚡ Quick Actions</div>
-      <div class="action-grid">
-        <a id="d_reviewPageLink" href="#" target="_blank" class="action-btn">
-          <span class="action-icon">🔗</span>
-          <span class="action-label">Open Review Page</span>
-        </a>
-        <a href="https://goodreview.in/edit.html" class="action-btn">
-          <span class="action-icon">✏️</span>
-          <span class="action-label">Edit Profile</span>
-        </a>
-        <a id="d_printLink" href="#" target="_blank" class="action-btn">
-          <span class="action-icon">🖨️</span>
-          <span class="action-label">Print QR Kit</span>
-        </a>
-        <a href="https://wa.me/917984939486" target="_blank" class="action-btn">
-          <span class="action-icon">💬</span>
-          <span class="action-label">WhatsApp Support</span>
+      <div style="margin-top:10px;text-align:center">
+        <a href="https://goodreview.in/register.html"
+           style="font-size:13px;color:var(--saffron);font-weight:700;text-decoration:none">
+          ⬆️ Upgrade Plan →
         </a>
       </div>
     </div>
+  </div>
 
-    <!-- LOGOUT -->
-    <button class="btn-primary" onclick="logout()" style="background:transparent;color:var(--muted);border:1.5px solid #d4e8e5;box-shadow:none;">← Logout</button>
+  <!-- QUICK ACTIONS -->
+  <div class="card" style="margin-top:0">
+    <div class="section-title">⚡ Quick Actions</div>
+    <div class="action-grid">
+      <a id="d_reviewPageBtn" href="#" target="_blank" class="action-btn">
+        <span class="action-icon">🔗</span>
+        <span class="action-label">Open Review Page</span>
+      </a>
+      <a href="https://goodreview.in/edit.html" class="action-btn">
+        <span class="action-icon">✏️</span>
+        <span class="action-label">Edit Tags & Languages</span>
+      </a>
+      <div class="action-btn" onclick="copyReviewLink()">
+        <span class="action-icon">📱</span>
+        <span class="action-label">Copy Link for WhatsApp</span>
+      </div>
+      <a id="d_printBtn" href="#" target="_blank" class="action-btn">
+        <span class="action-icon">🖨️</span>
+        <span class="action-label">Print QR Kit</span>
+      </a>
+      <a href="https://goodreview.in/register.html" class="action-btn">
+        <span class="action-icon">⬆️</span>
+        <span class="action-label">Upgrade Plan</span>
+      </a>
+      <a href="https://wa.me/917984939486" target="_blank" class="action-btn">
+        <span class="action-icon">💬</span>
+        <span class="action-label">WhatsApp Support</span>
+      </a>
+    </div>
+  </div>
 
+  <!-- REFERRAL -->
+  <div class="card" style="margin-top:0">
+    <div class="section-title">🎁 Your Referral Code</div>
+    <div style="font-size:12px;color:var(--text-soft);margin-bottom:12px">
+      Share with other businesses — they get discount, you get rewards!
+    </div>
+    <div class="referral-box">
+      <div style="font-size:11px;color:var(--text-soft);text-transform:uppercase;letter-spacing:1.5px">Your Code</div>
+      <div class="referral-code" id="d_refCode">GR—</div>
+      <div style="font-size:11px;color:#8a6010;margin-bottom:10px">Share with friends &amp; colleagues</div>
+      <button class="copy-btn" onclick="copyReferral()">📋 Copy &amp; Share</button>
+    </div>
+  </div>
+
+  <!-- LOGOUT -->
+  <div style="padding:0 16px">
+    <button class="btn-outline" onclick="logout()">← Logout</button>
   </div>
 
 </div>
 
-<footer>Powered by GoodReview Team · goodreview.in</footer>
+<div class="footer">
+  <a href="https://goodreview.in">GoodReview.in</a> ·
+  <a href="https://wa.me/917984939486">WhatsApp Support</a>
+</div>
 <div class="toast" id="toast"></div>
 
 <script>
-const AIRTABLE_TOKEN   = 'patudFcQ5799EkkZ0.af77c9f9a3a45f2d66482db161ceca865c58003ac745d06104769e9a6ab2e602';
-const AIRTABLE_BASE_ID = 'apppCUPgl9647WTMY';
-const AIRTABLE_TABLE   = 'Doctors';
+// ── STATE ─────────────────────────────────────────────────────────
+let otpTimer   = null
+let timerSecs  = 0
+let business   = null
+let recordId   = ''
 
-let DOC = null;
+// ── OTP FLOW ──────────────────────────────────────────────────────
+async function sendOtp() {
+  const email = document.getElementById('emailInput').value.trim()
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    document.getElementById('err-email').classList.add('show')
+    return
+  }
+  document.getElementById('err-email').classList.remove('show')
 
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-async function login() {
-  const id    = document.getElementById('loginId').value.trim();
-  const phone = document.getElementById('loginPhone').value.trim().replace(/\D/g,'');
-
-  if (!id || !phone) { showToast('⚠️ Please enter Doctor ID and phone'); return; }
-
-  showScreen('loadingScreen');
+  const btn = document.getElementById('sendOtpBtn')
+  btn.disabled = true
+  btn.textContent = 'Sending...'
 
   try {
-    const url  = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(AIRTABLE_TABLE)}?filterByFormula=${encodeURIComponent(`{DoctorID}=${id}`)}&maxRecords=1`;
-    const res  = await fetch(url, { headers: { 'Authorization': `Bearer ${AIRTABLE_TOKEN}` } });
-    const data = await res.json();
+    const res  = await fetch('/api/otp', {
+      method:  'POST',
+      headers: {'Content-Type':'application/json'},
+      body:    JSON.stringify({ action: 'send', email })
+    })
+    const data = await res.json()
 
-    if (!data.records || !data.records.length) {
-      showToast('❌ Doctor ID not found'); showScreen('loginScreen'); return;
+    if (!res.ok) {
+      btn.disabled = false
+      btn.textContent = 'Send Login Code →'
+      showToast('❌ ' + (data.error || 'Failed to send code'))
+      return
     }
 
-    const r           = data.records[0].fields;
-    const storedPhone = (r.Phone || '').replace(/\D/g,'');
-
-    if (!storedPhone.endsWith(phone.slice(-10))) {
-      showToast('❌ Phone number does not match'); showScreen('loginScreen'); return;
-    }
-
-    DOC = r;
-    DOC.id = id;
-    buildDashboard(r);
-    showScreen('dashScreen');
+    showScreen('otpScreen')
+    document.getElementById('otpSentMsg').textContent = `Code sent to ${email}. Check inbox.`
+    startTimer()
 
   } catch(e) {
-    showToast('⚠️ Error loading profile'); showScreen('loginScreen');
+    btn.disabled = false
+    btn.textContent = 'Send Login Code →'
+    showToast('❌ Network error. Try again.')
   }
 }
 
-function buildDashboard(r) {
-  const plan       = (r.Plan || 'free');
-  const isActive   = r.Active === true || r.Active === 'true' || r.Active === 'Yes';
-  const reviewCount= parseInt(r.ReviewCount) || 0;
-  const rating     = parseFloat(r.Rating) || 0;
-  const doctorId   = r.DoctorID || DOC.id;
+function startTimer() {
+  timerSecs = 60
+  clearInterval(otpTimer)
+  const resend = document.getElementById('resendLink')
+  resend.classList.add('disabled')
 
-  // Welcome card
-  document.getElementById('d_name').textContent    = r.DoctorName || 'Doctor';
-  document.getElementById('d_spec').textContent    = (r.Specialty || '') + ' · ' + (r.City || '');
-  document.getElementById('d_status').textContent  = isActive ? 'ACTIVE ✅' : 'INACTIVE ❌';
-  document.getElementById('d_status').className    = 'badge ' + (isActive ? 'active' : 'expired');
-  document.getElementById('d_reviewLink').href     = `https://goodreview.in/?id=${doctorId}`;
-  document.getElementById('d_reviewPageLink').href = `https://goodreview.in/?id=${doctorId}`;
+  otpTimer = setInterval(() => {
+    timerSecs--
+    document.getElementById('otpTimer').textContent = `Resend in ${timerSecs}s`
+    if (timerSecs <= 0) {
+      clearInterval(otpTimer)
+      document.getElementById('otpTimer').textContent = ''
+      resend.classList.remove('disabled')
+    }
+  }, 1000)
+}
+
+async function resendOtp() {
+  if (document.getElementById('resendLink').classList.contains('disabled')) return
+  const email = document.getElementById('emailInput').value.trim()
+  await fetch('/api/otp', {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ action: 'send', email })
+  })
+  document.getElementById('otpInput').value = ''
+  startTimer()
+}
+
+async function verifyOtp() {
+  const email = document.getElementById('emailInput').value.trim()
+  const otp   = document.getElementById('otpInput').value.trim()
+
+  if (otp.length !== 6) {
+    const el = document.getElementById('err-otp')
+    el.textContent = 'Please enter the 6-digit code'
+    el.style.display = 'block'
+    return
+  }
+
+  const btn = document.getElementById('verifyBtn')
+  btn.disabled    = true
+  btn.textContent = 'Verifying...'
+
+  try {
+    const res  = await fetch('/api/otp', {
+      method:  'POST',
+      headers: {'Content-Type':'application/json'},
+      body:    JSON.stringify({ action: 'verify', email, otp })
+    })
+    const data = await res.json()
+
+    if (!res.ok) {
+      btn.disabled    = false
+      btn.textContent = 'Verify →'
+      const el = document.getElementById('err-otp')
+      el.textContent = data.error || 'Incorrect code'
+      el.style.display = 'block'
+      return
+    }
+
+    clearInterval(otpTimer)
+    recordId = data.recordId
+    business = data.business
+    showScreen('loadingScreen')
+    setTimeout(() => {
+      buildDashboard()
+      showScreen('dashScreen')
+    }, 600)
+
+  } catch(e) {
+    btn.disabled    = false
+    btn.textContent = 'Verify →'
+    showToast('❌ Network error. Try again.')
+  }
+}
+
+// ── BUILD DASHBOARD ───────────────────────────────────────────────
+function buildDashboard() {
+  const b = business
+
+  const plan        = b.plan || 'free'
+  const isFreePlan  = plan === 'free'
+  const reviewCount = b.reviewCount || 0
+  const ownerId     = b.ownerId
+  const reviewUrl   = `https://goodreview.in/review.html?id=${ownerId}`
+
+  // Welcome
+  document.getElementById('d_name').textContent = b.ownerName || '—'
+  const subDisplay = (b.subCategory || '').replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase())
+  document.getElementById('d_spec').textContent = [subDisplay, b.city].filter(Boolean).join(' · ')
+
+  const isActive = b.active !== false
+  const statusEl = document.getElementById('d_status')
+  statusEl.textContent = isActive ? '✅ ACTIVE' : '❌ INACTIVE'
+  statusEl.className   = 'badge ' + (isActive ? 'active' : 'inactive')
+
+  // Plan badge
+  const PLAN_LABELS = {
+    free:'Free Plan', starter_1yr:'Starter · 1 Year', starter_2yr:'Starter · 2 Years',
+    starter_5yr:'Starter · 5 Years', premium_1yr:'Premium · 1 Year', premium_2yr:'Premium · 2 Years',
+    premium_5yr:'Premium · 5 Years', ultimate_1yr:'Ultimate · 1 Year', ultimate_2yr:'Ultimate · 2 Years',
+    ultimate_5yr:'Ultimate · 5 Years'
+  }
+  document.getElementById('d_planBadge').textContent = '⭐ ' + (PLAN_LABELS[plan] || plan)
+
+  // Review link
+  document.getElementById('d_reviewLink').href     = reviewUrl
+  document.getElementById('d_reviewPageBtn').href  = reviewUrl
+  document.getElementById('d_printBtn').href       = `https://goodreview.in/print.html?id=${ownerId}`
 
   // Stats
-  document.getElementById('d_reviewCount').textContent = reviewCount;
-  document.getElementById('d_rating').textContent      = rating > 0 ? rating.toFixed(1) + '⭐' : '—';
-  document.getElementById('d_referrals').textContent   = r.ReferralCount || 0;
+  document.getElementById('d_reviewCount').textContent = reviewCount
+  document.getElementById('d_rating').textContent      = b.rating ? b.rating.toFixed(1) + ' ⭐' : '—'
+  document.getElementById('d_referrals').textContent   = b.referralCount || 0
 
   // Days left
-  if (r.ExpiryDate) {
-    const days = Math.ceil((new Date(r.ExpiryDate) - new Date()) / (1000*60*60*24));
-    document.getElementById('d_daysLeft').textContent = days > 0 ? days : '0';
-    document.getElementById('d_daysLeft').style.color = days < 30 ? '#e74c3c' : '#0a7c6e';
+  const daysEl = document.getElementById('d_daysLeft')
+  if (isFreePlan) {
+    daysEl.textContent = '∞'
+    daysEl.parentElement.querySelector('.stat-label').textContent = 'Free Forever'
+  } else if (b.expiryDate) {
+    const days = Math.ceil((new Date(b.expiryDate) - new Date()) / (1000*60*60*24))
+    daysEl.textContent = days > 0 ? days : '0'
+    daysEl.style.color = days < 30 ? 'var(--red)' : days < 60 ? 'var(--gold)' : 'var(--green)'
+    daysEl.parentElement.classList.add(days < 30 ? 'red' : days < 60 ? 'gold' : 'green')
+
+    // Expiry warning banner
+    const warningEl = document.getElementById('expiryWarning')
+    if (days <= 0) {
+      warningEl.style.display = 'block'
+      warningEl.innerHTML = `<div class="danger-box">⛔ Your plan has expired. Your review page is offline. <a href="https://goodreview.in/register.html" style="color:var(--red);font-weight:800">Renew Now →</a></div>`
+    } else if (days <= 30) {
+      warningEl.style.display = 'block'
+      warningEl.innerHTML = `<div class="warn-box">⚠️ Your plan expires in <strong>${days} days</strong>. Renew to keep your review page active. <a href="https://goodreview.in/register.html" style="color:var(--saffron);font-weight:800">Renew Now →</a></div>`
+    }
   } else {
-    document.getElementById('d_daysLeft').textContent = plan === 'free' ? '∞' : '—';
+    daysEl.textContent = '—'
   }
 
-  // Plan info
-  document.getElementById('d_plan').textContent    = plan.replace(/_/g,' ').toUpperCase();
-  document.getElementById('d_payment').textContent = r.PaymentType || '—';
-  document.getElementById('d_paidDate').textContent = r.PaidDate || '—';
-  document.getElementById('d_expiry').textContent   = r.ExpiryDate || 'As per plan';
+  // Subscription info
+  document.getElementById('d_plan').textContent    = PLAN_LABELS[plan] || plan
+  document.getElementById('d_payment').textContent = b.paymentType || '—'
+  document.getElementById('d_expiry').textContent  = isFreePlan ? 'Never expires' : (b.expiryDate || '—')
+  document.getElementById('d_langs').textContent   = (b.languages || []).join(', ') || '—'
+
+  const tagCount = (b.selectedTags || []).filter(t => t.type !== 'name').length
+  const nameVars = (b.nameVariations || []).length
+  document.getElementById('d_tags').textContent    =
+    tagCount + ' tags' + (nameVars > 0 ? ` · ${nameVars} name variations` : '')
 
   // Free plan bar
-  if (plan === 'free') {
-    document.getElementById('freePlanSection').style.display = 'block';
-    document.getElementById('freeCount').textContent = `${reviewCount} / 3`;
-    document.getElementById('freeBar').style.width   = Math.min(100, (reviewCount/3)*100) + '%';
-    document.getElementById('freeBar').style.background = reviewCount >= 3 ? '#e74c3c' : '#0a7c6e';
+  if (isFreePlan) {
+    document.getElementById('freePlanSection').style.display = 'block'
+    const cap = 10
+    document.getElementById('freeCount').textContent = `${reviewCount} / ${cap}`
+    const pct = Math.min(100, (reviewCount / cap) * 100)
+    document.getElementById('freeBar').style.width      = pct + '%'
+    document.getElementById('freeBar').style.background = reviewCount >= cap ? 'var(--red)' : 'var(--green)'
   }
 
-  // Referral code — GR + DoctorID
-  const refCode = 'GR' + doctorId;
-  document.getElementById('d_refCode').textContent = refCode;
+  // Referral
+  document.getElementById('d_refCode').textContent = 'GR' + ownerId
+}
 
-  // Print link
-  document.getElementById('d_printLink').href = `https://goodreview.in/print.html?id=${doctorId}&name=${encodeURIComponent(r.DoctorName||'')}&degree=${encodeURIComponent(r.Degree||'')}&specialty=${encodeURIComponent(r.Specialty||'')}&hospital=${encodeURIComponent(r.Hospital||'')}&city=${encodeURIComponent(r.City||'')}&phone=${encodeURIComponent(r.Phone||'')}&plan=${encodeURIComponent(plan)}`;
+// ── ACTIONS ───────────────────────────────────────────────────────
+function copyReviewLink() {
+  if (!business) return
+  const url = `https://goodreview.in/review.html?id=${business.ownerId}`
+  const msg = `Leave us a Google review in 30 seconds! 🙏\n${url}`
+  navigator.clipboard.writeText(msg).then(() => showToast('✅ Link copied — paste on WhatsApp!'))
 }
 
 function copyReferral() {
-  const code = document.getElementById('d_refCode').textContent;
-  const msg  = `I am using GoodReview for getting Google reviews from patients. Use my referral code ${code} to get ₹100 off! Register at goodreview.in/register.html`;
-  navigator.clipboard.writeText(msg).then(() => showToast('✅ Copied! Share with doctor friends'));
+  if (!business) return
+  const code = 'GR' + business.ownerId
+  const msg  = `I use GoodReview to get Google reviews from customers easily. Use my referral code ${code} to get a discount! Register at goodreview.in/register.html`
+  navigator.clipboard.writeText(msg).then(() => showToast('✅ Referral message copied!'))
 }
 
 function logout() {
-  DOC = null;
-  document.getElementById('loginId').value = '';
-  document.getElementById('loginPhone').value = '';
-  showScreen('loginScreen');
+  business  = null
+  recordId  = ''
+  clearInterval(otpTimer)
+  document.getElementById('emailInput').value = ''
+  document.getElementById('otpInput').value   = ''
+  const btn = document.getElementById('sendOtpBtn')
+  btn.disabled    = false
+  btn.textContent = 'Send Login Code →'
+  showScreen('emailScreen')
+}
+
+// ── UTILS ─────────────────────────────────────────────────────────
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'))
+  document.getElementById(id).classList.add('active')
+  window.scrollTo({top:0, behavior:'smooth'})
 }
 
 function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
+  const t = document.getElementById('toast')
+  t.textContent = msg
+  t.classList.add('show')
+  setTimeout(() => t.classList.remove('show'), 3000)
 }
 
-window.login        = login;
-window.logout       = logout;
-window.copyReferral = copyReferral;
+// Enter key support
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('emailInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') sendOtp()
+  })
+  document.getElementById('otpInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') verifyOtp()
+  })
+})
 </script>
 </body>
 </html>
