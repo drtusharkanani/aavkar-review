@@ -355,7 +355,7 @@ let generateTimer = null
 function generateReviews() {
   // Debounce — wait 400ms after last tag tap before calling AI
   clearTimeout(generateTimer)
-  generateTimer = setTimeout(() => doGenerate(), 1000)
+  generateTimer = setTimeout(() => doGenerate(), 2000)
 }
 
 // Returns the language to use — locked choice or random session language
