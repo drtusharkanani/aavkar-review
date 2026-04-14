@@ -89,6 +89,28 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .error-msg{font-size:14px;color:var(--text-soft)}
 .footer{text-align:center;padding:18px;font-size:12px;color:var(--text-soft)}
 .footer a{color:var(--saffron);text-decoration:none;font-weight:700}
+
+/* PASTE OVERLAY */
+.paste-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:100;display:none;align-items:center;justify-content:center;padding:20px}
+.paste-overlay.show{display:flex;animation:fadeIn 0.25s ease}
+.paste-modal{background:#fff;border-radius:20px;overflow:hidden;width:100%;max-width:380px;box-shadow:0 8px 40px rgba(0,0,0,0.3)}
+.paste-modal-top{background:#fff;padding:16px 18px 12px;border-bottom:1px solid #E8EAED}
+.paste-modal-brand{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.paste-modal-brand svg{width:18px;height:18px}
+.paste-modal-brand span{font-size:12px;font-weight:700;color:#5F6368}
+.paste-modal-title{font-size:14px;color:#202124;font-weight:400}
+.paste-modal-body{background:#F1F3F4;padding:16px 18px}
+.paste-stars{display:flex;gap:4px;margin-bottom:10px}
+.paste-stars span{font-size:22px;color:#DADCE0}
+.paste-textfield{background:#fff;border-radius:8px;border:1px solid #DADCE0;padding:14px;font-size:13px;color:#9AA0A6;margin-bottom:12px;min-height:70px}
+.paste-instruction{background:#4285F4;border-radius:10px;padding:14px 16px;display:flex;align-items:center;gap:12px}
+.paste-finger{font-size:26px;animation:bounce2 0.8s infinite}
+@keyframes bounce2{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.paste-instruction-text{color:#fff;font-size:15px;font-weight:800;line-height:1.3}
+.paste-instruction-sub{color:rgba(255,255,255,0.8);font-size:12px;margin-top:2px}
+.paste-modal-footer{background:#fff;padding:12px 18px;display:flex;justify-content:flex-end;gap:10px;border-top:1px solid #E8EAED}
+.paste-cancel-btn{padding:9px 20px;border-radius:6px;border:none;background:none;font-size:14px;font-weight:600;color:#4285F4;cursor:pointer}
+.paste-open-btn{padding:9px 20px;border-radius:6px;border:none;background:#4285F4;color:#fff;font-size:14px;font-weight:600;cursor:pointer}
 </style>
 </head>
 <body>
@@ -149,22 +171,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
       </div>
       <div class="error-inline" id="reviewError" style="display:none"></div>
       <button class="btn-copy" id="copyBtn" onclick="copyReview()">📋 Copy Review</button>
-      <!-- PASTE INSTRUCTION -->
-    <div class="paste-box" id="pasteBox">
-      <div class="paste-header">
-        <svg class="paste-google-icon" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-        <div class="paste-header-text">Google Maps opening...</div>
-      </div>
-      <div class="paste-body">
-        <div class="paste-field">Share details of your own experience at this place</div>
-        <div class="paste-arrow">
-          <span class="paste-arrow-icon">👆</span>
-          <span class="paste-arrow-text">Long press → Paste here</span>
-        </div>
-      </div>
-    </div>
-
-    <a class="btn-google" id="googleBtn" href="#" target="_blank">
+      <a class="btn-google" id="googleBtn" href="#" target="_blank">
         <svg width="17" height="17" viewBox="0 0 24 24">
           <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
           <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -173,6 +180,36 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
         </svg>
         Post on Google Maps
       </a>
+    </div>
+  </div>
+
+  <!-- PASTE OVERLAY -->
+  <div class="paste-overlay" id="pasteOverlay">
+    <div class="paste-modal">
+      <div class="paste-modal-top">
+        <div class="paste-modal-brand">
+          <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+          <span>Google Maps</span>
+        </div>
+        <div class="paste-modal-title" id="pasteBusinessName">Share your experience</div>
+      </div>
+      <div class="paste-modal-body">
+        <div class="paste-stars">
+          <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+        </div>
+        <div class="paste-textfield">Share details of your own experience at this place</div>
+        <div class="paste-instruction">
+          <span class="paste-finger">👆</span>
+          <div>
+            <div class="paste-instruction-text">Long press → Paste</div>
+            <div class="paste-instruction-sub">Your review is copied — paste it in the box above</div>
+          </div>
+        </div>
+      </div>
+      <div class="paste-modal-footer">
+        <button class="paste-cancel-btn" onclick="closePasteOverlay()">Cancel</button>
+        <button class="paste-open-btn" onclick="openGoogleMaps()">Open Google Maps →</button>
+      </div>
     </div>
   </div>
 
@@ -204,7 +241,16 @@ const LANG_DISPLAY = {
 }
 
 // ── INIT ──────────────────────────────────────────────────────────
-async function init() {
+async function function closePasteOverlay() {
+  document.getElementById('pasteOverlay').classList.remove('show')
+}
+
+function openGoogleMaps() {
+  closePasteOverlay()
+  if (business.gmbUrl) window.open(business.gmbUrl, '_blank')
+}
+
+init() {
   const id = new URLSearchParams(window.location.search).get('id')
   if (!id) return showError('Invalid Link', 'No business ID in URL.')
 
@@ -493,16 +539,9 @@ async function copyReview() {
   btn.innerHTML = '✅ Copied!'
   setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = '📋 Copy Review' }, 3000)
 
-  // Show paste instruction
-  document.getElementById('pasteBox').classList.add('show')
-
-  // Open Google Maps after 1.5 seconds
-  if (business.gmbUrl) {
-    setTimeout(() => {
-      document.getElementById('googleBtn').href = business.gmbUrl
-      document.getElementById('googleBtn').click()
-    }, 1500)
-  }
+  // Show paste overlay
+  document.getElementById('pasteBusinessName').textContent = business.businessName || 'Share your experience'
+  document.getElementById('pasteOverlay').classList.add('show')
 
   if (business.isFreePlan) {
     fetch('/api/increment-count', {
@@ -519,6 +558,15 @@ function showError(title, msg) {
   document.getElementById('errorState').style.display   = 'block'
   document.getElementById('errorTitle').textContent     = title
   document.getElementById('errorMsg').textContent       = msg
+}
+
+function closePasteOverlay() {
+  document.getElementById('pasteOverlay').classList.remove('show')
+}
+
+function openGoogleMaps() {
+  closePasteOverlay()
+  if (business.gmbUrl) window.open(business.gmbUrl, '_blank')
 }
 
 init()
