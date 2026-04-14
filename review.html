@@ -414,38 +414,51 @@ function buildVersions() {
 }
 
 // ── AI PHRASE CACHE ───────────────────────────────────────────────
+// Cache key = lang::tagLabel so each language gets its own phrase
 const aiPhraseCache = {}
 
-async function ensurePhrasesForSelectedTags() {
-  const lang = selectedLang || business.languages[0] || 'English'
-  const missingTags = selectedTags.filter(tag => {
-    if (tag.type === 'custom') return false
-    return getPhrase(tag, lang, 'short') === tag.label
-  })
-  if (missingTags.length === 0) return
-  await Promise.all(missingTags.map(async tag => {
-    if (aiPhraseCache[tag.label]) return
-    try {
-      const res = await fetch('/api/generate-phrase', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          tagName: tag.label, context: '',
-          language: lang, businessType: business.businessType,
-          businessName: business.businessName
-        })
+async function fetchAIPhrase(tag, lang) {
+  const key = lang + '::' + tag.label
+  if (aiPhraseCache[key]) return
+  try {
+    const res = await fetch('/api/generate-phrase', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        tagName: tag.label, context: '',
+        language: lang, businessType: business.businessType,
+        businessName: business.businessName
       })
-      const data = await res.json()
-      if (data.phrases?.length) aiPhraseCache[tag.label] = data.phrases[0]
-    } catch(e) {}
-  }))
+    })
+    const data = await res.json()
+    if (data.phrases?.length) aiPhraseCache[key] = data.phrases[0]
+  } catch(e) {}
+}
+
+async function ensurePhrasesForSelectedTags() {
+  // Determine which languages we need to generate for
+  const langsNeeded = langLocked && selectedLang
+    ? [selectedLang]
+    : business.languages  // all rotation languages
+
+  const calls = []
+  for (const lang of langsNeeded) {
+    for (const tag of selectedTags) {
+      if (tag.type === 'custom') continue
+      if (getPhrase(tag, lang, 'short') !== tag.label) continue // already has phrase
+      const key = lang + '::' + tag.label
+      if (!aiPhraseCache[key]) calls.push(fetchAIPhrase(tag, lang))
+    }
+  }
+  if (calls.length) await Promise.all(calls)
 }
 
 function getPhraseWithCache(tag, lang, size) {
   const base = getPhrase(tag, lang, size)
-  if (base !== tag.label) return base
-  if (aiPhraseCache[tag.label]) return aiPhraseCache[tag.label]
-  return tag.label
+  if (base !== tag.label) return base                        // tag-master phrase found
+  const cached = aiPhraseCache[lang + '::' + tag.label]
+    || aiPhraseCache['English::' + tag.label]               // fallback to English if needed
+  return cached || tag.label
 }
 
 // ── REFRESH REVIEW ────────────────────────────────────────────────
