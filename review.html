@@ -19,7 +19,6 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .card{background:var(--white);border-radius:var(--radius);margin:-28px 14px 12px;padding:18px;box-shadow:var(--shadow);position:relative;z-index:1;animation:fadeIn 0.35s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 .section-title{font-family:'Poppins',sans-serif;font-size:14px;font-weight:600;color:var(--text);margin-bottom:12px;display:flex;align-items:center;gap:7px}
-
 /* LANGUAGE */
 .lang-grid{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
 .lang-btn{padding:8px 15px;border-radius:var(--tag-radius);border:2px solid var(--border);background:var(--white);font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;color:var(--text-soft);cursor:pointer;transition:all 0.18s}
@@ -29,24 +28,17 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .lang-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 11px;border-radius:20px;font-size:12px;font-weight:700;margin-bottom:12px}
 .lang-badge.locked{background:#E8F5EE;color:var(--green)}
 .lang-badge.auto{background:#FFF3E8;color:var(--saffron)}
-
 /* TAGS */
 .tags-wrap{display:flex;flex-wrap:wrap;gap:7px}
 .tag-pill{display:inline-flex;align-items:center;gap:5px;padding:7px 13px;border-radius:var(--tag-radius);border:2px solid var(--border);background:var(--white);font-size:13px;font-weight:600;color:var(--text);cursor:pointer;transition:all 0.15s;user-select:none}
 .tag-pill:hover{border-color:var(--saffron);background:var(--saffron-light)}
 .tag-pill.selected{background:var(--saffron-light);border-color:var(--saffron);color:var(--saffron)}
-.tag-pill.quality-tag{border-color:#97C459;color:var(--green)}
-.tag-pill.quality-tag:hover{background:var(--green-light)}
-.tag-pill.quality-tag.selected{background:var(--green-light);border-color:var(--green);color:var(--green)}
-.tag-pill.custom-tag{border-style:dashed;border-color:var(--gold);color:#7A5800}
-.tag-pill.custom-tag.selected{background:#FFF8E1;border-style:solid;border-color:var(--gold)}
+.tag-pill.favourite-tag{border-color:var(--gold);background:#FFF8E1;color:#7A5800;font-weight:700}
+.tag-pill.favourite-tag:hover{background:#FFE680;border-color:#c9993a}
+.tag-pill.favourite-tag.selected{background:#FFE680;border-color:#c9993a;color:#5A3E00}
 .tag-prefix{font-size:10px;opacity:0.7}
-.tag-pill.favourite-tag{border-color:var(--gold);background:#FFF8E1;color:#7A5800}
-.tag-pill.favourite-tag:hover{background:#FFF0C0}
-.tag-pill.favourite-tag.selected{background:#FFE680;border-color:var(--gold);color:#5A3E00}
 .sel-count{display:inline-flex;align-items:center;justify-content:center;min-width:19px;height:19px;border-radius:10px;background:var(--saffron);color:#fff;font-size:10px;font-weight:800;margin-left:5px;padding:0 4px}
 .sel-count.hidden{display:none}
-
 /* REVIEW */
 .review-box{background:linear-gradient(135deg,#F0FFF6,#E8F5EE);border:2px solid #97C459;border-radius:var(--radius);padding:16px;margin-top:4px}
 .review-lang-label{font-size:11px;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:1px;margin-bottom:7px}
@@ -64,21 +56,27 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .btn-copy.copied{background:var(--gold)}
 .btn-google{width:100%;padding:14px;border-radius:var(--radius);border:2px solid var(--border);background:var(--white);color:var(--text);font-family:'Poppins',sans-serif;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;margin-top:9px;text-decoration:none;transition:all 0.2s}
 .btn-google:hover{border-color:#4285F4;color:#4285F4}
-
-/* PASTE INSTRUCTION */
-.paste-box{display:none;margin-top:12px;border-radius:var(--radius);overflow:hidden;border:2px solid #DADCE0;box-shadow:0 2px 10px rgba(0,0,0,0.12)}
-.paste-box.show{display:block;animation:fadeIn 0.3s ease}
-.paste-header{background:#fff;padding:12px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #DADCE0}
-.paste-google-icon{width:20px;height:20px;flex-shrink:0}
-.paste-header-text{font-size:13px;font-weight:700;color:#202124}
-.paste-body{background:#F1F3F4;padding:14px 16px}
-.paste-field{background:#fff;border-radius:8px;padding:14px;font-size:13px;color:#80868B;border:1px solid #DADCE0;margin-bottom:10px;min-height:60px;position:relative}
-.paste-arrow{display:flex;align-items:center;gap:8px;background:#fff;border-radius:8px;padding:12px 14px;border:2px solid #4285F4}
-.paste-arrow-icon{font-size:20px;animation:bounce2 1s infinite}
-@keyframes bounce2{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
-.paste-arrow-text{font-size:13px;font-weight:800;color:#4285F4}
 .error-inline{font-size:12px;color:#E24B4A;text-align:center;padding:8px}
-
+/* PASTE OVERLAY */
+.paste-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+.paste-overlay.show{display:flex;animation:fadeIn 0.25s ease}
+.paste-modal{background:#fff;border-radius:20px;overflow:hidden;width:100%;max-width:380px;box-shadow:0 8px 40px rgba(0,0,0,0.3)}
+.paste-modal-top{background:#fff;padding:16px 18px 12px;border-bottom:1px solid #DADCE0}
+.paste-modal-brand{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.paste-modal-brand svg{width:18px;height:18px;flex-shrink:0}
+.paste-modal-brand span{font-size:12px;font-weight:700;color:#5F6368}
+.paste-modal-biz{font-size:13px;color:#202124;font-weight:500}
+.paste-modal-body{background:#F1F3F4;padding:16px 18px}
+.paste-stars{display:flex;gap:4px;margin-bottom:10px;font-size:22px;color:#DADCE0}
+.paste-textfield{background:#fff;border-radius:8px;border:1px solid #DADCE0;padding:14px;font-size:13px;color:#9AA0A6;margin-bottom:12px;min-height:60px}
+.paste-instruction{background:#4285F4;border-radius:10px;padding:14px 16px;display:flex;align-items:center;gap:12px}
+.paste-finger{font-size:26px;animation:bfinger 0.8s infinite}
+@keyframes bfinger{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.paste-instruction-text{color:#fff;font-size:15px;font-weight:800}
+.paste-instruction-sub{color:rgba(255,255,255,0.85);font-size:12px;margin-top:2px}
+.paste-modal-footer{background:#fff;padding:12px 18px;display:flex;justify-content:flex-end;gap:10px;border-top:1px solid #DADCE0}
+.paste-cancel{padding:9px 20px;border-radius:6px;border:none;background:none;font-size:14px;font-weight:600;color:#4285F4;cursor:pointer;font-family:'Nunito',sans-serif}
+.paste-open{padding:9px 20px;border-radius:6px;border:none;background:#4285F4;color:#fff;font-size:14px;font-weight:600;cursor:pointer;font-family:'Nunito',sans-serif}
 /* PAGE STATES */
 .loading{text-align:center;padding:70px 20px}
 .spinner{width:46px;height:46px;border:4px solid var(--border);border-top-color:var(--saffron);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 14px}
@@ -89,28 +87,6 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .error-msg{font-size:14px;color:var(--text-soft)}
 .footer{text-align:center;padding:18px;font-size:12px;color:var(--text-soft)}
 .footer a{color:var(--saffron);text-decoration:none;font-weight:700}
-
-/* PASTE OVERLAY */
-.paste-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:100;display:none;align-items:center;justify-content:center;padding:20px}
-.paste-overlay.show{display:flex;animation:fadeIn 0.25s ease}
-.paste-modal{background:#fff;border-radius:20px;overflow:hidden;width:100%;max-width:380px;box-shadow:0 8px 40px rgba(0,0,0,0.3)}
-.paste-modal-top{background:#fff;padding:16px 18px 12px;border-bottom:1px solid #E8EAED}
-.paste-modal-brand{display:flex;align-items:center;gap:8px;margin-bottom:4px}
-.paste-modal-brand svg{width:18px;height:18px}
-.paste-modal-brand span{font-size:12px;font-weight:700;color:#5F6368}
-.paste-modal-title{font-size:14px;color:#202124;font-weight:400}
-.paste-modal-body{background:#F1F3F4;padding:16px 18px}
-.paste-stars{display:flex;gap:4px;margin-bottom:10px}
-.paste-stars span{font-size:22px;color:#DADCE0}
-.paste-textfield{background:#fff;border-radius:8px;border:1px solid #DADCE0;padding:14px;font-size:13px;color:#9AA0A6;margin-bottom:12px;min-height:70px}
-.paste-instruction{background:#4285F4;border-radius:10px;padding:14px 16px;display:flex;align-items:center;gap:12px}
-.paste-finger{font-size:26px;animation:bounce2 0.8s infinite}
-@keyframes bounce2{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
-.paste-instruction-text{color:#fff;font-size:15px;font-weight:800;line-height:1.3}
-.paste-instruction-sub{color:rgba(255,255,255,0.8);font-size:12px;margin-top:2px}
-.paste-modal-footer{background:#fff;padding:12px 18px;display:flex;justify-content:flex-end;gap:10px;border-top:1px solid #E8EAED}
-.paste-cancel-btn{padding:9px 20px;border-radius:6px;border:none;background:none;font-size:14px;font-weight:600;color:#4285F4;cursor:pointer}
-.paste-open-btn{padding:9px 20px;border-radius:6px;border:none;background:#4285F4;color:#fff;font-size:14px;font-weight:600;cursor:pointer}
 </style>
 </head>
 <body>
@@ -127,7 +103,6 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 </div>
 
 <div id="mainContent" style="display:none">
-
   <div class="header">
     <div class="brand">⭐ GoodReview</div>
     <div class="business-name" id="hBusinessName"></div>
@@ -135,14 +110,14 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
     <div class="stars-row">★★★★★</div>
   </div>
 
-  <!-- LANGUAGE CARD -->
+  <!-- LANGUAGE -->
   <div class="card" id="langCard">
     <div class="section-title">🌐 Select your language</div>
     <div class="lang-grid" id="langGrid"></div>
     <span class="lang-skip" onclick="skipLanguage()">Skip — rotate all languages automatically</span>
   </div>
 
-  <!-- TAGS CARD -->
+  <!-- TAGS -->
   <div class="card" id="tagsCard">
     <div class="section-title">
       🏷️ What did you experience?
@@ -151,18 +126,14 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
     <div class="tags-wrap" id="allTagsWrap"></div>
   </div>
 
-  <!-- REVIEW CARD -->
+  <!-- REVIEW -->
   <div class="card" id="reviewCard" style="display:none">
     <div class="section-title">✍️ Your Review</div>
     <div id="langBadge" class="lang-badge auto"></div>
-
-    <!-- Generating state -->
     <div id="generatingBox" class="generating-box" style="display:none">
       <div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div>
       Writing your reviews...
     </div>
-
-    <!-- Reviews -->
     <div id="reviewsBox" style="display:none">
       <div class="review-box">
         <div class="review-lang-label" id="reviewLangLabel"></div>
@@ -183,100 +154,255 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
     </div>
   </div>
 
-  <!-- PASTE OVERLAY -->
-  <div class="paste-overlay" id="pasteOverlay">
-    <div class="paste-modal">
-      <div class="paste-modal-top">
-        <div class="paste-modal-brand">
-          <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-          <span>Google Maps</span>
-        </div>
-        <div class="paste-modal-title" id="pasteBusinessName">Share your experience</div>
-      </div>
-      <div class="paste-modal-body">
-        <div class="paste-stars">
-          <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-        </div>
-        <div class="paste-textfield">Share details of your own experience at this place</div>
-        <div class="paste-instruction">
-          <span class="paste-finger">👆</span>
-          <div>
-            <div class="paste-instruction-text">Long press → Paste</div>
-            <div class="paste-instruction-sub">Your review is copied — paste it in the box above</div>
-          </div>
-        </div>
-      </div>
-      <div class="paste-modal-footer">
-        <button class="paste-cancel-btn" onclick="closePasteOverlay()">Cancel</button>
-        <button class="paste-open-btn" onclick="openGoogleMaps()">Open Google Maps →</button>
-      </div>
-    </div>
-  </div>
-
   <div class="footer">
     Powered by <a href="https://goodreview.in">GoodReview.in</a>
     <br>
-    <a href="https://goodreview.in/edit.html"
-       style="font-size:11px;color:var(--text-soft);text-decoration:none;opacity:0.6;">
+    <a href="https://goodreview.in/edit.html" style="font-size:11px;color:var(--text-soft);text-decoration:none;opacity:0.6;">
       ⚙️ Business owner? Edit your review page
     </a>
   </div>
 </div>
 
+<!-- PASTE OVERLAY -->
+<div class="paste-overlay" id="pasteOverlay">
+  <div class="paste-modal">
+    <div class="paste-modal-top">
+      <div class="paste-modal-brand">
+        <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        <span>Google Maps</span>
+      </div>
+      <div class="paste-modal-biz" id="pasteBusinessName">Share your experience</div>
+    </div>
+    <div class="paste-modal-body">
+      <div class="paste-stars">★★★★★</div>
+      <div class="paste-textfield">Share details of your own experience at this place</div>
+      <div class="paste-instruction">
+        <span class="paste-finger">👆</span>
+        <div>
+          <div class="paste-instruction-text">Long press → Paste</div>
+          <div class="paste-instruction-sub">Your review is copied — paste it in the box above</div>
+        </div>
+      </div>
+    </div>
+    <div class="paste-modal-footer">
+      <button class="paste-cancel" onclick="closePasteOverlay()">Cancel</button>
+      <button class="paste-open" onclick="openGoogleMaps()">Open Google Maps →</button>
+    </div>
+  </div>
+</div>
+
 <script>
-// ── STATE ─────────────────────────────────────────────────────────
-let business        = null
-let tagMaster       = null
-let selectedLang    = null    // null = not picked yet
-let langLocked      = false
-let sessionLang     = null    // random language assigned once per session
-let selectedTags    = []      // visitor's picked tags [{id,label,type}]
-let reviewVersions  = []      // [{text, lang}]
+let business       = null
+let tagMaster      = null
+let selectedLang   = null
+let langLocked     = false
+let sessionLang    = null
+let selectedTags   = []
+let reviewVersions = []
 let currentVersionIdx = 0
-let isGenerating    = false
+let isGenerating   = false
+let generateTimer  = null
 
 const LANG_DISPLAY = {
   English:'English', Hindi:'हिंदी', Gujarati:'ગુજરાતી', Hinglish:'Hinglish',
   Marathi:'मराठी', Tamil:'தமிழ்', Telugu:'తెలుగు', Kannada:'ಕನ್ನಡ'
 }
 
-// ── INIT ──────────────────────────────────────────────────────────
-// ── ERROR ─────────────────────────────────────────────────────────
-function showError(title, msg) {
+async function init() {
+  const id = new URLSearchParams(window.location.search).get('id')
+  if (!id) return showError('Invalid Link', 'No business ID in URL.')
+  try {
+    const bizRes = await fetch('/api/business?id=' + id)
+    if (!bizRes.ok) {
+      const e = await bizRes.json()
+      if (e.error === 'expired' || e.error === 'inactive')
+        return showError('Subscription Expired', `${e.businessName || ''} — Please contact the business owner.`)
+      if (e.error === 'free_limit_reached')
+        return showError('Review Limit Reached', 'This business has reached its free plan limit.')
+      return showError('Not Found', 'This review page does not exist.')
+    }
+    business = await bizRes.json()
+    if (!business.selectedTags?.length) {
+      try { const r = await fetch('/tag-master.json'); tagMaster = await r.json() } catch(e) {}
+    }
+    renderPage()
+  } catch(e) {
+    showError('Connection Error', 'Please check your internet and try again.')
+  }
+}
+
+function renderPage() {
+  document.getElementById('hBusinessName').textContent = business.businessName
+  const sub = (business.subCategory||'').replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase())
+  document.getElementById('hBusinessSub').textContent = [sub, business.qualification].filter(Boolean).join(' · ')
+  document.title = 'Review — ' + business.businessName
+  renderLanguages()
+  renderTags()
   document.getElementById('loadingState').style.display = 'none'
-  document.getElementById('errorState').style.display   = 'block'
-  document.getElementById('errorTitle').textContent     = title
-  document.getElementById('errorMsg').textContent       = msg
+  document.getElementById('mainContent').style.display  = 'block'
+}
+
+function renderLanguages() {
+  const grid = document.getElementById('langGrid')
+  grid.innerHTML = ''
+  business.languages.forEach(lang => {
+    const btn = document.createElement('button')
+    btn.className = 'lang-btn'
+    btn.textContent = LANG_DISPLAY[lang] || lang
+    btn.dataset.lang = lang
+    btn.onclick = () => pickLanguage(lang)
+    grid.appendChild(btn)
+  })
+}
+
+function pickLanguage(lang) {
+  selectedLang = lang; langLocked = true
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('selected', b.dataset.lang === lang))
+  if (selectedTags.length > 0) generateReviews()
+}
+
+function skipLanguage() {
+  selectedLang = null; langLocked = false
+  if (!sessionLang) {
+    const langs = business.languages
+    sessionLang = langs[Math.floor(Math.random() * langs.length)]
+  }
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('selected'))
+  if (selectedTags.length > 0) generateReviews()
+}
+
+function getActiveLang() {
+  if (langLocked && selectedLang) return selectedLang
+  if (!sessionLang) {
+    sessionLang = business.languages[Math.floor(Math.random() * business.languages.length)]
+  }
+  return sessionLang
+}
+
+function buildFallbackTags() {
+  if (!tagMaster) return []
+  const tags = []; const bType = business.businessType
+  Object.entries(tagMaster.serviceQualityTags||{}).forEach(([key,val]) => {
+    if ((val.showFor||[]).includes('all')||(val.showFor||[]).includes(bType))
+      tags.push({id:key,label:key,type:'quality'})
+  })
+  const cat = tagMaster.categories?.[bType]
+  const subCat = (business.subCategory||'').toLowerCase().replace(/[^a-z]/g,'')
+  const keys = Object.keys(cat?.subcategories||{})
+  const matchKey = keys.find(k=>k.toLowerCase().replace(/[^a-z]/g,'')=== subCat)
+    || keys.find(k=>k.toLowerCase().replace(/[^a-z]/g,'').includes(subCat.slice(0,4))) || keys[0]
+  const subData = matchKey ? cat?.subcategories[matchKey] : null
+  subData?.tags?.forEach(tag => tags.push({id:tag.id,label:tag.label,type:'preset'}))
+  ;(business.ownerCustomTags||[]).forEach(label => tags.push({id:null,label,type:'custom'}))
+  return tags
+}
+
+function renderTags() {
+  const wrap = document.getElementById('allTagsWrap')
+  wrap.innerHTML = ''
+  let tags = business.selectedTags?.length ? business.selectedTags : buildFallbackTags()
+  tags = tags.filter(t => t.type !== 'name')
+  if (!tags.length) {
+    wrap.innerHTML = '<p style="font-size:13px;color:var(--text-soft);text-align:center;padding:16px">No tags configured yet.</p>'
+    return
+  }
+  const sorted = [...tags].sort((a,b) => (b.favourite?1:0)-(a.favourite?1:0))
+  sorted.forEach(tag => {
+    const pill = document.createElement('div')
+    pill.className = 'tag-pill' + (tag.favourite ? ' favourite-tag' : '')
+    pill.dataset.label = tag.label; pill.dataset.type = tag.type
+    pill.innerHTML = `<span class="tag-prefix">${tag.favourite ? '★ ' : ''}</span>${tag.label}`
+    pill.onclick = () => toggleTag(pill, tag)
+    wrap.appendChild(pill)
+  })
+}
+
+function toggleTag(pill, tag) {
+  const idx = selectedTags.findIndex(t => t.label === tag.label)
+  if (idx === -1) { selectedTags.push({...tag}); pill.classList.add('selected') }
+  else { selectedTags.splice(idx,1); pill.classList.remove('selected') }
+  updateCount()
+  if (selectedTags.length > 0) generateReviews()
+  else document.getElementById('reviewCard').style.display = 'none'
+}
+
+function updateCount() {
+  const badge = document.getElementById('selCount')
+  if (selectedTags.length > 0) { badge.textContent = selectedTags.length; badge.classList.remove('hidden') }
+  else badge.classList.add('hidden')
+}
+
+function generateReviews() {
+  clearTimeout(generateTimer)
+  generateTimer = setTimeout(() => doGenerate(), 2000)
+}
+
+async function doGenerate() {
+  if (isGenerating) return
+  isGenerating = true
+  document.getElementById('reviewCard').style.display    = 'block'
+  document.getElementById('generatingBox').style.display = 'flex'
+  document.getElementById('reviewsBox').style.display    = 'none'
+  document.getElementById('reviewError').style.display   = 'none'
+  const badge = document.getElementById('langBadge')
+  const activeLang = getActiveLang()
+  if (langLocked) { badge.className='lang-badge locked'; badge.innerHTML='🔒 '+(LANG_DISPLAY[activeLang]||activeLang) }
+  else { badge.className='lang-badge auto'; badge.innerHTML='🔄 '+(LANG_DISPLAY[activeLang]||activeLang) }
+  try {
+    const res = await fetch('/api/generate-reviews', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        businessName:   business.businessName,
+        subCategory:    business.subCategory||'',
+        city:           business.city||'',
+        area:           business.area||'',
+        nameVariations: business.nameVariations||[],
+        tags:           selectedTags.map(t=>t.label),
+        lang:           activeLang
+      })
+    })
+    const data = await res.json()
+    if (!res.ok || !data.reviews?.length) throw new Error(data.error||'No reviews')
+    reviewVersions = data.reviews; currentVersionIdx = 0
+    renderVersion(0)
+    document.getElementById('generatingBox').style.display = 'none'
+    document.getElementById('reviewsBox').style.display    = 'block'
+  } catch(err) {
+    document.getElementById('generatingBox').style.display = 'none'
+    document.getElementById('reviewError').style.display   = 'block'
+    document.getElementById('reviewError').textContent     = 'Could not generate review. Tap a tag again to retry.'
+  }
+  isGenerating = false
+}
+
+function renderVersion(idx) {
+  const v = reviewVersions[idx]; if (!v) return
+  document.getElementById('reviewText').textContent      = v.text
+  document.getElementById('reviewLangLabel').textContent = LANG_DISPLAY[v.lang]||v.lang
+  const dotsEl = document.getElementById('reviewDots'); dotsEl.innerHTML = ''
+  reviewVersions.forEach((_,i) => {
+    const dot = document.createElement('div')
+    dot.className = 'dot'+(i===idx?' active':'')
+    dot.onclick = () => { currentVersionIdx=i; renderVersion(i) }
+    dotsEl.appendChild(dot)
+  })
 }
 
 async function copyReview() {
   const text = reviewVersions[currentVersionIdx]?.text
   if (!text) return
-
   try { await navigator.clipboard.writeText(text) }
   catch(e) {
-    const ta = document.createElement('textarea')
-    ta.value = text
-    document.body.appendChild(ta)
-    ta.select()
-    document.execCommand('copy')
-    document.body.removeChild(ta)
+    const ta = document.createElement('textarea'); ta.value = text
+    document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta)
   }
-
   const btn = document.getElementById('copyBtn')
-  btn.classList.add('copied')
-  btn.innerHTML = '✅ Copied!'
+  btn.classList.add('copied'); btn.innerHTML = '✅ Copied!'
   setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = '📋 Copy Review' }, 3000)
-
   document.getElementById('pasteBusinessName').textContent = business.businessName || 'Share your experience'
   document.getElementById('pasteOverlay').classList.add('show')
-
   if (business.isFreePlan) {
-    fetch('/api/increment-count', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ id: business.id })
-    }).catch(() => {})
+    fetch('/api/increment-count',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:business.id})}).catch(()=>{})
   }
 }
 
@@ -287,6 +413,13 @@ function closePasteOverlay() {
 function openGoogleMaps() {
   closePasteOverlay()
   if (business.gmbUrl) window.open(business.gmbUrl, '_blank')
+}
+
+function showError(title, msg) {
+  document.getElementById('loadingState').style.display = 'none'
+  document.getElementById('errorState').style.display   = 'block'
+  document.getElementById('errorTitle').textContent     = title
+  document.getElementById('errorMsg').textContent       = msg
 }
 
 init()
