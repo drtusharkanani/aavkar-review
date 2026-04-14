@@ -20,7 +20,7 @@ export default async function handler(req, res) {
     // Check email exists in Airtable
     const filter = encodeURIComponent(`({Email}="${email.toLowerCase()}")`)
     const atRes  = await fetch(
-      `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Doctors?filterByFormula=${filter}&fields[]=OwnerID&fields[]=OwnerName&fields[]=BusinessName`,
+      `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Doctors?filterByFormula=${filter}&fields[]=OwnerID&fields[]=OwnerName&fields[]=BusinessName&fields[]=NameVariations`,
       { headers: { Authorization: `Bearer ${AIRTABLE_TOKEN}` } }
     )
     const atData = await atRes.json()
@@ -139,6 +139,9 @@ export default async function handler(req, res) {
     let selectedTags = []
     try { if (f.SelectedTags) selectedTags = JSON.parse(f.SelectedTags) } catch (_) {}
 
+    let nameVariations = []
+    try { if (f.NameVariations) nameVariations = JSON.parse(f.NameVariations) } catch (_) {}
+
     const plan = f.Plan || 'free'
     let tagLimit = 0
     if (plan.startsWith('ultimate')) tagLimit = 5
@@ -162,6 +165,7 @@ export default async function handler(req, res) {
         languages,
         customTags,
         selectedTags,
+        nameVariations,
       }
     })
   }
