@@ -36,15 +36,15 @@ You MUST return exactly 2 reviews in the JSON array — never 1, never 3. Both i
 - Sound like a real customer wrote it — natural, human
 - No "Highly recommend!" closers — use natural endings or none
 - One review may mention the location "${locationHint}" naturally if available
-- Write in the NATIVE SCRIPT of ${lang} with these rules per language:
-  * English = plain English
-  * Hindi = Devanagari script, natural mix with some English words (like real people write)
-  * Gujarati = "Gujlish" style — mix of Gujarati script words + English words naturally, like real Gujarati people write reviews (e.g. "Service ખૂબ સારી હતી", "Doctor ખૂબ helpful છે", "Fees reasonable છે") — NOT formal pure Gujarati
-  * Hinglish = Hindi words written in Roman/English letters mixed with English
-  * Marathi = Devanagari script with some English words mixed in
-  * Tamil = Tamil script with some English words
-  * Telugu = Telugu script with some English words
-  * Kannada = Kannada script with some English words
+- Write in the NATIVE SCRIPT of ${lang} strictly following these rules:
+  * English = plain natural English only
+  * Hindi = PURE Devanagari script ONLY — zero English words — every single word must be in Hindi Devanagari script (e.g. "डॉक्टर ने बहुत ध्यान से जांच की और सही इलाज दिया। फीस भी उचित थी।")
+  * Gujarati = 50% of reviews in Gujlish (Gujarati script + English words mixed, e.g. "Doctor ખૂબ helpful છે, fees reasonable છે") AND 50% in PURE Gujarati Lipi where even English words are written in Gujarati script (e.g. "ડૉક્ટર ખૂબ હેલ્પફુલ છે, ડાયગ્નોસિસ બરાબર કર્યું, ફીસ રીઝનેબલ છે"). Since you write 2 reviews — make review 1 Gujlish and review 2 pure Gujarati lipi.
+  * Hinglish = Hindi words in Roman/English letters mixed with English (e.g. "Bahut achhe doctor hain, sab kuch clearly samjhaya, staff bhi helpful tha") — NO Devanagari script
+  * Marathi = PURE Devanagari Marathi script — zero English words (e.g. "डॉक्टरांनी खूप काळजीपूर्वक तपासले. खूप चांगला अनुभव.")
+  * Tamil = PURE Tamil script — zero English words (e.g. "மருத்துவர் மிகவும் கவனமாக பரிசோதித்தார்.")
+  * Telugu = PURE Telugu script — zero English words (e.g. "డాక్టర్ చాలా జాగ్రత్తగా పరీక్షించారు.")
+  * Kannada = PURE Kannada script — zero English words (e.g. "ವೈದ್ಯರು ತುಂಬಾ ಕಾಳಜಿಯಿಂದ ತಪಾಸಿದರು.")
 
 CRITICAL: Return ONLY a valid JSON array with EXACTLY 2 objects — no explanation, no markdown, no backticks:
 [
