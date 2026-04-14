@@ -15,11 +15,10 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .brand{font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;color:rgba(255,255,255,0.85);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
 .business-name{font-family:'Poppins',sans-serif;font-size:24px;font-weight:700;color:#fff;line-height:1.2;margin-bottom:4px}
 .business-sub{font-size:13px;color:rgba(255,255,255,0.85);font-weight:500}
-.stars-row{display:flex;justify-content:center;gap:4px;margin-top:10px}
+.stars-row{display:flex;justify-content:center;gap:4px;margin-top:10px;font-size:18px;color:#FFE066}
 .card{background:var(--white);border-radius:var(--radius);margin:-28px 14px 12px;padding:18px;box-shadow:var(--shadow);position:relative;z-index:1;animation:fadeIn 0.35s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 .section-title{font-family:'Poppins',sans-serif;font-size:14px;font-weight:600;color:var(--text);margin-bottom:12px;display:flex;align-items:center;gap:7px}
-.section-title .icon{font-size:17px}
 
 /* LANGUAGE */
 .lang-grid{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
@@ -42,24 +41,29 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .tag-pill.custom-tag{border-style:dashed;border-color:var(--gold);color:#7A5800}
 .tag-pill.custom-tag.selected{background:#FFF8E1;border-style:solid;border-color:var(--gold)}
 .tag-prefix{font-size:10px;opacity:0.7}
-.sel-count{display:inline-flex;align-items:center;justify-content:center;width:19px;height:19px;border-radius:50%;background:var(--saffron);color:#fff;font-size:10px;font-weight:800;margin-left:5px}
+.sel-count{display:inline-flex;align-items:center;justify-content:center;min-width:19px;height:19px;border-radius:10px;background:var(--saffron);color:#fff;font-size:10px;font-weight:800;margin-left:5px;padding:0 4px}
 .sel-count.hidden{display:none}
-.no-tags-msg{font-size:13px;color:var(--text-soft);text-align:center;padding:16px;background:var(--bg);border-radius:10px}
 
 /* REVIEW */
 .review-box{background:linear-gradient(135deg,#F0FFF6,#E8F5EE);border:2px solid #97C459;border-radius:var(--radius);padding:16px;margin-top:4px}
 .review-lang-label{font-size:11px;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:1px;margin-bottom:7px}
-.review-text{font-size:14px;line-height:1.75;color:var(--text);min-height:80px}
+.review-text{font-size:14px;line-height:1.75;color:var(--text);min-height:60px}
 .review-dots{display:flex;justify-content:center;gap:6px;margin:11px 0 5px}
 .dot{width:8px;height:8px;border-radius:50%;background:var(--border);cursor:pointer;transition:all 0.2s}
 .dot.active{background:var(--green);transform:scale(1.3)}
+.generating-box{display:flex;align-items:center;justify-content:center;gap:8px;padding:24px;color:var(--text-soft);font-size:13px}
+.ai-dot{width:7px;height:7px;border-radius:50%;background:var(--saffron);animation:bounce 1.2s infinite}
+.ai-dot:nth-child(2){animation-delay:.2s}
+.ai-dot:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,80%,100%{transform:scale(0.8);opacity:0.5}40%{transform:scale(1.2);opacity:1}}
 .btn-copy{width:100%;padding:15px;border-radius:var(--radius);border:none;background:var(--green);color:#fff;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:9px;margin-top:11px}
 .btn-copy:hover{background:#155e38}
-.btn-copy.copied{background:var(--gold);color:#fff}
+.btn-copy.copied{background:var(--gold)}
 .btn-google{width:100%;padding:14px;border-radius:var(--radius);border:2px solid var(--border);background:var(--white);color:var(--text);font-family:'Poppins',sans-serif;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;margin-top:9px;text-decoration:none;transition:all 0.2s}
 .btn-google:hover{border-color:#4285F4;color:#4285F4}
+.error-inline{font-size:12px;color:#E24B4A;text-align:center;padding:8px}
 
-/* STATES */
+/* PAGE STATES */
 .loading{text-align:center;padding:70px 20px}
 .spinner{width:46px;height:46px;border:4px solid var(--border);border-top-color:var(--saffron);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 14px}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -95,15 +99,15 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 
   <!-- LANGUAGE CARD -->
   <div class="card" id="langCard">
-    <div class="section-title"><span class="icon">🌐</span>Select your language</div>
+    <div class="section-title">🌐 Select your language</div>
     <div class="lang-grid" id="langGrid"></div>
-    <span class="lang-skip" onclick="skipLanguage()">Skip — use a random language</span>
+    <span class="lang-skip" onclick="skipLanguage()">Skip — rotate all languages automatically</span>
   </div>
 
   <!-- TAGS CARD -->
   <div class="card" id="tagsCard">
     <div class="section-title">
-      <span class="icon">🏷️</span>What did you experience?
+      🏷️ What did you experience?
       <span class="sel-count hidden" id="selCount">0</span>
     </div>
     <div class="tags-wrap" id="allTagsWrap"></div>
@@ -111,18 +115,34 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 
   <!-- REVIEW CARD -->
   <div class="card" id="reviewCard" style="display:none">
-    <div class="section-title"><span class="icon">✍️</span>Your Review</div>
-    <div id="langBadge" class="lang-badge locked"></div>
-    <div class="review-box">
-      <div class="review-lang-label" id="reviewLangLabel"></div>
-      <div class="review-text" id="reviewText"></div>
-      <div class="review-dots" id="reviewDots"></div>
+    <div class="section-title">✍️ Your Review</div>
+    <div id="langBadge" class="lang-badge auto"></div>
+
+    <!-- Generating state -->
+    <div id="generatingBox" class="generating-box" style="display:none">
+      <div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div>
+      Writing your reviews...
     </div>
-    <button class="btn-copy" id="copyBtn" onclick="copyReview()">📋 Copy Review</button>
-    <a class="btn-google" id="googleBtn" href="#" target="_blank">
-      <svg width="17" height="17" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-      Post on Google Maps
-    </a>
+
+    <!-- Reviews -->
+    <div id="reviewsBox" style="display:none">
+      <div class="review-box">
+        <div class="review-lang-label" id="reviewLangLabel"></div>
+        <div class="review-text" id="reviewText"></div>
+        <div class="review-dots" id="reviewDots"></div>
+      </div>
+      <div class="error-inline" id="reviewError" style="display:none"></div>
+      <button class="btn-copy" id="copyBtn" onclick="copyReview()">📋 Copy Review</button>
+      <a class="btn-google" id="googleBtn" href="#" target="_blank">
+        <svg width="17" height="17" viewBox="0 0 24 24">
+          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+        </svg>
+        Post on Google Maps
+      </a>
+    </div>
   </div>
 
   <div class="footer">Powered by <a href="https://goodreview.in">GoodReview.in</a></div>
@@ -130,13 +150,15 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 
 <script>
 // ── STATE ─────────────────────────────────────────────────────────
-let business = null
-let tagMaster = null
-let selectedLang = null          // null = auto (random per version)
-let langLocked = false           // true = user explicitly picked a language
-let selectedTags = []            // [{id, label, type, ...}] — visitor's picks
+let business        = null
+let tagMaster       = null
+let selectedLang    = null    // null = not picked yet
+let langLocked      = false
+let sessionLang     = null    // random language assigned once per session
+let selectedTags    = []      // visitor's picked tags [{id,label,type}]
+let reviewVersions  = []      // [{text, lang}]
 let currentVersionIdx = 0
-let reviewVersions = []
+let isGenerating    = false
 
 const LANG_DISPLAY = {
   English:'English', Hindi:'हिंदी', Gujarati:'ગુજરાતી', Hinglish:'Hinglish',
@@ -147,11 +169,10 @@ const LANG_DISPLAY = {
 async function init() {
   const id = new URLSearchParams(window.location.search).get('id')
   if (!id) return showError('Invalid Link', 'No business ID in URL.')
+
   try {
-    const [bizRes, tmRes] = await Promise.all([
-      fetch('/api/business?id=' + id),
-      fetch('/tag-master.json')
-    ])
+    const bizRes = await fetch('/api/business?id=' + id)
+
     if (!bizRes.ok) {
       const e = await bizRes.json()
       if (e.error === 'expired' || e.error === 'inactive')
@@ -160,9 +181,19 @@ async function init() {
         return showError('Review Limit Reached', 'This business has reached its free plan limit.')
       return showError('Not Found', 'This review page does not exist.')
     }
+
     business = await bizRes.json()
-    tagMaster = await tmRes.json()
+
+    // Only load tag-master if no selectedTags (for fallback display)
+    if (!business.selectedTags?.length) {
+      try {
+        const tmRes = await fetch('/tag-master.json')
+        tagMaster = await tmRes.json()
+      } catch(e) {}
+    }
+
     renderPage()
+
   } catch(e) {
     showError('Connection Error', 'Please check your internet and try again.')
   }
@@ -171,20 +202,22 @@ async function init() {
 // ── RENDER PAGE ───────────────────────────────────────────────────
 function renderPage() {
   document.getElementById('hBusinessName').textContent = business.businessName
-  // Clean up subCategory display (e.g. general_physician → General Physician)
+
   const subCatDisplay = (business.subCategory || '')
     .replace(/_/g, ' ')
     .replace(/\b\w/g, c => c.toUpperCase())
   const sub = [subCatDisplay, business.qualification].filter(Boolean).join(' · ')
   document.getElementById('hBusinessSub').textContent = sub
   document.title = 'Review — ' + business.businessName
+
   renderLanguages()
   renderTags()
+
   document.getElementById('loadingState').style.display = 'none'
   document.getElementById('mainContent').style.display  = 'block'
 }
 
-// ── LANGUAGE ──────────────────────────────────────────────────────
+// ── LANGUAGES ─────────────────────────────────────────────────────
 function renderLanguages() {
   const grid = document.getElementById('langGrid')
   grid.innerHTML = ''
@@ -204,32 +237,29 @@ function pickLanguage(lang) {
   document.querySelectorAll('.lang-btn').forEach(b =>
     b.classList.toggle('selected', b.dataset.lang === lang)
   )
-  refreshReview()
+  // Regenerate if tags already selected
+  if (selectedTags.length > 0) generateReviews()
 }
 
 function skipLanguage() {
   selectedLang = null
   langLocked   = false
+  // Pick a random language once for this visitor session
+  if (!sessionLang) {
+    const langs = business.languages
+    sessionLang = langs[Math.floor(Math.random() * langs.length)]
+  }
   document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('selected'))
-  refreshReview()
-}
-
-// Returns a language for a given version index
-function getLangForVersion(versionIdx) {
-  if (langLocked && selectedLang) return selectedLang
-  // Auto: rotate through owner's selected languages
-  const langs = business.languages
-  return langs[versionIdx % langs.length] || 'English'
+  if (selectedTags.length > 0) generateReviews()
 }
 
 // ── TAGS ──────────────────────────────────────────────────────────
 function buildFallbackTags() {
-  // Owner hasn't configured tags yet — show all preset tags for their business type
-  const tags = []
+  if (!tagMaster) return []
+  const tags  = []
   const bType = business.businessType
-  const cat   = tagMaster.categories?.[bType]
 
-  // Service quality tags first
+  // Quality tags
   Object.entries(tagMaster.serviceQualityTags || {}).forEach(([key, val]) => {
     if ((val.showFor || []).includes('all') || (val.showFor || []).includes(bType)) {
       tags.push({ id: key, label: key, type: 'quality' })
@@ -237,21 +267,19 @@ function buildFallbackTags() {
   })
 
   // Preset category tags
-  if (cat) {
-    const subCat  = (business.subCategory || '').toLowerCase().replace(/[^a-z]/g, '')
-    const keys    = Object.keys(cat.subcategories || {})
-    const matchKey = keys.find(k => k.toLowerCase().replace(/[^a-z]/g, '') === subCat)
-                  || keys.find(k => k.toLowerCase().replace(/[^a-z]/g, '').includes(subCat.slice(0, 4)))
-                  || keys[0]
-    const subData = matchKey ? cat.subcategories[matchKey] : null
-    subData?.tags?.forEach(tag => tags.push({ id: tag.id, label: tag.label, type: 'preset' }))
-  }
+  const cat    = tagMaster.categories?.[bType]
+  const subCat = (business.subCategory || '').toLowerCase().replace(/[^a-z]/g, '')
+  const keys   = Object.keys(cat?.subcategories || {})
+  const matchKey = keys.find(k => k.toLowerCase().replace(/[^a-z]/g,'') === subCat)
+                || keys.find(k => k.toLowerCase().replace(/[^a-z]/g,'').includes(subCat.slice(0,4)))
+                || keys[0]
+  const subData = matchKey ? cat?.subcategories[matchKey] : null
+  subData?.tags?.forEach(tag => tags.push({ id: tag.id, label: tag.label, type: 'preset' }))
 
   // Owner custom tags
-  ;(business.ownerCustomTags || []).forEach(label => {
+  ;(business.ownerCustomTags || []).forEach(label =>
     tags.push({ id: null, label, type: 'custom' })
-  })
-
+  )
   return tags
 }
 
@@ -259,30 +287,20 @@ function renderTags() {
   const wrap = document.getElementById('allTagsWrap')
   wrap.innerHTML = ''
 
-  let tags = business.selectedTags || []
+  let tags = business.selectedTags?.length ? business.selectedTags : buildFallbackTags()
 
-  // Fallback: if owner hasn't selected tags yet, show all preset tags
-  if (tags.length === 0) tags = buildFallbackTags()
-
-  if (tags.length === 0) {
-    wrap.innerHTML = '<div class="no-tags-msg">No tags available for this business yet.</div>'
+  if (!tags.length) {
+    wrap.innerHTML = '<p style="font-size:13px;color:var(--text-soft);text-align:center;padding:16px">No tags configured yet.</p>'
     return
   }
 
-  tags.forEach((tag, i) => {
+  tags.forEach(tag => {
     const pill = document.createElement('div')
-    const typeClass = tag.type === 'quality' ? 'quality-tag'
-                    : tag.type === 'custom'  ? 'custom-tag'
-                    : ''
-    pill.className   = 'tag-pill ' + typeClass
-    pill.dataset.idx = i
-    pill.dataset.id  = tag.id   || ''
+    const cls  = tag.type === 'quality' ? 'quality-tag' : tag.type === 'custom' ? 'custom-tag' : ''
+    pill.className = `tag-pill ${cls}`
     pill.dataset.label = tag.label
     pill.dataset.type  = tag.type
-
-    const prefix = tag.type === 'quality' ? '✓ '
-                 : tag.type === 'custom'  ? '★ '
-                 : ''
+    const prefix = tag.type === 'quality' ? '✓ ' : tag.type === 'custom' ? '★ ' : ''
     pill.innerHTML = `<span class="tag-prefix">${prefix}</span>${tag.label}`
     pill.onclick   = () => toggleTag(pill, tag)
     wrap.appendChild(pill)
@@ -290,18 +308,17 @@ function renderTags() {
 }
 
 function toggleTag(pill, tag) {
-  const existingIdx = selectedTags.findIndex(t =>
-    (t.id && t.id === tag.id) || (!t.id && t.label === tag.label)
-  )
-  if (existingIdx === -1) {
+  const idx = selectedTags.findIndex(t => t.label === tag.label)
+  if (idx === -1) {
     selectedTags.push({ ...tag })
     pill.classList.add('selected')
   } else {
-    selectedTags.splice(existingIdx, 1)
+    selectedTags.splice(idx, 1)
     pill.classList.remove('selected')
   }
   updateCount()
-  refreshReview()
+  if (selectedTags.length > 0) generateReviews()
+  else document.getElementById('reviewCard').style.display = 'none'
 }
 
 function updateCount() {
@@ -314,181 +331,87 @@ function updateCount() {
   }
 }
 
-// ── PHRASE LOOKUP ─────────────────────────────────────────────────
-function pick(arr) {
-  return arr && arr.length ? arr[Math.floor(Math.random() * arr.length)] : null
+// ── GENERATE REVIEWS (single AI call) ────────────────────────────
+let generateTimer = null
+
+function generateReviews() {
+  // Debounce — wait 400ms after last tag tap before calling AI
+  clearTimeout(generateTimer)
+  generateTimer = setTimeout(() => doGenerate(), 400)
 }
 
-function fromLMS(lms, size) {
-  if (!lms) return null
-  if (size === 'long')   return pick(lms.long)   || pick(lms.medium) || pick(lms.short) || null
-  if (size === 'medium') return pick(lms.medium)  || pick(lms.long)  || pick(lms.short) || null
-  return                        pick(lms.short)   || pick(lms.medium) || null
-}
-
-function getPhrase(tag, lang, size) {
-  // Custom owner tag — use label as phrase
-  if (tag.type === 'custom') return tag.label
-
-  // Quality tag — look up in serviceQualityTags
-  if (tag.type === 'quality') {
-    const key = tag.id  // e.g. "Cleanliness"
-    const lms = tagMaster.serviceQualityTags?.[key]?.phrases?.[lang]
-             || tagMaster.serviceQualityTags?.[key]?.phrases?.English
-    return fromLMS(lms, size) || tag.label
+// Returns the language to use — locked choice or random session language
+function getActiveLang() {
+  if (langLocked && selectedLang) return selectedLang
+  if (!sessionLang) {
+    const langs = business.languages
+    sessionLang = langs[Math.floor(Math.random() * langs.length)]
   }
-
-  // Preset tag — find in category subcategories
-  if (tag.type === 'preset') {
-    const cat = tagMaster.categories?.[business.businessType]
-    if (cat) {
-      for (const sub of Object.values(cat.subcategories || {})) {
-        const lms = sub.phrases?.[tag.id]?.[lang]
-                 || sub.phrases?.[tag.id]?.English
-        const r = fromLMS(lms, size)
-        if (r) return r
-      }
-    }
-    return tag.label
-  }
-
-  return tag.label
+  return sessionLang
 }
 
-// ── BUILD REVIEW VERSIONS ─────────────────────────────────────────
-function buildVersions() {
-  const n    = selectedTags.length
-  const SIZE = n === 1 ? 'long' : n === 2 ? 'medium' : 'short'
-  const versions = []
+async function doGenerate() {
+  if (isGenerating) return
+  isGenerating = true
 
-  for (let v = 0; v < 5; v++) {
-    const lang = getLangForVersion(v)
+  // Show review card in generating state
+  document.getElementById('reviewCard').style.display   = 'block'
+  document.getElementById('generatingBox').style.display = 'flex'
+  document.getElementById('reviewsBox').style.display    = 'none'
+  document.getElementById('reviewError').style.display   = 'none'
 
-    // Opener
-    let opener = ''
-    if (v === 1 && business.area && business.city) {
-      const arr = tagMaster.openers?.withLocation?.[lang]
-               || tagMaster.openers?.withLocation?.English || []
-      const tmpl = arr[Math.floor(Math.random() * arr.length)] || ''
-      opener = tmpl
-        .replace('{business}', business.businessName)
-        .replace('{area}',     business.area)
-        .replace('{city}',     business.city)
-    } else {
-      const arr = (tagMaster.openers?.withoutLocation?.[lang]
-                || tagMaster.openers?.withoutLocation?.English || []).filter(s => s !== '')
-      if (n > 1 && Math.random() < 0.4) opener = ''
-      else opener = arr[v % arr.length] || ''
-    }
-
-    // Phrases
-    const parts = selectedTags
-      .map(tag => getPhraseWithCache(tag, lang, SIZE))
-      .filter(Boolean)
-
-    // Natural ending (1-2 tags only, ~60% chance)
-    let ending = ''
-    if (n <= 2 && Math.random() < 0.6) {
-      const endArr = (tagMaster.naturalEndings?.[lang]
-                   || tagMaster.naturalEndings?.English || []).filter(e => e !== '')
-      ending = endArr[Math.floor(Math.random() * endArr.length)] || ''
-    }
-
-    // Assemble
-    let review = opener
-    parts.forEach((part, i) => {
-      if (i === 0) {
-        review += (review.endsWith(' ') || review === '') ? part : ' ' + part
-      } else {
-        const conn = n >= 3 ? ', ' : [', ', '. ', '! ', '— '][i % 4]
-        review += conn + part
-      }
-    })
-
-    if (review && !review.match(/[.।!—]$/) && !review.endsWith(' ')) review += '.'
-    if (ending) review += ' ' + ending
-
-    versions.push({ text: review.trim(), lang })
-  }
-  return versions
-}
-
-// ── AI PHRASE CACHE ───────────────────────────────────────────────
-// Cache key = lang::tagLabel so each language gets its own phrase
-const aiPhraseCache = {}
-
-async function fetchAIPhrase(tag, lang) {
-  const key = lang + '::' + tag.label
-  if (aiPhraseCache[key]) return
-  try {
-    const res = await fetch('/api/generate-phrase', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        tagName: tag.label, context: '',
-        language: lang, businessType: business.businessType,
-        businessName: business.businessName
-      })
-    })
-    const data = await res.json()
-    if (data.phrases?.length) aiPhraseCache[key] = data.phrases[0]
-  } catch(e) {}
-}
-
-async function ensurePhrasesForSelectedTags() {
-  // Determine which languages we need to generate for
-  const langsNeeded = langLocked && selectedLang
-    ? [selectedLang]
-    : business.languages  // all rotation languages
-
-  const calls = []
-  for (const lang of langsNeeded) {
-    for (const tag of selectedTags) {
-      if (tag.type === 'custom') continue
-      if (getPhrase(tag, lang, 'short') !== tag.label) continue // already has phrase
-      const key = lang + '::' + tag.label
-      if (!aiPhraseCache[key]) calls.push(fetchAIPhrase(tag, lang))
-    }
-  }
-  if (calls.length) await Promise.all(calls)
-}
-
-function getPhraseWithCache(tag, lang, size) {
-  const base = getPhrase(tag, lang, size)
-  if (base !== tag.label) return base                        // tag-master phrase found
-  const cached = aiPhraseCache[lang + '::' + tag.label]
-    || aiPhraseCache['English::' + tag.label]               // fallback to English if needed
-  return cached || tag.label
-}
-
-// ── REFRESH REVIEW ────────────────────────────────────────────────
-async function refreshReview() {
-  if (selectedTags.length === 0) {
-    document.getElementById('reviewCard').style.display = 'none'
-    return
-  }
-  document.getElementById('reviewCard').style.display = 'block'
-  document.getElementById('reviewText').textContent   = 'Generating review...'
-  document.getElementById('reviewDots').innerHTML     = ''
-
-  await ensurePhrasesForSelectedTags()
-
-  reviewVersions    = buildVersions()
-  currentVersionIdx = 0
-  renderVersion(0)
-
+  // Update language badge
   const badge = document.getElementById('langBadge')
-  if (langLocked && selectedLang) {
+  const activeLang = getActiveLang()
+  if (langLocked) {
     badge.className = 'lang-badge locked'
-    badge.innerHTML = '🔒 ' + (LANG_DISPLAY[selectedLang] || selectedLang)
+    badge.innerHTML = '🔒 ' + (LANG_DISPLAY[activeLang] || activeLang)
   } else {
     badge.className = 'lang-badge auto'
-    badge.innerHTML = '🔄 Rotating languages per version'
+    badge.innerHTML = '🔄 ' + (LANG_DISPLAY[activeLang] || activeLang)
   }
+
+  try {
+    const res = await fetch('/api/generate-reviews', {
+      method:  'POST',
+      headers: {'Content-Type': 'application/json'},
+      body:    JSON.stringify({
+        businessName: business.businessName,
+        subCategory:  business.subCategory || '',
+        city:         business.city || '',
+        area:         business.area || '',
+        tags:         selectedTags.map(t => t.label),
+        lang:         getActiveLang()
+      })
+    })
+
+    const data = await res.json()
+
+    if (!res.ok || !data.reviews?.length) {
+      throw new Error(data.error || 'No reviews returned')
+    }
+
+    reviewVersions    = data.reviews
+    currentVersionIdx = 0
+    renderVersion(0)
+
+    document.getElementById('generatingBox').style.display = 'none'
+    document.getElementById('reviewsBox').style.display    = 'block'
+
+  } catch(err) {
+    console.error('Generate reviews error:', err)
+    document.getElementById('generatingBox').style.display = 'none'
+    document.getElementById('reviewError').style.display   = 'block'
+    document.getElementById('reviewError').textContent     = 'Could not generate review. Tap a tag again to retry.'
+  }
+
+  isGenerating = false
 }
 
+// ── RENDER VERSION ────────────────────────────────────────────────
 function renderVersion(idx) {
   const v = reviewVersions[idx]
+  if (!v) return
   document.getElementById('reviewText').textContent      = v.text
   document.getElementById('reviewLangLabel').textContent = LANG_DISPLAY[v.lang] || v.lang
 
@@ -507,9 +430,8 @@ async function copyReview() {
   const text = reviewVersions[currentVersionIdx]?.text
   if (!text) return
 
-  try {
-    await navigator.clipboard.writeText(text)
-  } catch(e) {
+  try { await navigator.clipboard.writeText(text) }
+  catch(e) {
     const ta = document.createElement('textarea')
     ta.value = text
     document.body.appendChild(ta)
@@ -521,10 +443,7 @@ async function copyReview() {
   const btn = document.getElementById('copyBtn')
   btn.classList.add('copied')
   btn.innerHTML = '✅ Copied!'
-  setTimeout(() => {
-    btn.classList.remove('copied')
-    btn.innerHTML = '📋 Copy Review'
-  }, 2000)
+  setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = '📋 Copy Review' }, 2500)
 
   if (business.gmbUrl) document.getElementById('googleBtn').href = business.gmbUrl
 
