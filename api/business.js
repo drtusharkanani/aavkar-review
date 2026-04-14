@@ -15,7 +15,7 @@ export default async function handler(req, res) {
     'BusinessType','City','Area','State','Phone','Email','GMB URL',
     'Plan','Active','PaymentType','ExpiryDate','ReviewCount','Rating',
     'ReferralCode','ReferralCount','ShippingStatus','CustomTags','Languages',
-    'SelectedTags'
+    'SelectedTags','NameVariations'
   ]
 
   const formula = `({OwnerID}=${parseInt(id)})`
@@ -78,16 +78,19 @@ export default async function handler(req, res) {
       try { ownerCustomTags = JSON.parse(r.CustomTags) } catch (_) {}
     }
 
-    // Parse selected tags (new — owner-selected tags shown on review page)
-    // Format: [{id, label, type}] where type = 'quality' | 'preset' | 'custom'
+    // Parse selected tags
     let selectedTags = []
     if (r.SelectedTags) {
       try { selectedTags = JSON.parse(r.SelectedTags) } catch (_) {}
     }
-
-    // If no selectedTags yet, fall back to showing ownerCustomTags as custom type
     if (selectedTags.length === 0 && ownerCustomTags.length > 0) {
       selectedTags = ownerCustomTags.map(label => ({ id: null, label, type: 'custom' }))
+    }
+
+    // Parse name variations (used by AI — never shown to visitor)
+    let nameVariations = []
+    if (r.NameVariations) {
+      try { nameVariations = JSON.parse(r.NameVariations) } catch (_) {}
     }
 
     // Customer custom tag limit derived from plan
@@ -129,6 +132,7 @@ export default async function handler(req, res) {
       languages,
       ownerCustomTags,
       selectedTags,
+      nameVariations,
     })
 
   } catch (err) {
