@@ -10,6 +10,7 @@ export default async function handler(req, res) {
     subCategory,
     city,
     area,
+    ownerName,  // professional name e.g. "Dr. Tushar Kanani"
     tags,       // array of tag labels
     lang        // single language string — always determined by client
   } = req.body
@@ -38,7 +39,15 @@ Write exactly 2 reviews, both in ${lang}. Rules:
 - Sound like a real customer wrote it — natural, human
 - No "Highly recommend!" closers — use natural endings or none
 - One review may mention the location "${locationHint}" naturally if available
-- Write in the NATIVE SCRIPT of ${lang} (Hindi = Devanagari, Gujarati = ગુજરાતી script, Hinglish = Hindi words in Roman/English letters)
+- Write in the NATIVE SCRIPT of ${lang} with these rules per language:
+  * English = plain English
+  * Hindi = Devanagari script, natural mix with some English words (like real people write)
+  * Gujarati = "Gujlish" style — mix of Gujarati script words + English words naturally, like real Gujarati people write reviews (e.g. "Service ખૂબ સારી હતી", "Doctor ખૂબ helpful છે", "Fees reasonable છે") — NOT formal pure Gujarati
+  * Hinglish = Hindi words written in Roman/English letters mixed with English
+  * Marathi = Devanagari script with some English words mixed in
+  * Tamil = Tamil script with some English words
+  * Telugu = Telugu script with some English words
+  * Kannada = Kannada script with some English words
 
 Return ONLY a valid JSON array — no explanation, no markdown, no backticks:
 [
