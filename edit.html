@@ -228,18 +228,26 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
     <div class="error-msg" id="err-tags">Please select at least 1 tag</div>
   </div>
 
-  <!-- PROFESSIONAL NAME TAG -->
+  <!-- PROFESSIONAL NAME VARIATIONS -->
   <div class="card" id="nameTagCard" style="margin-top:0;display:none">
-    <div class="section-title">👤 Professional Name in Reviews</div>
-    <div class="info-box">When enabled — 1 of 2 reviews will naturally mention your name. The other will mention your location. Makes reviews feel more personal and genuine.</div>
-    <div class="name-tag-toggle" id="nameTagToggle" onclick="toggleNameTag()">
-      <div class="toggle-icon">👤</div>
-      <div class="toggle-text">
-        <div class="toggle-label" id="nameTagLabel">Include my name in reviews</div>
-        <div class="toggle-sub">e.g. "Dr. Tushar was very helpful and explained everything clearly"</div>
-      </div>
-      <div class="toggle-check" id="nameTagCheck"></div>
+    <div class="section-title">👤 Name Variations for Reviews</div>
+    <div class="info-box">Add how your customers refer to you. AI will randomly use one in each review — visitor never sees or selects this. More variations = more natural reviews.</div>
+
+    <div class="warn-box" id="nameExampleBox" style="font-size:12px;line-height:1.8">
+      <strong>Examples:</strong><br>
+      🏥 Doctor → Dr. Jinkal · Dr. Jinkal Dihora · Dr. Dihora · Jinkal Madam<br>
+      ✂️ Salon → Rahul Bhai · Rahul Sir · Rahul Stylist<br>
+      🍽️ Restaurant → Mehul Bhai · Mehul's Place · Chef Mehul<br>
+      💼 CA → CA Priya · Priya Ma'am · Priya Shah CA
     </div>
+
+    <div class="tags-wrap" id="nameVariationsWrap" style="margin-bottom:10px"></div>
+
+    <div class="add-tag-row">
+      <input class="add-tag-input" id="nameVariationInput" placeholder="e.g. Dr. Jinkal, Jinkal Madam..." maxlength="40">
+      <button class="add-tag-btn" onclick="addNameVariation()" style="background:var(--saffron)">+</button>
+    </div>
+    <div style="font-size:11px;color:var(--text-soft);margin-top:6px" id="nameVarCount">0 variations added</div>
   </div>
 
   <!-- EDITABLE: Owner Custom Tags (plan-based) -->
@@ -302,7 +310,7 @@ let timerSeconds  = 0
 let tagMasterData = null
 let selectedTagIds  = []  // IDs of selected quality + preset tags
 let favouriteTagIds = []  // IDs marked as favourite
-let nameTagEnabled  = false // whether professional name tag is included
+let nameVariations  = []    // owner's name variations for AI use
 
 // ── OTP FLOW ─────────────────────────────────────────────────────
 async function sendOtp() {
@@ -522,8 +530,8 @@ function renderSelectableTags() {
     const saved = JSON.parse(b.selectedTags || '[]')
     selectedTagIds  = saved.map(t => (typeof t === 'object' ? t.id : t)).filter(Boolean)
     favouriteTagIds = saved.filter(t => typeof t === 'object' && t.favourite && t.id).map(t => t.id)
-    // Check if name tag was saved
-    nameTagEnabled  = saved.some(t => t.type === 'name')
+    // Name variations now stored in separate NameVariations field
+    nameVariations = b.nameVariations || []
   } catch(e) {
     selectedTagIds  = []
     favouriteTagIds = []
@@ -568,15 +576,11 @@ function renderSelectableTags() {
 
   document.getElementById('selectTagsCard').style.display = 'block'
 
-  // Show professional name tag toggle
+  // Show professional name variations card
   const nameCard = document.getElementById('nameTagCard')
-  if (nameCard && b.ownerName) {
+  if (nameCard) {
     nameCard.style.display = 'block'
-    document.getElementById('nameTagLabel').textContent = `Include "${b.ownerName}" in reviews`
-    if (nameTagEnabled) {
-      document.getElementById('nameTagToggle').classList.add('active')
-      document.getElementById('nameTagCheck').textContent = '✓'
-    }
+    renderNameVariations()
   }
 
   updateTagCountBadge()
@@ -645,18 +649,40 @@ function toggleFavourite(id) {
   updateTagCountBadge()
 }
 
-function toggleNameTag() {
-  nameTagEnabled = !nameTagEnabled
-  const toggle = document.getElementById('nameTagToggle')
-  const check  = document.getElementById('nameTagCheck')
-  if (nameTagEnabled) {
-    toggle.classList.add('active')
-    check.textContent = '✓'
-  } else {
-    toggle.classList.remove('active')
-    check.textContent = ''
+function addNameVariation() {
+  const input = document.getElementById('nameVariationInput')
+  const val   = input.value.trim()
+  if (!val || val.length < 2) return
+  if (nameVariations.includes(val)) return
+  if (nameVariations.length >= 6) {
+    alert('Maximum 6 name variations allowed.')
+    return
   }
-  updateTagCountBadge()
+  nameVariations.push(val)
+  input.value = ''
+  renderNameVariations()
+}
+
+function removeNameVariation(idx) {
+  nameVariations.splice(idx, 1)
+  renderNameVariations()
+}
+
+function renderNameVariations() {
+  const wrap = document.getElementById('nameVariationsWrap')
+  if (!wrap) return
+  wrap.innerHTML = ''
+  nameVariations.forEach((name, i) => {
+    const pill = document.createElement('div')
+    pill.className = 'owner-tag-pill'
+    pill.style.background = '#FFF3E8'
+    pill.style.borderColor = 'var(--saffron)'
+    pill.style.color = 'var(--saffron)'
+    pill.innerHTML = `👤 ${name} <span class="remove-tag" onclick="removeNameVariation(${i})">✕</span>`
+    wrap.appendChild(pill)
+  })
+  const countEl = document.getElementById('nameVarCount')
+  if (countEl) countEl.textContent = `${nameVariations.length}/6 variations added`
 }
 
 function updateTagCountBadge() {
@@ -714,6 +740,13 @@ document.addEventListener('DOMContentLoaded', () => {
     })
   }
 
+  const nameInp = document.getElementById('nameVariationInput')
+  if (nameInp) {
+    nameInp.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') { e.preventDefault(); addNameVariation() }
+    })
+  }
+
   const otpInp = document.getElementById('otpInput')
   if (otpInp) {
     otpInp.addEventListener('keydown', function(e) {
@@ -755,10 +788,7 @@ function buildSelectedTagsForSave() {
     result.push({ id: null, label: tag, type: 'custom', favourite: false })
   })
 
-  // Add professional name tag if enabled
-  if (nameTagEnabled && b.ownerName) {
-    result.push({ id: 'pro_name', label: b.ownerName, type: 'name', favourite: false })
-  }
+  // Note: nameVariations saved separately to NameVariations field — not in SelectedTags
 
   return result
 }
@@ -806,9 +836,10 @@ async function saveProfile() {
       headers: {'Content-Type':'application/json'},
       body:    JSON.stringify({
         recordId,
-        languages:    JSON.stringify(selectedLangs),
-        customTags:   JSON.stringify(ownerTags),
-        selectedTags: JSON.stringify(allSelectedTags),
+        languages:      JSON.stringify(selectedLangs),
+        customTags:     JSON.stringify(ownerTags),
+        selectedTags:   JSON.stringify(allSelectedTags),
+        nameVariations: JSON.stringify(nameVariations),
         gmbUrl,
         city,
         area:  document.getElementById('editArea').value.trim(),
