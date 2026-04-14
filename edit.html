@@ -403,7 +403,7 @@ function showOtpError(msg) {
 // ── LOAD TAG MASTER ───────────────────────────────────────────────
 async function loadTagMasterData() {
   try {
-    const res = await fetch('/public/tag-master.json')
+    const res = await fetch('/tag-master.json')
     tagMasterData = await res.json()
   } catch(e) {
     console.error('Could not load tag-master.json', e)
