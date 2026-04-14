@@ -33,7 +33,7 @@ export default async function handler(req, res) {
 
 The customer experienced: ${tagList}
 
-Write exactly 2 reviews, both in ${lang}. Rules:
+You MUST return exactly 2 reviews in the JSON array — never 1, never 3. Both in ${lang}. Rules:
 - Length: ${sizeDesc} per review (${tagCount} tag${tagCount > 1 ? 's' : ''} selected)
 - Both reviews must be DIFFERENT from each other — different words, different structure
 - Sound like a real customer wrote it — natural, human
@@ -49,7 +49,7 @@ Write exactly 2 reviews, both in ${lang}. Rules:
   * Telugu = Telugu script with some English words
   * Kannada = Kannada script with some English words
 
-Return ONLY a valid JSON array — no explanation, no markdown, no backticks:
+CRITICAL: Return ONLY a valid JSON array with EXACTLY 2 objects — no explanation, no markdown, no backticks:
 [
   {"text": "first review here", "lang": "${lang}"},
   {"text": "second review here", "lang": "${lang}"}
@@ -65,7 +65,7 @@ Return ONLY a valid JSON array — no explanation, no markdown, no backticks:
       },
       body: JSON.stringify({
         model:      'claude-haiku-4-5-20251001',
-        max_tokens: 600,
+        max_tokens: 1000,
         messages:   [{ role: 'user', content: prompt }]
       })
     })
