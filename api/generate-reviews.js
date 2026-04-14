@@ -10,9 +10,9 @@ export default async function handler(req, res) {
     subCategory,
     city,
     area,
-    ownerName,  // professional name e.g. "Dr. Tushar Kanani"
-    tags,       // array of tag labels
-    lang        // single language string — always determined by client
+    nameVariations, // array of name variations e.g. ["Dr. Jinkal","Dr. Dihora"]
+    tags,           // array of tag labels
+    lang            // single language string — always determined by client
   } = req.body
 
   if (!businessName || !tags?.length || !lang) {
