@@ -36,7 +36,7 @@ export default async function handler(req, res) {
     // Store OTP
     otpStore.set(email.toLowerCase(), { code, expires, attempts: 0 })
 
-    const record   = atData.records[0].fields
+    const record    = atData.records[0].fields
     const ownerName = record.OwnerName || 'there'
 
     // Send email via Resend
@@ -62,8 +62,14 @@ export default async function handler(req, res) {
     </div>
     <p style="font-size:13px;color:#5A5A7A">This code expires in <strong>10 minutes</strong>.<br>Do not share this code with anyone.</p>
   </div>
+  <div style="background:#E8F5EE;border-radius:12px;padding:16px;margin-top:12px;text-align:center">
+    <p style="font-size:12px;color:#1A7A4A;margin-bottom:8px;font-weight:700">⚙️ Manage Your Review Page</p>
+    <p style="font-size:12px;color:#5A5A7A;margin-bottom:10px">Update your Google link, languages, and tags anytime.</p>
+    <a href="https://goodreview.in/edit.html" style="display:inline-block;background:#1A7A4A;color:#fff;padding:10px 24px;border-radius:8px;text-decoration:none;font-size:13px;font-weight:700">Edit My Profile →</a>
+  </div>
   <div style="text-align:center;padding:16px;font-size:12px;color:#5A5A7A">
-    If you didn't request this, ignore this email.
+    If you didn't request this, ignore this email.<br>
+    <a href="https://goodreview.in" style="color:#FF6B00;text-decoration:none;">goodreview.in</a>
   </div>
 </div></body></html>`
           })
@@ -77,7 +83,6 @@ export default async function handler(req, res) {
     return res.status(200).json({
       success: true,
       message: `OTP sent to ${email}`,
-      // Return ownerId for frontend (not sensitive)
       ownerId: atData.records[0].fields.OwnerID
     })
   }
@@ -122,14 +127,17 @@ export default async function handler(req, res) {
       return res.status(404).json({ error: 'Account not found.' })
     }
 
-    const r   = atData.records[0]
-    const f   = r.fields
+    const r = atData.records[0]
+    const f = r.fields
 
     let languages = ['English', 'Hindi', 'Gujarati', 'Hinglish']
     try { if (f.Languages) languages = JSON.parse(f.Languages) } catch (_) {}
 
     let customTags = []
     try { if (f.CustomTags) customTags = JSON.parse(f.CustomTags) } catch (_) {}
+
+    let selectedTags = []
+    try { if (f.SelectedTags) selectedTags = JSON.parse(f.SelectedTags) } catch (_) {}
 
     const plan = f.Plan || 'free'
     let tagLimit = 0
@@ -153,6 +161,7 @@ export default async function handler(req, res) {
         tagLimit,
         languages,
         customTags,
+        selectedTags,
       }
     })
   }
