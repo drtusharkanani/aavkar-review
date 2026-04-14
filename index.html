@@ -264,12 +264,56 @@ footer{background:var(--navy2);border-top:1px solid var(--border);padding:40px 2
 .reveal.visible{opacity:1;transform:translateY(0);}
 
 @media(max-width:640px){
+  /* NAV */
   .nav-links{display:none;}
   .nav-mobile-cta{display:block;}
   nav{padding:14px 16px;}
-  .steps-row::before{display:none;}
+
+  /* HERO */
+  .hero{padding:100px 16px 60px;overflow-x:hidden;}
+  .hero-content{width:100%;max-width:100%;}
+  .hero h1{font-size:28px;line-height:1.15;word-break:break-word;}
+  .hero-sub{font-size:14px;padding:0 4px;}
+  .hero-badge{font-size:11px;padding:5px 12px;text-align:center;}
+
+  /* BUTTONS */
+  .hero-actions{flex-direction:column;align-items:stretch;gap:10px;padding:0 4px;}
+  .btn-hero{width:100%;justify-content:center;padding:14px 20px;font-size:14px;}
+
+  /* CATEGORY STRIP */
+  .cat-strip{padding:0;}
+
+  /* STATS */
+  .hero-stats{gap:12px;padding-top:28px;flex-wrap:wrap;}
+  .stat-item{min-width:70px;}
+  .stat-num{font-size:24px;}
+  .stat-label{font-size:11px;}
+
+  /* SECTIONS */
+  section{padding:56px 16px;}
+  .section-title{font-size:24px;}
+  .section-sub{font-size:14px;}
+
+  /* CARDS */
   .price-card.hero-plan{transform:scale(1);}
-  .hero-stats{gap:20px;}
+  .steps-row::before{display:none;}
+  .works-grid{grid-template-columns:1fr 1fr;}
+  .features-grid{grid-template-columns:1fr;}
+  .testi-grid{grid-template-columns:1fr;}
+  .problem-grid{grid-template-columns:1fr;}
+
+  /* PRICING */
+  .pricing-tabs{max-width:100%;}
+  .pricing-grid{grid-template-columns:1fr;}
+
+  /* CTA */
+  .cta-actions{flex-direction:column;align-items:stretch;}
+  .cta-title{font-size:24px;}
+}
+
+@media(max-width:380px){
+  .hero h1{font-size:24px;}
+  .works-grid{grid-template-columns:1fr;}
 }
 </style>
 </head>
