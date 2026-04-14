@@ -304,8 +304,11 @@ function renderTags() {
     return
   }
 
+  // Filter out name variations — hidden from visitor, used by AI only
+  const visibleTags = tags.filter(t => t.type !== 'name')
+
   // Sort: favourites first, then rest
-  const sorted = [...tags].sort((a, b) => (b.favourite ? 1 : 0) - (a.favourite ? 1 : 0))
+  const sorted = [...visibleTags].sort((a, b) => (b.favourite ? 1 : 0) - (a.favourite ? 1 : 0))
 
   sorted.forEach(tag => {
     const pill = document.createElement('div')
@@ -398,13 +401,13 @@ async function doGenerate() {
       method:  'POST',
       headers: {'Content-Type': 'application/json'},
       body:    JSON.stringify({
-        businessName: business.businessName,
-        subCategory:  business.subCategory || '',
-        city:         business.city || '',
-        area:         business.area || '',
-        ownerName:    business.ownerName || '',
-        tags:         selectedTags.map(t => t.label),
-        lang:         getActiveLang()
+        businessName:   business.businessName,
+        subCategory:    business.subCategory || '',
+        city:           business.city || '',
+        area:           business.area || '',
+        nameVariations: business.nameVariations || [],
+        tags:           selectedTags.map(t => t.label),
+        lang:           getActiveLang()
       })
     })
 
