@@ -14,7 +14,8 @@ export default async function handler(req, res) {
     'OwnerID','OwnerName','Qualification','BusinessName','SubCategory',
     'BusinessType','City','Area','State','Phone','Email','GMB URL',
     'Plan','Active','PaymentType','ExpiryDate','ReviewCount','Rating',
-    'ReferralCode','ReferralCount','ShippingStatus','CustomTags','Languages'
+    'ReferralCode','ReferralCount','ShippingStatus','CustomTags','Languages',
+    'SelectedTags'
   ]
 
   const formula = `({OwnerID}=${parseInt(id)})`
@@ -71,21 +72,33 @@ export default async function handler(req, res) {
       try { languages = JSON.parse(r.Languages) } catch (_) {}
     }
 
-    // Parse owner-set custom tags (set during registration)
+    // Parse owner custom tags (legacy — kept for fallback)
     let ownerCustomTags = []
     if (r.CustomTags) {
       try { ownerCustomTags = JSON.parse(r.CustomTags) } catch (_) {}
     }
 
-    // Customer custom tag limit derived from plan — no extra Airtable field
+    // Parse selected tags (new — owner-selected tags shown on review page)
+    // Format: [{id, label, type}] where type = 'quality' | 'preset' | 'custom'
+    let selectedTags = []
+    if (r.SelectedTags) {
+      try { selectedTags = JSON.parse(r.SelectedTags) } catch (_) {}
+    }
+
+    // If no selectedTags yet, fall back to showing ownerCustomTags as custom type
+    if (selectedTags.length === 0 && ownerCustomTags.length > 0) {
+      selectedTags = ownerCustomTags.map(label => ({ id: null, label, type: 'custom' }))
+    }
+
+    // Customer custom tag limit derived from plan
     let customerCustomTagLimit = 0
     if      (plan.startsWith('ultimate')) customerCustomTagLimit = 5
     else if (plan.startsWith('premium'))  customerCustomTagLimit = 2
 
     // Free plan review cap
-    const isFreePlan     = plan === 'free'
-    const freeReviewCap  = 10
-    const reviewCount    = r.ReviewCount || 0
+    const isFreePlan    = plan === 'free'
+    const freeReviewCap = 10
+    const reviewCount   = r.ReviewCount || 0
 
     if (isFreePlan && reviewCount >= freeReviewCap) {
       return res.status(403).json({
@@ -97,24 +110,25 @@ export default async function handler(req, res) {
 
     return res.status(200).json({
       id:                     parseInt(id),
-      ownerName:              r.OwnerName    || '',
-      qualification:          r.Qualification || '',
-      businessName:           r.BusinessName  || '',
-      subCategory:            r.SubCategory   || '',
-      businessType:           r.BusinessType  || 'doctor_health',
-      city:                   r.City          || '',
-      area:                   r.Area          || '',
-      state:                  r.State         || '',
-      gmbUrl:                 r['GMB URL']    || '',
+      ownerName:              r.OwnerName     || '',
+      qualification:          r.Qualification  || '',
+      businessName:           r.BusinessName   || '',
+      subCategory:            r.SubCategory    || '',
+      businessType:           r.BusinessType   || 'doctor_health',
+      city:                   r.City           || '',
+      area:                   r.Area           || '',
+      state:                  r.State          || '',
+      gmbUrl:                 r['GMB URL']     || '',
       plan,
       isFreePlan,
       reviewCount,
       freeReviewCap,
       customerCustomTagLimit,
-      rating:                 r.Rating        || null,
-      referralCode:           r.ReferralCode  || '',
+      rating:                 r.Rating         || null,
+      referralCode:           r.ReferralCode   || '',
       languages,
       ownerCustomTags,
+      selectedTags,
     })
 
   } catch (err) {
