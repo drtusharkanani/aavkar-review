@@ -20,11 +20,8 @@ export default async function handler(req, res) {
   }
 
   const tagCount = tags.length
-  const sizeDesc = tagCount === 1
-    ? 'one detailed sentence (15-20 words)'
-    : tagCount === 2
-    ? 'one medium sentence (8-12 words)'
-    : 'one short sentence (4-7 words)'
+  // Always generate full natural reviews regardless of tag count
+  const sizeDesc = '2 to 3 natural sentences covering the customer experience'
 
   const locationHint = area && city ? `${area}, ${city}` : city || ''
   const tagList = tags.join(', ')
@@ -34,7 +31,7 @@ export default async function handler(req, res) {
 The customer experienced: ${tagList}
 
 You MUST return exactly 2 reviews in the JSON array — never 1, never 3. Both in ${lang}. Rules:
-- Length: ${sizeDesc} per review (${tagCount} tag${tagCount > 1 ? 's' : ''} selected)
+- Length: ${sizeDesc} — do NOT write one-word or ultra-short reviews
 - Both reviews must be DIFFERENT from each other — different words, different structure
 - Sound like a real customer wrote it — natural, human
 - No "Highly recommend!" closers — use natural endings or none
