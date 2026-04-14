@@ -401,12 +401,31 @@ async function copyReview() {
   setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = '📋 Copy Review' }, 3000)
   document.getElementById('pasteBusinessName').textContent = business.businessName || 'Share your experience'
   document.getElementById('pasteOverlay').classList.add('show')
+  startPasteCountdown()
   if (business.isFreePlan) {
     fetch('/api/increment-count',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:business.id})}).catch(()=>{})
   }
 }
 
+let pasteCountdownTimer = null
+
+function startPasteCountdown() {
+  let secs = 3
+  clearInterval(pasteCountdownTimer)
+  const el = document.getElementById('pasteCountdown')
+  if (el) el.textContent = `Opening in ${secs}s...`
+  pasteCountdownTimer = setInterval(() => {
+    secs--
+    if (el) el.textContent = secs > 0 ? `Opening in ${secs}s...` : 'Opening...'
+    if (secs <= 0) {
+      clearInterval(pasteCountdownTimer)
+      openGoogleMaps()
+    }
+  }, 1000)
+}
+
 function closePasteOverlay() {
+  clearInterval(pasteCountdownTimer)
   document.getElementById('pasteOverlay').classList.remove('show')
 }
 
