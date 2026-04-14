@@ -150,7 +150,7 @@ async function init() {
   try {
     const [bizRes, tmRes] = await Promise.all([
       fetch('/api/business?id=' + id),
-      fetch('/public/tag-master.json')
+      fetch('/tag-master.json')
     ])
     if (!bizRes.ok) {
       const e = await bizRes.json()
