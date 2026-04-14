@@ -383,7 +383,7 @@ function buildVersions() {
 
     // Phrases
     const parts = selectedTags
-      .map(tag => getPhrase(tag, lang, SIZE))
+      .map(tag => getPhraseWithCache(tag, lang, SIZE))
       .filter(Boolean)
 
     // Natural ending (1-2 tags only, ~60% chance)
@@ -413,18 +413,57 @@ function buildVersions() {
   return versions
 }
 
+// ── AI PHRASE CACHE ───────────────────────────────────────────────
+const aiPhraseCache = {}
+
+async function ensurePhrasesForSelectedTags() {
+  const lang = selectedLang || business.languages[0] || 'English'
+  const missingTags = selectedTags.filter(tag => {
+    if (tag.type === 'custom') return false
+    return getPhrase(tag, lang, 'short') === tag.label
+  })
+  if (missingTags.length === 0) return
+  await Promise.all(missingTags.map(async tag => {
+    if (aiPhraseCache[tag.label]) return
+    try {
+      const res = await fetch('/api/generate-phrase', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          tagName: tag.label, context: '',
+          language: lang, businessType: business.businessType,
+          businessName: business.businessName
+        })
+      })
+      const data = await res.json()
+      if (data.phrases?.length) aiPhraseCache[tag.label] = data.phrases[0]
+    } catch(e) {}
+  }))
+}
+
+function getPhraseWithCache(tag, lang, size) {
+  const base = getPhrase(tag, lang, size)
+  if (base !== tag.label) return base
+  if (aiPhraseCache[tag.label]) return aiPhraseCache[tag.label]
+  return tag.label
+}
+
 // ── REFRESH REVIEW ────────────────────────────────────────────────
-function refreshReview() {
+async function refreshReview() {
   if (selectedTags.length === 0) {
     document.getElementById('reviewCard').style.display = 'none'
     return
   }
+  document.getElementById('reviewCard').style.display = 'block'
+  document.getElementById('reviewText').textContent   = 'Generating review...'
+  document.getElementById('reviewDots').innerHTML     = ''
+
+  await ensurePhrasesForSelectedTags()
+
   reviewVersions    = buildVersions()
   currentVersionIdx = 0
   renderVersion(0)
-  document.getElementById('reviewCard').style.display = 'block'
 
-  // Language badge
   const badge = document.getElementById('langBadge')
   if (langLocked && selectedLang) {
     badge.className = 'lang-badge locked'
