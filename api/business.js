@@ -1,7 +1,7 @@
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'GET')
-  res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate')
+  res.setHeader('Cache-Control', 'no-store')
 
   const { id } = req.query
   if (!id) return res.status(400).json({ error: 'Missing id' })
