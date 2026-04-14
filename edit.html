@@ -41,7 +41,18 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .lang-native{font-size:11px;color:var(--text-soft)}
 .lang-check{width:20px;height:20px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;margin-left:auto;flex-shrink:0;transition:all 0.15s}
 .lang-opt.selected .lang-check{background:var(--saffron);border-color:var(--saffron);color:#fff}
-/* TAGS */
+
+/* SELECTABLE TAG PILLS */
+.tag-sel-wrap{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.tag-sel-pill{display:inline-flex;align-items:center;padding:8px 14px;border-radius:20px;border:2px solid var(--border);background:var(--white);font-size:13px;font-weight:700;color:var(--text-soft);cursor:pointer;transition:all 0.15s;user-select:none}
+.tag-sel-pill:hover{border-color:var(--saffron);color:var(--saffron)}
+.tag-sel-pill.selected{background:var(--saffron-light);border-color:var(--saffron);color:var(--saffron)}
+.tag-sel-pill.selected::before{content:'✓ ';font-size:12px}
+.tag-group-label{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--text-soft);margin:12px 0 8px;display:block}
+.tag-count-badge{display:inline-block;background:var(--saffron);color:#fff;border-radius:20px;font-size:11px;font-weight:800;padding:2px 8px;margin-left:8px}
+.no-tags-note{font-size:13px;color:var(--text-soft);padding:12px;background:var(--bg);border-radius:10px;text-align:center}
+
+/* OWNER CUSTOM TAGS */
 .tags-wrap{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px}
 .owner-tag-pill{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:20px;background:var(--green-light);border:2px solid var(--green);font-size:13px;font-weight:700;color:var(--green)}
 .remove-tag{cursor:pointer;opacity:0.7;font-size:14px;line-height:1}
@@ -181,23 +192,40 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
   <!-- EDITABLE: Languages -->
   <div class="card" style="margin-top:0">
     <div class="section-title">🌐 Review Languages</div>
-    <div class="info-box">Customers will see review options in these languages. Select at least 1.</div>
+    <div class="info-box">Visitors will see a language picker from these options. If they skip, a random language from this list is used.</div>
     <div class="lang-grid" id="editLangGrid"></div>
     <div class="error-msg" id="err-lang">Please select at least one language</div>
   </div>
 
-  <!-- EDITABLE: Owner Custom Tags -->
+  <!-- EDITABLE: Select Review Tags -->
+  <div class="card" id="selectTagsCard" style="margin-top:0;display:none">
+    <div class="section-title">🏷️ Select Review Tags
+      <span class="tag-count-badge" id="selectedTagCount">0</span>
+    </div>
+    <div class="info-box">Visitors will see <strong>only these tags</strong> on your review page. Select the ones that best describe your services.</div>
+
+    <!-- Service Quality Tags -->
+    <span class="tag-group-label">⭐ Service Quality Tags</span>
+    <div class="tag-sel-wrap" id="qualityTagsWrap"></div>
+
+    <!-- Preset Business Tags -->
+    <span class="tag-group-label" id="presetTagsLabel">📋 Your Business Tags</span>
+    <div class="tag-sel-wrap" id="presetTagsWrap"></div>
+
+    <div class="error-msg" id="err-tags">Please select at least 1 tag</div>
+  </div>
+
+  <!-- EDITABLE: Owner Custom Tags (plan-based) -->
   <div class="card" id="ownerTagsCard" style="margin-top:0;display:none">
-    <div class="section-title">★ Custom Service Tags</div>
+    <div class="section-title">★ Add Custom Tags</div>
     <div class="info-box" id="tagInfo"></div>
     <div class="tags-wrap" id="editTagsWrap"></div>
     <div class="add-tag-row" id="addTagRow">
-      <input class="add-tag-input" id="newTagInput" placeholder="Add a tag..." maxlength="30">
+      <input class="add-tag-input" id="newTagInput" placeholder="e.g. Jain Food, Home Visit..." maxlength="30">
       <button class="add-tag-btn" onclick="addTag()">+</button>
     </div>
     <div class="char-count"><span id="tagCharCount">0</span>/30</div>
     <div class="tag-limit-note" id="tagLimitNote"></div>
-    <div class="error-msg" id="err-tags"></div>
   </div>
 
   <!-- SAVE BUTTON -->
@@ -237,13 +265,15 @@ const PLAN_LABELS = {
   ultimate_5yr:'Ultimate 5 Years'
 }
 
-let recordId     = ''
-let business     = null
+let recordId      = ''
+let business      = null
 let selectedLangs = []
-let ownerTags    = []
-let tagLimit     = 0
-let otpTimer     = null
-let timerSeconds = 0
+let ownerTags     = []
+let tagLimit      = 0
+let otpTimer      = null
+let timerSeconds  = 0
+let tagMasterData = null
+let selectedTagIds = [] // IDs of selected quality + preset tags
 
 // ── OTP FLOW ─────────────────────────────────────────────────────
 async function sendOtp() {
@@ -346,8 +376,12 @@ async function verifyOtp() {
     clearInterval(otpTimer)
     recordId = data.recordId
     business = data.business
-    document.getElementById('otpCard').style.display      = 'none'
+    document.getElementById('otpCard').style.display        = 'none'
     document.getElementById('loadingProfile').style.display = 'block'
+
+    // Load tag master while showing loader
+    await loadTagMasterData()
+
     setTimeout(() => {
       document.getElementById('loadingProfile').style.display = 'none'
       renderEditProfile()
@@ -364,6 +398,17 @@ function showOtpError(msg) {
   const el = document.getElementById('err-otp')
   el.textContent    = msg
   el.style.display  = 'block'
+}
+
+// ── LOAD TAG MASTER ───────────────────────────────────────────────
+async function loadTagMasterData() {
+  try {
+    const res = await fetch('/public/tag-master.json')
+    tagMasterData = await res.json()
+  } catch(e) {
+    console.error('Could not load tag-master.json', e)
+    tagMasterData = null
+  }
 }
 
 // ── RENDER EDIT PROFILE ──────────────────────────────────────────
@@ -394,15 +439,18 @@ function renderEditProfile() {
   selectedLangs = [...b.languages]
   renderLangGrid()
 
-  // Owner tags
+  // Selectable tags (quality + preset)
+  renderSelectableTags()
+
+  // Owner custom tags (plan-limited)
   tagLimit  = b.tagLimit
   ownerTags = [...b.customTags]
 
   if (tagLimit > 0) {
     document.getElementById('ownerTagsCard').style.display = 'block'
     document.getElementById('tagInfo').textContent =
-      `Your plan allows up to ${tagLimit} custom tags. These appear as ★ special service pills on your review page.`
-    renderTags()
+      `Your plan allows up to ${tagLimit} custom tags. Add your own unique service tags below — they appear alongside your selected tags.`
+    renderOwnerTags()
   }
 
   document.getElementById('editSection').style.display = 'block'
@@ -429,14 +477,105 @@ function toggleLang(id) {
   const idx = selectedLangs.indexOf(id)
   if (idx === -1) selectedLangs.push(id)
   else if (selectedLangs.length > 1) selectedLangs.splice(idx, 1)
-  else return // must keep at least 1
-
+  else return
   renderLangGrid()
   document.getElementById('err-lang').classList.remove('show')
 }
 
-// ── OWNER TAGS ───────────────────────────────────────────────────
-function renderTags() {
+// ── SELECTABLE TAGS (Quality + Preset) ───────────────────────────
+function renderSelectableTags() {
+  if (!tagMasterData) return
+
+  const b = business
+
+  // Load previously saved selectedTags
+  try {
+    const saved = JSON.parse(b.selectedTags || '[]')
+    selectedTagIds = saved
+      .map(t => (typeof t === 'object' ? t.id : t))
+      .filter(Boolean)
+  } catch(e) {
+    selectedTagIds = []
+  }
+
+  // ── Service Quality Tags ──
+  const qualityWrap = document.getElementById('qualityTagsWrap')
+  qualityWrap.innerHTML = ''
+  Object.entries(tagMasterData.serviceQualityTags).forEach(([key, val]) => {
+    if (val.showFor.includes('all') || val.showFor.includes(b.businessType)) {
+      qualityWrap.appendChild(makeSelectablePill(key, key, 'quality'))
+    }
+  })
+
+  // ── Preset Business Tags ──
+  const presetWrap  = document.getElementById('presetTagsWrap')
+  presetWrap.innerHTML = ''
+  const cat    = tagMasterData.categories[b.businessType]
+  const subcat = cat && b.subCategory ? cat.subcategories[b.subCategory] : null
+
+  if (subcat && subcat.tags && subcat.tags.length > 0) {
+    document.getElementById('presetTagsLabel').textContent = `📋 ${b.subCategory} Tags`
+    subcat.tags.forEach(tag => {
+      presetWrap.appendChild(makeSelectablePill(tag.id, tag.label, 'preset'))
+    })
+  } else if (cat) {
+    // Show all tags from all subcategories if subcat not found
+    document.getElementById('presetTagsLabel').textContent = `📋 ${cat.name} Tags`
+    const seen = new Set()
+    Object.values(cat.subcategories).forEach(sub => {
+      sub.tags.forEach(tag => {
+        if (!seen.has(tag.id)) {
+          seen.add(tag.id)
+          presetWrap.appendChild(makeSelectablePill(tag.id, tag.label, 'preset'))
+        }
+      })
+    })
+  } else {
+    presetWrap.innerHTML = '<div class="no-tags-note">No preset tags for your category yet. Add custom tags below.</div>'
+  }
+
+  document.getElementById('selectTagsCard').style.display = 'block'
+  updateTagCountBadge()
+}
+
+function makeSelectablePill(id, label, type) {
+  const pill    = document.createElement('div')
+  const isSel   = selectedTagIds.includes(id)
+  pill.className = 'tag-sel-pill' + (isSel ? ' selected' : '')
+  pill.id        = 'tpill_' + id
+  pill.dataset.id    = id
+  pill.dataset.label = label
+  pill.dataset.type  = type
+  pill.textContent   = label
+  pill.onclick = () => toggleSelectTag(id, pill)
+  return pill
+}
+
+function toggleSelectTag(id, pill) {
+  const idx = selectedTagIds.indexOf(id)
+  if (idx === -1) {
+    selectedTagIds.push(id)
+    pill.classList.add('selected')
+    pill.textContent = id  // reset then let CSS ::before handle checkmark
+    // re-get element to refresh
+    const el = document.getElementById('tpill_' + id)
+    if (el) el.classList.add('selected')
+  } else {
+    selectedTagIds.splice(idx, 1)
+    const el = document.getElementById('tpill_' + id)
+    if (el) el.classList.remove('selected')
+  }
+  document.getElementById('err-tags').classList.remove('show')
+  updateTagCountBadge()
+}
+
+function updateTagCountBadge() {
+  const total = selectedTagIds.length + ownerTags.length
+  document.getElementById('selectedTagCount').textContent = total
+}
+
+// ── OWNER CUSTOM TAGS ────────────────────────────────────────────
+function renderOwnerTags() {
   const wrap = document.getElementById('editTagsWrap')
   wrap.innerHTML = ''
   ownerTags.forEach((tag, i) => {
@@ -446,13 +585,15 @@ function renderTags() {
     wrap.appendChild(pill)
   })
 
-  const atLimit  = ownerTags.length >= tagLimit
-  const addRow   = document.getElementById('addTagRow')
+  const atLimit   = ownerTags.length >= tagLimit
+  const addRow    = document.getElementById('addTagRow')
   const limitNote = document.getElementById('tagLimitNote')
-  if (addRow) addRow.style.display = atLimit ? 'none' : 'flex'
-  if (limitNote) limitNote.textContent = atLimit
-    ? `Maximum ${tagLimit} tags reached for your plan.`
-    : `${ownerTags.length}/${tagLimit} tags used`
+  if (addRow)    addRow.style.display    = atLimit ? 'none' : 'flex'
+  if (limitNote) limitNote.textContent   = atLimit
+    ? `Maximum ${tagLimit} custom tags reached for your plan.`
+    : `${ownerTags.length}/${tagLimit} custom tags used`
+
+  updateTagCountBadge()
 }
 
 function addTag() {
@@ -463,12 +604,12 @@ function addTag() {
   ownerTags.push(val)
   input.value = ''
   document.getElementById('tagCharCount').textContent = '0'
-  renderTags()
+  renderOwnerTags()
 }
 
 function removeTag(i) {
   ownerTags.splice(i, 1)
-  renderTags()
+  renderOwnerTags()
 }
 
 // Char counter
@@ -483,7 +624,6 @@ document.addEventListener('DOMContentLoaded', () => {
     })
   }
 
-  // Allow Enter on OTP input
   const otpInp = document.getElementById('otpInput')
   if (otpInp) {
     otpInp.addEventListener('keydown', function(e) {
@@ -492,9 +632,45 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 })
 
+// ── BUILD SELECTED TAGS ARRAY FOR SAVING ─────────────────────────
+function buildSelectedTagsForSave() {
+  const result = []
+
+  if (!tagMasterData) return result
+
+  const b = business
+
+  selectedTagIds.forEach(id => {
+    // Check quality tags
+    if (tagMasterData.serviceQualityTags[id]) {
+      result.push({ id, label: id, type: 'quality' })
+      return
+    }
+    // Check preset tags
+    const cat = tagMasterData.categories[b.businessType]
+    if (cat) {
+      for (const sub of Object.values(cat.subcategories)) {
+        const found = sub.tags.find(t => t.id === id)
+        if (found) {
+          result.push({ id, label: found.label, type: 'preset' })
+          return
+        }
+      }
+    }
+    // Fallback
+    result.push({ id, label: id, type: 'preset' })
+  })
+
+  // Add custom tags
+  ownerTags.forEach(tag => {
+    result.push({ id: null, label: tag, type: 'custom' })
+  })
+
+  return result
+}
+
 // ── SAVE ─────────────────────────────────────────────────────────
 async function saveProfile() {
-  // Validate
   const gmbUrl = document.getElementById('editGmbUrl').value.trim()
   const city   = document.getElementById('editCity').value.trim()
 
@@ -518,6 +694,14 @@ async function saveProfile() {
   }
   document.getElementById('err-lang').classList.remove('show')
 
+  const allSelectedTags = buildSelectedTagsForSave()
+  if (allSelectedTags.length === 0) {
+    document.getElementById('err-tags').classList.add('show')
+    document.getElementById('selectTagsCard').scrollIntoView({behavior:'smooth'})
+    return
+  }
+  document.getElementById('err-tags').classList.remove('show')
+
   const btn = document.getElementById('saveBtn')
   btn.disabled    = true
   btn.textContent = 'Saving...'
@@ -528,8 +712,9 @@ async function saveProfile() {
       headers: {'Content-Type':'application/json'},
       body:    JSON.stringify({
         recordId,
-        languages:  JSON.stringify(selectedLangs),
-        customTags: JSON.stringify(ownerTags),
+        languages:    JSON.stringify(selectedLangs),
+        customTags:   JSON.stringify(ownerTags),
+        selectedTags: JSON.stringify(allSelectedTags),
         gmbUrl,
         city,
         area:  document.getElementById('editArea').value.trim(),
@@ -546,7 +731,6 @@ async function saveProfile() {
       return
     }
 
-    // Success
     btn.classList.add('saved')
     btn.textContent = '✅ Saved!'
     setTimeout(() => {
