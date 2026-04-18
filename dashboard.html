@@ -225,10 +225,10 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
         <div class="prog-bar" id="freeBar" style="width:0%;background:var(--green)"></div>
       </div>
       <div style="margin-top:10px;text-align:center">
-        <a href="https://goodreview.in/register.html"
-           style="font-size:13px;color:var(--saffron);font-weight:700;text-decoration:none">
+        <span onclick="openUpgradeModal()"
+           style="font-size:13px;color:var(--saffron);font-weight:700;text-decoration:none;cursor:pointer">
           ⬆️ Upgrade Plan →
-        </a>
+        </span>
       </div>
     </div>
   </div>
@@ -253,10 +253,10 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
         <span class="action-icon">🖨️</span>
         <span class="action-label">Print QR Kit</span>
       </a>
-      <a href="https://goodreview.in/register.html" class="action-btn">
+      <div class="action-btn" onclick="openUpgradeModal()">
         <span class="action-icon">⬆️</span>
-        <span class="action-label">Upgrade Plan</span>
-      </a>
+        <span class="action-label">Upgrade / Renew</span>
+      </div>
       <a href="https://wa.me/917984939486" target="_blank" class="action-btn">
         <span class="action-icon">💬</span>
         <span class="action-label">WhatsApp Support</span>
@@ -551,6 +551,171 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'Enter') verifyOtp()
   })
 })
+
+// ── UPGRADE / RENEW FLOW ─────────────────────────────────────────
+const UPGRADE_PLANS = {
+  0: [
+    {id:'starter_1yr', name:'Starter', price:499,  features:'Unlimited reviews · QR code'},
+    {id:'premium_1yr', name:'Premium', price:999,  features:'NFC card + QR stickers · 2 custom tags'},
+    {id:'ultimate_1yr',name:'Ultimate',price:1499, features:'NFC + Standee + Stickers · 5 custom tags'},
+  ],
+  1: [
+    {id:'starter_2yr', name:'Starter', price:799,  features:'Unlimited reviews · QR code'},
+    {id:'premium_2yr', name:'Premium', price:1699, features:'NFC card + QR stickers · 2 custom tags'},
+    {id:'ultimate_2yr',name:'Ultimate',price:2499, features:'NFC + Standee + Stickers · 5 custom tags'},
+  ],
+  2: [
+    {id:'starter_5yr', name:'Starter', price:1499, features:'Unlimited reviews · QR code'},
+    {id:'premium_5yr', name:'Premium', price:2999, features:'NFC card + QR stickers · 2 custom tags'},
+    {id:'ultimate_5yr',name:'Ultimate',price:4999, features:'NFC + Standee + Stickers · 5 custom tags'},
+  ]
+}
+const UPGRADE_COUPONS = ['TEST100','TUSHAR100','GOODREVIEW100','LAUNCH100']
+let upgradeDur = 0, selectedUpgradePlan = null, upgradeCouponApplied = false
+
+function openUpgradeModal() {
+  upgradeDur = 0; selectedUpgradePlan = null; upgradeCouponApplied = false
+  document.getElementById('upgradeCoupon').value = ''
+  document.getElementById('upgradeCouponMsg').style.display = 'none'
+  const btn = document.getElementById('upgradePayBtn')
+  btn.disabled = false; btn.textContent = '💳 Pay & Upgrade'
+  btn.style.background = 'linear-gradient(135deg,#FF6B00,#F5A623)'
+  renderUpgradePlans()
+  document.getElementById('upgradeModal').style.display = 'flex'
+}
+function closeUpgradeModal() { document.getElementById('upgradeModal').style.display = 'none' }
+function setUpgradeDur(d) {
+  upgradeDur = d; selectedUpgradePlan = null
+  ;[0,1,2].forEach(i => {
+    const btn = document.getElementById('udt' + i)
+    btn.style.background = i===d ? '#FF6B00' : '#fff'
+    btn.style.color      = i===d ? '#fff'    : '#5A5A7A'
+  })
+  renderUpgradePlans()
+}
+function renderUpgradePlans() {
+  const grid = document.getElementById('upgradePlanGrid')
+  if (!grid) return
+  grid.innerHTML = ''
+  UPGRADE_PLANS[upgradeDur].forEach(plan => {
+    const div = document.createElement('div')
+    const isSel = selectedUpgradePlan?.id === plan.id
+    div.style.cssText = `padding:12px 14px;border-radius:12px;border:2px solid ${isSel?'#FF6B00':'#E8E8F0'};background:${isSel?'#FFF3E8':'#fff'};cursor:pointer;transition:all 0.15s`
+    div.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-weight:800;font-size:14px;color:#1A1A2E">${plan.name}</div><div style="font-size:11px;color:#5A5A7A;margin-top:2px">${plan.features}</div></div><div style="font-weight:800;font-size:16px;color:#FF6B00">₹${plan.price}</div></div>`
+    div.onclick = () => { selectedUpgradePlan = plan; renderUpgradePlans() }
+    grid.appendChild(div)
+  })
+}
+function applyUpgradeCoupon() {
+  const code = document.getElementById('upgradeCoupon').value.trim().toUpperCase()
+  const msgEl = document.getElementById('upgradeCouponMsg')
+  msgEl.style.display = 'block'
+  if (UPGRADE_COUPONS.includes(code)) {
+    upgradeCouponApplied = true
+    msgEl.style.color = '#1A7A4A'; msgEl.textContent = '🎉 100% discount applied!'
+    const btn = document.getElementById('upgradePayBtn')
+    btn.textContent = '✓ Upgrade Free'; btn.style.background = '#1A7A4A'
+  } else {
+    upgradeCouponApplied = false
+    msgEl.style.color = '#E24B4A'; msgEl.textContent = 'Invalid coupon code.'
+  }
+}
+async function initiateUpgradePayment() {
+  if (!selectedUpgradePlan) { alert('Please select a plan first.'); return }
+  if (upgradeCouponApplied) { await processUpgrade(null); return }
+  const options = {
+    key: 'rzp_live_SV1eidoxzw7NCK',
+    amount: selectedUpgradePlan.price * 100,
+    currency: 'INR',
+    name: 'GoodReview',
+    description: selectedUpgradePlan.name + ' Plan',
+    prefill: { name: business?.ownerName||'', email: business?.email||'' },
+    theme: { color: '#FF6B00' },
+    handler: async (r) => await processUpgrade(r.razorpay_payment_id),
+    modal: { ondismiss: ()=>{} }
+  }
+  new Razorpay(options).open()
+}
+async function processUpgrade(paymentId) {
+  const btn = document.getElementById('upgradePayBtn')
+  btn.disabled = true; btn.textContent = 'Upgrading...'
+  try {
+    const res = await fetch('/api/upgrade-plan', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ recordId, plan: selectedUpgradePlan.id, paymentId: paymentId||'' })
+    })
+    const data = await res.json()
+    if (data.success) {
+      closeUpgradeModal()
+      business.plan = selectedUpgradePlan.id
+      business.expiryDate = data.expiryDate
+      business.tagLimit = selectedUpgradePlan.id.startsWith('ultimate') ? 5 : selectedUpgradePlan.id.startsWith('premium') ? 2 : 0
+      buildDashboard()
+      alert('✅ Plan upgraded successfully! Your review page is updated.')
+    } else {
+      alert(data.error || 'Upgrade failed. Contact support.')
+      btn.disabled = false; btn.textContent = '💳 Pay & Upgrade'
+    }
+  } catch(e) {
+    alert('Network error. Please try again.')
+    btn.disabled = false; btn.textContent = '💳 Pay & Upgrade'
+  }
+}
 </script>
+
+<!-- UPGRADE MODAL -->
+<div id="upgradeModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:200;align-items:center;justify-content:center;padding:16px">
+  <div style="background:#fff;border-radius:20px;width:100%;max-width:420px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.3)">
+    <div style="background:linear-gradient(135deg,#FF6B00,#F5A623);padding:20px 24px">
+      <div style="font-size:18px;font-weight:800;color:#fff;font-family:'Poppins',sans-serif">⬆️ Upgrade / Renew Plan</div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.85);margin-top:4px">Your QR code and NFC card stay the same</div>
+    </div>
+    <div style="padding:20px 24px">
+      <!-- Duration tabs -->
+      <div style="display:flex;border-radius:10px;overflow:hidden;border:2px solid #E8E8F0;margin-bottom:16px">
+        <button class="up-dur-tab" onclick="setUpgradeDur(0)" id="udt0" style="flex:1;padding:9px 4px;font-size:12px;font-weight:700;border:none;background:#FF6B00;color:#fff;cursor:pointer">1 Year</button>
+        <button class="up-dur-tab" onclick="setUpgradeDur(1)" id="udt1" style="flex:1;padding:9px 4px;font-size:12px;font-weight:700;border:none;background:#fff;color:#5A5A7A;cursor:pointer">2 Years</button>
+        <button class="up-dur-tab" onclick="setUpgradeDur(2)" id="udt2" style="flex:1;padding:9px 4px;font-size:12px;font-weight:700;border:none;background:#fff;color:#5A5A7A;cursor:pointer">5 Years</button>
+      </div>
+      <!-- Plan options -->
+      <div id="upgradePlanGrid" style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px"></div>
+      <!-- Coupon -->
+      <div style="display:flex;gap:8px;margin-bottom:12px">
+        <input id="upgradeCoupon" placeholder="Coupon code" style="flex:1;padding:10px 14px;border-radius:10px;border:2px solid #E8E8F0;font-size:13px;font-family:'Nunito',sans-serif;outline:none;text-transform:uppercase;letter-spacing:1px">
+        <button onclick="applyUpgradeCoupon()" style="padding:10px 16px;border-radius:10px;background:#1A1A2E;color:#fff;border:none;font-weight:800;font-size:13px;cursor:pointer">Apply</button>
+      </div>
+      <div id="upgradeCouponMsg" style="font-size:12px;margin-bottom:10px;display:none"></div>
+      <button id="upgradePayBtn" onclick="initiateUpgradePayment()" style="width:100%;padding:14px;border-radius:12px;border:none;background:linear-gradient(135deg,#FF6B00,#F5A623);color:#fff;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;cursor:pointer">💳 Pay & Upgrade</button>
+      <button onclick="closeUpgradeModal()" style="width:100%;padding:11px;border-radius:12px;border:2px solid #E8E8F0;background:#fff;font-family:'Poppins',sans-serif;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px;color:#5A5A7A">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<!-- UPGRADE MODAL -->
+<div id="upgradeModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:200;align-items:center;justify-content:center;padding:16px">
+  <div style="background:#fff;border-radius:20px;width:100%;max-width:420px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.3)">
+    <div style="background:linear-gradient(135deg,#FF6B00,#F5A623);padding:20px 24px">
+      <div style="font-size:18px;font-weight:800;color:#fff;font-family:'Poppins',sans-serif">⬆️ Upgrade / Renew Plan</div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.85);margin-top:4px">Your QR code and NFC card stay the same — no reprinting needed</div>
+    </div>
+    <div style="padding:20px 24px">
+      <div style="display:flex;border-radius:10px;overflow:hidden;border:2px solid #E8E8F0;margin-bottom:16px">
+        <button onclick="setUpgradeDur(0)" id="udt0" style="flex:1;padding:9px 4px;font-size:12px;font-weight:700;border:none;background:#FF6B00;color:#fff;cursor:pointer">1 Year</button>
+        <button onclick="setUpgradeDur(1)" id="udt1" style="flex:1;padding:9px 4px;font-size:12px;font-weight:700;border:none;background:#fff;color:#5A5A7A;cursor:pointer">2 Years</button>
+        <button onclick="setUpgradeDur(2)" id="udt2" style="flex:1;padding:9px 4px;font-size:12px;font-weight:700;border:none;background:#fff;color:#5A5A7A;cursor:pointer">5 Years</button>
+      </div>
+      <div id="upgradePlanGrid" style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px"></div>
+      <div style="display:flex;gap:8px;margin-bottom:12px">
+        <input id="upgradeCoupon" placeholder="Coupon code" style="flex:1;padding:10px 14px;border-radius:10px;border:2px solid #E8E8F0;font-size:13px;font-family:'Nunito',sans-serif;outline:none;text-transform:uppercase;letter-spacing:1px">
+        <button onclick="applyUpgradeCoupon()" style="padding:10px 16px;border-radius:10px;background:#1A1A2E;color:#fff;border:none;font-weight:800;font-size:13px;cursor:pointer">Apply</button>
+      </div>
+      <div id="upgradeCouponMsg" style="font-size:12px;margin-bottom:10px;display:none"></div>
+      <button id="upgradePayBtn" onclick="initiateUpgradePayment()" style="width:100%;padding:14px;border-radius:12px;border:none;background:linear-gradient(135deg,#FF6B00,#F5A623);color:#fff;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;cursor:pointer">💳 Pay & Upgrade</button>
+      <button onclick="closeUpgradeModal()" style="width:100%;padding:11px;border-radius:12px;border:2px solid #E8E8F0;background:#fff;font-family:'Poppins',sans-serif;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px;color:#5A5A7A">Cancel</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
