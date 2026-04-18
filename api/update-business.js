@@ -7,14 +7,10 @@ export default async function handler(req, res) {
 
   const {
     recordId,
-    languages,
-    customTags,
-    selectedTags,
-    nameVariations,
-    gmbUrl,
-    city,
-    area,
-    state
+    languages, customTags, selectedTags, nameVariations,
+    gmbUrl, city, area, state,
+    tagline, greetingMessage, photoUrl, coverUrl,
+    businessHours, whatsapp, socialLinks
   } = req.body
 
   if (!recordId) return res.status(400).json({ error: 'Missing recordId' })
@@ -28,7 +24,14 @@ export default async function handler(req, res) {
   if (gmbUrl       !== undefined) fields['GMB URL']      = gmbUrl
   if (city         !== undefined) fields['City']         = city
   if (area         !== undefined) fields['Area']         = area
-  if (state        !== undefined) fields['State']        = state
+  if (state            !== undefined) fields['State']          = state
+  if (tagline          !== undefined) fields['Tagline']        = tagline
+  if (greetingMessage  !== undefined) fields['GreetingMessage'] = greetingMessage
+  if (photoUrl         !== undefined) fields['PhotoURL']        = photoUrl
+  if (coverUrl         !== undefined) fields['CoverURL']        = coverUrl
+  if (businessHours    !== undefined) fields['BusinessHours']   = businessHours
+  if (whatsapp         !== undefined) fields['WhatsApp']        = whatsapp
+  if (socialLinks      !== undefined) fields['SocialLinks']     = socialLinks
 
   try {
     const airtableRes = await fetch(
