@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="GoodReview — AI-powered Google review platform for Indian businesses. QR code, NFC, 8 languages, 15 categories.">
 <title>GoodReview — More Google Reviews For Your Business</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
 <style>
 /* ── RESET & ROOT ─────────────────────────────────────────────── */
 :root{
@@ -16,9 +16,9 @@
   --border:rgba(255,255,255,0.06); --card:rgba(255,255,255,0.03);
   --glow:rgba(255,107,0,0.18);
   --radius:18px;
-  --font-head:'Syne',sans-serif;
-  --font-body:'DM Sans',sans-serif;
-  --font-num:'Bebas Neue',sans-serif;
+  --font-head:'Plus Jakarta Sans',sans-serif;
+  --font-body:'Plus Jakarta Sans',sans-serif;
+  --font-num:'Plus Jakarta Sans',sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;font-size:16px}
@@ -126,17 +126,19 @@ nav.scrolled{
 .hero-left{}
 .hero-badge{
   display:inline-flex;align-items:center;gap:8px;
-  background:rgba(255,107,0,0.1);border:1px solid rgba(255,107,0,0.25);
+  background:rgba(255,107,0,0.08);border:1px solid rgba(255,107,0,0.2);
   border-radius:50px;padding:6px 16px;margin-bottom:28px;
-  font-size:12px;font-weight:600;color:var(--saffron3);letter-spacing:0.5px;
+  font-size:12px;font-weight:500;color:rgba(255,255,255,0.7);letter-spacing:0.3px;
   opacity:0;animation:fade-up 0.6s ease 0.1s forwards;
 }
 .hero-badge-dot{width:6px;height:6px;background:var(--saffron);border-radius:50%;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(1.5)}}
 .hero-h1{
   font-family:var(--font-head);
-  font-size:clamp(36px,5.5vw,72px);
-  line-height:1.05;font-weight:800;
+  font-size:clamp(38px,5.5vw,72px);
+  line-height:1.1;font-weight:800;
+  letter-spacing:-0.5px;
+  color:#ffffff;
   margin-bottom:24px;
 }
 .hero-h1 .line{display:block;overflow:hidden}
@@ -146,11 +148,11 @@ nav.scrolled{
   animation:line-up 0.7s cubic-bezier(0.16,1,0.3,1) forwards;
 }
 .hero-h1 .line:nth-child(1) span{animation-delay:0.2s}
-.hero-h1 .line:nth-child(2) span{animation-delay:0.35s;color:var(--saffron)}
+.hero-h1 .line:nth-child(2) span{animation-delay:0.35s}
 .hero-h1 .line:nth-child(3) span{animation-delay:0.5s}
 @keyframes line-up{to{opacity:1;transform:translateY(0)}}
 .hero-sub{
-  font-size:clamp(15px,1.6vw,18px);color:rgba(255,255,255,0.55);
+  font-size:clamp(15px,1.6vw,17px);color:rgba(255,255,255,0.65);
   line-height:1.75;max-width:480px;margin-bottom:36px;font-weight:300;
   opacity:0;animation:fade-up 0.6s ease 0.7s forwards;
 }
@@ -328,7 +330,7 @@ nav.scrolled{
 }
 .stat-box:hover{background:var(--ink3)}
 .stat-number{
-  font-family:var(--font-num);font-size:clamp(42px,5vw,64px);
+  font-family:var(--font-num);font-size:clamp(36px,4.5vw,56px);font-weight:800;
   color:var(--white);line-height:1;margin-bottom:6px;
   background:linear-gradient(135deg,var(--white),rgba(255,255,255,0.7));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
@@ -341,18 +343,19 @@ nav.scrolled{
 /* ── SECTION BASE ─────────────────────────────────────────────── */
 section{padding:100px 5%;position:relative}
 .section-label{
-  font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:3px;
-  color:var(--saffron);margin-bottom:16px;display:block;
+  font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:2px;
+  color:var(--saffron);margin-bottom:14px;display:block;
+  opacity:0.85;
 }
 .section-title{
   font-family:var(--font-head);
-  font-size:clamp(28px,4vw,48px);
-  font-weight:800;line-height:1.15;color:var(--white);
+  font-size:clamp(26px,3.5vw,44px);
+  font-weight:800;line-height:1.15;color:#ffffff;
   margin-bottom:18px;
+  letter-spacing:-0.3px;
 }
-.section-title em{font-style:italic;color:var(--gold)}
-.section-sub{font-size:17px;color:rgba(255,255,255,0.5);line-height:1.7;font-weight:300;max-width:560px}
-.section-head{margin-bottom:60px}
+.section-sub{font-size:15px;color:rgba(255,255,255,0.6);line-height:1.7;font-weight:400;max-width:560px}
+.section-head{margin-bottom:40px}
 .section-head.center{text-align:center}
 .section-head.center .section-sub{margin:0 auto}
 
@@ -380,7 +383,7 @@ section{padding:100px 5%;position:relative}
   color:var(--saffron);line-height:1;margin-bottom:8px;
 }
 .prob-title{font-family:var(--font-head);font-size:18px;font-weight:700;color:var(--white);margin-bottom:8px}
-.prob-text{font-size:14px;color:var(--muted);line-height:1.7}
+.prob-text{font-size:14px;color:rgba(255,255,255,0.55);line-height:1.75}
 
 /* ── HOW IT WORKS ─────────────────────────────────────────────── */
 .how-section{background:var(--ink)}
@@ -424,13 +427,14 @@ section{padding:100px 5%;position:relative}
 }
 .step-emoji{font-size:36px}
 .step-title{font-family:var(--font-head);font-size:17px;font-weight:700;color:var(--white);margin-bottom:8px}
-.step-text{font-size:14px;color:var(--muted);line-height:1.7}
+.step-text{font-size:14px;color:rgba(255,255,255,0.55);line-height:1.75}
 
 /* ── CATEGORIES ───────────────────────────────────────────────── */
 .cat-section{background:var(--ink2);overflow:hidden}
 .cat-grid{
   max-width:1100px;margin:0 auto;
   display:grid;grid-template-columns:repeat(5,1fr);gap:12px;
+  min-height:10px;
 }
 .cat-card{
   background:var(--card);border:1px solid var(--border);
@@ -478,7 +482,7 @@ section{padding:100px 5%;position:relative}
   font-size:26px;margin-bottom:20px;
 }
 .feat-title{font-family:var(--font-head);font-size:18px;font-weight:700;color:var(--white);margin-bottom:10px}
-.feat-text{font-size:14px;color:var(--muted);line-height:1.7}
+.feat-text{font-size:14px;color:rgba(255,255,255,0.55);line-height:1.75}
 .feat-tag{
   display:inline-block;margin-top:14px;
   font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
@@ -597,7 +601,7 @@ section{padding:100px 5%;position:relative}
   font-weight:800;line-height:1.1;color:var(--white);margin-bottom:20px;
   position:relative;z-index:1;
 }
-.cta-title span{color:var(--saffron)}
+
 .cta-sub{
   font-size:17px;color:rgba(255,255,255,0.5);
   margin-bottom:40px;font-weight:300;position:relative;z-index:1;
@@ -654,6 +658,37 @@ footer{
 .reveal-delay-3{transition-delay:0.3s}
 .reveal-delay-4{transition-delay:0.4s}
 
+
+/* ── FLOATING WHATSAPP ──────────────────────────────────────────── */
+.wa-float{
+  position:fixed;bottom:24px;right:24px;z-index:500;
+  display:flex;align-items:center;gap:10px;
+  background:#25D366;color:#fff;
+  padding:13px 20px 13px 16px;
+  border-radius:50px;
+  font-family:var(--font-head);font-size:14px;font-weight:700;
+  text-decoration:none;
+  box-shadow:0 4px 20px rgba(37,211,102,0.4);
+  transition:all 0.3s;
+  animation:wa-bounce 3s ease-in-out infinite;
+}
+.wa-float:hover{
+  transform:translateY(-3px) scale(1.04);
+  box-shadow:0 8px 32px rgba(37,211,102,0.5);
+}
+.wa-float-icon{font-size:22px;line-height:1}
+.wa-float-text{line-height:1.2}
+.wa-float-label{font-size:14px;font-weight:700;display:block}
+.wa-float-sub{font-size:10px;opacity:0.85;font-weight:400;display:block}
+@keyframes wa-bounce{
+  0%,100%{box-shadow:0 4px 20px rgba(37,211,102,0.4)}
+  50%{box-shadow:0 4px 28px rgba(37,211,102,0.65)}
+}
+@media(max-width:480px){
+  .wa-float{padding:12px 16px 12px 14px;bottom:16px;right:16px}
+  .wa-float-sub{display:none}
+}
+
 /* ── SCROLL PROGRESS ──────────────────────────────────────────── */
 .scroll-bar{
   position:fixed;top:0;left:0;height:2px;
@@ -681,11 +716,13 @@ footer{
   .footer-inner{grid-template-columns:1fr 1fr}
   .nav-links{display:none}
   .nav-hamburger{display:flex}
-  section{padding:70px 5%}
+  section{padding:50px 5%}
 }
 @media(max-width:480px){
   .stats-inner{grid-template-columns:repeat(2,1fr)}
   .cat-grid{grid-template-columns:repeat(2,1fr)}
+  section{padding:40px 5%}
+  .section-head{margin-bottom:28px}
   .price-grid{grid-template-columns:1fr}
   .price-card.highlight{transform:none}
   .footer-inner{grid-template-columns:1fr}
@@ -741,9 +778,8 @@ footer{
       </div>
 
       <h1 class="hero-h1">
-        <span class="line"><span>Your Customers</span></span>
-        <span class="line"><span>Want to Review You.</span></span>
-        <span class="line"><span>Make It Effortless.</span></span>
+        <span class="line"><span>Get More Google Reviews</span></span>
+        <span class="line"><span>For Your Business.</span></span>
       </h1>
 
       <p class="hero-sub">
@@ -846,7 +882,7 @@ footer{
 <section class="problem-section reveal" id="problem">
   <div class="section-head center">
     <span class="section-label">The Problem</span>
-    <h2 class="section-title">Why Your Customers Don't Leave Reviews</h2>
+    <h2 class="section-title">Why Customers Don't Leave Reviews</h2>
     <p class="section-sub">They're happy — but the friction stops them every time.</p>
   </div>
   <div class="problem-grid">
@@ -1101,7 +1137,7 @@ footer{
 <!-- CTA -->
 <section class="cta-section">
   <div class="cta-glow"></div>
-  <h2 class="cta-title reveal">Your Customers Are Ready.<br><span>Make It Easy for Them.</span></h2>
+  <h2 class="cta-title reveal">Start Getting More Reviews<br>From Day One.</h2>
   <p class="cta-sub reveal">Start free today. First 10 reviews cost ₹0. No credit card needed.</p>
   <div class="cta-actions reveal">
     <a href="register.html" class="btn-primary" style="font-size:16px;padding:18px 36px">🚀 Start Free Today</a>
@@ -1154,6 +1190,16 @@ footer{
     </div>
   </div>
 </footer>
+
+
+<!-- FLOATING WHATSAPP -->
+<a class="wa-float" href="https://wa.me/917984939486?text=Hi%2C+I+want+to+know+more+about+GoodReview" target="_blank">
+  <span class="wa-float-icon">💬</span>
+  <div class="wa-float-text">
+    <span class="wa-float-label">Need Help?</span>
+    <span class="wa-float-sub">Chat on WhatsApp</span>
+  </div>
+</a>
 
 <script>
 // ── CATEGORIES DATA ────────────────────────────────────────────
