@@ -167,18 +167,18 @@ select.input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xml
 
   <div class="field">
     <label>Full Name <span>*</span></label>
-    <input class="input" id="ownerName" placeholder="Dr. Tushar Kanani" maxlength="80">
+    <input class="input" id="ownerName" placeholder="Your full name" maxlength="80">
     <div class="error-msg" id="err-ownerName">Please enter your name</div>
   </div>
 
-  <div class="field">
-    <label>Qualification / Degree</label>
-    <input class="input" id="qualification" placeholder="MBBS, CA, B.Tech, etc." maxlength="60">
+  <div class="field" id="qualField" style="display:none">
+    <label id="qualLabel">Qualification / Degree</label>
+    <input class="input" id="qualification" placeholder="MBBS, MD, Homeopathy, etc." maxlength="60">
   </div>
 
   <div class="field">
     <label>Business Name <span>*</span></label>
-    <input class="input" id="businessName" placeholder="Aavkar Clinic / Taste of India / etc." maxlength="80">
+    <input class="input" id="businessName" placeholder="Your business name" maxlength="80">
     <div class="error-msg" id="err-businessName">Please enter your business name</div>
   </div>
 
@@ -230,7 +230,7 @@ select.input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xml
 
   <div class="field">
     <label>Referral Code <span style="font-weight:400;color:var(--text-soft)">(optional)</span></label>
-    <input class="input" id="referralCode" placeholder="GR101" maxlength="10">
+    <input class="input" id="referralCode" placeholder="e.g. GR108" maxlength="10">
   </div>
 </div>
 
@@ -254,19 +254,6 @@ select.input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xml
     </div>
   </div>
 
-  <!-- Owner Custom Tags (Premium/Ultimate only — shown after plan selected, handled later) -->
-  <div id="ownerTagsSection" style="display:none;margin-top:4px">
-    <div class="divider"></div>
-    <div class="section-label">Your Custom Service Tags <span id="tagLimitLabel"></span></div>
-    <div class="info-box" id="ownerTagInfo"></div>
-    <div class="tags-wrap" id="ownerTagsWrap"></div>
-    <div class="add-tag-row">
-      <input class="add-tag-input" id="newTagInput" placeholder="Add a custom tag..." maxlength="30">
-      <button class="add-tag-btn" onclick="addOwnerTag()">+</button>
-    </div>
-    <div class="char-count"><span id="tagCharCount">0</span>/30</div>
-    <div class="error-msg" id="err-ownerTags"></div>
-  </div>
 
   <!-- Languages -->
   <div class="divider"></div>
@@ -290,6 +277,20 @@ select.input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xml
 
   <div class="plan-grid" id="planGrid"></div>
   <div class="error-msg" id="err-plan" style="margin-top:8px">Please select a plan</div>
+
+  <!-- OWNER CUSTOM TAGS (shown when Premium/Ultimate selected) -->
+  <div id="ownerTagsSection" style="display:none;margin-top:4px">
+    <div class="divider"></div>
+    <div class="section-label">Your Custom Service Tags <span id="tagLimitLabel"></span></div>
+    <div class="info-box" id="ownerTagInfo"></div>
+    <div class="tags-wrap" id="ownerTagsWrap"></div>
+    <div class="add-tag-row">
+      <input class="add-tag-input" id="newTagInput" placeholder="Add a custom tag..." maxlength="30">
+      <button class="add-tag-btn" onclick="addOwnerTag()">+</button>
+    </div>
+    <div class="char-count"><span id="tagCharCount">0</span>/30</div>
+    <div class="error-msg" id="err-ownerTags"></div>
+  </div>
 
   <!-- COUPON CODE -->
   <div class="divider"></div>
@@ -466,6 +467,18 @@ function selectCat(id) {
   document.getElementById('subcatSection').style.display = 'block'
   selectedSubCat = ''
 
+  // Show Qualification field only for doctor_health
+  const qualField = document.getElementById('qualField')
+  const qualLabel = document.getElementById('qualLabel')
+  if (id === 'doctor_health') {
+    qualField.style.display = 'block'
+    qualLabel.textContent = 'Qualification / Degree'
+    document.getElementById('qualification').placeholder = 'MBBS, MD, BDS, Homeopathy, etc.'
+  } else {
+    qualField.style.display = 'none'
+    document.getElementById('qualification').value = ''
+  }
+
   // Reset owner tags when category changes
   ownerTags = []
   renderOwnerTags()
@@ -594,23 +607,7 @@ function renderOwnerTags() {
 
 // ─── STEP NAVIGATION ─────────────────────────────────────────────
 function nextStep() {
-  if(!validateStep(currentStep)) return
-
-  if(currentStep === 2 && selectedPlan && selectedPlan.price > 0) {
-    // Pay first then register
-    initiatePayment()
-    return
-  }
-
-  if(currentStep === 3) {
-    // Free plan — register directly
-    if(selectedPlan?.price === 0) {
-      registerBusiness()
-      return
-    }
-  }
-
-  goToStep(currentStep + 1)
+  // stub — overridden below
 }
 
 function prevStep() {
@@ -808,8 +805,6 @@ function showSuccess(id) {
   // Hide all step cards and nav
   for(let i=1;i<=3;i++) document.getElementById('step'+i)?.classList.remove('active')
   document.getElementById('navRow').style.display = 'none'
-  document.getElementById('stepsBar')
-
   const url = `https://goodreview.in/review.html?id=${id}`
   document.getElementById('successUrl').textContent = url
   document.getElementById('successLink').href = url
@@ -834,25 +829,25 @@ function hideOverlay() {
   document.getElementById('overlay').classList.remove('show')
 }
 
-// Handle step 2→3 transition via Continue button
-const origNextStep = nextStep
-window.nextStep = function() {
-  if(!validateStep(currentStep)) return
+// ─── NEXT STEP (single clean version) ────────────────────────────
+window.nextStep = nextStep
+function nextStep() {  // reassigned so onclick="nextStep()" still works
+  if (!validateStep(currentStep)) return
 
-  if(currentStep === 1) { goToStep(2); return }
-  if(currentStep === 2) { goToStep(3); return }
+  if (currentStep === 1) { goToStep(2); return }
+  if (currentStep === 2) { goToStep(3); return }
 
-  if(currentStep === 3) {
-    if(!validateStep(3)) return
+  if (currentStep === 3) {
+    if (!validateStep(3)) return
     // Auto-apply coupon if typed but Apply not clicked
     const couponVal = document.getElementById('couponInput')?.value?.trim().toUpperCase()
-    if(couponVal && !couponApplied) applyCoupon()
-    // Free plan OR valid coupon → skip payment
-    if(selectedPlan.price === 0 || couponApplied) {
+    if (couponVal && !couponApplied) applyCoupon()
+    // Free plan OR valid coupon → register directly, no payment
+    if (selectedPlan.price === 0 || couponApplied) {
       registerBusiness()
       return
     }
-    else initiatePayment()
+    initiatePayment()
   }
 }
 
