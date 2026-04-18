@@ -462,6 +462,8 @@ function checkExistingSession() {
           ...session.business,
           businessType:    freshData.businessType    || session.business.businessType,
           subCategory:     freshData.subCategory     || session.business.subCategory,
+          plan:            freshData.plan            || session.business.plan,
+          tagLimit:        freshData.customerCustomTagLimit || session.business.tagLimit,
           tagline:         freshData.tagline         || '',
           greetingMessage: freshData.greetingMessage || '',
           photoUrl:        freshData.photoUrl        || '',
@@ -473,6 +475,7 @@ function checkExistingSession() {
           area:            freshData.area            || session.business.area,
           gmbUrl:          freshData.gmbUrl          || session.business.gmbUrl,
           languages:       freshData.languages       || session.business.languages,
+          expiryDate:      freshData.expiryDate      || session.business.expiryDate,
         }
         try {
           const updated = { ...session, business }
