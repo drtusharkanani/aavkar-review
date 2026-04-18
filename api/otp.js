@@ -174,6 +174,14 @@ export default async function handler(req, res) {
         expiryDate:     f.ExpiryDate      || null,
         paymentType:    f.PaymentType     || '',
         shippingStatus: f.ShippingStatus  || '',
+        // Personalization fields
+        tagline:         f.Tagline         || '',
+        greetingMessage: f.GreetingMessage || '',
+        photoUrl:        f.PhotoURL        || '',
+        coverUrl:        f.CoverURL        || '',
+        businessHours:   f.BusinessHours   || '',
+        whatsapp:        f.WhatsApp        || '',
+        socialLinks:     (() => { try { return f.SocialLinks ? JSON.parse(f.SocialLinks) : {} } catch(_){ return {} } })(),
       }
     })
   }
