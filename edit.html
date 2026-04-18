@@ -300,17 +300,17 @@ textarea.input{resize:vertical;min-height:80px;line-height:1.5}
     <div class="section-title">🔗 Social Links</div>
     <div class="info-box" style="margin-bottom:14px">
       <strong>How to find your username:</strong><br>
-      📸 <strong>Instagram</strong> → Open Instagram app → Your profile → the name after <strong>@</strong> (e.g. <code>aavkarhospital</code>)<br>
+      📸 <strong>Instagram</strong> → Open Instagram app → Your profile → the name after <strong>@</strong> (e.g. <code>yourbusiness</code>)<br>
       👍 <strong>Facebook</strong> → Open Facebook → Your page → look at the URL: facebook.com/<strong>yourpage</strong> → copy that last part
     </div>
     <div class="field">
       <label>Instagram</label>
-      <input class="input" id="editInstagram" placeholder="e.g. aavkarhospital" maxlength="120">
+      <input class="input" id="editInstagram" placeholder="e.g. yourbusiness" maxlength="120">
       <div style="font-size:11px;color:var(--text-soft);margin-top:4px">Instagram app → Profile → copy the name after @</div>
     </div>
     <div class="field" style="margin-bottom:0">
       <label>Facebook</label>
-      <input class="input" id="editFacebook" placeholder="e.g. aavkarhospital" maxlength="120">
+      <input class="input" id="editFacebook" placeholder="e.g. yourbusiness" maxlength="120">
       <div style="font-size:11px;color:var(--text-soft);margin-top:4px">Facebook → Your page → URL shows facebook.com/yourpagename → copy that last part</div>
     </div>
   </div>
@@ -1147,6 +1147,23 @@ function setPhotoStatus(type, state, msg) {
   const el = document.getElementById(type === 'owner' ? 'ownerPhotoStatus' : 'coverPhotoStatus')
   if (el) { el.textContent = msg; el.className = 'upload-status ' + state }
 }
+
+// ── LOGOUT ───────────────────────────────────────────────────────
+function logout() {
+  try {
+    localStorage.removeItem('gr_edit_session')
+    sessionStorage.removeItem('gr_edit_session')
+  } catch(_) {}
+  business = null
+  recordId = ''
+  document.getElementById('editSection').style.display  = 'none'
+  document.getElementById('emailCard').style.display    = 'block'
+  document.getElementById('otpCard').style.display      = 'none'
+  document.getElementById('emailInput').value           = ''
+  document.getElementById('otpInput').value             = ''
+  window.scrollTo({top:0, behavior:'smooth'})
+}
+
 
 </script>
 </body>
