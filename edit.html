@@ -475,12 +475,21 @@ function checkExistingSession() {
     document.getElementById('loadingProfile').style.display = 'block'
     // Re-fetch fresh business data from API (not stale session)
     const ownerId = session.business?.ownerId
+    // Timeout — if fetch takes >8s, fall back to email login
+    const sessionTimeout = setTimeout(() => {
+      localStorage.removeItem('gr_edit_session')
+      sessionStorage.removeItem('gr_edit_session')
+      document.getElementById('loadingProfile').style.display = 'none'
+      document.getElementById('emailCard').style.display      = 'block'
+    }, 8000)
+
     Promise.all([
       ownerId
         ? fetch('/api/business?id=' + ownerId).then(r => r.json()).catch(() => null)
         : Promise.resolve(null),
       loadTagMasterData()
     ]).then(([freshData]) => {
+      clearTimeout(sessionTimeout)
       if (freshData && freshData.id) {
         // Map business.js response to otp.js format
         business = {
@@ -515,6 +524,12 @@ function checkExistingSession() {
       }
       document.getElementById('loadingProfile').style.display = 'none'
       renderEditProfile()
+    }).catch(() => {
+      clearTimeout(sessionTimeout)
+      localStorage.removeItem('gr_edit_session')
+      sessionStorage.removeItem('gr_edit_session')
+      document.getElementById('loadingProfile').style.display = 'none'
+      document.getElementById('emailCard').style.display      = 'block'
     })
     return true
   } catch(_) { return false }
