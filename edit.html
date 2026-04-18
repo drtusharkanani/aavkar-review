@@ -463,7 +463,10 @@ function checkExistingSession() {
           businessType:    freshData.businessType    || session.business.businessType,
           subCategory:     freshData.subCategory     || session.business.subCategory,
           plan:            freshData.plan            || session.business.plan,
-          tagLimit:        freshData.customerCustomTagLimit || session.business.tagLimit,
+          tagLimit:        (() => {
+            const p = freshData.plan || session.business.plan || ''
+            return p.startsWith('ultimate') ? 5 : p.startsWith('premium') ? 2 : 0
+          })(),
           tagline:         freshData.tagline         || '',
           greetingMessage: freshData.greetingMessage || '',
           photoUrl:        freshData.photoUrl        || '',
