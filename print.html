@@ -23,7 +23,7 @@ body{font-family:Arial,sans-serif;background:#f0f4f8;padding:20px;color:#1a2e3b;
 .page{width:210mm;margin:0 auto;background:white;border-radius:12px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.12);}
 
 /* HEADER */
-.page-header{background:linear-gradient(135deg,#FF6B00 0%,#FF8C00 60%,#F5A623 100%);padding:24px 30px;display:flex;align-items:center;justify-content:space-between;}
+.page-header{background:var(--cat-gradient, linear-gradient(135deg,#FF6B00 0%,#FF8C00 60%,#F5A623 100%));padding:24px 30px;display:flex;align-items:center;justify-content:space-between;}
 .brand-name{font-size:26px;font-weight:900;color:#fff;letter-spacing:1px;}
 .brand-sub{font-size:10px;color:rgba(255,255,255,0.8);letter-spacing:2px;text-transform:uppercase;margin-top:2px;}
 .kit-badge{background:rgba(255,255,255,0.15);border:1.5px solid rgba(255,255,255,0.4);border-radius:8px;padding:8px 16px;text-align:center;}
@@ -173,8 +173,8 @@ body{font-family:Arial,sans-serif;background:#f0f4f8;padding:20px;color:#1a2e3b;
           <span class="detail-label">Owner Name</span>
           <span class="detail-value" id="detName">—</span>
         </div>
-        <div class="detail-row">
-          <span class="detail-label">Qualification</span>
+        <div class="detail-row" id="qualRow" style="display:none">
+          <span class="detail-label" id="qualLabel">Qualification</span>
           <span class="detail-value" id="detQual">—</span>
         </div>
         <div class="detail-row">
@@ -244,6 +244,25 @@ body{font-family:Arial,sans-serif;background:#f0f4f8;padding:20px;color:#1a2e3b;
 </div>
 
 <script>
+const CAT_META = {
+  doctor_health:        { emoji:'🏥', label:'Doctor & Health',       gradient:'linear-gradient(135deg,#1D9E75 0%,#16b584 100%)', color:'#1D9E75' },
+  beauty_wellness:      { emoji:'💇', label:'Beauty & Wellness',     gradient:'linear-gradient(135deg,#D4537E 0%,#e8698f 100%)', color:'#D4537E' },
+  food_drinks:          { emoji:'🍽️', label:'Food & Drinks',         gradient:'linear-gradient(135deg,#BA7517 0%,#d4880a 100%)', color:'#BA7517' },
+  hotel_stay:           { emoji:'🏨', label:'Hotel & Stay',          gradient:'linear-gradient(135deg,#7F77DD 0%,#9690e8 100%)', color:'#7F77DD' },
+  retail_services:      { emoji:'🛍️', label:'Retail & Services',     gradient:'linear-gradient(135deg,#185FA5 0%,#2272bb 100%)', color:'#185FA5' },
+  automobile:           { emoji:'🚗', label:'Automobile',            gradient:'linear-gradient(135deg,#3B6D11 0%,#4e8c1a 100%)', color:'#3B6D11' },
+  home_services:        { emoji:'🏠', label:'Home Services',         gradient:'linear-gradient(135deg,#BA7517 0%,#d4880a 100%)', color:'#BA7517' },
+  education_learning:   { emoji:'📚', label:'Education & Learning',  gradient:'linear-gradient(135deg,#7F77DD 0%,#9690e8 100%)', color:'#7F77DD' },
+  finance_legal:        { emoji:'💼', label:'Finance & Legal',       gradient:'linear-gradient(135deg,#1D9E75 0%,#16b584 100%)', color:'#1D9E75' },
+  events_entertainment: { emoji:'🎉', label:'Events & Entertainment',gradient:'linear-gradient(135deg,#D4537E 0%,#e8698f 100%)', color:'#D4537E' },
+  pets_animals:         { emoji:'🐾', label:'Pets & Animals',        gradient:'linear-gradient(135deg,#185FA5 0%,#2272bb 100%)', color:'#185FA5' },
+  transport_logistics:  { emoji:'🚚', label:'Transport & Logistics', gradient:'linear-gradient(135deg,#5F5E5A 0%,#787673 100%)', color:'#5F5E5A' },
+  real_estate:          { emoji:'🏗️', label:'Real Estate',           gradient:'linear-gradient(135deg,#993C1D 0%,#b34a26 100%)', color:'#993C1D' },
+  bank_loan:            { emoji:'🏦', label:'Bank & Loan',           gradient:'linear-gradient(135deg,#185FA5 0%,#2272bb 100%)', color:'#185FA5' },
+  insurance:            { emoji:'🛡️', label:'Insurance',             gradient:'linear-gradient(135deg,#7F77DD 0%,#9690e8 100%)', color:'#7F77DD' },
+}
+const DEFAULT_CAT = { emoji:'⭐', label:'Business', gradient:'linear-gradient(135deg,#FF6B00 0%,#F5A623 100%)', color:'#FF6B00' }
+
 const PLAN_LABELS = {
   free:'Free', starter_1yr:'Starter · 1 Year', starter_2yr:'Starter · 2 Years',
   starter_5yr:'Starter · 5 Years', premium_1yr:'Premium · 1 Year', premium_2yr:'Premium · 2 Years',
@@ -299,15 +318,37 @@ function renderPage(b) {
   // Header badge
   document.getElementById('kitPlan').textContent = PLAN_LABELS[plan] || plan
 
+  // Category meta
+  const cat = CAT_META[b.businessType] || DEFAULT_CAT
+  document.documentElement.style.setProperty('--cat-gradient', cat.gradient)
+  // Also tint accent colours
+  document.querySelectorAll('.section-title,.qr-url,.plan-badge,.shipping-badge').forEach(el => el.style.color = cat.color)
+  document.querySelectorAll('.qr-section,.page-header + * .biz-card').forEach(el => el.style.borderColor = cat.color)
+
   // Business card
-  const initials = (b.ownerName || 'GR').replace(/Dr\./i,'').trim().split(' ').map(w=>w[0]||'').slice(0,2).join('').toUpperCase()
-  document.getElementById('bizAvatar').textContent = initials || 'GR'
-  document.getElementById('bizName').textContent   = b.businessName || '—'
+  const isDoctor   = b.businessType === 'doctor_health'
+  const avatarEl   = document.getElementById('bizAvatar')
+  if (isDoctor) {
+    const initials = (b.ownerName || 'GR').replace(/Dr\./i,'').trim().split(' ').map(w=>w[0]||'').slice(0,2).join('').toUpperCase()
+    avatarEl.textContent = initials || 'GR'
+    avatarEl.style.background = cat.gradient
+  } else {
+    avatarEl.textContent = cat.emoji
+    avatarEl.style.background = cat.gradient
+    avatarEl.style.fontSize   = '26px'
+  }
+
+  document.getElementById('bizName').textContent = b.businessName || '—'
 
   const subDisplay = (b.subCategory || '').replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase())
-  document.getElementById('bizSub').textContent    = [b.ownerName, subDisplay].filter(Boolean).join(' · ')
+  const bizSubParts = isDoctor
+    ? [b.ownerName, subDisplay]
+    : [subDisplay, cat.label]
+  document.getElementById('bizSub').textContent    = bizSubParts.filter(Boolean).join(' · ')
+  document.getElementById('bizSub').style.color    = cat.color
   document.getElementById('bizCity').textContent   = [b.area, b.city].filter(Boolean).join(', ')
   document.getElementById('bizPlanBadge').textContent = PLAN_LABELS[plan] || plan
+  document.getElementById('bizPlanBadge').style.background = cat.color
 
   // QR
   document.getElementById('qrUrl').textContent = reviewUrl
@@ -320,9 +361,14 @@ function renderPage(b) {
   // Details
   document.getElementById('detId').textContent     = b.id
   document.getElementById('detName').textContent   = b.ownerName || '—'
-  document.getElementById('detQual').textContent   = b.qualification || '—'
+  // Qualification — only show for doctor_health or if filled for any category
+  if (b.qualification) {
+    document.getElementById('qualRow').style.display = ''
+    document.getElementById('qualLabel').textContent = isDoctor ? 'Qualification' : 'Credential'
+    document.getElementById('detQual').textContent   = b.qualification
+  }
   document.getElementById('detBiz').textContent    = b.businessName || '—'
-  document.getElementById('detCat').textContent    = subDisplay || '—'
+  document.getElementById('detCat').textContent    = [cat.label, subDisplay].filter(Boolean).join(' — ')
   document.getElementById('detCity').textContent   = [b.area, b.city, b.state].filter(Boolean).join(', ')
   document.getElementById('detPlan').textContent   = PLAN_LABELS[plan] || plan
   document.getElementById('detExpiry').textContent = plan === 'free' ? 'Never expires' : (b.expiryDate || '—')
