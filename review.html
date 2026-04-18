@@ -325,6 +325,25 @@ const REVIEW_PROMPTS = {
 }
 const DEFAULT_PROMPT = 'Thank you for visiting! Please take a moment to leave us a Google review. ⭐'
 
+// ── DEFAULT GREETINGS (shown when owner hasn't set one) ───────────
+const DEFAULT_GREETINGS = {
+  doctor_health:        'Thank you for choosing us for your healthcare. Your trust means everything. A quick Google review helps other patients in our community find quality care.',
+  beauty_wellness:      'Thank you for visiting us! We hope you loved your experience. A quick Google review helps others discover our services.',
+  food_drinks:          'Thank you for dining with us! We hope every bite was delicious. A quick Google review helps food lovers find us.',
+  hotel_stay:           'Thank you for staying with us. We hope your experience was comfortable and memorable. Please share your feedback on Google.',
+  automobile:           'Thank you for trusting us with your vehicle. Your satisfaction is our priority. A quick Google review helps others find reliable service.',
+  home_services:        'Thank you for letting us into your home. We hope our work met your expectations. A quick Google review helps others find trusted service.',
+  education_learning:   'Thank you for choosing us for your learning journey. Your growth is our success. Please share your experience on Google.',
+  finance_legal:        'Thank you for trusting us with your financial needs. A Google review helps others find reliable and honest guidance.',
+  events_entertainment: 'Thank you for choosing us for your special occasion. We hope we made it memorable. Please share your experience on Google!',
+  real_estate:          'Thank you for trusting us with one of your biggest decisions. A Google review helps others find a reliable property partner.',
+  bank_loan:            'Thank you for banking with us. Your trust is our biggest asset. Please take a moment to share your experience on Google.',
+  insurance:            'Thank you for trusting us to protect what matters most to you. A Google review helps others find honest insurance guidance.',
+}
+const DEFAULT_GREETING = 'Thank you for visiting us! Your experience matters to us. A quick Google review helps others discover our business.'
+
+
+
 const LANG_DISPLAY = {
   English:'English', Hindi:'हिंदी', Gujarati:'ગુજરાતી', Hinglish:'Hinglish',
   Marathi:'मराठी', Tamil:'தமிழ்', Telugu:'తెలుగు', Kannada:'ಕನ್ನಡ'
@@ -474,11 +493,12 @@ function renderPage() {
     metaEl.appendChild(hrs)
   }
 
-  // ── GREETING MESSAGE ──
-  if (b.greetingMessage) {
-    document.getElementById('greetingText').textContent = b.greetingMessage
-    document.getElementById('greetingCard').style.display = 'block'
-  }
+  // ── GREETING MESSAGE (owner set or default) ──
+  const greeting = b.greetingMessage ||
+    DEFAULT_GREETINGS[b.businessType] ||
+    DEFAULT_GREETING
+  document.getElementById('greetingText').textContent = greeting
+  document.getElementById('greetingCard').style.display = 'block'
 
   // ── REVIEW PROMPT ──
   const prompt = REVIEW_PROMPTS[b.businessType] || DEFAULT_PROMPT
