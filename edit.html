@@ -1043,7 +1043,7 @@ async function handlePhotoUpload(type, input) {
       method: 'POST', body: fd
     })
     const data = await res.json()
-    if (!data.secure_url) throw new Error('No URL')
+    if (!data.secure_url) throw new Error(data.error?.message || 'No URL returned: ' + JSON.stringify(data))
 
     photoUrls[type] = data.secure_url
     showPhotoPreview(type, data.secure_url)
@@ -1051,7 +1051,7 @@ async function handlePhotoUpload(type, input) {
     const removeId = type === 'owner' ? 'ownerPhotoRemove' : 'coverPhotoRemove'
     document.getElementById(removeId).style.display = 'inline-block'
   } catch(e) {
-    setPhotoStatus(type, 'error', '❌ Upload failed. Please try again.')
+    setPhotoStatus(type, 'error', '❌ ' + (e?.message || JSON.stringify(e) || 'Upload failed'))
   }
   input.value = ''
 }
