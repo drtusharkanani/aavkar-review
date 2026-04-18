@@ -1235,47 +1235,6 @@ function setPhotoStatus(type, state, msg) {
 
 
 
-<!-- CROP MODAL -->
-<div class="crop-overlay" id="cropOverlay">
-  <div class="crop-box">
-    <div class="crop-header">
-      <div class="crop-title" id="cropTitle">✂️ Crop Photo</div>
-      <button class="crop-close" onclick="cancelCrop()">✕</button>
-    </div>
-    <div class="crop-canvas-wrap" id="cropCanvasWrap" style="height:280px">
-      <canvas id="cropCanvas"></canvas>
-    </div>
-    <div class="crop-controls">
-      <div class="crop-slider-row">
-        <span class="crop-slider-label">🔍 Zoom</span>
-        <input type="range" class="crop-slider" id="cropZoom" min="1" max="4" step="0.01" value="1" oninput="updateCrop()">
-      </div>
-      <div class="crop-slider-row">
-        <span class="crop-slider-label">↔ Move</span>
-        <input type="range" class="crop-slider" id="cropOffsetX" min="-100" max="100" step="1" value="0" oninput="updateCrop()">
-      </div>
-      <div class="crop-slider-row">
-        <span class="crop-slider-label">↕ Move</span>
-        <input type="range" class="crop-slider" id="cropOffsetY" min="-100" max="100" step="1" value="0" oninput="updateCrop()">
-      </div>
-      <div class="crop-preview-row">
-        <div>
-          <div class="crop-preview-circle"><canvas id="cropPreviewCircle" width="56" height="56"></canvas></div>
-          <div class="crop-preview-label" style="margin-top:4px">Avatar</div>
-        </div>
-        <div>
-          <div class="crop-preview-rect"><canvas id="cropPreviewRect" width="120" height="40"></canvas></div>
-          <div class="crop-preview-label" style="margin-top:4px">Banner</div>
-        </div>
-      </div>
-      <div class="crop-actions">
-        <button class="crop-btn-cancel" onclick="cancelCrop()">Cancel</button>
-        <button class="crop-btn-apply" onclick="applyCrop()">✅ Use This Photo</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 // ── CROP ENGINE ───────────────────────────────────────────────────
 let cropState = { type: null, image: null, zoom: 1, offsetX: 0, offsetY: 0 }
 
@@ -1442,5 +1401,47 @@ function logout() {
   window.scrollTo({top: 0, behavior: 'smooth'})
 }
 </script>
+
+<!-- CROP MODAL -->
+<div class="crop-overlay" id="cropOverlay">
+  <div class="crop-box">
+    <div class="crop-header">
+      <div class="crop-title" id="cropTitle">✂️ Crop Photo</div>
+      <button class="crop-close" onclick="cancelCrop()">✕</button>
+    </div>
+    <div class="crop-canvas-wrap" id="cropCanvasWrap" style="height:280px">
+      <canvas id="cropCanvas"></canvas>
+    </div>
+    <div class="crop-controls">
+      <div class="crop-slider-row">
+        <span class="crop-slider-label">🔍 Zoom</span>
+        <input type="range" class="crop-slider" id="cropZoom" min="1" max="4" step="0.01" value="1" oninput="updateCrop()">
+      </div>
+      <div class="crop-slider-row">
+        <span class="crop-slider-label">↔ Move</span>
+        <input type="range" class="crop-slider" id="cropOffsetX" min="-100" max="100" step="1" value="0" oninput="updateCrop()">
+      </div>
+      <div class="crop-slider-row">
+        <span class="crop-slider-label">↕ Move</span>
+        <input type="range" class="crop-slider" id="cropOffsetY" min="-100" max="100" step="1" value="0" oninput="updateCrop()">
+      </div>
+      <div class="crop-preview-row">
+        <div>
+          <div class="crop-preview-circle"><canvas id="cropPreviewCircle" width="56" height="56"></canvas></div>
+          <div class="crop-preview-label" style="margin-top:4px">Avatar</div>
+        </div>
+        <div>
+          <div class="crop-preview-rect"><canvas id="cropPreviewRect" width="120" height="40"></canvas></div>
+          <div class="crop-preview-label" style="margin-top:4px">Banner</div>
+        </div>
+      </div>
+      <div class="crop-actions">
+        <button class="crop-btn-cancel" onclick="cancelCrop()">Cancel</button>
+        <button class="crop-btn-apply" onclick="applyCrop()">✅ Use This Photo</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
