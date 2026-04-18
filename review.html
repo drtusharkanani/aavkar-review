@@ -150,9 +150,16 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 </div>
 
 <div id="errorState" class="error-box" style="display:none">
-  <div class="error-icon">😔</div>
+  <div class="error-icon" id="errorIcon">😔</div>
   <div class="error-title" id="errorTitle">Something went wrong</div>
   <p class="error-msg" id="errorMsg">Please try again.</p>
+  <div id="gmbFallbackBox" style="display:none;margin-top:20px">
+    <a id="gmbFallbackBtn" href="#" target="_blank"
+       style="display:inline-block;padding:14px 28px;background:#1A7A4A;color:#fff;border-radius:14px;text-decoration:none;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;margin-bottom:10px">
+      ⭐ Leave a Google Review Directly →
+    </a>
+    <div id="gmbCountdown" style="font-size:12px;color:var(--text-soft);margin-top:6px"></div>
+  </div>
 </div>
 
 <div id="mainContent" style="display:none">
@@ -324,26 +331,72 @@ const LANG_DISPLAY = {
 }
 
 // ── INIT ───────────────────────────────────────────────────────────
+// ── FALLBACK: redirect to GMB via Cloudflare Worker ─────────────
+const CF_WORKER_URL = 'https://goodreview-fallback.support-goodreview.workers.dev'
+
+async function tryGmbFallback(id) {
+  // Show redirect box
+  document.getElementById('gmbFallbackBox').style.display = 'block'
+  document.getElementById('errorIcon').textContent = '📡'
+
+  // Try Cloudflare Worker first
+  if (CF_WORKER_URL) {
+    const btn = document.getElementById('gmbFallbackBtn')
+    btn.href = `${CF_WORKER_URL}/fallback?id=${id}`
+    // Auto-redirect countdown
+    let secs = 5  // 5 second countdown before auto-redirect
+    const cd = document.getElementById('gmbCountdown')
+    cd.textContent = `Redirecting to Google Reviews in ${secs}s...`
+    const t = setInterval(() => {
+      secs--
+      cd.textContent = secs > 0 ? `Redirecting to Google Reviews in ${secs}s...` : 'Redirecting...'
+      if (secs <= 0) {
+        clearInterval(t)
+        window.location.href = `${CF_WORKER_URL}/fallback?id=${id}`
+      }
+    }, 1000)
+  } else {
+    document.getElementById('gmbCountdown').textContent = 'Tap the button above to leave your review directly on Google.'
+  }
+}
+
 async function init() {
   const id = new URLSearchParams(window.location.search).get('id')
   if (!id) return showError('Invalid Link', 'No business ID in URL.')
+
+  // 6 second timeout — if API hangs, fall back to GMB
+  const controller = new AbortController()
+  const timeout    = setTimeout(() => controller.abort(), 6000)
+
   try {
-    const bizRes = await fetch('/api/business?id=' + id)
+    const bizRes = await fetch('/api/business?id=' + id, { signal: controller.signal })
+    clearTimeout(timeout)
+
     if (!bizRes.ok) {
       const e = await bizRes.json()
-      if (e.error === 'expired' || e.error === 'inactive')
-        return showError('Subscription Expired', `${e.businessName || ''} — Please contact the business owner.`)
-      if (e.error === 'free_limit_reached')
-        return showError('Review Limit Reached', 'This business has reached its free plan limit.')
-      return showError('Not Found', 'This review page does not exist.')
+      if (e.error === 'expired' || e.error === 'inactive') {
+        showError('Subscription Expired', `${e.businessName || ''} — Please contact the business owner.`)
+        return
+      }
+      if (e.error === 'free_limit_reached') {
+        showError('Review Limit Reached', 'This business has reached its free plan limit.')
+        return
+      }
+      showError('Not Found', 'This review page does not exist.')
+      return
     }
+
     business = await bizRes.json()
     if (!business.selectedTags?.length) {
       try { const r = await fetch('/tag-master.json'); tagMaster = await r.json() } catch(e) {}
     }
     renderPage()
+
   } catch(e) {
-    showError('Connection Error', 'Please check your internet and try again.')
+    clearTimeout(timeout)
+    // Site down or timeout — show fallback to GMB
+    showError('Page Temporarily Unavailable', 'Our system is being updated. You can still leave a review directly on Google.')
+    tryGmbFallback(id)
   }
 }
 
