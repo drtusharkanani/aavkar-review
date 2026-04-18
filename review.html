@@ -191,7 +191,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
   </div>
 
   <!-- REVIEW PROMPT (auto, category-based) -->
-  <div class="prompt-banner" id="promptBanner"></div>
+  <div class="prompt-banner" id="promptBanner" style="display:none"></div>
 
   <!-- LANGUAGE -->
   <div class="card" id="langCard">
@@ -504,7 +504,7 @@ function renderPage() {
   const prompt = REVIEW_PROMPTS[b.businessType] || DEFAULT_PROMPT
   const promptEl = document.getElementById('promptBanner')
   promptEl.textContent = prompt
-  // prompt always visible
+  // prompt banner hidden — greeting card serves this purpose
 
   // ── WHATSAPP BUTTON ──
   const waNum = b.whatsapp || b.phone
