@@ -250,7 +250,7 @@ textarea.input{resize:vertical;min-height:80px;line-height:1.5}
   <!-- PHOTOS CARD -->
   <div class="card" style="margin-top:0">
     <div class="section-title">📸 Profile & Cover Photos</div>
-    <div class="info-box">Photos make your review page feel personal and professional. Max file size: 5MB.</div>
+    <div class="info-box">📸 <strong>Profile photo:</strong> Square, min 200×200px · <strong>Cover banner:</strong> Landscape, min 1200×400px · Max 5MB each · JPG or PNG only</div>
 
     <div class="photo-row">
       <div class="photo-preview" id="ownerPhotoPreview">
@@ -259,7 +259,7 @@ textarea.input{resize:vertical;min-height:80px;line-height:1.5}
       </div>
       <div class="photo-info">
         <div class="photo-label">Owner / Business Photo</div>
-        <div class="photo-sub">Circular avatar on your review page</div>
+        <div class="photo-sub">Circular avatar · Square image recommended · Min 200×200px · Max 5MB · JPG or PNG</div>
         <div class="photo-btns">
           <label class="btn-upload" for="ownerPhotoFile">📷 Upload Photo</label>
           <input type="file" id="ownerPhotoFile" accept="image/*" style="display:none"
@@ -279,7 +279,7 @@ textarea.input{resize:vertical;min-height:80px;line-height:1.5}
       </div>
       <div class="photo-info">
         <div class="photo-label">Cover / Banner Image</div>
-        <div class="photo-sub">Wide banner at top of your review page</div>
+        <div class="photo-sub">Wide banner · Landscape image recommended · Min 1200×400px · Max 5MB · JPG or PNG</div>
         <div class="photo-btns">
           <label class="btn-upload" for="coverPhotoFile">📷 Upload Cover</label>
           <input type="file" id="coverPhotoFile" accept="image/*" style="display:none"
@@ -1037,7 +1037,6 @@ async function handlePhotoUpload(type, input) {
     fd.append('file', file)
     fd.append('upload_preset', CLOUDINARY_PRESET)
     fd.append('folder', 'goodreview')
-    fd.append('transformation', 'w_800,c_limit,q_auto,f_webp')
 
     const res  = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, {
       method: 'POST', body: fd
