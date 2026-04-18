@@ -445,10 +445,43 @@ function checkExistingSession() {
       return false
     }
     recordId = session.recordId
-    business = session.business
+    const savedEmail = session.email
     document.getElementById('emailCard').style.display      = 'none'
     document.getElementById('loadingProfile').style.display = 'block'
-    loadTagMasterData().then(() => {
+    // Re-fetch fresh business data from API (not stale session)
+    const ownerId = session.business?.ownerId
+    Promise.all([
+      ownerId
+        ? fetch('/api/business?id=' + ownerId).then(r => r.json()).catch(() => null)
+        : Promise.resolve(null),
+      loadTagMasterData()
+    ]).then(([freshData]) => {
+      if (freshData && freshData.id) {
+        // Map business.js response to otp.js format
+        business = {
+          ...session.business,
+          businessType:    freshData.businessType    || session.business.businessType,
+          subCategory:     freshData.subCategory     || session.business.subCategory,
+          tagline:         freshData.tagline         || '',
+          greetingMessage: freshData.greetingMessage || '',
+          photoUrl:        freshData.photoUrl        || '',
+          coverUrl:        freshData.coverUrl        || '',
+          businessHours:   freshData.businessHours   || '',
+          whatsapp:        freshData.whatsapp        || '',
+          socialLinks:     freshData.socialLinks     || {},
+          city:            freshData.city            || session.business.city,
+          area:            freshData.area            || session.business.area,
+          gmbUrl:          freshData.gmbUrl          || session.business.gmbUrl,
+          languages:       freshData.languages       || session.business.languages,
+        }
+        try {
+          const updated = { ...session, business }
+          if (session.expiry) localStorage.setItem('gr_edit_session', JSON.stringify(updated))
+          else sessionStorage.setItem('gr_edit_session', JSON.stringify(updated))
+        } catch(_) {}
+      } else {
+        business = session.business
+      }
       document.getElementById('loadingProfile').style.display = 'none'
       renderEditProfile()
     })
@@ -642,12 +675,16 @@ function renderEditProfile() {
   tagLimit  = b.tagLimit
   ownerTags = [...b.customTags]
 
+  // Always show custom tags card — show upgrade msg for free/starter
+  document.getElementById('ownerTagsCard').style.display = 'block'
   if (tagLimit > 0) {
-    document.getElementById('ownerTagsCard').style.display = 'block'
     document.getElementById('tagInfo').textContent =
-      `Your plan allows up to ${tagLimit} custom tags. Add your own unique service tags below — they appear alongside your selected tags.`
-    renderOwnerTags()
+      `Your plan allows up to ${tagLimit} custom tags. Add your own unique service tags below.`
+  } else {
+    document.getElementById('tagInfo').innerHTML =
+      `Custom tags are available on <strong>Premium</strong> and <strong>Ultimate</strong> plans. <a href="register.html" style="color:var(--saffron);font-weight:700">Upgrade →</a>`
   }
+  renderOwnerTags()
 
   // ── New personalization fields ──
   document.getElementById('editTagline').value  = b.tagline         || ''
@@ -1148,23 +1185,24 @@ function setPhotoStatus(type, state, msg) {
   if (el) { el.textContent = msg; el.className = 'upload-status ' + state }
 }
 
+
+
+
 // ── LOGOUT ───────────────────────────────────────────────────────
 function logout() {
   try {
     localStorage.removeItem('gr_edit_session')
     sessionStorage.removeItem('gr_edit_session')
   } catch(_) {}
-  business = null
-  recordId = ''
+  business  = null
+  recordId  = ''
   document.getElementById('editSection').style.display  = 'none'
   document.getElementById('emailCard').style.display    = 'block'
   document.getElementById('otpCard').style.display      = 'none'
   document.getElementById('emailInput').value           = ''
   document.getElementById('otpInput').value             = ''
-  window.scrollTo({top:0, behavior:'smooth'})
+  window.scrollTo({top: 0, behavior: 'smooth'})
 }
-
-
 </script>
 </body>
 </html>
