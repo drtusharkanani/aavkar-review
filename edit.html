@@ -677,8 +677,9 @@ function renderEditProfile() {
   // Selectable tags (quality + preset)
   renderSelectableTags()
 
-  // Owner custom tags (plan-limited)
-  tagLimit  = b.tagLimit
+  // Owner custom tags — derive tagLimit from plan directly
+  const _plan = b.plan || ''
+  tagLimit = _plan.startsWith('ultimate') ? 5 : _plan.startsWith('premium') ? 2 : 0
   ownerTags = [...b.customTags]
 
   // Always show custom tags card — show upgrade msg for free/starter
