@@ -38,20 +38,20 @@ export default async function handler(req, res) {
       'Content-Type': 'application/json'
     };
 
-    // Get the doctor's record
-    const formula = encodeURIComponent(`DoctorID=${doctorId}`);
+    // Get the owner's record
+    const formula = encodeURIComponent(`OwnerID=${doctorId}`);
     const getRes = await fetch(
       `https://api.airtable.com/v0/${BASE}/Doctors?filterByFormula=${formula}&fields[]=Plan`,
       { headers: HEADERS }
     );
     const getData = await getRes.json();
     const record = getData.records?.[0];
-    if (!record) return res.status(404).json({ error: 'Doctor not found' });
+    if (!record) return res.status(404).json({ error: 'Business not found' });
 
     const plan = record.fields.Plan || 'starter_1yr';
     const expiryDate = calcExpiry(plan);
 
-    // --- Step 3: Activate doctor in Airtable ---
+    // --- Step 3: Activate business in Airtable ---
     await fetch(
       `https://api.airtable.com/v0/${BASE}/Doctors/${record.id}`,
       {
@@ -70,7 +70,7 @@ export default async function handler(req, res) {
     // --- Step 4: Send activation email ---
     if (process.env.RESEND_API_KEY) {
       const nameRes = await fetch(
-        `https://api.airtable.com/v0/${BASE}/Doctors?filterByFormula=${formula}&fields[]=DoctorName&fields[]=Email`,
+        `https://api.airtable.com/v0/${BASE}/Doctors?filterByFormula=${formula}&fields[]=OwnerName&fields[]=Email`,
         { headers: HEADERS }
       );
       const nameData = await nameRes.json();
@@ -87,12 +87,12 @@ export default async function handler(req, res) {
             to:      doc.Email,
             subject: 'Your GoodReview page is now LIVE!',
             html: `
-              <h2>Congratulations, Dr. ${doc.DoctorName}!</h2>
+              <h2>Congratulations, ${doc.OwnerName}!</h2>
               <p>Your payment is confirmed and your review page is now live.</p>
               <p><a href="https://goodreview.in/review.html?id=${doctorId}">
                 View your review page
               </a></p>
-              <p>Share this link with your patients to collect reviews.</p>
+              <p>Share this link with your customers to collect reviews.</p>
               <p>Plan expires: ${expiryDate}</p>
               <p>— GoodReview Team</p>
             `
