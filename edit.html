@@ -143,7 +143,11 @@ textarea.input{resize:vertical;min-height:80px;line-height:1.5}
   <input class="otp-input input" id="otpInput" type="number" placeholder="——————" maxlength="6"
     oninput="if(this.value.length>6)this.value=this.value.slice(0,6)">
   <div class="error-msg show" id="err-otp" style="display:none!important"></div>
-  <button class="btn-primary" id="verifyOtpBtn" onclick="verifyOtp()" style="margin-top:12px">Verify Code →</button>
+  <div style="display:flex;align-items:center;gap:8px;margin:12px 0 8px">
+    <input type="checkbox" id="rememberMe" style="width:16px;height:16px;accent-color:var(--saffron);cursor:pointer">
+    <label for="rememberMe" style="font-size:13px;font-weight:600;color:var(--text);cursor:pointer">Remember me for 30 days</label>
+  </div>
+  <button class="btn-primary" id="verifyOtpBtn" onclick="verifyOtp()">Verify Code →</button>
   <div class="timer" id="otpTimer"></div>
   <span class="resend-link disabled" id="resendLink" onclick="resendOtp()">Resend code</span>
 </div>
@@ -369,11 +373,14 @@ textarea.input{resize:vertical;min-height:80px;line-height:1.5}
   <!-- SAVE BUTTON -->
   <div style="padding:0 16px 16px">
     <button class="btn-save" id="saveBtn" onclick="saveProfile()">💾 Save Changes</button>
-    <div style="text-align:center;margin-top:12px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
       <a id="viewPageLink" href="#" target="_blank"
          style="font-size:13px;color:var(--saffron);font-weight:700;text-decoration:none">
         👁 View My Review Page →
       </a>
+      <span onclick="logout()" style="font-size:12px;color:var(--text-soft);cursor:pointer;text-decoration:underline">
+        Log out
+      </span>
     </div>
   </div>
 
@@ -414,6 +421,33 @@ let tagMasterData = null
 let selectedTagIds  = []  // IDs of selected quality + preset tags
 let favouriteTagIds = []  // IDs marked as favourite
 let nameVariations  = []    // owner's name variations for AI use
+
+
+// ── SESSION CHECK ─────────────────────────────────────────────────
+function checkExistingSession() {
+  try {
+    // Check localStorage first (Remember Me), then sessionStorage
+    const raw = localStorage.getItem('gr_edit_session') || sessionStorage.getItem('gr_edit_session')
+    if (!raw) return false
+    const session = JSON.parse(raw)
+    if (!session) return false
+    // Check expiry — null expiry means session-only (always valid until browser close)
+    if (session.expiry && Date.now() > session.expiry) {
+      localStorage.removeItem('gr_edit_session')
+      sessionStorage.removeItem('gr_edit_session')
+      return false
+    }
+    recordId = session.recordId
+    business = session.business
+    document.getElementById('emailCard').style.display      = 'none'
+    document.getElementById('loadingProfile').style.display = 'block'
+    loadTagMasterData().then(() => {
+      document.getElementById('loadingProfile').style.display = 'none'
+      renderEditProfile()
+    })
+    return true
+  } catch(_) { return false }
+}
 
 // ── OTP FLOW ─────────────────────────────────────────────────────
 async function sendOtp() {
@@ -516,6 +550,21 @@ async function verifyOtp() {
     clearInterval(otpTimer)
     recordId = data.recordId
     business = data.business
+
+    // Save session — 30 days if Remember Me checked, else session only
+    const rememberMe = document.getElementById('rememberMe')?.checked
+    const expiry = rememberMe
+      ? Date.now() + 30 * 24 * 60 * 60 * 1000  // 30 days
+      : null                                      // session only
+    const session = { recordId: data.recordId, business: data.business, email, expiry }
+    try {
+      if (rememberMe) {
+        localStorage.setItem('gr_edit_session', JSON.stringify(session))
+      } else {
+        sessionStorage.setItem('gr_edit_session', JSON.stringify(session))
+      }
+    } catch(_) {}
+
     document.getElementById('otpCard').style.display        = 'none'
     document.getElementById('loadingProfile').style.display = 'block'
 
@@ -854,6 +903,8 @@ function removeTag(i) {
 
 // Char counter
 document.addEventListener('DOMContentLoaded', () => {
+  checkExistingSession()
+
   const inp = document.getElementById('newTagInput')
   if (inp) {
     inp.addEventListener('input', function() {
