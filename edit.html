@@ -731,7 +731,21 @@ function renderSelectableTags() {
   const presetWrap  = document.getElementById('presetTagsWrap')
   presetWrap.innerHTML = ''
   const cat    = tagMasterData.categories[b.businessType]
-  const subcat = cat && b.subCategory ? cat.subcategories[b.subCategory] : null
+  // Fuzzy match subCategory → tag-master key
+  // e.g. "general_physician" → "General Physician"
+  function findSubcat(subcategories, subCatValue) {
+    if (!subCatValue) return null
+    // 1. Exact match
+    if (subcategories[subCatValue]) return subcategories[subCatValue]
+    // 2. Normalize: underscore→space, title case
+    const normalized = subCatValue.replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase())
+    if (subcategories[normalized]) return subcategories[normalized]
+    // 3. Case-insensitive search
+    const lower = subCatValue.toLowerCase().replace(/_/g,' ')
+    const key = Object.keys(subcategories).find(k => k.toLowerCase() === lower)
+    return key ? subcategories[key] : null
+  }
+  const subcat = cat && b.subCategory ? findSubcat(cat.subcategories, b.subCategory) : null
 
   if (subcat && subcat.tags && subcat.tags.length > 0) {
     document.getElementById('presetTagsLabel').textContent = `📋 ${b.subCategory} Tags`
