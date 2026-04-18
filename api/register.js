@@ -1,20 +1,3 @@
-// ── Cloudflare KV sync helper ─────────────────────────────────────
-async function syncToFallback(id, gmbUrl) {
-  const workerUrl    = process.env.CF_WORKER_URL    // e.g. https://goodreview-fallback.yourname.workers.dev
-  const workerSecret = process.env.CF_WORKER_SECRET
-  if (!workerUrl || !workerSecret || !gmbUrl) return
-  try {
-    await fetch(`${workerUrl}/fallback/sync`, {
-      method:  'POST',
-      headers: { 'Content-Type': 'application/json', 'X-Worker-Secret': workerSecret },
-      body:    JSON.stringify({ id: String(id), gmbUrl })
-    })
-  } catch (e) {
-    // Non-critical — log only, never block registration
-    console.error('KV sync failed (non-critical):', e.message)
-  }
-}
-
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
@@ -135,6 +118,7 @@ export default async function handler(req, res) {
 
     // ── Step 6: Send welcome email via Resend API ─────────────
     const reviewUrl = `${BASE_URL}/review.html?id=${newId}`
+    const printUrl  = `${BASE_URL}/print.html?id=${newId}`
     const qrUrl     = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(reviewUrl)}`
 
     if (RESEND_API_KEY && email) {
@@ -177,6 +161,7 @@ export default async function handler(req, res) {
     <div style="text-align:center;margin:20px 0">
       <img src="${qrUrl}" width="200" height="200" alt="QR Code" style="border-radius:12px;border:4px solid #FF6B00"/>
       <p style="font-size:12px;color:#5A5A7A;margin-top:8px">Print and display at your business</p>
+      <a href="${printUrl}" style="display:inline-block;margin-top:10px;background:#1A1A2E;color:#fff;padding:10px 22px;border-radius:10px;text-decoration:none;font-size:13px;font-weight:700">🖨️ Open Print Kit →</a>
     </div>
     <div style="background:#E8F5EE;border-radius:10px;padding:14px;margin-bottom:14px">
       <div style="font-size:11px;color:#5A5A7A;text-transform:uppercase;margin-bottom:4px">Your Plan</div>
@@ -193,6 +178,7 @@ export default async function handler(req, res) {
   <div style="background:#fff;border-radius:16px;padding:20px;box-shadow:0 2px 16px rgba(0,0,0,0.08);margin-bottom:14px">
     <div style="font-size:14px;font-weight:800;color:#1A1A2E;margin-bottom:10px">🚀 How to get more reviews</div>
     <div style="font-size:13px;color:#5A5A7A;line-height:1.8">
+      ✅ <a href="${printUrl}" style="color:#FF6B00;font-weight:700">Open your Print Kit</a> — QR sticker + shipping label ready to print<br>
       ✅ Print the QR code and place it at reception<br>
       ✅ Ask customers to scan after their visit<br>
       ✅ Share your review link on WhatsApp<br>
@@ -211,9 +197,6 @@ export default async function handler(req, res) {
         // Non-critical — registration still succeeds
       }
     }
-
-    // ── Step 6b: Sync to Cloudflare KV fallback ─────────────
-    await syncToFallback(newId, gmbUrl)
 
     // ── Step 7: Return success ────────────────────────────────
     return res.status(200).json({
