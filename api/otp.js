@@ -166,6 +166,14 @@ export default async function handler(req, res) {
         customTags,
         selectedTags,
         nameVariations,
+        // Dashboard stats
+        active:         f.Active          !== false,
+        reviewCount:    f.ReviewCount     || 0,
+        rating:         f.Rating          || null,
+        referralCount:  f.ReferralCount   || 0,
+        expiryDate:     f.ExpiryDate      || null,
+        paymentType:    f.PaymentType     || '',
+        shippingStatus: f.ShippingStatus  || '',
       }
     })
   }
