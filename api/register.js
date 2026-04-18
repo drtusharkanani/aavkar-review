@@ -1,3 +1,20 @@
+// ── Cloudflare KV sync helper ─────────────────────────────────────
+async function syncToFallback(id, gmbUrl) {
+  const workerUrl    = process.env.CF_WORKER_URL    // e.g. https://goodreview-fallback.yourname.workers.dev
+  const workerSecret = process.env.CF_WORKER_SECRET
+  if (!workerUrl || !workerSecret || !gmbUrl) return
+  try {
+    await fetch(`${workerUrl}/fallback/sync`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Worker-Secret': workerSecret },
+      body:    JSON.stringify({ id: String(id), gmbUrl })
+    })
+  } catch (e) {
+    // Non-critical — log only, never block registration
+    console.error('KV sync failed (non-critical):', e.message)
+  }
+}
+
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
@@ -194,6 +211,9 @@ export default async function handler(req, res) {
         // Non-critical — registration still succeeds
       }
     }
+
+    // ── Step 6b: Sync to Cloudflare KV fallback ─────────────
+    await syncToFallback(newId, gmbUrl)
 
     // ── Step 7: Return success ────────────────────────────────
     return res.status(200).json({
