@@ -1,3 +1,19 @@
+// ── Cloudflare KV sync helper ─────────────────────────────────────
+async function syncToFallback(id, gmbUrl) {
+  const workerUrl    = process.env.CF_WORKER_URL
+  const workerSecret = process.env.CF_WORKER_SECRET
+  if (!workerUrl || !workerSecret || !id || !gmbUrl) return
+  try {
+    await fetch(`${workerUrl}/fallback/sync`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Worker-Secret': workerSecret },
+      body:    JSON.stringify({ id: String(id), gmbUrl })
+    })
+  } catch (e) {
+    console.error('KV sync failed (non-critical):', e.message)
+  }
+}
+
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'PATCH, OPTIONS')
@@ -7,10 +23,14 @@ export default async function handler(req, res) {
 
   const {
     recordId,
-    languages, customTags, selectedTags, nameVariations,
-    gmbUrl, city, area, state,
-    tagline, greetingMessage, photoUrl, coverUrl,
-    businessHours, whatsapp, socialLinks
+    languages,
+    customTags,
+    selectedTags,
+    nameVariations,
+    gmbUrl,
+    city,
+    area,
+    state
   } = req.body
 
   if (!recordId) return res.status(400).json({ error: 'Missing recordId' })
@@ -24,14 +44,7 @@ export default async function handler(req, res) {
   if (gmbUrl       !== undefined) fields['GMB URL']      = gmbUrl
   if (city         !== undefined) fields['City']         = city
   if (area         !== undefined) fields['Area']         = area
-  if (state            !== undefined) fields['State']          = state
-  if (tagline          !== undefined) fields['Tagline']        = tagline
-  if (greetingMessage  !== undefined) fields['GreetingMessage'] = greetingMessage
-  if (photoUrl         !== undefined) fields['PhotoURL']        = photoUrl
-  if (coverUrl         !== undefined) fields['CoverURL']        = coverUrl
-  if (businessHours    !== undefined) fields['BusinessHours']   = businessHours
-  if (whatsapp         !== undefined) fields['WhatsApp']        = whatsapp
-  if (socialLinks      !== undefined) fields['SocialLinks']     = socialLinks
+  if (state        !== undefined) fields['State']        = state
 
   try {
     const airtableRes = await fetch(
@@ -51,6 +64,22 @@ export default async function handler(req, res) {
     if (!airtableRes.ok) {
       console.error('Airtable error:', data)
       return res.status(500).json({ error: 'Failed to update. Please try again.' })
+    }
+
+    // Sync updated GMB URL to Cloudflare KV fallback (if changed)
+    if (gmbUrl) {
+      // Fetch OwnerID from the record we just updated
+      try {
+        const idRes  = await fetch(
+          `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE_ID}/Doctors/${recordId}?fields[]=OwnerID&fields[]=GMB+URL`,
+          { headers: { Authorization: `Bearer ${process.env.AIRTABLE_TOKEN}` } }
+        )
+        const idData = await idRes.json()
+        const ownerId = idData.fields?.OwnerID
+        if (ownerId) await syncToFallback(ownerId, gmbUrl)
+      } catch(e) {
+        console.error('KV sync lookup failed (non-critical):', e.message)
+      }
     }
 
     return res.status(200).json({ success: true })
