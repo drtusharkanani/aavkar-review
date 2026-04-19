@@ -149,7 +149,21 @@ async function init() {
   const catDefaults = CATEGORY_DEFAULTS[biz.businessType] || CATEGORY_DEFAULTS.default
 
   // Resolve each field: B (Airtable) → A (session) → Preset
-  biz._ownerName  = biz.ownerName     || sessionBiz?.ownerName     || 'Business Owner'
+  // Prefix logic — use Prefix field from Airtable
+  // Options: Dr. / Mr. / Mrs. / Miss / Ms. / Prof. / CA / Adv. / None / ''
+  const rawName   = biz.ownerName || sessionBiz?.ownerName || 'Business Owner'
+  const prefixVal = biz.prefix || sessionBiz?.prefix || ''
+  const KNOWN_PREFIXES = ['Dr.','Mr.','Mrs.','Miss','Ms.','Prof.','CA','Adv.']
+  const alreadyHasPrefix = KNOWN_PREFIXES.some(p => rawName.startsWith(p))
+
+  let displayPrefix = ''
+  if (prefixVal && prefixVal !== 'None' && !alreadyHasPrefix) {
+    displayPrefix = prefixVal.endsWith('.') || prefixVal === 'Miss' ? prefixVal + ' ' : prefixVal + ' '
+  } else if (!prefixVal && biz.businessType === 'doctor_health' && !alreadyHasPrefix) {
+    displayPrefix = 'Dr. ' // fallback for doctor_health if no prefix set
+  }
+
+  biz._ownerName = displayPrefix + rawName
   biz._bizName    = biz.businessName  || sessionBiz?.businessName  || 'My Business'
   biz._tagline    = biz.tagline       || sessionBiz?.tagline       || catDefaults.tagline
   biz._tapText    = catDefaults.tap
