@@ -395,11 +395,11 @@ select.input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xml
       </div>
       <div class="crop-row">
         <span class="crop-lbl">↔ X</span>
-        <input type="range" class="crop-slider" id="cropX" min="-100" max="100" step="1" value="0" oninput="drawCrop()">
+        <input type="range" class="crop-slider" id="cropX" min="-200" max="200" step="1" value="0" oninput="drawCrop()">
       </div>
       <div class="crop-row">
         <span class="crop-lbl">↕ Y</span>
-        <input type="range" class="crop-slider" id="cropY" min="-100" max="100" step="1" value="0" oninput="drawCrop()">
+        <input type="range" class="crop-slider" id="cropY" min="-200" max="200" step="1" value="0" oninput="drawCrop()">
       </div>
       <div class="crop-row">
         <div class="crop-previews">
@@ -949,7 +949,23 @@ function openCrop(type, input) {
   const reader = new FileReader()
   reader.onload = e => {
     const img = new Image()
-    img.onload = () => { cropImg = img; setTimeout(drawCrop, 50) }  // 50ms lets CSS render first
+    img.onload = () => {
+      cropImg = img
+      setTimeout(() => {
+        // Auto-fit: calculate initial zoom so image fills the canvas
+        const wrap = document.getElementById('cropWrap')
+        const W = Math.max(wrap.clientWidth, 300)
+        const isOwner = cropType === 'owner'
+        const H = isOwner ? W : Math.round(W / 3)
+        const fitZoom = Math.max(W / img.width, H / img.height)
+        // Set zoom slider to match fitZoom (slider range 1-4)
+        const sliderVal = Math.min(Math.max(fitZoom, 1), 4)
+        document.getElementById('cropZoom').value = sliderVal
+        document.getElementById('cropX').value = 0
+        document.getElementById('cropY').value = 0
+        drawCrop()
+      }, 80)
+    }
     img.src = e.target.result
   }
   reader.readAsDataURL(file)
@@ -969,8 +985,8 @@ function drawCrop() {
   const ox   = parseFloat(document.getElementById('cropX').value)
   const oy   = parseFloat(document.getElementById('cropY').value)
   const iw = cropImg.width * zoom, ih = cropImg.height * zoom
-  const x  = (W - iw) / 2 + ox / 100 * W * 0.5
-  const y  = (H - ih) / 2 + oy / 100 * H * 0.5
+  const x  = (W - iw) / 2 + ox / 200 * W
+  const y  = (H - ih) / 2 + oy / 200 * H
   ctx.drawImage(cropImg, x, y, iw, ih)
   ctx.fillStyle = 'rgba(0,0,0,0.5)'
   if (isOwner) {
