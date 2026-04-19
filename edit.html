@@ -792,7 +792,8 @@ function renderSelectableTags() {
   // Load previously saved selectedTags
   try {
     const saved = JSON.parse(b.selectedTags || '[]')
-    selectedTagIds  = saved.map(t => (typeof t === 'object' ? t.id : t)).filter(Boolean)
+    selectedTagIds  = saved.filter(t => typeof t === 'object' ? t.id : t)
+                         .map(t => typeof t === 'object' ? t.id : t).filter(Boolean)
     favouriteTagIds = saved.filter(t => typeof t === 'object' && t.favourite && t.id).map(t => t.id)
     // Name variations now stored in separate NameVariations field
     nameVariations = b.nameVariations || []
@@ -1099,12 +1100,8 @@ async function saveProfile() {
   document.getElementById('err-lang').classList.remove('show')
 
   const allSelectedTags = buildSelectedTagsForSave()
-  if (allSelectedTags.length === 0) {
-    document.getElementById('err-tags').classList.add('show')
-    document.getElementById('selectTagsCard').scrollIntoView({behavior:'smooth'})
-    return
-  }
   document.getElementById('err-tags').classList.remove('show')
+  // Note: saving with empty tags is allowed — tags can be set separately
 
   const btn = document.getElementById('saveBtn')
   btn.disabled    = true
