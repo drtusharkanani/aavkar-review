@@ -15,9 +15,7 @@ export default async function handler(req, res) {
     'BusinessType','City','Area','State','Phone','Email','GMB URL',
     'Plan','Active','PaymentType','ExpiryDate','ReviewCount','Rating',
     'ReferralCode','ReferralCount','ShippingStatus','CustomTags','Languages',
-    'SelectedTags','NameVariations',
-    'Tagline','GreetingMessage','PhotoURL','CoverURL','BusinessHours','WhatsApp','SocialLinks',
-    'NFCDesign'
+    'SelectedTags','NameVariations'
   ]
 
   const formula = `({OwnerID}=${parseInt(id)})`
@@ -135,14 +133,6 @@ export default async function handler(req, res) {
       ownerCustomTags,
       selectedTags,
       nameVariations,
-      tagline:          r.Tagline          || '',
-      greetingMessage:  r.GreetingMessage   || '',
-      photoUrl:         r.PhotoURL          || '',
-      coverUrl:         r.CoverURL          || '',
-      businessHours:    r.BusinessHours     || '',
-      whatsapp:         r.WhatsApp          || '',
-      socialLinks:      (() => { try { return r.SocialLinks ? JSON.parse(r.SocialLinks) : {} } catch(_){ return {} } })(),
-      nfcDesign:        r.NFCDesign          || '',
     })
 
   } catch (err) {
