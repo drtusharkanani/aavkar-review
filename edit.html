@@ -429,51 +429,37 @@ select.input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xml
 
     <div id="nfcMainSection" style="display:none">
 
-      <!-- QR Code download always shown -->
-      <div style="background:var(--bg);border-radius:12px;padding:16px;margin-bottom:16px;text-align:center">
-        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px">Your Review Link</div>
-        <div id="nfcReviewUrl" style="font-size:12px;color:var(--or);font-weight:700;margin-bottom:12px;word-break:break-all"></div>
-        <div style="font-size:11px;color:var(--soft);margin-bottom:12px">This link is also in your registration email</div>
+      <!-- QR Code download -->
+      <div style="background:var(--bg);border-radius:12px;padding:14px;margin-bottom:16px;text-align:center">
+        <div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:3px">Your Review Link</div>
+        <div id="nfcReviewUrl" style="font-size:11px;color:var(--or);font-weight:700;margin-bottom:10px;word-break:break-all"></div>
         <a id="nfcQrDownload" href="#" target="_blank"
-          style="display:inline-block;padding:10px 22px;border-radius:10px;background:#1A1A2E;color:#fff;font-size:13px;font-weight:700;text-decoration:none">
+          style="display:inline-block;padding:9px 20px;border-radius:10px;background:#1A1A2E;color:#fff;font-size:12px;font-weight:700;text-decoration:none">
           ⬇ Download QR Code
         </a>
+        <div style="font-size:10px;color:var(--soft);margin-top:6px">Also sent to your registered email</div>
       </div>
 
-      <div style="display:flex;align-items:center;gap:10px;margin:16px 0">
-        <div style="flex:1;height:1px;background:var(--border)"></div>
-        <div style="font-size:12px;font-weight:700;color:var(--soft)">CHOOSE YOUR CARD DESIGN</div>
-        <div style="flex:1;height:1px;background:var(--border)"></div>
-      </div>
+      <!-- Card slots — 1 for Premium, 2 for Ultimate -->
+      <div id="nfcCardSlots"></div>
 
-      <!-- Option 1 — GoodReview design -->
-      <div style="border:2px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px">
-        <div style="font-size:13px;font-weight:800;color:var(--text);margin-bottom:4px">Option 1 — Use GoodReview Design</div>
-        <div style="font-size:12px;color:var(--soft);margin-bottom:14px">Choose from 5 ready-made professional designs. QR code is included automatically.</div>
-        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:12px" id="nfcDesignOptions"></div>
-        <div id="nfcSelectedMsg" style="display:none;background:var(--gr-l);border:1.5px solid var(--gr);border-radius:10px;padding:10px 12px;font-size:12px;font-weight:700;color:var(--gr);margin-bottom:10px"></div>
-        <a id="nfcOpenBtn" href="#" target="_blank" style="display:none;width:100%;padding:11px;border-radius:10px;background:linear-gradient(135deg,#FF6B00,#F5A623);color:#fff;font-size:13px;font-weight:700;text-decoration:none;text-align:center;display:none">
-          🎴 Open & Download This Design →
+      <!-- Own design option -->
+      <div style="border:2px solid var(--border);border-radius:14px;padding:16px;margin-top:12px">
+        <div style="font-size:13px;font-weight:800;color:var(--text);margin-bottom:4px">🎨 Use Your Own Design</div>
+        <div style="font-size:12px;color:var(--soft);margin-bottom:12px">Design using Canva or any designer. Place your QR code on it yourself.</div>
+        <div style="background:var(--or-l);border-radius:10px;padding:12px;font-size:12px;color:#7A3000;line-height:1.9;margin-bottom:12px">
+          <strong>Specifications:</strong><br>
+          • Size: <strong>85.6 × 54 mm</strong> (standard card size)<br>
+          • File: <strong>JPG format only</strong><br>
+          • Resolution: <strong>300 DPI</strong><br>
+          • Send Front design + Back design separately
+        </div>
+        <a id="nfcWhatsappBtn" href="#" target="_blank"
+          style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border-radius:12px;background:#25D366;color:#fff;font-size:13px;font-weight:700;text-decoration:none">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+          WhatsApp Your Design to GoodReview
         </a>
-      </div>
-
-      <!-- Option 2 — Own design -->
-      <div style="border:2px solid var(--border);border-radius:14px;padding:16px">
-        <div style="font-size:13px;font-weight:800;color:var(--text);margin-bottom:4px">Option 2 — Use Your Own Design</div>
-        <div style="font-size:12px;color:var(--soft);margin-bottom:12px">Design your card using Canva or any designer. Place your QR code on the design yourself.</div>
-        <div style="background:var(--or-l);border-radius:10px;padding:12px;font-size:12px;color:#7A3000;line-height:1.8;margin-bottom:12px">
-          <strong>Card specifications:</strong><br>
-          • Size: <strong>85.6 × 54 mm</strong> (standard credit card size)<br>
-          • File: <strong>JPG format</strong><br>
-          • Resolution: <strong>300 DPI</strong> for best print quality<br>
-          • Include your QR code (download above)<br>
-          • Send both Front and Back designs
-        </div>
-        <div style="background:var(--bg);border-radius:10px;padding:12px;font-size:12px;color:var(--soft);line-height:1.8">
-          📤 Once your design is ready, WhatsApp it to:<br>
-          <strong style="color:var(--text)">+91 79849 39486</strong><br>
-          We will print and ship within 5–7 working days.
-        </div>
+        <div style="font-size:10px;color:var(--soft);text-align:center;margin-top:6px">We will print and ship within 5–7 working days</div>
       </div>
 
     </div>
@@ -1264,19 +1250,24 @@ async function saveProfile() {
 // NFC DESIGN
 // ═══════════════════════════════════════════════════════════════
 const NFC_DESIGNS = [
-  { id:'1', name:'Black & Gold',       color:'#F5A623', bg:'#0a0a0a', textColor:'#F5A623' },
-  { id:'2', name:'Navy & Silver',      color:'#C0C8E0', bg:'#0a1628', textColor:'#C0C8E0' },
-  { id:'3', name:'Forest & Copper',    color:'#C8844A', bg:'#0d1f14', textColor:'#C8844A' },
-  { id:'4', name:'White & Saffron',    color:'#FF6B00', bg:'#F7F3EE', textColor:'#FF6B00' },
-  { id:'5', name:'Purple & Champagne', color:'#DCB478', bg:'#1a0a2e', textColor:'#DCB478' },
+  { id:'1', name:'Black & Gold',       color:'#F5A623', bg:'#0a0a0a', text:'#F5A623' },
+  { id:'2', name:'Navy & Silver',      color:'#C0C8E0', bg:'#0a1628', text:'#C0C8E0' },
+  { id:'3', name:'Forest & Copper',    color:'#C8844A', bg:'#0d1f14', text:'#C8844A' },
+  { id:'4', name:'White & Saffron',    color:'#FF6B00', bg:'#F7F3EE', text:'#FF6B00' },
+  { id:'5', name:'Purple & Champagne', color:'#DCB478', bg:'#1a0a2e', text:'#DCB478' },
 ]
+
+// nfcDesign stores: '1' for premium (1 card), '1,3' for ultimate (2 cards)
+let nfcSelected = [] // array of selected design ids
 
 function renderNFCSection() {
   const b    = business
   const plan = (b.plan || '').trim()
   const isPremiumPlus = plan.startsWith('premium') || plan.startsWith('ultimate')
+  const isUltimate    = plan.startsWith('ultimate')
+  const cardCount     = isUltimate ? 2 : isPremiumPlus ? 1 : 0
 
-  if (!isPremiumPlus) {
+  if (cardCount === 0) {
     document.getElementById('nfcUpgradeMsg').style.display = 'block'
     document.getElementById('nfcUpgradeMsg').innerHTML =
       `<div class="info-box">NFC card is included in <strong>Premium</strong> and <strong>Ultimate</strong> plans. <a href="register.html" style="color:var(--or);font-weight:700">Upgrade →</a></div>`
@@ -1287,46 +1278,96 @@ function renderNFCSection() {
   document.getElementById('nfcUpgradeMsg').style.display = 'none'
   document.getElementById('nfcMainSection').style.display = 'block'
 
-  // Review URL + QR download
+  // Parse saved nfcDesign
+  const saved = (nfcDesign || '').split(',').map(x => x.trim()).filter(Boolean)
+  nfcSelected  = saved.length ? saved : []
+
+  // QR download
   const reviewUrl = `https://goodreview.in/review.html?id=${b.ownerId}`
-  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(reviewUrl)}&bgcolor=ffffff&color=000000&qzone=2`
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=${encodeURIComponent(reviewUrl)}&bgcolor=ffffff&color=000000&qzone=2`
   document.getElementById('nfcReviewUrl').textContent = reviewUrl
   document.getElementById('nfcQrDownload').href = qrUrl
-  document.getElementById('nfcQrDownload').download = `qr-code-id${b.ownerId}.png`
 
-  // Render design options
-  const opts = document.getElementById('nfcDesignOptions')
-  opts.innerHTML = ''
-  NFC_DESIGNS.forEach(d => {
-    const div = document.createElement('div')
-    const isSel = String(nfcDesign) === d.id
-    div.style.cssText = `padding:8px 4px;border-radius:10px;border:${isSel ? '3px' : '2px'} solid ${d.color};background:${d.bg};cursor:pointer;text-align:center;transition:all 0.15s;opacity:${isSel ? '1' : '0.7'}`
-    div.innerHTML = `<div style="font-size:9px;font-weight:700;color:${d.textColor};line-height:1.3">${d.name.replace(' & ','<br>&<br>')}</div>`
-    div.onclick = () => selectNFCDesign(d.id)
-    opts.appendChild(div)
-  })
+  // WhatsApp button
+  document.getElementById('nfcWhatsappBtn').href = 'https://wa.me/917984939486?text=' +
+    encodeURIComponent(`Hi, I want to send my custom NFC card design for ID ${b.ownerId} — ${b.businessName}`)
 
-  // Show selected state
-  if (nfcDesign) {
-    const d = NFC_DESIGNS.find(x => x.id === String(nfcDesign))
-    if (d) {
-      const msg = document.getElementById('nfcSelectedMsg')
-      msg.style.display = 'block'
-      msg.textContent = `✅ You selected: Design ${d.id} — ${d.name}`
-      const btn = document.getElementById('nfcOpenBtn')
-      btn.style.display = 'block'
-      btn.href = `https://goodreview.in/nfc-card.html?id=${b.ownerId}&design=${parseInt(d.id)-1}`
-      btn.textContent = `🎴 Open & Download Design ${d.id} — ${d.name} →`
-    }
-  } else {
-    document.getElementById('nfcSelectedMsg').style.display = 'none'
-    document.getElementById('nfcOpenBtn').style.display = 'none'
+  // Render card slots
+  const slots = document.getElementById('nfcCardSlots')
+  slots.innerHTML = ''
+  for (let slot = 0; slot < cardCount; slot++) {
+    const slotEl = document.createElement('div')
+    slotEl.style.cssText = 'border:2px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px'
+    slotEl.innerHTML = `
+      <div style="font-size:13px;font-weight:800;color:var(--text);margin-bottom:4px">
+        ${cardCount === 1 ? '🎴 GoodReview Card Design' : `🎴 Card ${slot+1} Design`}
+      </div>
+      <div style="font-size:12px;color:var(--soft);margin-bottom:12px">
+        ${cardCount === 2 && slot === 0 ? 'e.g. for reception desk' : cardCount === 2 ? 'e.g. for wallet / pocket' : 'Choose from 5 ready-made designs'}
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:12px" id="nfcOpts${slot}"></div>
+      <div id="nfcSel${slot}" style="display:none;background:var(--gr-l);border:1.5px solid var(--gr);border-radius:10px;padding:10px 12px;font-size:12px;font-weight:700;color:var(--gr);margin-bottom:10px"></div>
+      <a id="nfcBtn${slot}" href="#" target="_blank" style="display:none;width:100%;padding:11px;border-radius:10px;background:linear-gradient(135deg,#FF6B00,#F5A623);color:#fff;font-size:13px;font-weight:700;text-decoration:none;text-align:center">
+        🎴 Open & Download This Design →
+      </a>`
+    slots.appendChild(slotEl)
+    renderSlot(slot)
   }
 }
 
-function selectNFCDesign(id) {
-  nfcDesign = id
-  renderNFCSection()
+function renderSlot(slot) {
+  const b = business
+  const opts = document.getElementById('nfcOpts' + slot)
+  if (!opts) return
+  opts.innerHTML = ''
+
+  NFC_DESIGNS.forEach(d => {
+    const isSel = nfcSelected[slot] === d.id
+    const div = document.createElement('div')
+    // Mini card preview
+    div.style.cssText = `border-radius:10px;border:${isSel ? '3px' : '2px'} solid ${d.color};background:${d.bg};cursor:pointer;transition:all 0.2s;overflow:hidden;position:relative;aspect-ratio:1.586`
+    div.innerHTML = `
+      <div style="position:absolute;inset:0;padding:5px;display:flex;flex-direction:column;justify-content:space-between">
+        <div style="font-size:6px;font-weight:800;color:${d.text};letter-spacing:0.5px;opacity:0.8">GR</div>
+        <div style="text-align:center">
+          <div style="width:16px;height:16px;border-radius:50%;border:1.5px solid ${d.color};margin:0 auto;display:flex;align-items:center;justify-content:center">
+            <div style="width:8px;height:8px;border-radius:50%;background:${d.color};opacity:0.6"></div>
+          </div>
+        </div>
+        <div style="font-size:5px;font-weight:700;color:${d.text};text-align:center;line-height:1.2">${d.name}</div>
+      </div>
+      ${isSel ? `<div style="position:absolute;top:3px;right:3px;width:12px;height:12px;border-radius:50%;background:#1A7A4A;display:flex;align-items:center;justify-content:center;font-size:7px;color:#fff">✓</div>` : ''}`
+    div.title = d.name
+    div.onclick = () => selectSlotDesign(slot, d.id)
+    opts.appendChild(div)
+  })
+
+  // Show selection status
+  const sel = document.getElementById('nfcSel' + slot)
+  const btn = document.getElementById('nfcBtn' + slot)
+  if (nfcSelected[slot]) {
+    const d = NFC_DESIGNS.find(x => x.id === nfcSelected[slot])
+    sel.style.display = 'block'
+    sel.textContent = `✅ Selected: Design ${d.id} — ${d.name}`
+    btn.style.display = 'block'
+    btn.href = `https://goodreview.in/nfc-card.html?id=${b.ownerId}&design=${parseInt(d.id)-1}`
+    btn.textContent = `🎴 Open & Download Design ${d.id} — ${d.name} →`
+  } else {
+    sel.style.display = 'none'
+    btn.style.display = 'none'
+  }
+}
+
+function selectSlotDesign(slot, id) {
+  // Prevent same design for both cards
+  const otherSlot = slot === 0 ? 1 : 0
+  if (nfcSelected[otherSlot] === id) {
+    alert('Card ' + (otherSlot+1) + ' already uses this design. Please pick a different design for Card ' + (slot+1) + '.')
+    return
+  }
+  nfcSelected[slot] = id
+  nfcDesign = nfcSelected.filter(Boolean).join(',')
+  renderSlot(slot)
 }
 
 // ═══════════════════════════════════════════════════════════════
