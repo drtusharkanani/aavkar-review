@@ -468,13 +468,25 @@ function renderPage() {
   const tagline   = b.tagline || defaultTagline(b.businessType, b.subCategory)
   if (tagline) { taglineEl.textContent = tagline; taglineEl.style.display = 'block' }
 
+  // ── OWNER NAME with Prefix ──
+  const KNOWN_PFX = ['Dr.','Mr.','Mrs.','Miss','Ms.','Prof.','CA','Adv.']
+  const nameHasPfx = KNOWN_PFX.some(p => (b.ownerName||'').startsWith(p))
+  let ownerDisplay = b.ownerName || ''
+  if (!nameHasPfx) {
+    if (b.prefix && b.prefix !== 'None') {
+      ownerDisplay = b.prefix + ' ' + ownerDisplay
+    } else if (!b.prefix && b.businessType === 'doctor_health') {
+      ownerDisplay = (b.qualification ? b.qualification.split(' ')[0] : 'Dr.') + ' ' + ownerDisplay
+    }
+  }
+
   // ── SUB LINE ──
   let subParts = []
   if (b.businessType === 'doctor_health') {
-    if (b.qualification) subParts.push(b.qualification)
-    if (b.subCategory)   subParts.push(formatSub(b.subCategory))
+    if (ownerDisplay) subParts.push(ownerDisplay)
+    if (b.subCategory) subParts.push(formatSub(b.subCategory))
   } else {
-    if (b.ownerName)   subParts.push(b.ownerName)
+    if (ownerDisplay)  subParts.push(ownerDisplay)
     if (b.subCategory) subParts.push(formatSub(b.subCategory))
   }
   document.getElementById('hBusinessSub').textContent = subParts.join(' · ')
