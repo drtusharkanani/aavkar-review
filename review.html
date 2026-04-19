@@ -28,11 +28,9 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .header-top-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;position:relative;z-index:1}
 .brand-label{font-family:'Poppins',sans-serif;font-size:11px;font-weight:600;color:rgba(255,255,255,0.8);letter-spacing:2px;text-transform:uppercase}
 .cat-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.18);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:4px 11px;font-size:11px;font-weight:700;color:#fff}
-/* owner avatar */
 .avatar-wrap{position:relative;z-index:1;margin-bottom:10px}
 .owner-avatar{width:72px;height:72px;border-radius:50%;border:3px solid rgba(255,255,255,0.9);background:rgba(255,255,255,0.2);display:inline-flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;color:#fff;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.2)}
 .owner-avatar img{width:100%;height:100%;object-fit:cover}
-/* business info */
 .business-name{font-family:'Poppins',sans-serif;font-size:22px;font-weight:700;color:#fff;line-height:1.2;margin-bottom:3px;position:relative;z-index:1}
 .business-tagline{font-size:13px;color:rgba(255,255,255,0.9);font-style:italic;margin-bottom:5px;position:relative;z-index:1}
 .business-sub{font-size:12px;color:rgba(255,255,255,0.8);font-weight:600;margin-bottom:8px;position:relative;z-index:1}
@@ -323,7 +321,7 @@ const REVIEW_PROMPTS = {
 }
 const DEFAULT_PROMPT = 'Thank you for visiting! Please take a moment to leave us a Google review. ⭐'
 
-// ── DEFAULT GREETINGS (shown when owner hasn't set one) ───────────
+// ── DEFAULT GREETINGS ─────────────────────────────────────────────
 const DEFAULT_GREETINGS = {
   doctor_health:        'Thank you for choosing us for your healthcare. Your trust means everything. A quick Google review helps other patients in our community find quality care.',
   beauty_wellness:      'Thank you for visiting us! We hope you loved your experience. A quick Google review helps others discover our services.',
@@ -340,48 +338,38 @@ const DEFAULT_GREETINGS = {
 }
 const DEFAULT_GREETING = 'Thank you for visiting us! Your experience matters to us. A quick Google review helps others discover our business.'
 
-
-
 const LANG_DISPLAY = {
   English:'English', Hindi:'हिंदी', Gujarati:'ગુજરાતી', Hinglish:'Hinglish',
   Marathi:'मराठी', Tamil:'தமிழ்', Telugu:'తెలుగు', Kannada:'ಕನ್ನಡ'
 }
 
-// ── INIT ───────────────────────────────────────────────────────────
-// ── FALLBACK: redirect to GMB via Cloudflare Worker ─────────────
+// ── FALLBACK ───────────────────────────────────────────────────────
 const CF_WORKER_URL = 'https://goodreview-fallback.support-goodreview.workers.dev'
 
 async function tryGmbFallback(id) {
-  // Show redirect box
   document.getElementById('gmbFallbackBox').style.display = 'block'
   document.getElementById('errorIcon').textContent = '📡'
-
-  // Try Cloudflare Worker first
   if (CF_WORKER_URL) {
     const btn = document.getElementById('gmbFallbackBtn')
     btn.href = `${CF_WORKER_URL}/fallback?id=${id}`
-    // Auto-redirect countdown
-    let secs = 5  // 5 second countdown before auto-redirect
+    let secs = 5
     const cd = document.getElementById('gmbCountdown')
     cd.textContent = `Redirecting to Google Reviews in ${secs}s...`
     const t = setInterval(() => {
       secs--
       cd.textContent = secs > 0 ? `Redirecting to Google Reviews in ${secs}s...` : 'Redirecting...'
-      if (secs <= 0) {
-        clearInterval(t)
-        window.location.href = `${CF_WORKER_URL}/fallback?id=${id}`
-      }
+      if (secs <= 0) { clearInterval(t); window.location.href = `${CF_WORKER_URL}/fallback?id=${id}` }
     }, 1000)
   } else {
     document.getElementById('gmbCountdown').textContent = 'Tap the button above to leave your review directly on Google.'
   }
 }
 
+// ── INIT ───────────────────────────────────────────────────────────
 async function init() {
   const id = new URLSearchParams(window.location.search).get('id')
   if (!id) return showError('Invalid Link', 'No business ID in URL.')
 
-  // 6 second timeout — if API hangs, fall back to GMB
   const controller = new AbortController()
   const timeout    = setTimeout(() => controller.abort(), 6000)
 
@@ -411,7 +399,6 @@ async function init() {
 
   } catch(e) {
     clearTimeout(timeout)
-    // Site down or timeout — show fallback to GMB
     showError('Page Temporarily Unavailable', 'Our system is being updated. You can still leave a review directly on Google.')
     tryGmbFallback(id)
   }
@@ -422,12 +409,10 @@ function renderPage() {
   const b   = business
   const cat = CAT_META[b.businessType] || DEFAULT_CAT
 
-  // Apply category colour theme to CSS variables
   document.documentElement.style.setProperty('--primary',          cat.color)
   document.documentElement.style.setProperty('--primary-light',    cat.light)
   document.documentElement.style.setProperty('--primary-gradient', cat.gradient)
 
-  // ── COVER IMAGE ──
   if (b.coverUrl) {
     const img = document.createElement('img')
     img.src = b.coverUrl; img.className = 'cover-img'; img.alt = ''
@@ -439,10 +424,8 @@ function renderPage() {
     document.getElementById('mainHeader').classList.add('has-cover')
   }
 
-  // ── CATEGORY BADGE ──
   document.getElementById('catBadge').textContent = cat.emoji + ' ' + cat.label
 
-  // ── OWNER AVATAR ──
   const avatarEl = document.getElementById('ownerAvatar')
   if (b.photoUrl) {
     const img = document.createElement('img')
@@ -457,16 +440,13 @@ function renderPage() {
     avatarEl.style.fontSize = '32px'
   }
 
-  // ── BUSINESS NAME (with Dr. prefix logic) ──
   let displayName = b.businessName
   document.getElementById('hBusinessName').textContent = displayName
 
-  // ── TAGLINE ──
   const taglineEl = document.getElementById('hTagline')
   const tagline   = b.tagline || defaultTagline(b.businessType, b.subCategory)
   if (tagline) { taglineEl.textContent = tagline; taglineEl.style.display = 'block' }
 
-  // ── OWNER NAME with Prefix ──
   const KNOWN_PFX = ['Dr.','Mr.','Mrs.','Miss','Ms.','Prof.','CA','Adv.']
   const nameHasPfx = KNOWN_PFX.some(p => (b.ownerName||'').startsWith(p))
   let ownerDisplay = b.ownerName || ''
@@ -478,19 +458,12 @@ function renderPage() {
     }
   }
 
-  // ── SUB LINE ──
   let subParts = []
-  if (b.businessType === 'doctor_health') {
-    if (ownerDisplay) subParts.push(ownerDisplay)
-    if (b.subCategory) subParts.push(formatSub(b.subCategory))
-  } else {
-    if (ownerDisplay)  subParts.push(ownerDisplay)
-    if (b.subCategory) subParts.push(formatSub(b.subCategory))
-  }
+  if (ownerDisplay)  subParts.push(ownerDisplay)
+  if (b.subCategory) subParts.push(formatSub(b.subCategory))
   document.getElementById('hBusinessSub').textContent = subParts.join(' · ')
 
-  // ── META (location + hours) ──
-  const metaEl = document.getElementById('hMeta')
+  const metaEl   = document.getElementById('hMeta')
   const location = [b.area, b.city].filter(Boolean).join(', ')
   if (location) {
     const loc = document.createElement('span')
@@ -503,20 +476,13 @@ function renderPage() {
     metaEl.appendChild(hrs)
   }
 
-  // ── GREETING MESSAGE (owner set or default) ──
-  const greeting = b.greetingMessage ||
-    DEFAULT_GREETINGS[b.businessType] ||
-    DEFAULT_GREETING
+  const greeting = b.greetingMessage || DEFAULT_GREETINGS[b.businessType] || DEFAULT_GREETING
   document.getElementById('greetingText').textContent = greeting
   document.getElementById('greetingCard').style.display = 'block'
 
-  // ── REVIEW PROMPT ──
   const prompt = REVIEW_PROMPTS[b.businessType] || DEFAULT_PROMPT
-  const promptEl = document.getElementById('promptBanner')
-  promptEl.textContent = prompt
-  // prompt banner hidden — greeting card serves this purpose
+  document.getElementById('promptBanner').textContent = prompt
 
-  // ── WHATSAPP BUTTON ──
   const waNum = b.whatsapp || b.phone
   if (waNum) {
     const cleaned = waNum.replace(/\D/g,'')
@@ -525,7 +491,6 @@ function renderPage() {
     waBtn.style.display = 'flex'
   }
 
-  // ── SOCIAL LINKS ──
   const social   = b.socialLinks || {}
   const socialEl = document.getElementById('socialRow')
   const SOCIALS  = [
@@ -562,7 +527,6 @@ function renderPage() {
     socialEl.style.display = 'flex'
   }
 
-  // ── PAGE TITLE ──
   document.title = 'Review — ' + displayName
 
   renderLanguages()
@@ -700,22 +664,23 @@ async function doGenerate() {
   document.getElementById('generatingBox').style.display = 'flex'
   document.getElementById('reviewsBox').style.display    = 'none'
   document.getElementById('reviewError').style.display   = 'none'
-  const badge = document.getElementById('langBadge')
+  const badge      = document.getElementById('langBadge')
   const activeLang = getActiveLang()
   if (langLocked) { badge.className='lang-badge locked'; badge.innerHTML='🔒 '+(LANG_DISPLAY[activeLang]||activeLang) }
-  else { badge.className='lang-badge auto'; badge.innerHTML='🔄 '+(LANG_DISPLAY[activeLang]||activeLang) }
+  else            { badge.className='lang-badge auto';   badge.innerHTML='🔄 '+(LANG_DISPLAY[activeLang]||activeLang) }
   try {
     const res = await fetch('/api/generate-reviews', {
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({
         businessName:   business.businessName,
-        subCategory:    business.subCategory||'',
-        city:           business.city||'',
-        area:           business.area||'',
-        nameVariations: business.nameVariations||[],
-        tags:           selectedTags.map(t=>t.label),
+        subCategory:    business.subCategory  || '',
+        city:           business.city         || '',
+        area:           business.area         || '',
+        nameVariations: business.nameVariations || [],
+        tags:           selectedTags.map(t => t.label),
         lang:           activeLang,
-        gender:         business.gender || 'neutral'
+        gender:         business.gender       || 'neutral',
+        reviewStyle:    business.reviewStyle  || 'person'
       })
     })
     const data = await res.json()
