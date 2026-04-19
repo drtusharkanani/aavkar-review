@@ -944,10 +944,12 @@ function openCrop(type, input) {
   document.getElementById('cropZoom').value = 1
   document.getElementById('cropX').value = 0
   document.getElementById('cropY').value = 0
+  // Show overlay BEFORE reading file so canvas has dimensions
+  document.getElementById('cropOverlay').classList.add('show')
   const reader = new FileReader()
   reader.onload = e => {
     const img = new Image()
-    img.onload = () => { cropImg = img; drawCrop(); document.getElementById('cropOverlay').classList.add('show') }
+    img.onload = () => { cropImg = img; setTimeout(drawCrop, 50) }  // 50ms lets CSS render first
     img.src = e.target.result
   }
   reader.readAsDataURL(file)
@@ -958,7 +960,8 @@ function drawCrop() {
   const canvas = document.getElementById('cropCanvas')
   const wrap   = document.getElementById('cropWrap')
   const isOwner = cropType === 'owner'
-  const W = wrap.clientWidth, H = isOwner ? W : Math.round(W / 3)
+  const W = Math.max(wrap.clientWidth, 300)  // never 0
+  const H = isOwner ? W : Math.round(W / 3)
   canvas.width = W; canvas.height = H
   const ctx = canvas.getContext('2d')
   ctx.clearRect(0, 0, W, H)
@@ -971,7 +974,7 @@ function drawCrop() {
   ctx.drawImage(cropImg, x, y, iw, ih)
   ctx.fillStyle = 'rgba(0,0,0,0.5)'
   if (isOwner) {
-    const r = Math.min(W, H) / 2 - 6
+    const r = Math.max(Math.min(W, H) / 2 - 6, 10)
     ctx.beginPath(); ctx.rect(0, 0, W, H); ctx.arc(W/2, H/2, r, 0, Math.PI*2, true); ctx.fill()
     ctx.strokeStyle = 'rgba(255,255,255,0.8)'; ctx.lineWidth = 2
     ctx.beginPath(); ctx.arc(W/2, H/2, r, 0, Math.PI*2); ctx.stroke()
