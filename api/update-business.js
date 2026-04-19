@@ -13,21 +13,24 @@ async function syncToFallback(id, gmbUrl) {
     console.error('KV sync failed (non-critical):', e.message)
   }
 }
+
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'PATCH, OPTIONS')
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
   if (req.method === 'OPTIONS') return res.status(200).end()
   if (req.method !== 'PATCH') return res.status(405).json({ error: 'Method not allowed' })
+
   const {
     recordId,
     languages, customTags, selectedTags, nameVariations,
     gmbUrl, city, area, state,
     tagline, greetingMessage, photoUrl, coverUrl,
-    businessHours, whatsapp, socialLinks,
-    nfcDesign
+    businessHours, whatsapp, socialLinks
   } = req.body
+
   if (!recordId) return res.status(400).json({ error: 'Missing recordId' })
+
   // Build update fields
   const fields = {}
   if (languages    !== undefined) fields['Languages']    = languages
@@ -45,7 +48,7 @@ export default async function handler(req, res) {
   if (businessHours    !== undefined) fields['BusinessHours']   = businessHours
   if (whatsapp         !== undefined) fields['WhatsApp']        = whatsapp
   if (socialLinks      !== undefined) fields['SocialLinks']     = socialLinks
-  if (nfcDesign        !== undefined) fields['NFCDesign']       = nfcDesign
+
   try {
     const airtableRes = await fetch(
       `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE_ID}/Doctors/${recordId}`,
@@ -58,11 +61,14 @@ export default async function handler(req, res) {
         body: JSON.stringify({ fields })
       }
     )
+
     const data = await airtableRes.json()
+
     if (!airtableRes.ok) {
       console.error('Airtable error:', data)
       return res.status(500).json({ error: 'Failed to update. Please try again.' })
     }
+
     // Sync updated GMB URL to Cloudflare KV fallback (if changed)
     if (gmbUrl) {
       // Fetch OwnerID from the record we just updated
@@ -78,7 +84,9 @@ export default async function handler(req, res) {
         console.error('KV sync lookup failed (non-critical):', e.message)
       }
     }
+
     return res.status(200).json({ success: true })
+
   } catch (err) {
     console.error('Update error:', err)
     return res.status(500).json({ error: 'Server error' })
