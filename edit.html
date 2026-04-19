@@ -808,8 +808,14 @@ function renderEdit() {
 
   // Social
   const social = b.socialLinks || {}
-  document.getElementById('editInstagram').value   = social.instagram  || ''
-  document.getElementById('editFacebook').value    = social.facebook   || ''
+  document.getElementById('editInstagram').value   = social.instagram   || ''
+  document.getElementById('editFacebook').value    = social.facebook    || ''
+  document.getElementById('editYoutube').value     = social.youtube     || ''
+  document.getElementById('editTwitter').value     = social.twitter     || ''
+  document.getElementById('editLinkedin').value    = social.linkedin    || ''
+  document.getElementById('editWhatsappBiz').value = social.whatsappBiz || ''
+  document.getElementById('editThreads').value     = social.threads     || ''
+  document.getElementById('editWebsite').value     = social.website     || ''
   document.getElementById('editYoutube').value     = social.youtube    || ''
   document.getElementById('editTwitter').value     = social.twitter    || ''
   document.getElementById('editLinkedin').value    = social.linkedin   || ''
@@ -1225,8 +1231,14 @@ async function saveProfile() {
   const btn = document.getElementById('saveBtn')
   btn.disabled = true; btn.textContent = 'Saving...'
 
-  const instagram = document.getElementById('editInstagram').value.trim()
-  const facebook  = document.getElementById('editFacebook').value.trim()
+  const instagram   = document.getElementById('editInstagram').value.trim()
+  const facebook    = document.getElementById('editFacebook').value.trim()
+  const youtube     = document.getElementById('editYoutube')?.value.trim()    || ''
+  const twitter     = document.getElementById('editTwitter')?.value.trim()    || ''
+  const linkedin    = document.getElementById('editLinkedin')?.value.trim()   || ''
+  const whatsappBiz = document.getElementById('editWhatsappBiz')?.value.trim()|| ''
+  const threads     = document.getElementById('editThreads')?.value.trim()    || ''
+  const website     = document.getElementById('editWebsite')?.value.trim()    || ''
 
   const payload = {
     recordId,
