@@ -15,7 +15,7 @@ export default async function handler(req, res) {
     ownerName, qualification, businessName, phone, email,
     city, area, state, gmbUrl, referralCode,
     businessType, subCategory, languages, customTags,
-    plan, paymentId
+    plan, paymentId, prefix, gender, reviewStyle
   } = req.body
 
   // Basic validation
@@ -90,6 +90,10 @@ export default async function handler(req, res) {
     if (expiryDate)    fields.ExpiryDate    = expiryDate
     if (paymentId)     fields.PaymentType   = 'Online'
     else if (plan === 'free') fields.PaymentType = 'Free'
+
+    if (prefix)      fields.Prefix      = prefix
+    if (gender)      fields.Gender      = gender
+    if (reviewStyle) fields.ReviewStyle = reviewStyle
 
     if (plan.startsWith('premium') || plan.startsWith('ultimate')) {
       fields.ShippingStatus = 'Pending'
@@ -194,7 +198,6 @@ export default async function handler(req, res) {
         })
       } catch (emailErr) {
         console.error('Email error:', emailErr)
-        // Non-critical — registration still succeeds
       }
     }
 
