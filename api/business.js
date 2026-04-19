@@ -16,7 +16,8 @@ export default async function handler(req, res) {
     'Plan','Active','PaymentType','ExpiryDate','ReviewCount','Rating',
     'ReferralCode','ReferralCount','ShippingStatus','CustomTags','Languages',
     'SelectedTags','NameVariations',
-    'Tagline','GreetingMessage','PhotoURL','CoverURL','BusinessHours','WhatsApp','SocialLinks'
+    'Tagline','GreetingMessage','PhotoURL','CoverURL','BusinessHours','WhatsApp','SocialLinks',
+    'NFCDesign'
   ]
 
   const formula = `({OwnerID}=${parseInt(id)})`
@@ -141,6 +142,7 @@ export default async function handler(req, res) {
       businessHours:    r.BusinessHours     || '',
       whatsapp:         r.WhatsApp          || '',
       socialLinks:      (() => { try { return r.SocialLinks ? JSON.parse(r.SocialLinks) : {} } catch(_){ return {} } })(),
+      nfcDesign:        r.NFCDesign          || '',
     })
 
   } catch (err) {
