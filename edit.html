@@ -636,6 +636,35 @@ async function verifyOtp() {
     clearInterval(otpTimer)
     recordId = data.recordId
     business = data.business
+    // Immediately enrich with full data from /api/business
+    if (data.business?.ownerId) {
+      fetch('/api/business?id=' + data.business.ownerId)
+        .then(r => r.json())
+        .then(fresh => {
+          if (fresh && fresh.id) {
+            const p = (fresh.plan || '').trim()
+            business = {
+              ...business,
+              businessType:    fresh.businessType    || business.businessType,
+              subCategory:     fresh.subCategory     || business.subCategory,
+              plan:            fresh.plan            || business.plan,
+              tagLimit:        p.startsWith('ultimate') ? 5 : p.startsWith('premium') ? 2 : 0,
+              tagline:         fresh.tagline         || '',
+              greetingMessage: fresh.greetingMessage || '',
+              photoUrl:        fresh.photoUrl        || '',
+              coverUrl:        fresh.coverUrl        || '',
+              businessHours:   fresh.businessHours   || '',
+              whatsapp:        fresh.whatsapp        || '',
+              socialLinks:     fresh.socialLinks     || {},
+              gmbUrl:          fresh.gmbUrl          || business.gmbUrl,
+              languages:       fresh.languages       || business.languages,
+              city:            fresh.city            || business.city,
+              area:            fresh.area            || business.area,
+              expiryDate:      fresh.expiryDate      || business.expiryDate,
+            }
+          }
+        }).catch(() => {})
+    }
 
     // Save session — 30 days if Remember Me checked, else session only
     const rememberMe = document.getElementById('rememberMe')?.checked
@@ -980,12 +1009,12 @@ function renderOwnerTags() {
     wrap.appendChild(pill)
   })
 
-  const atLimit   = ownerTags.length >= tagLimit
+  const atLimit   = tagLimit > 0 && ownerTags.length >= tagLimit
   const addRow    = document.getElementById('addTagRow')
   const limitNote = document.getElementById('tagLimitNote')
-  if (addRow)    addRow.style.display    = atLimit ? 'none' : 'flex'
-  if (limitNote) limitNote.textContent   = atLimit
-    ? `Maximum ${tagLimit} custom tags reached for your plan.`
+  if (addRow)    addRow.style.display    = (tagLimit === 0 || atLimit) ? 'none' : 'flex'
+  if (limitNote) limitNote.textContent   = tagLimit === 0 ? ''
+    : atLimit ? `Maximum ${tagLimit} custom tags reached for your plan.`
     : `${ownerTags.length}/${tagLimit} custom tags used`
 
   updateTagCountBadge()
