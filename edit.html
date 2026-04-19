@@ -6,7 +6,12 @@
 <title>GoodReview — Edit Profile</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--saffron:#FF6B00;--saffron-light:#FFF3E8;--green:#1A7A4A;--green-light:#E8F5EE;--gold:#F5A623;--text:#1A1A2E;--text-soft:#5A5A7A;--border:#E8E8F0;--bg:#F7F7FC;--white:#FFFFFF;--shadow:0 2px 16px rgba(0,0,0,0.08);--radius:16px}
+:root{
+  --or:#FF6B00;--or2:#F5A623;--or-l:#FFF3E8;
+  --gr:#1A7A4A;--gr-l:#E8F5EE;
+  --text:#1A1A2E;--soft:#5A5A7A;--border:#E8E8F0;--bg:#F7F7FC;--white:#fff;
+  --shadow:0 2px 16px rgba(0,0,0,0.08);--radius:16px;
+}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:40px}
 .header{background:linear-gradient(135deg,#FF6B00,#FF8C00,#F5A623);padding:24px 20px 44px;text-align:center;position:relative;overflow:hidden}
@@ -16,130 +21,109 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .header-sub{font-size:13px;color:rgba(255,255,255,0.85)}
 .card{background:var(--white);border-radius:var(--radius);margin:-24px 16px 14px;padding:22px;box-shadow:var(--shadow);position:relative;z-index:1}
 .card+.card{margin-top:0}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 .section-title{font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;color:var(--text);margin-bottom:16px;display:flex;align-items:center;gap:8px}
 .field{margin-bottom:14px}
 .field label{display:block;font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px}
+.field-hint{font-size:11px;color:var(--soft);margin-top:4px}
 .input{width:100%;padding:12px 15px;border-radius:12px;border:2px solid var(--border);font-family:'Nunito',sans-serif;font-size:14px;color:var(--text);outline:none;transition:border-color 0.2s;background:var(--white)}
-.input:focus{border-color:var(--saffron)}
-.input.error{border-color:#E24B4A}
-.input:disabled{background:var(--bg);color:var(--text-soft);cursor:not-allowed}
+.input:focus{border-color:var(--or)}
+.input:disabled{background:var(--bg);color:var(--soft);cursor:not-allowed}
+textarea.input{resize:vertical;min-height:80px;line-height:1.5}
+.char-count{font-size:11px;color:var(--soft);text-align:right;margin-top:3px}
+select.input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%235A5A7A' d='M6 8L0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
 .error-msg{font-size:12px;color:#E24B4A;margin-top:4px;display:none}
 .error-msg.show{display:block}
+.info-box{background:var(--gr-l);border:1px solid #97C459;border-radius:10px;padding:11px 14px;font-size:12px;color:#27500A;margin-bottom:12px;line-height:1.6}
+.warn-box{background:var(--or-l);border:1px solid #FFD4A8;border-radius:10px;padding:11px 14px;font-size:12px;color:#B85C00;margin-bottom:12px}
+.divider{height:1px;background:var(--border);margin:16px 0}
 /* OTP */
-.otp-wrap{display:flex;gap:10px;margin-bottom:12px}
-.otp-input{flex:1;padding:16px;border-radius:12px;border:2px solid var(--border);font-family:'Poppins',sans-serif;font-size:28px;font-weight:800;text-align:center;letter-spacing:10px;outline:none;transition:border-color 0.2s;color:var(--saffron)}
-.otp-input:focus{border-color:var(--saffron)}
-.resend-link{font-size:13px;color:var(--saffron);text-align:center;cursor:pointer;display:block;font-weight:700}
-.resend-link:disabled,.resend-link.disabled{color:var(--text-soft);cursor:not-allowed}
-.timer{font-size:12px;color:var(--text-soft);text-align:center;margin-top:4px}
-/* LANG */
+.otp-input{width:100%;padding:16px;border-radius:12px;border:2px solid var(--border);font-family:'Poppins',sans-serif;font-size:28px;font-weight:800;text-align:center;letter-spacing:10px;outline:none;transition:border-color 0.2s;color:var(--or)}
+.otp-input:focus{border-color:var(--or)}
+.resend-link{font-size:13px;color:var(--or);text-align:center;cursor:pointer;display:block;font-weight:700;margin-top:8px}
+.resend-link.disabled{color:var(--soft);cursor:not-allowed}
+.timer{font-size:12px;color:var(--soft);text-align:center;margin-top:4px}
+/* Plan badge */
+.plan-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;font-size:13px;font-weight:800;background:var(--or-l);color:var(--or);margin-bottom:12px}
+/* Review link */
+.review-link-box{display:flex;align-items:center;gap:8px;padding:12px 14px;background:var(--bg);border-radius:10px;margin-bottom:14px}
+.review-link-box a{font-size:13px;font-weight:700;color:var(--or);text-decoration:none;word-break:break-all}
+/* Languages */
 .lang-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .lang-opt{padding:11px;border-radius:12px;border:2px solid var(--border);background:var(--white);cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:8px}
-.lang-opt:hover{border-color:var(--saffron)}
-.lang-opt.selected{background:var(--saffron-light);border-color:var(--saffron)}
+.lang-opt:hover{border-color:var(--or)}
+.lang-opt.selected{background:var(--or-l);border-color:var(--or)}
 .lang-name{font-size:13px;font-weight:700;color:var(--text)}
-.lang-native{font-size:11px;color:var(--text-soft)}
+.lang-native{font-size:11px;color:var(--soft)}
 .lang-check{width:20px;height:20px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;margin-left:auto;flex-shrink:0;transition:all 0.15s}
-.lang-opt.selected .lang-check{background:var(--saffron);border-color:var(--saffron);color:#fff}
-
-/* SELECTABLE TAG PILLS */
+.lang-opt.selected .lang-check{background:var(--or);border-color:var(--or);color:#fff}
+/* Tags */
 .tag-sel-wrap{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
-.tag-sel-pill{display:inline-flex;align-items:center;gap:4px;padding:8px 14px;border-radius:20px;border:2px solid var(--border);background:var(--white);font-size:13px;font-weight:700;color:var(--text-soft);cursor:pointer;transition:all 0.15s;user-select:none}
-.tag-sel-pill:hover{border-color:var(--saffron);color:var(--saffron)}
-.tag-sel-pill.selected{background:var(--saffron-light);border-color:var(--saffron);color:var(--saffron)}
-.tag-sel-pill.favourite{background:#FFF8E1;border-color:var(--gold);color:#7A5800}
-.tag-sel-pill.favourite .fav-btn{color:var(--gold)}
-.fav-btn{font-size:13px;margin-left:4px;cursor:pointer;opacity:0.6;transition:all 0.15s;display:none;background:none;border:none;padding:0;line-height:1}
-.tag-sel-pill.selected .fav-btn{display:inline}
-.fav-btn:hover{opacity:1;transform:scale(1.2)}
-.tag-group-label{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--text-soft);margin:12px 0 8px;display:block}
-.tag-count-badge{display:inline-block;background:var(--saffron);color:#fff;border-radius:20px;font-size:11px;font-weight:800;padding:2px 8px;margin-left:8px}
-.no-tags-note{font-size:13px;color:var(--text-soft);padding:12px;background:var(--bg);border-radius:10px;text-align:center}
-.name-tag-row{display:flex;align-items:center;gap:10px;padding:10px 0}
-.name-tag-toggle{display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:12px;border:2px solid var(--border);background:var(--white);cursor:pointer;transition:all 0.15s;width:100%}
-.name-tag-toggle.active{background:#E8F5EE;border-color:var(--green)}
-.toggle-icon{font-size:20px}
-.toggle-text{flex:1;text-align:left}
-.toggle-label{font-size:13px;font-weight:700;color:var(--text)}
-.toggle-sub{font-size:11px;color:var(--text-soft);margin-top:2px}
-.toggle-check{width:22px;height:22px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;transition:all 0.15s}
-.name-tag-toggle.active .toggle-check{background:var(--green);border-color:var(--green);color:#fff}
-
-/* OWNER CUSTOM TAGS */
-.tags-wrap{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px}
-.owner-tag-pill{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:20px;background:var(--green-light);border:2px solid var(--green);font-size:13px;font-weight:700;color:var(--green)}
-.remove-tag{cursor:pointer;opacity:0.7;font-size:14px;line-height:1}
-.remove-tag:hover{opacity:1}
+.tag-pill{display:inline-flex;align-items:center;gap:4px;padding:8px 14px;border-radius:20px;border:2px solid var(--border);background:var(--white);font-size:13px;font-weight:700;color:var(--soft);cursor:pointer;transition:all 0.15s;user-select:none}
+.tag-pill:hover{border-color:var(--or);color:var(--or)}
+.tag-pill.sel{background:var(--or-l);border-color:var(--or);color:var(--or)}
+.tag-pill.fav{background:#FFF8E1;border-color:var(--or2);color:#7A5800}
+.tag-pill .fav-btn{font-size:12px;margin-left:4px;cursor:pointer;opacity:0.6;display:none;background:none;border:none;padding:0}
+.tag-pill.sel .fav-btn{display:inline}
+.tag-group-label{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--soft);margin:12px 0 8px;display:block}
+.tag-count{display:inline-block;background:var(--or);color:#fff;border-radius:20px;font-size:11px;font-weight:800;padding:2px 8px;margin-left:8px}
+/* Custom tags */
+.owner-tag-pill{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:20px;background:var(--gr-l);border:2px solid var(--gr);font-size:13px;font-weight:700;color:var(--gr)}
+.remove-tag{cursor:pointer;opacity:0.7;font-size:14px}
 .add-tag-row{display:flex;gap:8px}
 .add-tag-input{flex:1;padding:11px 14px;border-radius:12px;border:2px solid var(--border);font-family:'Nunito',sans-serif;font-size:13px;outline:none;transition:border-color 0.2s}
-.add-tag-input:focus{border-color:var(--green)}
-.add-tag-btn{padding:11px 16px;border-radius:12px;background:var(--green);color:#fff;border:none;font-weight:800;font-size:15px;cursor:pointer}
-/* PLAN BADGE */
-.plan-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;font-size:13px;font-weight:800;background:var(--saffron-light);color:var(--saffron);margin-bottom:12px}
-/* INFO */
-.info-box{background:var(--green-light);border:1px solid #97C459;border-radius:10px;padding:11px 14px;font-size:12px;color:#27500A;margin-bottom:12px;line-height:1.6}
-.warn-box{background:var(--saffron-light);border:1px solid #FFD4A8;border-radius:10px;padding:11px 14px;font-size:12px;color:#B85C00;margin-bottom:12px}
-/* BUTTONS */
-.btn-primary{width:100%;padding:15px;border-radius:var(--radius);border:none;background:linear-gradient(135deg,#FF6B00,#F5A623);color:#fff;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px}
-.btn-primary:hover{opacity:0.9;transform:translateY(-1px)}
-.btn-primary:disabled{opacity:0.5;cursor:not-allowed;transform:none}
-.btn-save{width:100%;padding:15px;border-radius:var(--radius);border:none;background:var(--green);color:#fff;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:4px}
-.btn-save:hover{background:#155e38}
-.btn-save:disabled{opacity:0.5;cursor:not-allowed}
-.btn-save.saved{background:var(--gold)}
-.divider{height:1px;background:var(--border);margin:16px 0}
-/* LOADING */
-.loading{text-align:center;padding:50px 20px}
-.spinner{width:44px;height:44px;border:4px solid var(--border);border-top-color:var(--saffron);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 14px}
-@keyframes spin{to{transform:rotate(360deg)}}
-.review-link{display:flex;align-items:center;gap:8px;padding:12px 14px;background:var(--bg);border-radius:10px;margin-bottom:14px}
-.review-link a{font-size:13px;font-weight:700;color:var(--saffron);text-decoration:none;word-break:break-all}
-.section-label{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--text-soft);margin-bottom:10px}
-.footer{text-align:center;padding:18px;font-size:12px;color:var(--text-soft)}
-.footer a{color:var(--saffron);text-decoration:none;font-weight:700}
-.tag-limit-note{font-size:11px;color:var(--text-soft);margin-top:6px}
-.char-count{font-size:11px;color:var(--text-soft);text-align:right;margin-top:3px}
-
-/* ── CROP MODAL ─────────────────────────────────────────────────── */
-.crop-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:300;display:none;flex-direction:column;align-items:center;justify-content:center;padding:16px}
-.crop-overlay.show{display:flex}
-.crop-box{background:#1a1a2e;border-radius:20px;width:100%;max-width:480px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.5)}
-.crop-header{padding:16px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.08)}
-.crop-title{font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;color:#fff}
-.crop-close{font-size:20px;cursor:pointer;color:rgba(255,255,255,0.6);background:none;border:none;padding:4px 8px}
-.crop-canvas-wrap{position:relative;width:100%;background:#000;overflow:hidden;touch-action:none}
-.crop-canvas-wrap canvas{display:block;width:100%}
-.crop-mask-circle{position:absolute;inset:0;pointer-events:none}
-.crop-controls{padding:16px 20px;display:flex;flex-direction:column;gap:12px}
-.crop-slider-row{display:flex;align-items:center;gap:10px}
-.crop-slider-label{font-size:12px;color:rgba(255,255,255,0.6);width:40px;flex-shrink:0}
-.crop-slider{flex:1;height:4px;-webkit-appearance:none;appearance:none;background:rgba(255,255,255,0.2);border-radius:2px;outline:none}
-.crop-slider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--saffron);cursor:pointer;box-shadow:0 2px 6px rgba(255,107,0,0.4)}
-.crop-preview-row{display:flex;gap:12px;align-items:center}
-.crop-preview-label{font-size:11px;color:rgba(255,255,255,0.5);text-align:center}
-.crop-preview-circle{width:56px;height:56px;border-radius:50%;overflow:hidden;border:2px solid rgba(255,255,255,0.2);flex-shrink:0}
-.crop-preview-rect{width:120px;height:40px;border-radius:6px;overflow:hidden;border:2px solid rgba(255,255,255,0.2);flex-shrink:0}
-.crop-preview-circle canvas,.crop-preview-rect canvas{display:block}
-.crop-actions{display:flex;gap:10px}
-.crop-btn-cancel{flex:1;padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.15);background:transparent;color:rgba(255,255,255,0.7);font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;cursor:pointer}
-.crop-btn-apply{flex:2;padding:12px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--saffron),var(--gold));color:#fff;font-family:'Poppins',sans-serif;font-size:14px;font-weight:700;cursor:pointer}
-
-textarea.input{resize:vertical;min-height:80px;line-height:1.5}
-.photo-row{display:flex;gap:14px;align-items:flex-start;margin-bottom:8px}
-.photo-preview{width:70px;height:70px;border-radius:50%;border:2px dashed var(--border);background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;overflow:hidden}
-.photo-preview img{width:100%;height:100%;object-fit:cover}
-.cover-preview{border-radius:10px;width:100px;height:65px}
+.add-tag-input:focus{border-color:var(--gr)}
+.add-tag-btn{padding:11px 16px;border-radius:12px;background:var(--gr);color:#fff;border:none;font-weight:800;font-size:15px;cursor:pointer}
+.tag-limit-note{font-size:11px;color:var(--soft);margin-top:6px}
+/* Name variations */
+.name-pill{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:20px;background:var(--or-l);border:2px solid var(--or);font-size:13px;font-weight:700;color:var(--or)}
+/* Photos */
+.photo-section{display:flex;gap:14px;align-items:flex-start;margin-bottom:8px}
+.photo-thumb{width:72px;height:72px;border-radius:50%;border:2px dashed var(--border);background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;overflow:hidden}
+.photo-thumb img{width:100%;height:100%;object-fit:cover}
+.cover-thumb{border-radius:10px;width:108px;height:40px}
 .photo-info{flex:1}
 .photo-label{font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px}
-.photo-sub{font-size:11px;color:var(--text-soft);margin-bottom:8px}
-.photo-btns{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.btn-upload{padding:7px 14px;border-radius:10px;background:var(--saffron);color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;display:inline-block}
-.btn-remove-photo{padding:7px 12px;border-radius:10px;background:var(--bg);border:1px solid var(--border);color:#E24B4A;font-size:12px;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif}
-.upload-status{font-size:11px;margin-top:6px;color:var(--text-soft)}
-.upload-status.uploading{color:var(--saffron)}
-.upload-status.done{color:var(--green)}
+.photo-hint{font-size:11px;color:var(--soft);margin-bottom:8px}
+.photo-btns{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.btn-upload{padding:7px 14px;border-radius:10px;background:var(--or);color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;display:inline-block}
+.btn-remove{padding:7px 12px;border-radius:10px;background:var(--bg);border:1px solid var(--border);color:#E24B4A;font-size:12px;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif}
+.upload-status{font-size:11px;margin-top:6px;color:var(--soft);min-height:16px}
+.upload-status.uploading{color:var(--or)}
+.upload-status.done{color:var(--gr)}
 .upload-status.error{color:#E24B4A}
-
+/* Buttons */
+.btn-primary{width:100%;padding:15px;border-radius:var(--radius);border:none;background:linear-gradient(135deg,#FF6B00,#F5A623);color:#fff;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-primary:disabled{opacity:0.5;cursor:not-allowed}
+.btn-save{width:100%;padding:15px;border-radius:var(--radius);border:none;background:var(--gr);color:#fff;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-save:disabled{opacity:0.5;cursor:not-allowed}
+.btn-save.saved{background:var(--or2)}
+/* Loading */
+.loading{text-align:center;padding:50px 20px}
+.spinner{width:44px;height:44px;border:4px solid var(--border);border-top-color:var(--or);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 14px}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* Crop modal */
+.crop-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:300;display:none;flex-direction:column;align-items:center;justify-content:center;padding:16px}
+.crop-overlay.show{display:flex}
+.crop-box{background:#1a1a2e;border-radius:20px;width:100%;max-width:440px;overflow:hidden}
+.crop-header{padding:14px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.08)}
+.crop-title{font-family:'Poppins',sans-serif;font-size:14px;font-weight:700;color:#fff}
+.crop-close{font-size:20px;cursor:pointer;color:rgba(255,255,255,0.6);background:none;border:none;padding:4px 8px}
+.crop-canvas-wrap{position:relative;width:100%;background:#000;overflow:hidden;touch-action:none}
+.crop-controls{padding:14px 18px;display:flex;flex-direction:column;gap:10px}
+.crop-row{display:flex;align-items:center;gap:10px}
+.crop-lbl{font-size:11px;color:rgba(255,255,255,0.5);width:36px;flex-shrink:0}
+.crop-slider{flex:1;height:4px;-webkit-appearance:none;appearance:none;background:rgba(255,255,255,0.2);border-radius:2px;outline:none}
+.crop-slider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--or);cursor:pointer}
+.crop-previews{display:flex;gap:12px;align-items:center}
+.crop-prev-c{width:52px;height:52px;border-radius:50%;overflow:hidden;border:2px solid rgba(255,255,255,0.2)}
+.crop-prev-r{width:110px;height:36px;border-radius:6px;overflow:hidden;border:2px solid rgba(255,255,255,0.2)}
+.crop-prev-lbl{font-size:10px;color:rgba(255,255,255,0.4);text-align:center;margin-top:3px}
+.crop-actions{display:flex;gap:10px}
+.crop-cancel{flex:1;padding:11px;border-radius:10px;border:1px solid rgba(255,255,255,0.15);background:transparent;color:rgba(255,255,255,0.7);font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;cursor:pointer}
+.crop-apply{flex:2;padding:11px;border-radius:10px;border:none;background:linear-gradient(135deg,var(--or),var(--or2));color:#fff;font-family:'Poppins',sans-serif;font-size:13px;font-weight:700;cursor:pointer}
+.footer{text-align:center;padding:18px;font-size:12px;color:var(--soft)}
+.footer a{color:var(--or);text-decoration:none;font-weight:700}
 </style>
 </head>
 <body>
@@ -150,47 +134,47 @@ textarea.input{resize:vertical;min-height:80px;line-height:1.5}
   <div class="header-sub">Update your review page settings</div>
 </div>
 
-<!-- STEP 1: EMAIL LOGIN -->
-<div class="card" id="emailCard">
+<!-- LOGIN -->
+<div class="card" id="loginCard">
   <div class="section-title">📧 Login with Email</div>
   <div class="field">
     <label>Your registered email address</label>
     <input class="input" id="emailInput" type="email" placeholder="you@gmail.com" maxlength="100">
-    <div class="error-msg" id="err-email">Please enter a valid email address</div>
+    <div class="error-msg" id="err-email">Please enter a valid email</div>
+  </div>
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+    <input type="checkbox" id="rememberMe" style="width:16px;height:16px;accent-color:var(--or);cursor:pointer">
+    <label for="rememberMe" style="font-size:13px;font-weight:600;color:var(--text);cursor:pointer">Remember me for 30 days</label>
   </div>
   <button class="btn-primary" id="sendOtpBtn" onclick="sendOtp()">Send Login Code →</button>
 </div>
 
-<!-- STEP 2: OTP VERIFY -->
+<!-- OTP -->
 <div class="card" id="otpCard" style="display:none">
   <div class="section-title">🔐 Enter Login Code</div>
-  <div class="info-box" id="otpSentMsg">We've sent a 6-digit code to your email.</div>
-  <input class="otp-input input" id="otpInput" type="number" placeholder="——————" maxlength="6"
+  <div class="info-box" id="otpMsg">Code sent. Check your inbox.</div>
+  <input class="otp-input" id="otpInput" type="number" placeholder="——————"
     oninput="if(this.value.length>6)this.value=this.value.slice(0,6)">
-  <div class="error-msg show" id="err-otp" style="display:none!important"></div>
-  <div style="display:flex;align-items:center;gap:8px;margin:12px 0 8px">
-    <input type="checkbox" id="rememberMe" style="width:16px;height:16px;accent-color:var(--saffron);cursor:pointer">
-    <label for="rememberMe" style="font-size:13px;font-weight:600;color:var(--text);cursor:pointer">Remember me for 30 days</label>
-  </div>
-  <button class="btn-primary" id="verifyOtpBtn" onclick="verifyOtp()">Verify Code →</button>
+  <div class="error-msg" id="err-otp"></div>
+  <button class="btn-primary" id="verifyBtn" onclick="verifyOtp()" style="margin-top:12px">Verify Code →</button>
   <div class="timer" id="otpTimer"></div>
   <span class="resend-link disabled" id="resendLink" onclick="resendOtp()">Resend code</span>
 </div>
 
 <!-- LOADING -->
-<div class="loading" id="loadingProfile" style="display:none">
+<div class="loading" id="loadingDiv" style="display:none">
   <div class="spinner"></div>
-  <p style="color:var(--text-soft);font-size:14px">Loading your profile...</p>
+  <p style="color:var(--soft);font-size:14px">Loading your profile...</p>
 </div>
 
-<!-- STEP 3: EDIT PROFILE -->
+<!-- EDIT SECTION -->
 <div id="editSection" style="display:none">
 
-  <!-- Business Info (read-only) -->
-  <div class="card" style="margin-top:0">
+  <!-- Business info (read-only) -->
+  <div class="card">
     <div class="section-title">🏢 Your Business</div>
-    <div class="plan-badge" id="planBadge"></div>
-    <div class="review-link">
+    <div class="plan-badge" id="planBadge">⭐ Plan</div>
+    <div class="review-link-box">
       <span>🔗</span>
       <a id="reviewLink" href="#" target="_blank"></a>
     </div>
@@ -201,24 +185,24 @@ textarea.input{resize:vertical;min-height:80px;line-height:1.5}
       </div>
       <div class="field">
         <label>Business Name</label>
-        <input class="input" id="viewBusinessName" disabled>
+        <input class="input" id="viewBizName" disabled>
       </div>
     </div>
   </div>
 
-  <!-- EDITABLE: GMB URL -->
-  <div class="card" style="margin-top:0">
+  <!-- Google Maps Link -->
+  <div class="card">
     <div class="section-title">📍 Google Maps Link</div>
     <div class="field">
       <label>Google Review URL</label>
-      <input class="input" id="editGmbUrl" type="url" placeholder="https://maps.app.goo.gl/...">
-      <div style="font-size:11px;color:var(--text-soft);margin-top:4px">Search your business on Google → Reviews → Share → copy link</div>
+      <input class="input" id="editGmb" type="url" placeholder="https://maps.app.goo.gl/...">
+      <div class="field-hint">Search your business on Google → Reviews → Share → copy link</div>
       <div class="error-msg" id="err-gmb">Please enter a valid URL</div>
     </div>
   </div>
 
-  <!-- EDITABLE: City + Area -->
-  <div class="card" style="margin-top:0">
+  <!-- Location -->
+  <div class="card">
     <div class="section-title">🌆 Location</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
       <div class="field">
@@ -231,7 +215,7 @@ textarea.input{resize:vertical;min-height:80px;line-height:1.5}
         <input class="input" id="editArea" placeholder="Adajan" maxlength="50">
       </div>
     </div>
-    <div class="field">
+    <div class="field" style="margin-bottom:0">
       <label>State</label>
       <select class="input" id="editState">
         <option value="">Select state</option>
@@ -247,344 +231,349 @@ textarea.input{resize:vertical;min-height:80px;line-height:1.5}
     </div>
   </div>
 
-  <!-- PERSONALIZATION CARD -->
-  <div class="card" style="margin-top:0">
+  <!-- Personalize -->
+  <div class="card">
     <div class="section-title">✨ Personalize Your Page</div>
-
     <div class="field">
-      <label>Tagline <span style="font-weight:400;color:var(--text-soft)">(shown below your business name)</span></label>
+      <label>Tagline <span style="font-weight:400;color:var(--soft)">(shown below business name)</span></label>
       <input class="input" id="editTagline" placeholder="e.g. Trusted Care Since 2010" maxlength="80"
         oninput="document.getElementById('taglineCount').textContent=this.value.length">
       <div class="char-count"><span id="taglineCount">0</span>/80</div>
     </div>
-
     <div class="field">
-      <label>Greeting Message <span style="font-weight:400;color:var(--text-soft)">(personal note on review page)</span></label>
+      <label>Greeting Message <span style="font-weight:400;color:var(--soft)">(personal note on review page)</span></label>
       <textarea class="input" id="editGreeting" placeholder="e.g. Thank you for visiting! Your feedback helps us serve you better." maxlength="200" rows="3"
         oninput="document.getElementById('greetingCount').textContent=this.value.length"></textarea>
       <div class="char-count"><span id="greetingCount">0</span>/200</div>
     </div>
-
     <div class="field">
       <label>Business Hours</label>
       <input class="input" id="editHours" placeholder="e.g. Mon–Sat 9am–8pm, Sun Closed" maxlength="60">
     </div>
-
-    <div class="field">
-      <label>WhatsApp Number <span style="font-weight:400;color:var(--text-soft)">(10 digits, no country code)</span></label>
+    <div class="field" style="margin-bottom:0">
+      <label>WhatsApp Number <span style="font-weight:400;color:var(--soft)">(10 digits, no country code)</span></label>
       <input class="input" id="editWhatsapp" type="tel" placeholder="9876543210" maxlength="10">
     </div>
   </div>
 
-  <!-- PHOTOS CARD -->
-  <div class="card" style="margin-top:0">
+  <!-- Photos -->
+  <div class="card">
     <div class="section-title">📸 Profile & Cover Photos</div>
-    <div class="info-box">📸 <strong>Profile photo:</strong> Square, min 200×200px · <strong>Cover banner:</strong> Landscape, min 1200×400px · Max 5MB each · JPG or PNG only</div>
+    <div class="info-box">📸 <strong>Profile:</strong> Square, min 200×200px · <strong>Cover:</strong> Landscape, min 1200×400px · Max 5MB · JPG or PNG</div>
 
-    <div class="photo-row">
-      <div class="photo-preview" id="ownerPhotoPreview">
-        <span id="ownerPhotoEmpty">👤</span>
-        <img id="ownerPhotoImg" src="" alt="Profile" style="display:none">
-      </div>
+    <div class="photo-section">
+      <div class="photo-thumb" id="ownerThumb"><span id="ownerEmpty">👤</span><img id="ownerImg" src="" alt="" style="display:none"></div>
       <div class="photo-info">
         <div class="photo-label">Owner / Business Photo</div>
-        <div class="photo-sub">Circular avatar · Square image recommended · Min 200×200px · Max 5MB · JPG or PNG</div>
+        <div class="photo-hint">Circular avatar · Square recommended</div>
         <div class="photo-btns">
-          <label class="btn-upload" for="ownerPhotoFile">📷 Upload Photo</label>
-          <input type="file" id="ownerPhotoFile" accept="image/*" style="display:none"
-            onchange="handlePhotoUpload('owner', this)">
-          <button class="btn-remove-photo" id="ownerPhotoRemove" onclick="removePhoto('owner')" style="display:none">Remove</button>
+          <label class="btn-upload" for="ownerFile">📷 Upload Photo</label>
+          <input type="file" id="ownerFile" accept="image/*" style="display:none" onchange="openCrop('owner',this)">
+          <button class="btn-remove" id="ownerRemoveBtn" onclick="removePhoto('owner')" style="display:none">Remove</button>
         </div>
-        <div class="upload-status" id="ownerPhotoStatus"></div>
+        <div class="upload-status" id="ownerStatus"></div>
       </div>
     </div>
 
     <div class="divider"></div>
 
-    <div class="photo-row">
-      <div class="photo-preview cover-preview" id="coverPhotoPreview">
-        <span id="coverPhotoEmpty">🖼️</span>
-        <img id="coverPhotoImg" src="" alt="Cover" style="display:none">
-      </div>
+    <div class="photo-section">
+      <div class="photo-thumb cover-thumb" id="coverThumb"><span id="coverEmpty">🖼️</span><img id="coverImg" src="" alt="" style="display:none"></div>
       <div class="photo-info">
         <div class="photo-label">Cover / Banner Image</div>
-        <div class="photo-sub">Wide banner · Landscape image recommended · Min 1200×400px · Max 5MB · JPG or PNG</div>
+        <div class="photo-hint">Wide banner · Landscape recommended</div>
         <div class="photo-btns">
-          <label class="btn-upload" for="coverPhotoFile">📷 Upload Cover</label>
-          <input type="file" id="coverPhotoFile" accept="image/*" style="display:none"
-            onchange="handlePhotoUpload('cover', this)">
-          <button class="btn-remove-photo" id="coverPhotoRemove" onclick="removePhoto('cover')" style="display:none">Remove</button>
+          <label class="btn-upload" for="coverFile">📷 Upload Cover</label>
+          <input type="file" id="coverFile" accept="image/*" style="display:none" onchange="openCrop('cover',this)">
+          <button class="btn-remove" id="coverRemoveBtn" onclick="removePhoto('cover')" style="display:none">Remove</button>
         </div>
-        <div class="upload-status" id="coverPhotoStatus"></div>
+        <div class="upload-status" id="coverStatus"></div>
       </div>
     </div>
   </div>
 
-  <!-- SOCIAL LINKS CARD -->
-  <div class="card" style="margin-top:0">
+  <!-- Social Links -->
+  <div class="card">
     <div class="section-title">🔗 Social Links</div>
-    <div class="info-box" style="margin-bottom:14px">
-      <strong>How to find your username:</strong><br>
-      📸 <strong>Instagram</strong> → Open Instagram app → Your profile → the name after <strong>@</strong> (e.g. <code>yourbusiness</code>)<br>
-      👍 <strong>Facebook</strong> → Open Facebook → Your page → look at the URL: facebook.com/<strong>yourpage</strong> → copy that last part
+    <div class="info-box">
+      📸 <strong>Instagram</strong> → app → Profile → name after @ (e.g. <code>yourbusiness</code>)<br>
+      👍 <strong>Facebook</strong> → Your page → URL: facebook.com/<strong>yourpage</strong> → copy last part
     </div>
     <div class="field">
       <label>Instagram</label>
       <input class="input" id="editInstagram" placeholder="e.g. yourbusiness" maxlength="120">
-      <div style="font-size:11px;color:var(--text-soft);margin-top:4px">Instagram app → Profile → copy the name after @</div>
+      <div class="field-hint">Instagram app → Profile → copy name after @</div>
     </div>
     <div class="field" style="margin-bottom:0">
       <label>Facebook</label>
       <input class="input" id="editFacebook" placeholder="e.g. yourbusiness" maxlength="120">
-      <div style="font-size:11px;color:var(--text-soft);margin-top:4px">Facebook → Your page → URL shows facebook.com/yourpagename → copy that last part</div>
+      <div class="field-hint">Facebook → Your page → URL shows facebook.com/yourpage → copy last part</div>
     </div>
   </div>
 
-
-  <!-- EDITABLE: Languages -->
-  <div class="card" style="margin-top:0">
+  <!-- Languages -->
+  <div class="card">
     <div class="section-title">🌐 Review Languages</div>
-    <div class="info-box">Visitors will see a language picker from these options. If they skip, a random language from this list is used.</div>
-    <div class="lang-grid" id="editLangGrid"></div>
+    <div class="info-box">Visitors pick from these languages. If skipped, a random one is used.</div>
+    <div class="lang-grid" id="langGrid"></div>
     <div class="error-msg" id="err-lang">Please select at least one language</div>
   </div>
 
-  <!-- EDITABLE: Select Review Tags -->
-  <div class="card" id="selectTagsCard" style="margin-top:0;display:none">
-    <div class="section-title">🏷️ Select Review Tags
-      <span class="tag-count-badge" id="selectedTagCount">0</span>
-    </div>
-    <div class="info-box">Visitors will see <strong>only these tags</strong> on your review page. Select the ones that best describe your services.</div>
-
-    <!-- Service Quality Tags -->
+  <!-- Select Tags -->
+  <div class="card" id="tagsCard" style="display:none">
+    <div class="section-title">🏷️ Select Review Tags <span class="tag-count" id="tagCount">0</span></div>
+    <div class="info-box">Visitors will see <strong>only these tags</strong>. Select the ones that best describe your services. ★ = mark as favourite (shown first to customers).</div>
     <span class="tag-group-label">⭐ Service Quality Tags</span>
-    <div class="tag-sel-wrap" id="qualityTagsWrap"></div>
-
-    <!-- Preset Business Tags -->
-    <span class="tag-group-label" id="presetTagsLabel">📋 Your Business Tags</span>
-    <div class="tag-sel-wrap" id="presetTagsWrap"></div>
-
-    <div class="error-msg" id="err-tags">Please select at least 1 tag</div>
+    <div class="tag-sel-wrap" id="qualityWrap"></div>
+    <span class="tag-group-label" id="presetLabel">📋 Your Business Tags</span>
+    <div class="tag-sel-wrap" id="presetWrap"></div>
   </div>
 
-  <!-- PROFESSIONAL NAME VARIATIONS -->
-  <div class="card" id="nameTagCard" style="margin-top:0;display:none">
+  <!-- Name Variations -->
+  <div class="card">
     <div class="section-title">👤 Name Variations for Reviews</div>
-    <div class="info-box">Add how your customers refer to you. AI will randomly use one in each review — visitor never sees or selects this. More variations = more natural reviews.</div>
-
-    <div class="warn-box" id="nameExampleBox" style="font-size:12px;line-height:1.8">
+    <div class="info-box">Add how customers refer to you. AI uses one randomly — visitor never sees this. More = more natural reviews.</div>
+    <div class="warn-box" style="font-size:12px;line-height:1.8">
       <strong>Examples:</strong><br>
       🏥 Doctor → Dr. Sharma · Dr. Sharma Sir · Sharma Doctor · Sharma Madam<br>
       ✂️ Salon → Rahul Bhai · Rahul Sir · Rahul Stylist<br>
       🍽️ Restaurant → Mehul Bhai · Mehul's Place · Chef Mehul<br>
       💼 CA → CA Priya · Priya Ma'am · Priya Shah CA
     </div>
-
-    <div class="tags-wrap" id="nameVariationsWrap" style="margin-bottom:10px"></div>
-
+    <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px" id="nameVarsWrap"></div>
     <div class="add-tag-row">
-      <input class="add-tag-input" id="nameVariationInput" placeholder="e.g. Dr. Sharma, Sharma Sir, Sharma Madam..." maxlength="40">
-      <button class="add-tag-btn" onclick="addNameVariation()" style="background:var(--saffron)">+</button>
+      <input class="add-tag-input" id="nameVarInput" placeholder="e.g. Dr. Sharma, Sharma Sir..." maxlength="40">
+      <button class="add-tag-btn" onclick="addNameVar()" style="background:var(--or)">+</button>
     </div>
-    <div style="font-size:11px;color:var(--text-soft);margin-top:6px" id="nameVarCount">0 variations added</div>
+    <div style="font-size:11px;color:var(--soft);margin-top:6px" id="nameVarCount">0/6 variations added</div>
   </div>
 
-  <!-- EDITABLE: Owner Custom Tags (plan-based) -->
-  <div class="card" id="ownerTagsCard" style="margin-top:0;display:none">
+  <!-- Custom Tags -->
+  <div class="card" id="customTagsCard">
     <div class="section-title">★ Add Custom Tags</div>
-    <div class="info-box" id="tagInfo"></div>
-    <div class="tags-wrap" id="editTagsWrap"></div>
-    <div class="add-tag-row" id="addTagRow">
-      <input class="add-tag-input" id="newTagInput" placeholder="e.g. Jain Food, Home Visit..." maxlength="30">
-      <button class="add-tag-btn" onclick="addTag()">+</button>
+    <div class="info-box" id="customTagInfo"></div>
+    <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px" id="customTagsWrap"></div>
+    <div class="add-tag-row" id="addTagRow" style="display:none">
+      <input class="add-tag-input" id="customTagInput" placeholder="e.g. Jain Food, Home Visit..." maxlength="30"
+        oninput="document.getElementById('tagCharCount').textContent=this.value.length">
+      <button class="add-tag-btn" onclick="addCustomTag()">+</button>
     </div>
     <div class="char-count"><span id="tagCharCount">0</span>/30</div>
     <div class="tag-limit-note" id="tagLimitNote"></div>
   </div>
 
-  <!-- SAVE BUTTON -->
+  <!-- Save -->
   <div style="padding:0 16px 16px">
     <button class="btn-save" id="saveBtn" onclick="saveProfile()">💾 Save Changes</button>
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
-      <a id="viewPageLink" href="#" target="_blank"
-         style="font-size:13px;color:var(--saffron);font-weight:700;text-decoration:none">
-        👁 View My Review Page →
-      </a>
-      <span onclick="logout()" style="font-size:12px;color:var(--text-soft);cursor:pointer;text-decoration:underline">
-        Log out
-      </span>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding:0 4px">
+      <a id="viewPageLink" href="#" target="_blank" style="font-size:13px;color:var(--or);font-weight:700;text-decoration:none">👁 View My Review Page →</a>
+      <span onclick="logout()" style="font-size:12px;color:var(--soft);cursor:pointer;text-decoration:underline">Log out</span>
     </div>
   </div>
 
-</div>
+</div><!-- end editSection -->
 
 <div class="footer">
   <a href="https://goodreview.in">GoodReview.in</a> ·
   <a href="https://wa.me/917984939486">WhatsApp Support</a>
 </div>
 
+<!-- CROP MODAL -->
+<div class="crop-overlay" id="cropOverlay">
+  <div class="crop-box">
+    <div class="crop-header">
+      <div class="crop-title" id="cropTitle">✂️ Crop Photo</div>
+      <button class="crop-close" onclick="cancelCrop()">✕</button>
+    </div>
+    <div class="crop-canvas-wrap" id="cropWrap" style="height:260px">
+      <canvas id="cropCanvas"></canvas>
+    </div>
+    <div class="crop-controls">
+      <div class="crop-row">
+        <span class="crop-lbl">🔍 Zoom</span>
+        <input type="range" class="crop-slider" id="cropZoom" min="1" max="4" step="0.01" value="1" oninput="drawCrop()">
+      </div>
+      <div class="crop-row">
+        <span class="crop-lbl">↔ X</span>
+        <input type="range" class="crop-slider" id="cropX" min="-100" max="100" step="1" value="0" oninput="drawCrop()">
+      </div>
+      <div class="crop-row">
+        <span class="crop-lbl">↕ Y</span>
+        <input type="range" class="crop-slider" id="cropY" min="-100" max="100" step="1" value="0" oninput="drawCrop()">
+      </div>
+      <div class="crop-row">
+        <div class="crop-previews">
+          <div>
+            <div class="crop-prev-c"><canvas id="prevCircle" width="52" height="52"></canvas></div>
+            <div class="crop-prev-lbl">Avatar</div>
+          </div>
+          <div>
+            <div class="crop-prev-r"><canvas id="prevRect" width="110" height="36"></canvas></div>
+            <div class="crop-prev-lbl">Banner</div>
+          </div>
+        </div>
+      </div>
+      <div class="crop-actions">
+        <button class="crop-cancel" onclick="cancelCrop()">Cancel</button>
+        <button class="crop-apply" onclick="applyCrop()">✅ Use This Photo</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
-const LANGUAGES = [
-  {id:'English',  native:'English',  flag:'🇬🇧'},
-  {id:'Hindi',    native:'हिंदी',    flag:'🇮🇳'},
-  {id:'Gujarati', native:'ગુજરાતી',  flag:'🟠'},
-  {id:'Hinglish', native:'Hinglish', flag:'✨'},
-  {id:'Marathi',  native:'मराठी',    flag:'🟡'},
-  {id:'Tamil',    native:'தமிழ்',    flag:'🔵'},
-  {id:'Telugu',   native:'తెలుగు',   flag:'🟢'},
-  {id:'Kannada',  native:'ಕನ್ನಡ',   flag:'🟤'}
-]
+// ═══════════════════════════════════════════════════════════════
+// CONSTANTS
+// ═══════════════════════════════════════════════════════════════
+const CLOUDINARY_CLOUD  = 'dcpogmc5d'
+const CLOUDINARY_PRESET = 'goodreview_photos'
 
 const PLAN_LABELS = {
-  free:'Free Plan', starter_1yr:'Starter 1 Year', starter_2yr:'Starter 2 Years',
-  starter_5yr:'Starter 5 Years', premium_1yr:'Premium 1 Year', premium_2yr:'Premium 2 Years',
-  premium_5yr:'Premium 5 Years', ultimate_1yr:'Ultimate 1 Year', ultimate_2yr:'Ultimate 2 Years',
-  ultimate_5yr:'Ultimate 5 Years'
+  free:'Free Plan',
+  starter_1yr:'Starter · 1 Year', starter_2yr:'Starter · 2 Years', starter_5yr:'Starter · 5 Years',
+  premium_1yr:'Premium · 1 Year', premium_2yr:'Premium · 2 Years', premium_5yr:'Premium · 5 Years',
+  ultimate_1yr:'Ultimate · 1 Year',ultimate_2yr:'Ultimate · 2 Years',ultimate_5yr:'Ultimate · 5 Years'
 }
 
-let recordId      = ''
-let business      = null
-let selectedLangs = []
-let ownerTags     = []
-let tagLimit      = 0
-let otpTimer      = null
-let timerSeconds  = 0
-let tagMasterData = null
-let selectedTagIds  = []  // IDs of selected quality + preset tags
-let favouriteTagIds = []  // IDs marked as favourite
-let nameVariations  = []    // owner's name variations for AI use
+const LANGUAGES = [
+  {id:'English',  native:'English',   flag:'🇬🇧'},
+  {id:'Hindi',    native:'हिंदी',     flag:'🇮🇳'},
+  {id:'Gujarati', native:'ગુજરાતી',   flag:'🟠'},
+  {id:'Hinglish', native:'Hinglish',  flag:'✨'},
+  {id:'Marathi',  native:'मराठी',     flag:'🟡'},
+  {id:'Tamil',    native:'தமிழ்',     flag:'🔵'},
+  {id:'Telugu',   native:'తెలుగు',    flag:'🟢'},
+  {id:'Kannada',  native:'ಕನ್ನಡ',    flag:'🟤'}
+]
 
+// ═══════════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════════
+let recordId       = ''
+let business       = null
+let tagMaster      = null
+let selectedLangs  = []
+let selectedTagIds = []
+let favTagIds      = []
+let nameVars       = []
+let customTags     = []
+let tagLimit       = 0
+let photoUrls      = { owner: '', cover: '' }
+let otpTimer       = null
+let timerSecs      = 0
 
-// ── SESSION CHECK ─────────────────────────────────────────────────
-function checkExistingSession() {
+// ═══════════════════════════════════════════════════════════════
+// SESSION
+// ═══════════════════════════════════════════════════════════════
+function saveSession(email, expiry) {
+  const s = { recordId, business, email, expiry }
   try {
-    // Check localStorage first (Remember Me), then sessionStorage
-    const raw = localStorage.getItem('gr_edit_session') || sessionStorage.getItem('gr_edit_session')
-    if (!raw) return false
-    const session = JSON.parse(raw)
-    if (!session) return false
-    // Check expiry — null expiry means session-only (always valid until browser close)
-    if (session.expiry && Date.now() > session.expiry) {
-      localStorage.removeItem('gr_edit_session')
-      sessionStorage.removeItem('gr_edit_session')
-      return false
-    }
-    recordId = session.recordId
-    const savedEmail = session.email
-    document.getElementById('emailCard').style.display      = 'none'
-    document.getElementById('loadingProfile').style.display = 'block'
-    // Re-fetch fresh business data from API (not stale session)
-    const ownerId = session.business?.ownerId
-    // Timeout — if fetch takes >8s, fall back to email login
-    const sessionTimeout = setTimeout(() => {
-      localStorage.removeItem('gr_edit_session')
-      sessionStorage.removeItem('gr_edit_session')
-      document.getElementById('loadingProfile').style.display = 'none'
-      document.getElementById('emailCard').style.display      = 'block'
-    }, 8000)
-
-    Promise.all([
-      ownerId
-        ? fetch('/api/business?id=' + ownerId).then(r => r.json()).catch(() => null)
-        : Promise.resolve(null),
-      loadTagMasterData()
-    ]).then(([freshData]) => {
-      clearTimeout(sessionTimeout)
-      if (freshData && freshData.id) {
-        // Map business.js response to otp.js format
-        business = {
-          ...session.business,
-          businessType:    freshData.businessType    || session.business.businessType,
-          subCategory:     freshData.subCategory     || session.business.subCategory,
-          plan:            freshData.plan            || session.business.plan,
-          tagLimit:        (() => {
-            const p = freshData.plan || session.business.plan || ''
-            return p.startsWith('ultimate') ? 5 : p.startsWith('premium') ? 2 : 0
-          })(),
-          tagline:         freshData.tagline         || '',
-          greetingMessage: freshData.greetingMessage || '',
-          photoUrl:        freshData.photoUrl        || '',
-          coverUrl:        freshData.coverUrl        || '',
-          businessHours:   freshData.businessHours   || '',
-          whatsapp:        freshData.whatsapp        || '',
-          socialLinks:     freshData.socialLinks     || {},
-          city:            freshData.city            || session.business.city,
-          area:            freshData.area            || session.business.area,
-          gmbUrl:          freshData.gmbUrl          || session.business.gmbUrl,
-          languages:       freshData.languages       || session.business.languages,
-          expiryDate:      freshData.expiryDate      || session.business.expiryDate,
-        }
-        try {
-          const updated = { ...session, business }
-          if (session.expiry) localStorage.setItem('gr_edit_session', JSON.stringify(updated))
-          else sessionStorage.setItem('gr_edit_session', JSON.stringify(updated))
-        } catch(_) {}
-      } else {
-        business = session.business
-      }
-      document.getElementById('loadingProfile').style.display = 'none'
-      renderEditProfile()
-    }).catch(() => {
-      clearTimeout(sessionTimeout)
-      localStorage.removeItem('gr_edit_session')
-      sessionStorage.removeItem('gr_edit_session')
-      document.getElementById('loadingProfile').style.display = 'none'
-      document.getElementById('emailCard').style.display      = 'block'
-    })
-    return true
-  } catch(_) { return false }
+    if (expiry) localStorage.setItem('gr_edit_v3', JSON.stringify(s))
+    else        sessionStorage.setItem('gr_edit_v3', JSON.stringify(s))
+  } catch(_) {}
 }
 
-// ── OTP FLOW ─────────────────────────────────────────────────────
+function clearSession() {
+  try { localStorage.removeItem('gr_edit_v3'); sessionStorage.removeItem('gr_edit_v3') } catch(_) {}
+}
+
+async function checkSession() {
+  try {
+    const raw = localStorage.getItem('gr_edit_v3') || sessionStorage.getItem('gr_edit_v3')
+    if (!raw) return false
+    const s = JSON.parse(raw)
+    if (!s?.recordId) return false
+    if (s.expiry && Date.now() > s.expiry) { clearSession(); return false }
+
+    recordId = s.recordId
+    business = s.business
+
+    show('loadingDiv')
+    hide('loginCard')
+
+    // Always re-fetch fresh data
+    const [fresh] = await Promise.all([
+      fetch('/api/business?id=' + s.business.ownerId).then(r => r.json()).catch(() => null),
+      loadTagMaster()
+    ])
+
+    if (fresh?.id) mergeFresh(fresh)
+    hide('loadingDiv')
+    renderEdit()
+    return true
+  } catch(e) {
+    clearSession()
+    return false
+  }
+}
+
+function mergeFresh(f) {
+  const p = (f.plan || '').trim()
+  business = {
+    ...business,
+    businessType:    f.businessType    || business.businessType,
+    subCategory:     f.subCategory     || business.subCategory,
+    plan:            f.plan            || business.plan,
+    tagLimit:        p.startsWith('ultimate') ? 5 : p.startsWith('premium') ? 2 : 0,
+    tagline:         f.tagline         !== undefined ? f.tagline         : (business.tagline         || ''),
+    greetingMessage: f.greetingMessage !== undefined ? f.greetingMessage : (business.greetingMessage || ''),
+    photoUrl:        f.photoUrl        !== undefined ? f.photoUrl        : (business.photoUrl        || ''),
+    coverUrl:        f.coverUrl        !== undefined ? f.coverUrl        : (business.coverUrl        || ''),
+    businessHours:   f.businessHours   !== undefined ? f.businessHours   : (business.businessHours   || ''),
+    whatsapp:        f.whatsapp        !== undefined ? f.whatsapp        : (business.whatsapp        || ''),
+    socialLinks:     f.socialLinks     !== undefined ? f.socialLinks     : (business.socialLinks     || {}),
+    gmbUrl:          f.gmbUrl          || business.gmbUrl,
+    city:            f.city            || business.city,
+    area:            f.area            || business.area,
+    state:           f.state           || business.state,
+    languages:       f.languages       || business.languages,
+    customTags:      f.ownerCustomTags || business.customTags || [],
+    selectedTags:    f.selectedTags    || business.selectedTags || [],
+    nameVariations:  f.nameVariations  || business.nameVariations || [],
+    active:          f.active          !== undefined ? f.active : business.active,
+    reviewCount:     f.reviewCount     !== undefined ? f.reviewCount : business.reviewCount,
+    referralCount:   f.referralCount   !== undefined ? f.referralCount : business.referralCount,
+    expiryDate:      f.expiryDate      || business.expiryDate,
+    paymentType:     f.paymentType     || business.paymentType,
+    shippingStatus:  f.shippingStatus  || business.shippingStatus,
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// OTP FLOW
+// ═══════════════════════════════════════════════════════════════
 async function sendOtp() {
   const email = document.getElementById('emailInput').value.trim()
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    document.getElementById('err-email').classList.add('show')
-    return
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    showErr('err-email'); return
   }
-  document.getElementById('err-email').classList.remove('show')
-
+  hideErr('err-email')
   const btn = document.getElementById('sendOtpBtn')
-  btn.disabled = true
-  btn.textContent = 'Sending...'
-
+  btn.disabled = true; btn.textContent = 'Sending...'
   try {
-    const res  = await fetch('/api/otp', {
-      method:  'POST',
-      headers: {'Content-Type':'application/json'},
-      body:    JSON.stringify({ action: 'send', email })
+    const r = await fetch('/api/otp', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ action:'send', email })
     })
-    const data = await res.json()
-
-    if (!res.ok) {
-      btn.disabled = false
-      btn.textContent = 'Send Login Code →'
-      alert(data.error || 'Failed to send OTP')
-      return
-    }
-
-    document.getElementById('emailCard').style.display = 'none'
-    document.getElementById('otpCard').style.display   = 'block'
-    document.getElementById('otpSentMsg').textContent  = `Code sent to ${email}. Check your inbox.`
-    startOtpTimer()
-
-  } catch (e) {
-    btn.disabled = false
-    btn.textContent = 'Send Login Code →'
-    alert('Network error. Please try again.')
+    const d = await r.json()
+    if (!r.ok) { btn.disabled=false; btn.textContent='Send Login Code →'; alert(d.error||'Failed'); return }
+    hide('loginCard'); show('otpCard')
+    document.getElementById('otpMsg').textContent = `Code sent to ${email}. Check your inbox.`
+    startTimer()
+  } catch(e) {
+    btn.disabled=false; btn.textContent='Send Login Code →'; alert('Network error')
   }
 }
 
-function startOtpTimer() {
-  timerSeconds = 60
+function startTimer() {
+  timerSecs = 60
   clearInterval(otpTimer)
   const resend = document.getElementById('resendLink')
   resend.classList.add('disabled')
-
   otpTimer = setInterval(() => {
-    timerSeconds--
-    document.getElementById('otpTimer').textContent = `Resend available in ${timerSeconds}s`
-    if (timerSeconds <= 0) {
+    timerSecs--
+    document.getElementById('otpTimer').textContent = `Resend in ${timerSecs}s`
+    if (timerSecs <= 0) {
       clearInterval(otpTimer)
       document.getElementById('otpTimer').textContent = ''
       resend.classList.remove('disabled')
@@ -595,211 +584,143 @@ function startOtpTimer() {
 async function resendOtp() {
   if (document.getElementById('resendLink').classList.contains('disabled')) return
   const email = document.getElementById('emailInput').value.trim()
-  await fetch('/api/otp', {
-    method:  'POST',
-    headers: {'Content-Type':'application/json'},
-    body:    JSON.stringify({ action: 'send', email })
-  })
+  await fetch('/api/otp', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({action:'send',email}) })
   document.getElementById('otpInput').value = ''
-  startOtpTimer()
+  startTimer()
 }
 
 async function verifyOtp() {
   const email = document.getElementById('emailInput').value.trim()
   const otp   = document.getElementById('otpInput').value.trim()
-
-  if (otp.length !== 6) {
-    showOtpError('Please enter the 6-digit code')
-    return
-  }
-
-  const btn = document.getElementById('verifyOtpBtn')
-  btn.disabled    = true
-  btn.textContent = 'Verifying...'
-
+  if (otp.length !== 6) { showOtpErr('Please enter the 6-digit code'); return }
+  const btn = document.getElementById('verifyBtn')
+  btn.disabled=true; btn.textContent='Verifying...'
   try {
-    const res  = await fetch('/api/otp', {
-      method:  'POST',
-      headers: {'Content-Type':'application/json'},
-      body:    JSON.stringify({ action: 'verify', email, otp })
+    const r = await fetch('/api/otp', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ action:'verify', email, otp })
     })
-    const data = await res.json()
+    const d = await r.json()
+    if (!r.ok) { btn.disabled=false; btn.textContent='Verify Code →'; showOtpErr(d.error||'Incorrect code'); return }
 
-    if (!res.ok) {
-      btn.disabled    = false
-      btn.textContent = 'Verify Code →'
-      showOtpError(data.error || 'Incorrect code')
-      return
-    }
-
-    // OTP verified — load profile
     clearInterval(otpTimer)
-    recordId = data.recordId
-    business = data.business
-    // Immediately enrich with full data from /api/business
-    if (data.business?.ownerId) {
-      fetch('/api/business?id=' + data.business.ownerId)
-        .then(r => r.json())
-        .then(fresh => {
-          if (fresh && fresh.id) {
-            const p = (fresh.plan || '').trim()
-            business = {
-              ...business,
-              businessType:    fresh.businessType    || business.businessType,
-              subCategory:     fresh.subCategory     || business.subCategory,
-              plan:            fresh.plan            || business.plan,
-              tagLimit:        p.startsWith('ultimate') ? 5 : p.startsWith('premium') ? 2 : 0,
-              tagline:         fresh.tagline         || '',
-              greetingMessage: fresh.greetingMessage || '',
-              photoUrl:        fresh.photoUrl        || '',
-              coverUrl:        fresh.coverUrl        || '',
-              businessHours:   fresh.businessHours   || '',
-              whatsapp:        fresh.whatsapp        || '',
-              socialLinks:     fresh.socialLinks     || {},
-              gmbUrl:          fresh.gmbUrl          || business.gmbUrl,
-              languages:       fresh.languages       || business.languages,
-              city:            fresh.city            || business.city,
-              area:            fresh.area            || business.area,
-              expiryDate:      fresh.expiryDate      || business.expiryDate,
-            }
-          }
-        }).catch(() => {})
-    }
+    recordId = d.recordId
+    business = d.business
 
-    // Save session — 30 days if Remember Me checked, else session only
-    const rememberMe = document.getElementById('rememberMe')?.checked
-    const expiry = rememberMe
-      ? Date.now() + 30 * 24 * 60 * 60 * 1000  // 30 days
-      : null                                      // session only
-    const session = { recordId: data.recordId, business: data.business, email, expiry }
-    try {
-      if (rememberMe) {
-        localStorage.setItem('gr_edit_session', JSON.stringify(session))
-      } else {
-        sessionStorage.setItem('gr_edit_session', JSON.stringify(session))
-      }
-    } catch(_) {}
+    hide('otpCard'); show('loadingDiv')
 
-    document.getElementById('otpCard').style.display        = 'none'
-    document.getElementById('loadingProfile').style.display = 'block'
+    // Re-fetch fresh data from /api/business to get all saved fields
+    const [fresh] = await Promise.all([
+      fetch('/api/business?id=' + d.business.ownerId).then(r2 => r2.json()).catch(() => null),
+      loadTagMaster()
+    ])
+    if (fresh?.id) mergeFresh(fresh)
 
-    // Load tag master while showing loader
-    await loadTagMasterData()
+    // Save session
+    const expiry = document.getElementById('rememberMe').checked
+      ? Date.now() + 30 * 24 * 60 * 60 * 1000 : null
+    saveSession(email, expiry)
 
-    setTimeout(() => {
-      document.getElementById('loadingProfile').style.display = 'none'
-      renderEditProfile()
-    }, 600)
-
-  } catch (e) {
-    btn.disabled    = false
-    btn.textContent = 'Verify Code →'
-    showOtpError('Network error. Please try again.')
-  }
-}
-
-function showOtpError(msg) {
-  const el = document.getElementById('err-otp')
-  el.textContent    = msg
-  el.style.display  = 'block'
-}
-
-// ── LOAD TAG MASTER ───────────────────────────────────────────────
-async function loadTagMasterData() {
-  try {
-    const res = await fetch('/tag-master.json')
-    tagMasterData = await res.json()
+    hide('loadingDiv')
+    renderEdit()
   } catch(e) {
-    console.error('Could not load tag-master.json', e)
-    tagMasterData = null
+    btn.disabled=false; btn.textContent='Verify Code →'; showOtpErr('Network error')
   }
 }
 
-// ── RENDER EDIT PROFILE ──────────────────────────────────────────
-function renderEditProfile() {
+function showOtpErr(msg) {
+  const el = document.getElementById('err-otp')
+  el.textContent = msg; el.classList.add('show')
+}
+
+// ═══════════════════════════════════════════════════════════════
+// TAG MASTER
+// ═══════════════════════════════════════════════════════════════
+async function loadTagMaster() {
+  try { const r = await fetch('/tag-master.json'); tagMaster = await r.json() } catch(_) {}
+}
+
+// ═══════════════════════════════════════════════════════════════
+// RENDER EDIT
+// ═══════════════════════════════════════════════════════════════
+function renderEdit() {
   const b = business
+  const plan = (b.plan || '').trim()
+  tagLimit = plan.startsWith('ultimate') ? 5 : plan.startsWith('premium') ? 2 : 0
 
-  // Read-only info
-  document.getElementById('viewOwnerName').value    = b.ownerName
-  document.getElementById('viewBusinessName').value = b.businessName
-  document.getElementById('planBadge').textContent  = '⭐ ' + (PLAN_LABELS[b.plan] || b.plan)
-
+  // Plan badge & info
+  document.getElementById('planBadge').textContent = '⭐ ' + (PLAN_LABELS[plan] || plan)
   const url = `https://goodreview.in/review.html?id=${b.ownerId}`
-  document.getElementById('reviewLink').textContent  = url
-  document.getElementById('reviewLink').href         = url
-  document.getElementById('viewPageLink').href       = url
+  document.getElementById('reviewLink').textContent = url
+  document.getElementById('reviewLink').href = url
+  document.getElementById('viewPageLink').href = url
+  document.getElementById('viewOwnerName').value = b.ownerName || ''
+  document.getElementById('viewBizName').value   = b.businessName || ''
 
-  // GMB URL
-  document.getElementById('editGmbUrl').value = b.gmbUrl
-
-  // City / Area / State
-  document.getElementById('editCity').value  = b.city
-  document.getElementById('editArea').value  = b.area
-
-  const stateEl = document.getElementById('editState')
-  Array.from(stateEl.options).forEach(o => { if (o.value === b.state) o.selected = true })
-
-  // Languages
-  selectedLangs = [...b.languages]
-  renderLangGrid()
-
-  // Selectable tags (quality + preset)
-  renderSelectableTags()
-
-  // Owner custom tags — derive tagLimit from plan directly
-  const _plan = (b.plan || '').trim()
-  tagLimit = _plan.startsWith('ultimate') ? 5 : _plan.startsWith('premium') ? 2 : 0
-  ownerTags = [...b.customTags]
-
-  // Always show custom tags card — show upgrade msg for free/starter
-  document.getElementById('ownerTagsCard').style.display = 'block'
-  if (tagLimit > 0) {
-    document.getElementById('tagInfo').textContent =
-      `Your plan allows up to ${tagLimit} custom tags. Add your own unique service tags below.`
-  } else {
-    document.getElementById('tagInfo').innerHTML =
-      `Custom tags are available on <strong>Premium</strong> and <strong>Ultimate</strong> plans. <a href="register.html" style="color:var(--saffron);font-weight:700">Upgrade →</a>`
-  }
-  renderOwnerTags()
-
-  // ── New personalization fields ──
-  document.getElementById('editTagline').value  = b.tagline         || ''
-  document.getElementById('editGreeting').value = b.greetingMessage || ''
-  document.getElementById('editHours').value    = b.businessHours   || ''
-  document.getElementById('editWhatsapp').value = b.whatsapp        || ''
+  // Editable fields
+  document.getElementById('editGmb').value       = b.gmbUrl || ''
+  document.getElementById('editCity').value      = b.city   || ''
+  document.getElementById('editArea').value      = b.area   || ''
+  document.getElementById('editTagline').value   = b.tagline || ''
+  document.getElementById('editGreeting').value  = b.greetingMessage || ''
+  document.getElementById('editHours').value     = b.businessHours || ''
+  document.getElementById('editWhatsapp').value  = b.whatsapp || ''
 
   // Char counts
-  document.getElementById('taglineCount').textContent  = (b.tagline         || '').length
+  document.getElementById('taglineCount').textContent  = (b.tagline || '').length
   document.getElementById('greetingCount').textContent = (b.greetingMessage || '').length
 
-  // Photos
-  photoUrls.owner = b.photoUrl || ''
-  photoUrls.cover = b.coverUrl || ''
-  if (b.photoUrl) { showPhotoPreview('owner', b.photoUrl); document.getElementById('ownerPhotoRemove').style.display = 'inline-block' }
-  if (b.coverUrl) { showPhotoPreview('cover', b.coverUrl); document.getElementById('coverPhotoRemove').style.display = 'inline-block' }
+  // State
+  const stateEl = document.getElementById('editState')
+  Array.from(stateEl.options).forEach(o => { o.selected = o.value === b.state })
 
-  // Social links
+  // Social
   const social = b.socialLinks || {}
   document.getElementById('editInstagram').value = social.instagram || ''
   document.getElementById('editFacebook').value  = social.facebook  || ''
 
-  document.getElementById('editSection').style.display = 'block'
+  // Photos
+  photoUrls = { owner: b.photoUrl || '', cover: b.coverUrl || '' }
+  if (b.photoUrl) { setPhotoPreview('owner', b.photoUrl) }
+  if (b.coverUrl) { setPhotoPreview('cover', b.coverUrl) }
+
+  // Languages
+  selectedLangs = [...(b.languages || ['English','Hindi','Gujarati','Hinglish'])]
+  renderLangs()
+
+  // Tags
+  try {
+    const saved = b.selectedTags || []
+    selectedTagIds = saved.filter(t => t?.id).map(t => t.id)
+    favTagIds      = saved.filter(t => t?.id && t?.favourite).map(t => t.id)
+    nameVars       = [...(b.nameVariations || [])]
+    customTags     = [...(b.customTags || [])]
+  } catch(_) {
+    selectedTagIds = []; favTagIds = []; nameVars = []; customTags = []
+  }
+  renderTagSection()
+  renderNameVars()
+  renderCustomTags()
+
+  show('editSection')
 }
 
-// ── LANGUAGES ────────────────────────────────────────────────────
-function renderLangGrid() {
-  const grid = document.getElementById('editLangGrid')
+// ═══════════════════════════════════════════════════════════════
+// LANGUAGES
+// ═══════════════════════════════════════════════════════════════
+function renderLangs() {
+  const grid = document.getElementById('langGrid')
   grid.innerHTML = ''
-  LANGUAGES.forEach(lang => {
-    const div   = document.createElement('div')
-    const isSel = selectedLangs.includes(lang.id)
-    div.className = 'lang-opt' + (isSel ? ' selected' : '')
-    div.id        = 'elang_' + lang.id
-    div.innerHTML = `<span style="font-size:17px">${lang.flag}</span>
-      <div><div class="lang-name">${lang.id}</div><div class="lang-native">${lang.native}</div></div>
-      <div class="lang-check" id="elc_${lang.id}">${isSel ? '✓' : ''}</div>`
-    div.onclick   = () => toggleLang(lang.id)
-    grid.appendChild(div)
+  LANGUAGES.forEach(l => {
+    const d = document.createElement('div')
+    const sel = selectedLangs.includes(l.id)
+    d.className = 'lang-opt' + (sel ? ' selected' : '')
+    d.id = 'lo_' + l.id
+    d.innerHTML = `<span style="font-size:17px">${l.flag}</span>
+      <div><div class="lang-name">${l.id}</div><div class="lang-native">${l.native}</div></div>
+      <div class="lang-check" id="lc_${l.id}">${sel ? '✓' : ''}</div>`
+    d.onclick = () => toggleLang(l.id)
+    grid.appendChild(d)
   })
 }
 
@@ -807,667 +728,422 @@ function toggleLang(id) {
   const idx = selectedLangs.indexOf(id)
   if (idx === -1) selectedLangs.push(id)
   else if (selectedLangs.length > 1) selectedLangs.splice(idx, 1)
-  else return
-  renderLangGrid()
-  document.getElementById('err-lang').classList.remove('show')
+  renderLangs()
 }
 
-// ── SELECTABLE TAGS (Quality + Preset) ───────────────────────────
-function renderSelectableTags() {
-  if (!tagMasterData) return
-
+// ═══════════════════════════════════════════════════════════════
+// TAGS
+// ═══════════════════════════════════════════════════════════════
+function renderTagSection() {
+  if (!tagMaster) return
   const b = business
+  show('tagsCard')
 
-  // Load previously saved selectedTags
-  try {
-    const saved = JSON.parse(b.selectedTags || '[]')
-    selectedTagIds  = saved.filter(t => typeof t === 'object' ? t.id : t)
-                         .map(t => typeof t === 'object' ? t.id : t).filter(Boolean)
-    favouriteTagIds = saved.filter(t => typeof t === 'object' && t.favourite && t.id).map(t => t.id)
-    // Name variations now stored in separate NameVariations field
-    nameVariations = b.nameVariations || []
-  } catch(e) {
-    selectedTagIds  = []
-    favouriteTagIds = []
-    nameTagEnabled  = false
-  }
-
-  // ── Service Quality Tags ──
-  const qualityWrap = document.getElementById('qualityTagsWrap')
-  qualityWrap.innerHTML = ''
-  Object.entries(tagMasterData.serviceQualityTags).forEach(([key, val]) => {
-    if (val.showFor.includes('all') || val.showFor.includes(b.businessType)) {
-      qualityWrap.appendChild(makeSelectablePill(key, key, 'quality'))
+  // Quality tags
+  const qWrap = document.getElementById('qualityWrap')
+  qWrap.innerHTML = ''
+  Object.entries(tagMaster.serviceQualityTags || {}).forEach(([key, val]) => {
+    if ((val.showFor||[]).includes('all') || (val.showFor||[]).includes(b.businessType)) {
+      qWrap.appendChild(makeTagPill(key, key, 'quality'))
     }
   })
 
-  // ── Preset Business Tags ──
-  const presetWrap  = document.getElementById('presetTagsWrap')
-  presetWrap.innerHTML = ''
-  const cat    = tagMasterData.categories[b.businessType]
-  // Fuzzy match subCategory → tag-master key
-  // e.g. "general_physician" → "General Physician"
-  function findSubcat(subcategories, subCatValue) {
-    if (!subCatValue) return null
-    // 1. Exact match
-    if (subcategories[subCatValue]) return subcategories[subCatValue]
-    // 2. Normalize: underscore→space, title case
-    const normalized = subCatValue.replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase())
-    if (subcategories[normalized]) return subcategories[normalized]
-    // 3. Case-insensitive search
-    const lower = subCatValue.toLowerCase().replace(/_/g,' ')
-    const key = Object.keys(subcategories).find(k => k.toLowerCase() === lower)
-    return key ? subcategories[key] : null
-  }
-  const subcat = cat && b.subCategory ? findSubcat(cat.subcategories, b.subCategory) : null
-
-  if (subcat && subcat.tags && subcat.tags.length > 0) {
-    document.getElementById('presetTagsLabel').textContent = `📋 ${b.subCategory} Tags`
-    subcat.tags.forEach(tag => {
-      presetWrap.appendChild(makeSelectablePill(tag.id, tag.label, 'preset'))
-    })
-  } else if (cat) {
-    // Show all tags from all subcategories if subcat not found
-    document.getElementById('presetTagsLabel').textContent = `📋 ${cat.name} Tags`
-    const seen = new Set()
-    Object.values(cat.subcategories).forEach(sub => {
-      sub.tags.forEach(tag => {
-        if (!seen.has(tag.id)) {
-          seen.add(tag.id)
-          presetWrap.appendChild(makeSelectablePill(tag.id, tag.label, 'preset'))
-        }
+  // Preset tags — fuzzy match subCategory
+  const pWrap = document.getElementById('presetWrap')
+  pWrap.innerHTML = ''
+  const cat = tagMaster.categories?.[b.businessType]
+  if (cat) {
+    const sub = findSubcat(cat.subcategories, b.subCategory)
+    if (sub?.tags?.length) {
+      document.getElementById('presetLabel').textContent = `📋 ${b.subCategory.replace(/_/g,' ')} Tags`
+      sub.tags.forEach(t => pWrap.appendChild(makeTagPill(t.id, t.label, 'preset')))
+    } else {
+      document.getElementById('presetLabel').textContent = `📋 ${cat.name || 'Business'} Tags`
+      const seen = new Set()
+      Object.values(cat.subcategories || {}).forEach(s => {
+        s.tags?.forEach(t => { if (!seen.has(t.id)) { seen.add(t.id); pWrap.appendChild(makeTagPill(t.id, t.label, 'preset')) } })
       })
-    })
+    }
   } else {
-    presetWrap.innerHTML = '<div class="no-tags-note">No preset tags for your category yet. Add custom tags below.</div>'
+    pWrap.innerHTML = '<p style="font-size:13px;color:var(--soft)">No preset tags for your category. Add custom tags below.</p>'
   }
-
-  document.getElementById('selectTagsCard').style.display = 'block'
-
-  // Show professional name variations card
-  const nameCard = document.getElementById('nameTagCard')
-  if (nameCard) {
-    nameCard.style.display = 'block'
-    renderNameVariations()
-  }
-
-  updateTagCountBadge()
+  updateTagCount()
 }
 
-function makeSelectablePill(id, label, type) {
-  const pill    = document.createElement('div')
-  const isSel   = selectedTagIds.includes(id)
-  const isFav   = favouriteTagIds.includes(id)
-  pill.className = 'tag-sel-pill' + (isFav ? ' favourite' : isSel ? ' selected' : '')
-  pill.id        = 'tpill_' + id
-  pill.dataset.id    = id
-  pill.dataset.label = label
-  pill.dataset.type  = type
+function findSubcat(subs, val) {
+  if (!val || !subs) return null
+  if (subs[val]) return subs[val]
+  const norm = val.replace(/_/g,' ').replace(/\b\w/g, c => c.toUpperCase())
+  if (subs[norm]) return subs[norm]
+  const lower = val.toLowerCase().replace(/_/g,' ')
+  const key = Object.keys(subs).find(k => k.toLowerCase() === lower)
+  return key ? subs[key] : null
+}
 
-  const checkSpan = `<span class="tag-check-icon">${isFav ? '★ ' : isSel ? '✓ ' : ''}</span>`
-  const favBtn    = `<button class="fav-btn" title="Mark as favourite" onclick="event.stopPropagation();toggleFavourite('${id}')">${isFav ? '★' : '☆'}</button>`
-  pill.innerHTML  = checkSpan + label + favBtn
-  pill.onclick    = () => toggleSelectTag(id)
+function makeTagPill(id, label, type) {
+  const pill = document.createElement('div')
+  const isSel = selectedTagIds.includes(id)
+  const isFav = favTagIds.includes(id)
+  pill.className = 'tag-pill' + (isFav ? ' fav' : isSel ? ' sel' : '')
+  pill.id = 'tp_' + id
+  pill.dataset.id = id; pill.dataset.type = type; pill.dataset.label = label
+  pill.innerHTML = `<span class="chk">${isFav ? '★ ' : isSel ? '✓ ' : ''}</span>${label}<button class="fav-btn" title="Favourite" onclick="event.stopPropagation();toggleFav('${id}')">${isFav ? '★' : '☆'}</button>`
+  pill.onclick = () => toggleTag(id)
   return pill
 }
 
-function toggleSelectTag(id) {
-  const pill = document.getElementById('tpill_' + id)
+function toggleTag(id) {
+  const pill = document.getElementById('tp_' + id)
   if (!pill) return
   const idx = selectedTagIds.indexOf(id)
   if (idx === -1) {
     selectedTagIds.push(id)
-    pill.classList.add('selected')
-    pill.querySelector('.tag-check-icon').textContent = '✓ '
+    pill.className = 'tag-pill sel'
+    pill.querySelector('.chk').textContent = '✓ '
   } else {
     selectedTagIds.splice(idx, 1)
-    pill.classList.remove('selected')
-    pill.querySelector('.tag-check-icon').textContent = ''
-    // Also remove from favourites if deselected
-    const fidx = favouriteTagIds.indexOf(id)
-    if (fidx !== -1) {
-      favouriteTagIds.splice(fidx, 1)
-      pill.classList.remove('favourite')
-      pill.querySelector('.fav-btn').textContent = '☆'
-    }
+    pill.className = 'tag-pill'
+    pill.querySelector('.chk').textContent = ''
+    const fi = favTagIds.indexOf(id)
+    if (fi !== -1) { favTagIds.splice(fi, 1); pill.querySelector('.fav-btn').textContent = '☆' }
   }
-  document.getElementById('err-tags').classList.remove('show')
-  updateTagCountBadge()
+  updateTagCount()
 }
 
-function toggleFavourite(id) {
-  const pill = document.getElementById('tpill_' + id)
-  if (!pill) return
-  // Must be selected first
+function toggleFav(id) {
   if (!selectedTagIds.includes(id)) return
-  const idx = favouriteTagIds.indexOf(id)
-  if (idx === -1) {
-    favouriteTagIds.push(id)
-    pill.classList.add('favourite')
-    pill.classList.remove('selected')
-    pill.querySelector('.tag-check-icon').textContent = '★ '
+  const pill = document.getElementById('tp_' + id)
+  const fi = favTagIds.indexOf(id)
+  if (fi === -1) {
+    favTagIds.push(id)
+    pill.className = 'tag-pill fav'
+    pill.querySelector('.chk').textContent = '★ '
     pill.querySelector('.fav-btn').textContent = '★'
   } else {
-    favouriteTagIds.splice(idx, 1)
-    pill.classList.remove('favourite')
-    pill.classList.add('selected')
-    pill.querySelector('.tag-check-icon').textContent = '✓ '
+    favTagIds.splice(fi, 1)
+    pill.className = 'tag-pill sel'
+    pill.querySelector('.chk').textContent = '✓ '
     pill.querySelector('.fav-btn').textContent = '☆'
   }
-  updateTagCountBadge()
+  updateTagCount()
 }
 
-function addNameVariation() {
-  const input = document.getElementById('nameVariationInput')
-  const val   = input.value.trim()
-  if (!val || val.length < 2) return
-  if (nameVariations.includes(val)) return
-  if (nameVariations.length >= 6) {
-    alert('Maximum 6 name variations allowed.')
-    return
+function updateTagCount() {
+  document.getElementById('tagCount').textContent = selectedTagIds.length + customTags.length
+}
+
+// ═══════════════════════════════════════════════════════════════
+// NAME VARIATIONS
+// ═══════════════════════════════════════════════════════════════
+function renderNameVars() {
+  const wrap = document.getElementById('nameVarsWrap')
+  wrap.innerHTML = ''
+  nameVars.forEach((v, i) => {
+    const p = document.createElement('div')
+    p.className = 'name-pill'
+    p.innerHTML = `👤 ${v} <span class="remove-tag" onclick="removeNameVar(${i})">✕</span>`
+    wrap.appendChild(p)
+  })
+  document.getElementById('nameVarCount').textContent = `${nameVars.length}/6 variations added`
+}
+
+function addNameVar() {
+  const inp = document.getElementById('nameVarInput')
+  const v = inp.value.trim()
+  if (!v || v.length < 2 || nameVars.includes(v)) return
+  if (nameVars.length >= 6) { alert('Maximum 6 name variations.'); return }
+  nameVars.push(v); inp.value = ''; renderNameVars()
+}
+
+function removeNameVar(i) { nameVars.splice(i, 1); renderNameVars() }
+
+// ═══════════════════════════════════════════════════════════════
+// CUSTOM TAGS
+// ═══════════════════════════════════════════════════════════════
+function renderCustomTags() {
+  const wrap = document.getElementById('customTagsWrap')
+  wrap.innerHTML = ''
+  customTags.forEach((t, i) => {
+    const p = document.createElement('div')
+    p.className = 'owner-tag-pill'
+    p.innerHTML = `★ ${t} <span class="remove-tag" onclick="removeCustomTag(${i})">✕</span>`
+    wrap.appendChild(p)
+  })
+
+  const info     = document.getElementById('customTagInfo')
+  const addRow   = document.getElementById('addTagRow')
+  const limitNote= document.getElementById('tagLimitNote')
+
+  if (tagLimit === 0) {
+    info.innerHTML = `Custom tags available on <strong>Premium</strong> and <strong>Ultimate</strong> plans. <a href="register.html" style="color:var(--or);font-weight:700">Upgrade →</a>`
+    addRow.style.display = 'none'
+    limitNote.textContent = ''
+  } else {
+    const full = customTags.length >= tagLimit
+    info.textContent = `Your plan allows up to ${tagLimit} custom tags.`
+    addRow.style.display = full ? 'none' : 'flex'
+    limitNote.textContent = full
+      ? `Maximum ${tagLimit} tags reached.`
+      : `${customTags.length}/${tagLimit} used`
   }
-  nameVariations.push(val)
-  input.value = ''
-  renderNameVariations()
+  updateTagCount()
 }
 
-function removeNameVariation(idx) {
-  nameVariations.splice(idx, 1)
-  renderNameVariations()
-}
-
-function renderNameVariations() {
-  const wrap = document.getElementById('nameVariationsWrap')
-  if (!wrap) return
-  wrap.innerHTML = ''
-  nameVariations.forEach((name, i) => {
-    const pill = document.createElement('div')
-    pill.className = 'owner-tag-pill'
-    pill.style.background = '#FFF3E8'
-    pill.style.borderColor = 'var(--saffron)'
-    pill.style.color = 'var(--saffron)'
-    pill.innerHTML = `👤 ${name} <span class="remove-tag" onclick="removeNameVariation(${i})">✕</span>`
-    wrap.appendChild(pill)
-  })
-  const countEl = document.getElementById('nameVarCount')
-  if (countEl) countEl.textContent = `${nameVariations.length}/6 variations added`
-}
-
-function updateTagCountBadge() {
-  const total = selectedTagIds.length + ownerTags.length
-  document.getElementById('selectedTagCount').textContent = total
-}
-
-// ── OWNER CUSTOM TAGS ────────────────────────────────────────────
-function renderOwnerTags() {
-  const wrap = document.getElementById('editTagsWrap')
-  wrap.innerHTML = ''
-  ownerTags.forEach((tag, i) => {
-    const pill = document.createElement('div')
-    pill.className = 'owner-tag-pill'
-    pill.innerHTML = `★ ${tag} <span class="remove-tag" onclick="removeTag(${i})">✕</span>`
-    wrap.appendChild(pill)
-  })
-
-  const atLimit   = tagLimit > 0 && ownerTags.length >= tagLimit
-  const addRow    = document.getElementById('addTagRow')
-  const limitNote = document.getElementById('tagLimitNote')
-  if (addRow)    addRow.style.display    = (tagLimit === 0 || atLimit) ? 'none' : 'flex'
-  if (limitNote) limitNote.textContent   = tagLimit === 0 ? ''
-    : atLimit ? `Maximum ${tagLimit} custom tags reached for your plan.`
-    : `${ownerTags.length}/${tagLimit} custom tags used`
-
-  updateTagCountBadge()
-}
-
-function addTag() {
-  const input = document.getElementById('newTagInput')
-  const val   = input.value.trim()
-  if (!val || val.length < 2) return
-  if (ownerTags.length >= tagLimit) return
-  ownerTags.push(val)
-  input.value = ''
+function addCustomTag() {
+  const inp = document.getElementById('customTagInput')
+  const v = inp.value.trim()
+  if (!v || v.length < 2) return
+  if (customTags.length >= tagLimit) return
+  customTags.push(v); inp.value = ''
   document.getElementById('tagCharCount').textContent = '0'
-  renderOwnerTags()
+  renderCustomTags()
 }
 
-function removeTag(i) {
-  ownerTags.splice(i, 1)
-  renderOwnerTags()
-}
+function removeCustomTag(i) { customTags.splice(i, 1); renderCustomTags() }
 
-// Char counter
-document.addEventListener('DOMContentLoaded', () => {
-  checkExistingSession()
-
-  const inp = document.getElementById('newTagInput')
-  if (inp) {
-    inp.addEventListener('input', function() {
-      document.getElementById('tagCharCount').textContent = this.value.length
-    })
-    inp.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') { e.preventDefault(); addTag() }
-    })
-  }
-
-  const nameInp = document.getElementById('nameVariationInput')
-  if (nameInp) {
-    nameInp.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') { e.preventDefault(); addNameVariation() }
-    })
-  }
-
-  const otpInp = document.getElementById('otpInput')
-  if (otpInp) {
-    otpInp.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') verifyOtp()
-    })
-  }
-})
-
-// ── BUILD SELECTED TAGS ARRAY FOR SAVING ─────────────────────────
-function buildSelectedTagsForSave() {
-  const result = []
-  const b = business
-
-  if (tagMasterData) {
-    selectedTagIds.forEach(id => {
-      const isFav = favouriteTagIds.includes(id)
-      // Check quality tags
-      if (tagMasterData.serviceQualityTags[id]) {
-        result.push({ id, label: id, type: 'quality', favourite: isFav })
-        return
-      }
-      // Check preset tags
-      const cat = tagMasterData.categories[b.businessType]
-      if (cat) {
-        for (const sub of Object.values(cat.subcategories)) {
-          const found = sub.tags.find(t => t.id === id)
-          if (found) {
-            result.push({ id, label: found.label, type: 'preset', favourite: isFav })
-            return
-          }
-        }
-      }
-      result.push({ id, label: id, type: 'preset', favourite: isFav })
-    })
-  }
-
-  // Add custom tags
-  ownerTags.forEach(tag => {
-    result.push({ id: null, label: tag, type: 'custom', favourite: false })
-  })
-
-  // Note: nameVariations saved separately to NameVariations field — not in SelectedTags
-
-  return result
-}
-
-// ── SAVE ─────────────────────────────────────────────────────────
-async function saveProfile() {
-  const gmbUrl = document.getElementById('editGmbUrl').value.trim()
-  const city   = document.getElementById('editCity').value.trim()
-
-  if (!gmbUrl) {
-    document.getElementById('err-gmb').classList.add('show')
-    document.getElementById('editGmbUrl').scrollIntoView({behavior:'smooth'})
-    return
-  }
-  document.getElementById('err-gmb').classList.remove('show')
-
-  if (!city) {
-    document.getElementById('err-city').classList.add('show')
-    document.getElementById('editCity').scrollIntoView({behavior:'smooth'})
-    return
-  }
-  document.getElementById('err-city').classList.remove('show')
-
-  if (selectedLangs.length === 0) {
-    document.getElementById('err-lang').classList.add('show')
-    return
-  }
-  document.getElementById('err-lang').classList.remove('show')
-
-  const allSelectedTags = buildSelectedTagsForSave()
-  document.getElementById('err-tags').classList.remove('show')
-  // Note: saving with empty tags is allowed — tags can be set separately
-
-  const btn = document.getElementById('saveBtn')
-  btn.disabled    = true
-  btn.textContent = 'Saving...'
-
-  try {
-    const res = await fetch('/api/update-business', {
-      method:  'PATCH',
-      headers: {'Content-Type':'application/json'},
-      body:    JSON.stringify({
-        recordId,
-        languages:       JSON.stringify(selectedLangs),
-        customTags:      JSON.stringify(ownerTags),
-        selectedTags:    JSON.stringify(allSelectedTags),
-        nameVariations:  JSON.stringify(nameVariations),
-        gmbUrl,
-        city,
-        area:            document.getElementById('editArea').value.trim(),
-        state:           document.getElementById('editState').value,
-        tagline:         document.getElementById('editTagline').value.trim(),
-        greetingMessage: document.getElementById('editGreeting').value.trim(),
-        businessHours:   document.getElementById('editHours').value.trim(),
-        whatsapp:        document.getElementById('editWhatsapp').value.trim(),
-        photoUrl:        photoUrls.owner === 'REMOVE' ? '' : photoUrls.owner || undefined,
-        coverUrl:        photoUrls.cover === 'REMOVE' ? '' : photoUrls.cover || undefined,
-        socialLinks:     JSON.stringify({
-          instagram: document.getElementById('editInstagram').value.trim(),
-          facebook:  document.getElementById('editFacebook').value.trim()
-        })
-      })
-    })
-
-    const data = await res.json()
-
-    if (!res.ok) {
-      btn.disabled    = false
-      btn.textContent = '💾 Save Changes'
-      alert(data.error || 'Failed to save. Please try again.')
-      return
-    }
-
-    btn.classList.add('saved')
-    btn.textContent = '✅ Saved!'
-    setTimeout(() => {
-      btn.classList.remove('saved')
-      btn.disabled    = false
-      btn.textContent = '💾 Save Changes'
-    }, 3000)
-    window.scrollTo({top:0, behavior:'smooth'})
-
-  } catch (e) {
-    btn.disabled    = false
-    btn.textContent = '💾 Save Changes'
-    alert('Network error. Please try again.')
-  }
-}
-
-// ── CLOUDINARY CONFIG ─────────────────────────────────────────────
-// After setting up Cloudinary:
-// 1. cloudinary.com → Settings → Upload → Add upload preset → set Unsigned
-// 2. Paste your Cloud Name and preset name below
-const CLOUDINARY_CLOUD  = 'dcpogmc5d'
-const CLOUDINARY_PRESET = 'goodreview_photos'
-
-let photoUrls = { owner: '', cover: '' }
-
-async function handlePhotoUpload(type, input) {
-  const file = input.files[0]
-  if (!file) return
-  if (file.size > 5 * 1024 * 1024) {
-    setPhotoStatus(type, 'error', '❌ File too large. Max 5MB.')
-    input.value = ''; return
-  }
-
-  if (!CLOUDINARY_CLOUD || !CLOUDINARY_PRESET) {
-    // Preview only — Cloudinary not configured
-    showPhotoPreview(type, URL.createObjectURL(file))
-    setPhotoStatus(type, 'error', '⚠️ Cloudinary not set up. Photo previews but will not save. Contact support.')
-    input.value = ''; return
-  }
-
-  setPhotoStatus(type, 'uploading', '⏳ Uploading...')
-
-  try {
-    const fd = new FormData()
-    fd.append('file', file)
-    fd.append('upload_preset', CLOUDINARY_PRESET)
-    fd.append('folder', 'goodreview')
-
-    const res  = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, {
-      method: 'POST', body: fd
-    })
-    const data = await res.json()
-    if (!data.secure_url) throw new Error(data.error?.message || 'No URL returned: ' + JSON.stringify(data))
-
-    photoUrls[type] = data.secure_url
-    showPhotoPreview(type, data.secure_url)
-    setPhotoStatus(type, 'done', '✅ Uploaded successfully!')
-    const removeId = type === 'owner' ? 'ownerPhotoRemove' : 'coverPhotoRemove'
-    document.getElementById(removeId).style.display = 'inline-block'
-  } catch(e) {
-    setPhotoStatus(type, 'error', '❌ ' + (e?.message || JSON.stringify(e) || 'Upload failed'))
-  }
-  input.value = ''
-}
-
-function showPhotoPreview(type, url) {
-  const imgEl   = document.getElementById(type === 'owner' ? 'ownerPhotoImg'   : 'coverPhotoImg')
-  const emptyEl = document.getElementById(type === 'owner' ? 'ownerPhotoEmpty' : 'coverPhotoEmpty')
-  imgEl.src = url; imgEl.style.display = 'block'; emptyEl.style.display = 'none'
+// ═══════════════════════════════════════════════════════════════
+// PHOTOS
+// ═══════════════════════════════════════════════════════════════
+function setPhotoPreview(type, url) {
+  const isOwner = type === 'owner'
+  const img   = document.getElementById(isOwner ? 'ownerImg'   : 'coverImg')
+  const empty = document.getElementById(isOwner ? 'ownerEmpty' : 'coverEmpty')
+  const rmBtn = document.getElementById(isOwner ? 'ownerRemoveBtn' : 'coverRemoveBtn')
+  img.src = url; img.style.display = 'block'; empty.style.display = 'none'
+  if (rmBtn) rmBtn.style.display = 'inline-block'
 }
 
 function removePhoto(type) {
   photoUrls[type] = 'REMOVE'
-  const imgEl    = document.getElementById(type === 'owner' ? 'ownerPhotoImg'    : 'coverPhotoImg')
-  const emptyEl  = document.getElementById(type === 'owner' ? 'ownerPhotoEmpty'  : 'coverPhotoEmpty')
-  const removeEl = document.getElementById(type === 'owner' ? 'ownerPhotoRemove' : 'coverPhotoRemove')
-  imgEl.style.display = 'none'; emptyEl.style.display = 'block'
-  if (removeEl) removeEl.style.display = 'none'
-  setPhotoStatus(type, '', '')
+  const isOwner = type === 'owner'
+  const img   = document.getElementById(isOwner ? 'ownerImg'   : 'coverImg')
+  const empty = document.getElementById(isOwner ? 'ownerEmpty' : 'coverEmpty')
+  const rmBtn = document.getElementById(isOwner ? 'ownerRemoveBtn' : 'coverRemoveBtn')
+  img.style.display = 'none'; empty.style.display = 'block'
+  if (rmBtn) rmBtn.style.display = 'none'
+  setStatus(type, '', '')
 }
 
-function setPhotoStatus(type, state, msg) {
-  const el = document.getElementById(type === 'owner' ? 'ownerPhotoStatus' : 'coverPhotoStatus')
-  if (el) { el.textContent = msg; el.className = 'upload-status ' + state }
+function setStatus(type, cls, msg) {
+  const el = document.getElementById(type === 'owner' ? 'ownerStatus' : 'coverStatus')
+  if (el) { el.textContent = msg; el.className = 'upload-status ' + cls }
 }
 
+// ═══════════════════════════════════════════════════════════════
+// CROP
+// ═══════════════════════════════════════════════════════════════
+let cropType = null, cropImg = null
 
-
-
-// ── CROP ENGINE ───────────────────────────────────────────────────
-let cropState = { type: null, image: null, zoom: 1, offsetX: 0, offsetY: 0 }
-
-function openCropModal(type, file) {
+function openCrop(type, input) {
+  const file = input.files[0]
+  input.value = ''
+  if (!file) return
+  if (file.size > 5 * 1024 * 1024) { setStatus(type, 'error', '❌ Max 5MB'); return }
+  cropType = type
+  document.getElementById('cropTitle').textContent = type === 'owner' ? '✂️ Crop Profile Photo' : '✂️ Crop Cover Banner'
+  document.getElementById('cropZoom').value = 1
+  document.getElementById('cropX').value = 0
+  document.getElementById('cropY').value = 0
   const reader = new FileReader()
-  reader.onload = (e) => {
+  reader.onload = e => {
     const img = new Image()
-    img.onload = () => {
-      cropState = { type, image: img, zoom: 1, offsetX: 0, offsetY: 0 }
-      document.getElementById('cropZoom').value    = 1
-      document.getElementById('cropOffsetX').value = 0
-      document.getElementById('cropOffsetY').value = 0
-      document.getElementById('cropTitle').textContent = type === 'owner'
-        ? '✂️ Crop Profile Photo' : '✂️ Crop Cover Banner'
-      document.getElementById('cropOverlay').classList.add('show')
-      updateCrop()
-    }
+    img.onload = () => { cropImg = img; drawCrop(); document.getElementById('cropOverlay').classList.add('show') }
     img.src = e.target.result
   }
   reader.readAsDataURL(file)
 }
 
-function updateCrop() {
-  cropState.zoom    = parseFloat(document.getElementById('cropZoom').value)
-  cropState.offsetX = parseFloat(document.getElementById('cropOffsetX').value)
-  cropState.offsetY = parseFloat(document.getElementById('cropOffsetY').value)
-
-  const canvas  = document.getElementById('cropCanvas')
-  const wrap    = document.getElementById('cropCanvasWrap')
-  const isOwner = cropState.type === 'owner'
-  const W = wrap.clientWidth
-  const H = isOwner ? W : Math.round(W / 3)
-  canvas.width  = W
-  canvas.height = H
+function drawCrop() {
+  if (!cropImg) return
+  const canvas = document.getElementById('cropCanvas')
+  const wrap   = document.getElementById('cropWrap')
+  const isOwner = cropType === 'owner'
+  const W = wrap.clientWidth, H = isOwner ? W : Math.round(W / 3)
+  canvas.width = W; canvas.height = H
   const ctx = canvas.getContext('2d')
-  ctx.clearRect(0,0,W,H)
-
-  const img  = cropState.image
-  const zoom = cropState.zoom
-  const iw   = img.width  * zoom
-  const ih   = img.height * zoom
-  const ox   = (W - iw) / 2 + (cropState.offsetX / 100) * W * 0.5
-  const oy   = (H - ih) / 2 + (cropState.offsetY / 100) * H * 0.5
-  ctx.drawImage(img, ox, oy, iw, ih)
-
-  // Dim overlay outside crop area
+  ctx.clearRect(0, 0, W, H)
+  const zoom = parseFloat(document.getElementById('cropZoom').value)
+  const ox   = parseFloat(document.getElementById('cropX').value)
+  const oy   = parseFloat(document.getElementById('cropY').value)
+  const iw = cropImg.width * zoom, ih = cropImg.height * zoom
+  const x  = (W - iw) / 2 + ox / 100 * W * 0.5
+  const y  = (H - ih) / 2 + oy / 100 * H * 0.5
+  ctx.drawImage(cropImg, x, y, iw, ih)
   ctx.fillStyle = 'rgba(0,0,0,0.5)'
   if (isOwner) {
-    const cx = W/2, cy = H/2, r = Math.min(W,H)/2 - 8
-    ctx.beginPath()
-    ctx.rect(0,0,W,H)
-    ctx.arc(cx,cy,r,0,Math.PI*2,true)
-    ctx.fill()
-    // Circle border
-    ctx.strokeStyle = 'rgba(255,255,255,0.8)'
-    ctx.lineWidth = 2
-    ctx.beginPath()
-    ctx.arc(cx,cy,r,0,Math.PI*2)
-    ctx.stroke()
+    const r = Math.min(W, H) / 2 - 6
+    ctx.beginPath(); ctx.rect(0, 0, W, H); ctx.arc(W/2, H/2, r, 0, Math.PI*2, true); ctx.fill()
+    ctx.strokeStyle = 'rgba(255,255,255,0.8)'; ctx.lineWidth = 2
+    ctx.beginPath(); ctx.arc(W/2, H/2, r, 0, Math.PI*2); ctx.stroke()
   } else {
-    const pad = 16
-    ctx.beginPath()
-    ctx.rect(0,0,W,H)
-    ctx.rect(pad,pad,W-pad*2,H-pad*2)
-    ctx.fill()
-    ctx.strokeStyle = 'rgba(255,255,255,0.8)'
-    ctx.lineWidth = 2
-    ctx.strokeRect(pad,pad,W-pad*2,H-pad*2)
+    const p = 12
+    ctx.beginPath(); ctx.rect(0, 0, W, H); ctx.rect(p, p, W-p*2, H-p*2); ctx.fill()
+    ctx.strokeStyle = 'rgba(255,255,255,0.8)'; ctx.lineWidth = 2
+    ctx.strokeRect(p, p, W-p*2, H-p*2)
   }
-
   // Update previews
-  updatePreview(canvas, isOwner)
+  const pc = document.getElementById('prevCircle'), pctx = pc.getContext('2d')
+  pctx.clearRect(0,0,52,52); pctx.save()
+  pctx.beginPath(); pctx.arc(26,26,26,0,Math.PI*2); pctx.clip()
+  pctx.drawImage(canvas,0,0,52,52); pctx.restore()
+  const pr = document.getElementById('prevRect')
+  pr.getContext('2d').drawImage(canvas,0,0,110,36)
 }
 
-function updatePreview(srcCanvas, isOwner) {
-  // Circle preview
-  const pc = document.getElementById('cropPreviewCircle')
-  const pctx = pc.getContext('2d')
-  pctx.clearRect(0,0,56,56)
-  pctx.save()
-  pctx.beginPath()
-  pctx.arc(28,28,28,0,Math.PI*2)
-  pctx.clip()
-  pctx.drawImage(srcCanvas,0,0,56,56)
-  pctx.restore()
-
-  // Rect preview
-  const pr = document.getElementById('cropPreviewRect')
-  const prtx = pr.getContext('2d')
-  prtx.clearRect(0,0,120,40)
-  prtx.drawImage(srcCanvas,0,0,120,40)
-}
-
-function cancelCrop() {
-  document.getElementById('cropOverlay').classList.remove('show')
-  cropState.type = null
-}
+function cancelCrop() { document.getElementById('cropOverlay').classList.remove('show'); cropType=null; cropImg=null }
 
 function applyCrop() {
-  const canvas  = document.getElementById('cropCanvas')
-  const isOwner = cropState.type === 'owner'
-  const type    = cropState.type
-
-  // Create final cropped canvas at target size
-  const outCanvas = document.createElement('canvas')
-  const pad       = isOwner ? 0 : 16
-  const srcW      = canvas.width  - pad * 2
-  const srcH      = canvas.height - pad * 2
-  outCanvas.width  = isOwner ? 400 : 1200
-  outCanvas.height = isOwner ? 400 : 400
-
-  const octx = outCanvas.getContext('2d')
-  if (isOwner) {
-    octx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, 400, 400)
-  } else {
-    octx.drawImage(canvas, pad, pad, srcW, srcH, 0, 0, 1200, 400)
-  }
-
+  const canvas = document.getElementById('cropCanvas')
+  const type = cropType
+  const isOwner = type === 'owner'
+  const out = document.createElement('canvas')
+  const pad = isOwner ? 0 : 12
+  out.width = isOwner ? 400 : 1200; out.height = isOwner ? 400 : 400
+  const octx = out.getContext('2d')
+  if (isOwner) octx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, 400, 400)
+  else octx.drawImage(canvas, pad, pad, canvas.width-pad*2, canvas.height-pad*2, 0, 0, 1200, 400)
   document.getElementById('cropOverlay').classList.remove('show')
-
-  // Preview in edit page
-  showPhotoPreview(type, outCanvas.toDataURL('image/jpeg', 0.92))
-
-  // Upload to Cloudinary
-  outCanvas.toBlob(async (blob) => {
-    if (!CLOUDINARY_CLOUD || !CLOUDINARY_PRESET) {
-      setPhotoStatus(type, 'error', '⚠️ Cloudinary not configured.')
-      return
-    }
-    setPhotoStatus(type, 'uploading', '⏳ Uploading...')
+  cropType = null; cropImg = null
+  setPhotoPreview(type, out.toDataURL('image/jpeg', 0.92))
+  out.toBlob(async blob => {
+    if (!CLOUDINARY_CLOUD || !CLOUDINARY_PRESET) { setStatus(type,'error','⚠️ Cloudinary not set up'); return }
+    setStatus(type, 'uploading', '⏳ Uploading...')
     try {
       const fd = new FormData()
-      fd.append('file', blob, type + '_photo.jpg')
+      fd.append('file', blob, type + '.jpg')
       fd.append('upload_preset', CLOUDINARY_PRESET)
       fd.append('folder', 'goodreview')
-      const res  = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, {
-        method: 'POST', body: fd
-      })
-      const data = await res.json()
-      if (!data.secure_url) throw new Error(data.error?.message || 'No URL returned')
-      photoUrls[type] = data.secure_url
-      showPhotoPreview(type, data.secure_url)
-      setPhotoStatus(type, 'done', '✅ Uploaded!')
-      document.getElementById(type === 'owner' ? 'ownerPhotoRemove' : 'coverPhotoRemove').style.display = 'inline-block'
-    } catch(e) {
-      setPhotoStatus(type, 'error', '❌ ' + (e.message || 'Upload failed'))
-    }
+      const r = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, {method:'POST',body:fd})
+      const d = await r.json()
+      if (!d.secure_url) throw new Error(d.error?.message || 'No URL')
+      photoUrls[type] = d.secure_url
+      setPhotoPreview(type, d.secure_url)
+      setStatus(type, 'done', '✅ Uploaded!')
+    } catch(e) { setStatus(type,'error','❌ ' + (e.message||'Upload failed')) }
   }, 'image/jpeg', 0.92)
 }
 
-// ── LOGOUT ───────────────────────────────────────────────────────
-function logout() {
-  try {
-    localStorage.removeItem('gr_edit_session')
-    sessionStorage.removeItem('gr_edit_session')
-  } catch(_) {}
-  business  = null
-  recordId  = ''
-  document.getElementById('editSection').style.display  = 'none'
-  document.getElementById('emailCard').style.display    = 'block'
-  document.getElementById('otpCard').style.display      = 'none'
-  document.getElementById('emailInput').value           = ''
-  document.getElementById('otpInput').value             = ''
-  window.scrollTo({top: 0, behavior: 'smooth'})
+// ═══════════════════════════════════════════════════════════════
+// BUILD SAVE PAYLOAD
+// ═══════════════════════════════════════════════════════════════
+function buildSelectedTagsForSave() {
+  const result = []
+  if (tagMaster) {
+    selectedTagIds.forEach(id => {
+      const isFav = favTagIds.includes(id)
+      if (tagMaster.serviceQualityTags?.[id]) {
+        result.push({ id, label: id, type: 'quality', favourite: isFav }); return
+      }
+      const cat = tagMaster.categories?.[business.businessType]
+      if (cat) {
+        for (const sub of Object.values(cat.subcategories || {})) {
+          const t = sub.tags?.find(t => t.id === id)
+          if (t) { result.push({ id, label: t.label, type: 'preset', favourite: isFav }); return }
+        }
+      }
+      result.push({ id, label: id, type: 'preset', favourite: isFav })
+    })
+  }
+  customTags.forEach(t => result.push({ id: null, label: t, type: 'custom', favourite: false }))
+  return result
 }
+
+// ═══════════════════════════════════════════════════════════════
+// SAVE
+// ═══════════════════════════════════════════════════════════════
+async function saveProfile() {
+  const gmbUrl = document.getElementById('editGmb').value.trim()
+  const city   = document.getElementById('editCity').value.trim()
+  if (!gmbUrl) { showErr('err-gmb'); document.getElementById('editGmb').scrollIntoView({behavior:'smooth'}); return }
+  hideErr('err-gmb')
+  if (!city) { showErr('err-city'); document.getElementById('editCity').scrollIntoView({behavior:'smooth'}); return }
+  hideErr('err-city')
+  if (selectedLangs.length === 0) { showErr('err-lang'); return }
+  hideErr('err-lang')
+
+  const btn = document.getElementById('saveBtn')
+  btn.disabled = true; btn.textContent = 'Saving...'
+
+  const instagram = document.getElementById('editInstagram').value.trim()
+  const facebook  = document.getElementById('editFacebook').value.trim()
+
+  const payload = {
+    recordId,
+    gmbUrl,
+    city,
+    area:            document.getElementById('editArea').value.trim(),
+    state:           document.getElementById('editState').value,
+    languages:       JSON.stringify(selectedLangs),
+    customTags:      JSON.stringify(customTags),
+    selectedTags:    JSON.stringify(buildSelectedTagsForSave()),
+    nameVariations:  JSON.stringify(nameVars),
+    tagline:         document.getElementById('editTagline').value.trim(),
+    greetingMessage: document.getElementById('editGreeting').value.trim(),
+    businessHours:   document.getElementById('editHours').value.trim(),
+    whatsapp:        document.getElementById('editWhatsapp').value.trim(),
+    socialLinks:     JSON.stringify({ instagram, facebook }),
+    photoUrl:        photoUrls.owner === 'REMOVE' ? '' : photoUrls.owner || undefined,
+    coverUrl:        photoUrls.cover === 'REMOVE' ? '' : photoUrls.cover || undefined,
+  }
+
+  try {
+    const r = await fetch('/api/update-business', {
+      method: 'PATCH', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(payload)
+    })
+    const d = await r.json()
+    if (!r.ok) { btn.disabled=false; btn.textContent='💾 Save Changes'; alert(d.error||'Save failed'); return }
+    btn.classList.add('saved'); btn.textContent = '✅ Saved!'
+    // Update local business object so session is fresh
+    business.tagline         = payload.tagline
+    business.greetingMessage = payload.greetingMessage
+    business.businessHours   = payload.businessHours
+    business.whatsapp        = payload.whatsapp
+    business.gmbUrl          = gmbUrl
+    business.city            = city
+    if (photoUrls.owner !== 'REMOVE' && photoUrls.owner) business.photoUrl = photoUrls.owner
+    if (photoUrls.cover !== 'REMOVE' && photoUrls.cover) business.coverUrl = photoUrls.cover
+    saveSession(null, document.getElementById('rememberMe')?.checked ? Date.now() + 30*24*60*60*1000 : null)
+    setTimeout(() => { btn.classList.remove('saved'); btn.disabled=false; btn.textContent='💾 Save Changes' }, 3000)
+    window.scrollTo({top:0, behavior:'smooth'})
+  } catch(e) {
+    btn.disabled=false; btn.textContent='💾 Save Changes'; alert('Network error')
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// LOGOUT
+// ═══════════════════════════════════════════════════════════════
+function logout() {
+  clearSession()
+  business = null; recordId = ''
+  hide('editSection')
+  show('loginCard')
+  document.getElementById('emailInput').value = ''
+  document.getElementById('otpInput').value   = ''
+  window.scrollTo({top:0, behavior:'smooth'})
+}
+
+// ═══════════════════════════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════════════════════════
+function show(id) { document.getElementById(id).style.display = 'block' }
+function hide(id) { document.getElementById(id).style.display = 'none'  }
+function showErr(id) { document.getElementById(id).classList.add('show') }
+function hideErr(id) { document.getElementById(id).classList.remove('show') }
+
+// ═══════════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', async () => {
+  const found = await checkSession()
+  if (!found) show('loginCard')
+
+  document.getElementById('emailInput').addEventListener('keydown', e => { if(e.key==='Enter') sendOtp() })
+  document.getElementById('otpInput').addEventListener('keydown',   e => { if(e.key==='Enter') verifyOtp() })
+  document.getElementById('nameVarInput').addEventListener('keydown', e => { if(e.key==='Enter'){e.preventDefault();addNameVar()} })
+  document.getElementById('customTagInput').addEventListener('keydown', e => { if(e.key==='Enter'){e.preventDefault();addCustomTag()} })
+})
 </script>
-
-<!-- CROP MODAL -->
-<div class="crop-overlay" id="cropOverlay">
-  <div class="crop-box">
-    <div class="crop-header">
-      <div class="crop-title" id="cropTitle">✂️ Crop Photo</div>
-      <button class="crop-close" onclick="cancelCrop()">✕</button>
-    </div>
-    <div class="crop-canvas-wrap" id="cropCanvasWrap" style="height:280px">
-      <canvas id="cropCanvas"></canvas>
-    </div>
-    <div class="crop-controls">
-      <div class="crop-slider-row">
-        <span class="crop-slider-label">🔍 Zoom</span>
-        <input type="range" class="crop-slider" id="cropZoom" min="1" max="4" step="0.01" value="1" oninput="updateCrop()">
-      </div>
-      <div class="crop-slider-row">
-        <span class="crop-slider-label">↔ Move</span>
-        <input type="range" class="crop-slider" id="cropOffsetX" min="-100" max="100" step="1" value="0" oninput="updateCrop()">
-      </div>
-      <div class="crop-slider-row">
-        <span class="crop-slider-label">↕ Move</span>
-        <input type="range" class="crop-slider" id="cropOffsetY" min="-100" max="100" step="1" value="0" oninput="updateCrop()">
-      </div>
-      <div class="crop-preview-row">
-        <div>
-          <div class="crop-preview-circle"><canvas id="cropPreviewCircle" width="56" height="56"></canvas></div>
-          <div class="crop-preview-label" style="margin-top:4px">Avatar</div>
-        </div>
-        <div>
-          <div class="crop-preview-rect"><canvas id="cropPreviewRect" width="120" height="40"></canvas></div>
-          <div class="crop-preview-label" style="margin-top:4px">Banner</div>
-        </div>
-      </div>
-      <div class="crop-actions">
-        <button class="crop-btn-cancel" onclick="cancelCrop()">Cancel</button>
-        <button class="crop-btn-apply" onclick="applyCrop()">✅ Use This Photo</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 </body>
 </html>
