@@ -686,7 +686,8 @@ async function doGenerate() {
         area:           business.area||'',
         nameVariations: business.nameVariations||[],
         tags:           selectedTags.map(t=>t.label),
-        lang:           activeLang
+        lang:           activeLang,
+        gender:         business.gender || 'neutral'
       })
     })
     const data = await res.json()
