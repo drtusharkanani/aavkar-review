@@ -30,6 +30,12 @@ export default async function handler(req, res) {
 
 The customer experienced: ${tagList}
 
+${gender === 'female'
+  ? "IMPORTANT: The owner/doctor is FEMALE. Always use female pronouns (she/her/hers) when referring to the doctor. NEVER use he/him."
+  : gender === 'male'
+  ? "IMPORTANT: The owner/doctor is MALE. Always use male pronouns (he/him/his) when referring to the doctor. NEVER use she/her."
+  : "Use the doctor's name or 'the doctor' instead of pronouns — avoid he/she entirely."}
+
 You MUST return exactly 2 reviews in the JSON array — never 1, never 3. Both in ${lang}. Rules:
 - Length: ${sizeDesc} — do NOT write one-word or ultra-short reviews
 - Both reviews must be DIFFERENT from each other — different words, different structure
