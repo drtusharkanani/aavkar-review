@@ -1242,7 +1242,7 @@ async function saveProfile() {
     greetingMessage: document.getElementById('editGreeting').value.trim(),
     businessHours:   document.getElementById('editHours').value.trim(),
     whatsapp:        document.getElementById('editWhatsapp').value.trim(),
-    socialLinks:     JSON.stringify({ instagram, facebook }),
+    socialLinks:     JSON.stringify({ instagram, facebook, youtube, twitter, linkedin, whatsappBiz, threads, website }),
     photoUrl:        photoUrls.owner === 'REMOVE' ? '' : photoUrls.owner || undefined,
     coverUrl:        photoUrls.cover === 'REMOVE' ? '' : photoUrls.cover || undefined,
     nfcDesign:       nfcDesign || undefined,
