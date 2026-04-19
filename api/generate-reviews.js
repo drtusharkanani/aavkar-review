@@ -12,7 +12,8 @@ export default async function handler(req, res) {
     area,
     nameVariations, // array of name variations e.g. ["Dr. Jinkal","Dr. Dihora"]
     tags,           // array of tag labels
-    lang            // single language string — always determined by client
+    lang,           // single language string — always determined by client
+    gender          // 'male' | 'female' | 'neutral'
   } = req.body
 
   if (!businessName || !tags?.length || !lang) {
