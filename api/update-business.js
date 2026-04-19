@@ -26,7 +26,7 @@ export default async function handler(req, res) {
     languages, customTags, selectedTags, nameVariations,
     gmbUrl, city, area, state,
     tagline, greetingMessage, photoUrl, coverUrl,
-    businessHours, whatsapp, socialLinks
+    businessHours, whatsapp, socialLinks, nfcDesign
   } = req.body
 
   if (!recordId) return res.status(400).json({ error: 'Missing recordId' })
@@ -48,6 +48,7 @@ export default async function handler(req, res) {
   if (businessHours    !== undefined) fields['BusinessHours']   = businessHours
   if (whatsapp         !== undefined) fields['WhatsApp']        = whatsapp
   if (socialLinks      !== undefined) fields['SocialLinks']     = socialLinks
+  if (nfcDesign        !== undefined) fields['NFCDesign']      = nfcDesign
 
   try {
     const airtableRes = await fetch(
