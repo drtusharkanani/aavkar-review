@@ -498,6 +498,7 @@ select.input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xml
     <button class="btn-save" id="saveBtn" onclick="saveProfile()">💾 Save Changes</button>
     <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding:0 4px">
       <a id="viewPageLink" href="#" target="_blank" style="font-size:13px;color:var(--or);font-weight:700;text-decoration:none">👁 View My Review Page →</a>
+      <a id="standeeLink" href="#" target="_blank" style="font-size:13px;color:#1565C0;font-weight:700;text-decoration:none">🖼 My Standee →</a>
       <span onclick="logout()" style="font-size:12px;color:var(--soft);cursor:pointer;text-decoration:underline">Log out</span>
     </div>
   </div>
@@ -668,6 +669,7 @@ function mergeFresh(f) {
     expiryDate:      f.expiryDate      || business.expiryDate,
     paymentType:     f.paymentType     || business.paymentType,
     shippingStatus:  f.shippingStatus  || business.shippingStatus,
+    nfcDesign:       f.nfcDesign       || business.nfcDesign || '',
   }
 }
 
@@ -786,6 +788,7 @@ function renderEdit() {
   document.getElementById('reviewLink').textContent = url
   document.getElementById('reviewLink').href = url
   document.getElementById('viewPageLink').href = url
+  document.getElementById('standeeLink').href = `https://goodreview.in/standee.html?id=${b.ownerId}`
   document.getElementById('viewOwnerName').value = b.ownerName || ''
   document.getElementById('viewBizName').value   = b.businessName || ''
 
@@ -816,12 +819,6 @@ function renderEdit() {
   document.getElementById('editWhatsappBiz').value = social.whatsappBiz || ''
   document.getElementById('editThreads').value     = social.threads     || ''
   document.getElementById('editWebsite').value     = social.website     || ''
-  document.getElementById('editYoutube').value     = social.youtube    || ''
-  document.getElementById('editTwitter').value     = social.twitter    || ''
-  document.getElementById('editLinkedin').value    = social.linkedin   || ''
-  document.getElementById('editWhatsappBiz').value = social.whatsappBiz || ''
-  document.getElementById('editThreads').value    = social.threads     || ''
-  document.getElementById('editWebsite').value    = social.website     || ''
 
   // NFC Design
   nfcDesign = b.nfcDesign || ''
