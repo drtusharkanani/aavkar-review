@@ -9,11 +9,13 @@
 :root{--saffron:#FF6B00;--saffron-light:#FFF3E8;--green:#1A7A4A;--green-light:#E8F5EE;--gold:#F5A623;--text:#1A1A2E;--text-soft:#5A5A7A;--border:#E8E8F0;--bg:#F7F7FC;--white:#FFFFFF;--shadow:0 2px 16px rgba(0,0,0,0.08);--radius:16px}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px}
+/* HEADER */
 .header{background:linear-gradient(135deg,#FF6B00,#FF8C00,#F5A623);padding:24px 20px 44px;text-align:center;position:relative;overflow:hidden}
 .header::before{content:'';position:absolute;top:-40px;right:-40px;width:150px;height:150px;background:rgba(255,255,255,0.07);border-radius:50%}
 .brand{font-family:'Poppins',sans-serif;font-size:13px;font-weight:700;color:rgba(255,255,255,0.9);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
 .header-title{font-family:'Poppins',sans-serif;font-size:22px;font-weight:700;color:#fff;margin-bottom:4px}
 .header-sub{font-size:13px;color:rgba(255,255,255,0.85)}
+/* STEPS */
 .steps-bar{background:var(--white);margin:-24px 16px 14px;border-radius:var(--radius);padding:16px 20px;box-shadow:var(--shadow);position:relative;z-index:1}
 .steps-row{display:flex;align-items:center;justify-content:space-between}
 .step-item{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1}
@@ -25,10 +27,12 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 .step-label.done{color:var(--green)}
 .step-line{flex:1;height:2px;background:var(--border);margin:0 4px;margin-bottom:14px;transition:background 0.3s}
 .step-line.done{background:var(--green)}
+/* CARD */
 .card{background:var(--white);border-radius:var(--radius);margin:0 16px 14px;padding:20px;box-shadow:var(--shadow);display:none;animation:fadeIn 0.3s ease}
 .card.active{display:block}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 .card-title{font-family:'Poppins',sans-serif;font-size:16px;font-weight:700;color:var(--text);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+/* FORM */
 .field{margin-bottom:14px}
 .field label{display:block;font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px}
 .field label span{color:var(--saffron)}
@@ -38,18 +42,22 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 select.input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%235A5A7A' d='M6 8L0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
 .error-msg{font-size:11px;color:#E24B4A;margin-top:4px;display:none}
 .error-msg.show{display:block}
+/* CATEGORY GRID */
 .cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px}
 .cat-btn{padding:10px 12px;border-radius:12px;border:2px solid var(--border);background:var(--white);font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;color:var(--text-soft);cursor:pointer;text-align:left;transition:all 0.15s;display:flex;align-items:center;gap:6px}
 .cat-btn:hover{border-color:var(--saffron);color:var(--saffron)}
 .cat-btn.selected{background:var(--saffron-light);border-color:var(--saffron);color:var(--saffron)}
 .cat-icon{font-size:16px}
+/* SUBCATEGORY */
 .subcat-wrap{margin-bottom:14px}
 .subcat-label{font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px}
+/* TAGS SECTION */
 .tags-wrap{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px}
 .tag-chip{padding:7px 13px;border-radius:24px;border:2px solid var(--border);background:var(--white);font-size:12px;font-weight:700;color:var(--text-soft);cursor:pointer;transition:all 0.15s;user-select:none}
 .tag-chip:hover{border-color:var(--saffron);color:var(--saffron)}
 .tag-chip.selected{background:var(--saffron-light);border-color:var(--saffron);color:var(--saffron)}
 .tag-chip.owner{border-style:dashed;border-color:var(--green);color:var(--green);background:var(--green-light)}
+/* LANGUAGE */
 .lang-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .lang-opt{padding:12px;border-radius:12px;border:2px solid var(--border);background:var(--white);cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:10px}
 .lang-opt:hover{border-color:var(--saffron)}
@@ -59,6 +67,7 @@ select.input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xml
 .lang-native{font-size:12px;color:var(--text-soft)}
 .lang-check{width:20px;height:20px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;margin-left:auto;flex-shrink:0}
 .lang-opt.selected .lang-check{background:var(--saffron);border-color:var(--saffron);color:#fff}
+/* PLAN */
 .plan-grid{display:flex;flex-direction:column;gap:10px}
 .plan-card{border-radius:12px;border:2px solid var(--border);padding:14px;cursor:pointer;transition:all 0.15s;position:relative}
 .plan-card:hover{border-color:var(--saffron)}
@@ -74,20 +83,25 @@ select.input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xml
 .dur-tabs{display:flex;border-radius:10px;overflow:hidden;border:2px solid var(--border);margin-bottom:14px}
 .dur-tab{flex:1;padding:8px 4px;font-size:12px;font-weight:700;text-align:center;cursor:pointer;background:var(--white);color:var(--text-soft);transition:all 0.15s;border:none}
 .dur-tab.active{background:var(--saffron);color:#fff}
+/* CUSTOM TAG INPUT */
 .add-tag-row{display:flex;gap:8px;margin-top:8px}
 .add-tag-input{flex:1;padding:10px 13px;border-radius:10px;border:2px solid var(--border);font-family:'Nunito',sans-serif;font-size:13px;outline:none;transition:border-color 0.2s}
 .add-tag-input:focus{border-color:var(--green)}
 .add-tag-btn{padding:10px 14px;border-radius:10px;background:var(--green);color:#fff;border:none;font-weight:800;font-size:14px;cursor:pointer}
 .owner-tag-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:20px;background:var(--green-light);border:2px solid var(--green);font-size:12px;font-weight:700;color:var(--green)}
 .owner-tag-pill .remove{cursor:pointer;opacity:0.7;font-size:14px}
+/* NAV BUTTONS */
 .nav-row{display:flex;gap:10px;margin:0 16px;position:sticky;bottom:12px}
 .btn-prev{flex:1;padding:15px;border-radius:var(--radius);border:2px solid var(--border);background:var(--white);font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;cursor:pointer;color:var(--text-soft);transition:all 0.2s}
 .btn-next{flex:2;padding:15px;border-radius:var(--radius);border:none;background:linear-gradient(135deg,#FF6B00,#F5A623);color:#fff;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px}
 .btn-next:disabled{opacity:0.5;cursor:not-allowed}
 .btn-next.green{background:linear-gradient(135deg,#1A7A4A,#27AE60)}
+/* INFO BOX */
 .info-box{background:var(--green-light);border:1px solid #97C459;border-radius:10px;padding:11px 14px;font-size:12px;color:#27500A;margin-bottom:12px;line-height:1.6}
 .warn-box{background:var(--saffron-light);border:1px solid #FFD4A8;border-radius:10px;padding:11px 14px;font-size:12px;color:#B85C00;margin-bottom:12px;line-height:1.6}
+/* DIVIDER */
 .divider{height:1px;background:var(--border);margin:14px 0}
+/* SUCCESS */
 .success-card{background:var(--white);border-radius:var(--radius);margin:0 16px;padding:32px 20px;box-shadow:var(--shadow);text-align:center;display:none}
 .success-card.active{display:block;animation:fadeIn 0.4s ease}
 .success-icon{font-size:56px;margin-bottom:16px}
@@ -96,6 +110,7 @@ select.input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xml
 .qr-wrap{background:var(--bg);border-radius:12px;padding:20px;margin:16px 0;display:inline-block}
 .review-url{font-size:13px;color:var(--saffron);font-weight:700;word-break:break-all;margin-bottom:16px}
 .btn-open{display:inline-block;padding:14px 28px;border-radius:var(--radius);background:var(--green);color:#fff;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;text-decoration:none;margin-top:8px}
+/* LOADING OVERLAY */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:none;align-items:center;justify-content:center;z-index:100;flex-direction:column;gap:16px}
 .overlay.show{display:flex}
 .overlay-spinner{width:52px;height:52px;border:4px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.8s linear infinite}
@@ -111,10 +126,6 @@ select.input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xml
 .coupon-success{background:var(--green-light);border:1px solid #97C459;border-radius:10px;padding:10px 14px;font-size:13px;color:var(--green);font-weight:700;margin-top:8px;display:none}
 .coupon-error{font-size:12px;color:#E24B4A;margin-top:6px;display:none}
 .char-count{font-size:11px;color:var(--text-soft);text-align:right;margin-top:3px}
-/* Gender pills */
-.gender-btn{flex:1;padding:10px 8px;border-radius:12px;border:2px solid var(--border);background:var(--white);font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;color:var(--text-soft);cursor:pointer;text-align:center;transition:all 0.15s}
-.gender-btn:hover{border-color:var(--saffron);color:var(--saffron)}
-.gender-btn.selected{background:var(--saffron-light);border-color:var(--saffron);color:var(--saffron)}
 </style>
 </head>
 <body>
@@ -156,37 +167,9 @@ select.input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xml
 
   <div class="field">
     <label>Full Name <span>*</span></label>
-    <input class="input" id="ownerName" placeholder="Your full name" maxlength="80">
+    <input class="input" id="ownerName" placeholder="Dr. Tushar Kanani" maxlength="80">
     <div class="error-msg" id="err-ownerName">Please enter your name</div>
   </div>
-
-  <!-- PREFIX + GENDER -->
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-    <div class="field" style="margin-bottom:0">
-      <label>Prefix <span style="font-weight:400;color:var(--text-soft)">(optional)</span></label>
-      <select class="input" id="prefix">
-        <option value="">None</option>
-        <option>Dr.</option>
-        <option>CA</option>
-        <option>Adv.</option>
-        <option>Er.</option>
-        <option>Prof.</option>
-        <option>Mr.</option>
-        <option>Mrs.</option>
-        <option>Ms.</option>
-      </select>
-    </div>
-    <div class="field" style="margin-bottom:0">
-      <label>Gender <span style="font-weight:400;color:var(--text-soft)">(for AI reviews)</span></label>
-      <div style="display:flex;gap:6px">
-        <button class="gender-btn selected" id="g_neutral" onclick="selectGender('neutral')">⚪ Neutral</button>
-        <button class="gender-btn" id="g_male"    onclick="selectGender('male')">👨 Male</button>
-        <button class="gender-btn" id="g_female"  onclick="selectGender('female')">👩 Female</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="divider"></div>
 
   <div class="field">
     <label>Qualification / Degree</label>
@@ -195,7 +178,7 @@ select.input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xml
 
   <div class="field">
     <label>Business Name <span>*</span></label>
-    <input class="input" id="businessName" placeholder="Your business name" maxlength="80">
+    <input class="input" id="businessName" placeholder="Aavkar Clinic / Taste of India / etc." maxlength="80">
     <div class="error-msg" id="err-businessName">Please enter your business name</div>
   </div>
 
@@ -255,10 +238,12 @@ select.input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xml
 <div class="card" id="step2">
   <div class="card-title">🏢 Business & Languages</div>
 
+  <!-- Category -->
   <div class="section-label">Business Category <span style="color:var(--saffron)">*</span></div>
   <div class="cat-grid" id="catGrid"></div>
   <div class="error-msg" id="err-cat" style="margin-bottom:10px">Please select a category</div>
 
+  <!-- Subcategory -->
   <div id="subcatSection" style="display:none;margin-top:12px">
     <div class="field">
       <label>Sub-Category <span>*</span></label>
@@ -269,6 +254,7 @@ select.input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xml
     </div>
   </div>
 
+  <!-- Owner Custom Tags (Premium/Ultimate only — shown after plan selected, handled later) -->
   <div id="ownerTagsSection" style="display:none;margin-top:4px">
     <div class="divider"></div>
     <div class="section-label">Your Custom Service Tags <span id="tagLimitLabel"></span></div>
@@ -282,6 +268,7 @@ select.input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xml
     <div class="error-msg" id="err-ownerTags"></div>
   </div>
 
+  <!-- Languages -->
   <div class="divider"></div>
   <div class="section-label">Review Languages <span style="color:var(--saffron)">*</span></div>
   <div class="info-box">Select languages your customers speak. Reviews will be generated in these languages. Select at least 1.</div>
@@ -293,6 +280,7 @@ select.input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xml
 <div class="card" id="step3">
   <div class="card-title">💼 Choose Your Plan</div>
 
+  <!-- Duration tabs -->
   <div class="section-label">Duration</div>
   <div class="dur-tabs">
     <button class="dur-tab active" onclick="setDur(0)" id="dt0">1 Year</button>
@@ -303,6 +291,7 @@ select.input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xml
   <div class="plan-grid" id="planGrid"></div>
   <div class="error-msg" id="err-plan" style="margin-top:8px">Please select a plan</div>
 
+  <!-- COUPON CODE -->
   <div class="divider"></div>
   <div class="section-label">Have a Coupon Code?</div>
   <div class="coupon-wrap">
@@ -324,6 +313,9 @@ select.input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xml
   <div class="success-sub" id="successSub">Your review page is ready. Share it with your customers or display the QR code.</div>
   <div class="review-url" id="successUrl"></div>
   <a class="btn-open" id="successLink" href="#" target="_blank">Open My Review Page →</a>
+  <div style="margin-top:12px">
+    <a id="successEditLink" href="https://goodreview.in/edit.html" style="font-size:13px;color:#FF6B00;font-weight:700;text-decoration:none">✏️ Edit Your Review Page →</a>
+  </div>
   <div style="font-size:12px;color:var(--text-soft);margin-top:16px">We've sent your QR code and review link to your email.</div>
 </div>
 
@@ -371,19 +363,19 @@ const LANGUAGES = [
 ]
 
 const PLANS = {
-  0: [
+  0: [ // 1 year
     {id:'free',        name:'Free',     price:0,    features:'10 reviews · QR code · 0 custom tags',     tags:0},
     {id:'starter_1yr', name:'Starter',  price:499,  features:'Unlimited reviews · QR code · 0 custom tags', tags:0},
     {id:'premium_1yr', name:'Premium',  price:999,  features:'Unlimited · NFC card · 2 custom tags · QR stickers', tags:2, popular:true},
     {id:'ultimate_1yr',name:'Ultimate', price:1499, features:'Unlimited · NFC + Standee · 5 custom tags · QR stickers', tags:5}
   ],
-  1: [
+  1: [ // 2 years
     {id:'free',        name:'Free',     price:0,    features:'10 reviews · QR code · 0 custom tags',     tags:0},
     {id:'starter_2yr', name:'Starter',  price:799,  features:'Unlimited reviews · QR code · 0 custom tags', tags:0},
     {id:'premium_2yr', name:'Premium',  price:1699, features:'Unlimited · NFC card · 2 custom tags · QR stickers', tags:2, popular:true},
     {id:'ultimate_2yr',name:'Ultimate', price:2499, features:'Unlimited · NFC + Standee · 5 custom tags · QR stickers', tags:5}
   ],
-  2: [
+  2: [ // 5 years
     {id:'free',        name:'Free',     price:0,    features:'10 reviews · QR code · 0 custom tags',     tags:0},
     {id:'starter_5yr', name:'Starter',  price:1499, features:'Unlimited reviews · QR code · 0 custom tags', tags:0},
     {id:'premium_5yr', name:'Premium',  price:2999, features:'Unlimited · NFC card · 2 custom tags · QR stickers', tags:2, popular:true},
@@ -392,55 +384,52 @@ const PLANS = {
 }
 
 // ─── STATE ────────────────────────────────────────────────────────
-let currentStep    = 1
-let selectedCat    = null
-let couponApplied  = false
+let currentStep = 1
+let selectedCat = null
+let couponApplied = false
 let selectedSubCat = ''
-let selectedLangs  = []
-let selectedPlan   = null
-let selectedDur    = 0
-let ownerTags      = []
-let tagLimit       = 0
-let selectedGender = 'neutral'
+let selectedLangs = []
+let selectedPlan = null
+let selectedDur = 0
+let ownerTags = []
+let tagLimit = 0
 
-// ─── GENDER ───────────────────────────────────────────────────────
-function selectGender(g) {
-  selectedGender = g
-  ;['neutral','male','female'].forEach(x => {
-    document.getElementById('g_' + x).classList.toggle('selected', x === g)
-  })
-}
-
-// ─── COUPON ───────────────────────────────────────────────────────
+// ─── INIT ─────────────────────────────────────────────────────────
+// ── Valid coupon codes ────────────────────────────────────────
 const COUPONS = ['TEST100', 'TUSHAR100', 'GOODREVIEW100', 'LAUNCH100']
 
 function applyCoupon() {
-  const code      = document.getElementById('couponInput').value.trim().toUpperCase()
+  const code = document.getElementById('couponInput').value.trim().toUpperCase()
   const successEl = document.getElementById('couponSuccess')
-  const errorEl   = document.getElementById('couponError')
-  const input     = document.getElementById('couponInput')
+  const errorEl = document.getElementById('couponError')
+  const input = document.getElementById('couponInput')
 
   if (COUPONS.includes(code)) {
     couponApplied = true
-    input.classList.add('valid'); input.classList.remove('invalid')
-    successEl.style.display = 'block'; errorEl.style.display = 'none'
+    input.classList.add('valid')
+    input.classList.remove('invalid')
+    successEl.style.display = 'block'
+    errorEl.style.display = 'none'
     input.disabled = true
+    // Update button to show free registration
     const btn = document.getElementById('btnNext')
     btn.textContent = '✓ Register Free (Coupon Applied)'
     btn.className = 'btn-next green'
   } else {
     couponApplied = false
-    input.classList.add('invalid'); input.classList.remove('valid')
-    errorEl.style.display = 'block'; successEl.style.display = 'none'
+    input.classList.add('invalid')
+    input.classList.remove('valid')
+    errorEl.style.display = 'block'
+    successEl.style.display = 'none'
   }
 }
 
-// ─── INIT ─────────────────────────────────────────────────────────
 function init() {
   renderCategories()
   renderLanguages()
   renderPlans()
 
+  // Char counter for custom tag input
   document.getElementById('newTagInput').addEventListener('input', function(){
     document.getElementById('tagCharCount').textContent = this.value.length
   })
@@ -462,18 +451,13 @@ function renderCategories() {
   })
 }
 
-const PREFIX_MAP = {
-  doctor_health:      'Dr.',
-  finance_legal:      'CA',
-  education_learning: 'Prof.'
-}
-
 function selectCat(id) {
   selectedCat = id
   document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('selected'))
   document.getElementById('cat_' + id).classList.add('selected')
   document.getElementById('err-cat').classList.remove('show')
 
+  // Populate subcategory
   const cat = CATEGORIES.find(c => c.id === id)
   const sel = document.getElementById('subCatSelect')
   sel.innerHTML = '<option value="">Select sub-category</option>'
@@ -485,10 +469,7 @@ function selectCat(id) {
   document.getElementById('subcatSection').style.display = 'block'
   selectedSubCat = ''
 
-  // Auto-suggest prefix based on category
-  const suggested = PREFIX_MAP[id] || ''
-  document.getElementById('prefix').value = suggested
-
+  // Reset owner tags when category changes
   ownerTags = []
   renderOwnerTags()
 }
@@ -514,12 +495,14 @@ function toggleLang(id) {
   else selectedLangs.splice(idx, 1)
 
   LANGUAGES.forEach(l => {
-    const el  = document.getElementById('lang_' + l.id)
+    const el = document.getElementById('lang_' + l.id)
     const chk = document.getElementById('lc_' + l.id)
     if(selectedLangs.includes(l.id)){
-      el.classList.add('selected'); chk.textContent = '✓'
+      el.classList.add('selected')
+      chk.textContent = '✓'
     } else {
-      el.classList.remove('selected'); chk.textContent = ''
+      el.classList.remove('selected')
+      chk.textContent = ''
     }
   })
   document.getElementById('err-lang').classList.remove('show')
@@ -559,12 +542,14 @@ function selectPlan(plan) {
   renderPlans()
   document.getElementById('err-plan').classList.remove('show')
 
+  // Show owner tags section based on plan
   const section = document.getElementById('ownerTagsSection')
   if(tagLimit > 0) {
     section.style.display = 'block'
     document.getElementById('tagLimitLabel').textContent = `(max ${tagLimit})`
     document.getElementById('ownerTagInfo').textContent =
       `Add up to ${tagLimit} custom service tags that will appear on your review page. Example: "Jain Food Available", "Rooftop Seating", "Free Parking".`
+    // Trim existing tags if over new limit
     if(ownerTags.length > tagLimit) ownerTags = ownerTags.slice(0, tagLimit)
     renderOwnerTags()
   } else {
@@ -605,12 +590,35 @@ function renderOwnerTags() {
     pill.innerHTML = `★ ${tag} <span class="remove" onclick="removeOwnerTag(${i})">✕</span>`
     wrap.appendChild(pill)
   })
+  // Show/hide add row based on limit
   const addRow = document.querySelector('.add-tag-row')
   if(addRow) addRow.style.display = ownerTags.length >= tagLimit ? 'none' : 'flex'
 }
 
 // ─── STEP NAVIGATION ─────────────────────────────────────────────
-function prevStep() { goToStep(currentStep - 1) }
+function nextStep() {
+  if(!validateStep(currentStep)) return
+
+  if(currentStep === 2 && selectedPlan && selectedPlan.price > 0) {
+    // Pay first then register
+    initiatePayment()
+    return
+  }
+
+  if(currentStep === 3) {
+    // Free plan — register directly
+    if(selectedPlan?.price === 0) {
+      registerBusiness()
+      return
+    }
+  }
+
+  goToStep(currentStep + 1)
+}
+
+function prevStep() {
+  goToStep(currentStep - 1)
+}
 
 function goToStep(n) {
   document.getElementById('step' + currentStep)?.classList.remove('active')
@@ -623,6 +631,7 @@ function goToStep(n) {
   document.getElementById('sc' + n).className = 'step-circle active'
   document.getElementById('sl' + n).className = 'step-label active'
 
+  // Update lines
   for(let i=1;i<=3;i++){
     document.getElementById('line'+i).className = 'step-line' + (i < currentStep ? ' done' : '')
   }
@@ -659,19 +668,19 @@ function validateStep(step) {
   }
 
   if(step === 1) {
-    const name  = document.getElementById('ownerName').value.trim()
-    const biz   = document.getElementById('businessName').value.trim()
-    const phone = document.getElementById('phone').value.trim()
-    const email = document.getElementById('email').value.trim()
-    const city  = document.getElementById('city').value.trim()
-    const gmb   = document.getElementById('gmbUrl').value.trim()
+    const name = document.getElementById('ownerName').value.trim()
+    const biz  = document.getElementById('businessName').value.trim()
+    const phone= document.getElementById('phone').value.trim()
+    const email= document.getElementById('email').value.trim()
+    const city = document.getElementById('city').value.trim()
+    const gmb  = document.getElementById('gmbUrl').value.trim()
 
-    if(!name)  err('ownerName');   else ok('ownerName')
-    if(!biz)   err('businessName');else ok('businessName')
-    if(!/^\d{10}$/.test(phone))    err('phone');  else ok('phone')
+    if(!name) err('ownerName'); else ok('ownerName')
+    if(!biz)  err('businessName'); else ok('businessName')
+    if(!/^\d{10}$/.test(phone)) err('phone'); else ok('phone')
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) err('email'); else ok('email')
-    if(!city)  err('city');        else ok('city')
-    if(!gmb)   err('gmbUrl');      else ok('gmbUrl')
+    if(!city) err('city'); else ok('city')
+    if(!gmb)  err('gmbUrl'); else ok('gmbUrl')
   }
 
   if(step === 2) {
@@ -688,7 +697,9 @@ function validateStep(step) {
   }
 
   if(step === 3) {
-    if(!selectedPlan) { document.getElementById('err-plan').classList.add('show'); valid = false }
+    if(!selectedPlan) {
+      document.getElementById('err-plan').classList.add('show'); valid = false
+    }
   }
 
   return valid
@@ -696,6 +707,12 @@ function validateStep(step) {
 
 // ─── PAYMENT ──────────────────────────────────────────────────────
 function initiatePayment() {
+  if(!validateStep(2)) return
+
+  // Need to get to step 3 first if not there
+  if(currentStep < 3) { goToStep(3); return }
+  if(!validateStep(3)) return
+
   showOverlay('Opening payment...')
 
   const options = {
@@ -706,8 +723,8 @@ function initiatePayment() {
     description: `${selectedPlan.name} Plan`,
     image: 'https://goodreview.in/logo.png',
     prefill: {
-      name:    document.getElementById('ownerName').value.trim(),
-      email:   document.getElementById('email').value.trim(),
+      name:  document.getElementById('ownerName').value.trim(),
+      email: document.getElementById('email').value.trim(),
       contact: document.getElementById('phone').value.trim()
     },
     theme: { color: '#FF6B00' },
@@ -735,7 +752,9 @@ function initiatePayment() {
         alert('Payment verification error. Please contact support.')
       }
     },
-    modal: { ondismiss: () => hideOverlay() }
+    modal: {
+      ondismiss: () => hideOverlay()
+    }
   }
 
   hideOverlay()
@@ -758,8 +777,6 @@ async function registerBusiness(paymentId = '') {
     state:         document.getElementById('state').value,
     gmbUrl:        document.getElementById('gmbUrl').value.trim(),
     referralCode:  document.getElementById('referralCode').value.trim().toUpperCase(),
-    prefix:        document.getElementById('prefix').value,
-    gender:        selectedGender,
     businessType:  selectedCat,
     subCategory:   selectedSubCat,
     languages:     JSON.stringify(selectedLangs),
@@ -770,11 +787,12 @@ async function registerBusiness(paymentId = '') {
   }
 
   try {
-    const res  = await fetch('/api/register', {
+    const res = await fetch('/api/register', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify(body)
     })
+
     const data = await res.json()
     hideOverlay()
 
@@ -790,20 +808,24 @@ async function registerBusiness(paymentId = '') {
 }
 
 function showSuccess(id) {
+  // Hide all step cards and nav
   for(let i=1;i<=3;i++) document.getElementById('step'+i)?.classList.remove('active')
   document.getElementById('navRow').style.display = 'none'
+  document.getElementById('stepsBar')
 
   const url = `https://goodreview.in/review.html?id=${id}`
-  document.getElementById('successUrl').textContent  = url
-  document.getElementById('successLink').href        = url
-  document.getElementById('successSub').textContent  = `Welcome to GoodReview! Your review page is live. Share the link or QR code with customers.`
+  document.getElementById('successUrl').textContent = url
+  document.getElementById('successLink').href = url
+  document.getElementById('successSub').textContent =
+    `Welcome to GoodReview! Your review page is live. Share the link or QR code with customers.`
   document.getElementById('successCard').classList.add('active')
   window.scrollTo({top:0,behavior:'smooth'})
 
+  // Update step indicators
   for(let i=1;i<=4;i++){
-    document.getElementById('sc'+i).className  = 'step-circle done'
-    document.getElementById('sc'+i).textContent= '✓'
-    document.getElementById('sl'+i).className  = 'step-label done'
+    document.getElementById('sc'+i).className='step-circle done'
+    document.getElementById('sc'+i).textContent='✓'
+    document.getElementById('sl'+i).className='step-label done'
   }
 }
 
@@ -815,7 +837,8 @@ function hideOverlay() {
   document.getElementById('overlay').classList.remove('show')
 }
 
-// ─── NEXT STEP (overridden) ───────────────────────────────────────
+// Handle step 2→3 transition via Continue button
+const origNextStep = nextStep
 window.nextStep = function() {
   if(!validateStep(currentStep)) return
 
@@ -824,8 +847,10 @@ window.nextStep = function() {
 
   if(currentStep === 3) {
     if(!validateStep(3)) return
+    // Auto-apply coupon if typed but Apply not clicked
     const couponVal = document.getElementById('couponInput')?.value?.trim().toUpperCase()
     if(couponVal && !couponApplied) applyCoupon()
+    // Free plan OR valid coupon → skip payment
     if(selectedPlan.price === 0 || couponApplied) {
       registerBusiness()
       return
