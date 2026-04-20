@@ -16,7 +16,7 @@ export default async function handler(req, res) {
     'Plan','Active','PaymentType','ExpiryDate','ReviewCount','Rating',
     'ReferralCode','ReferralCount','ShippingStatus','CustomTags','Languages',
     'SelectedTags','NameVariations',
-    'Tagline','GreetingMessage','PhotoURL','CoverURL','BusinessHours','WhatsApp','SocialLinks','Gender','Prefix','NFCDesign','ReviewStyle'
+    'Tagline','GreetingMessage','PhotoURL','CoverURL','BusinessHours','WhatsApp','SocialLinks','Gender','Prefix','NFCDesign','reviewStyle'
   ]
 
   const formula = `({OwnerID}=${parseInt(id)})`
@@ -43,7 +43,6 @@ export default async function handler(req, res) {
 
     const r = data.records[0].fields
 
-    // Inactive check
     if (!r.Active) {
       return res.status(403).json({
         error: 'inactive',
@@ -52,7 +51,6 @@ export default async function handler(req, res) {
       })
     }
 
-    // Expiry check — free plan never expires, only capped at 10 reviews
     const plan = r.Plan || 'free'
     if (plan !== 'free' && r.ExpiryDate) {
       const expiry = new Date(r.ExpiryDate)
@@ -67,39 +65,25 @@ export default async function handler(req, res) {
       }
     }
 
-    // Parse languages safely — fallback to 4 defaults
     let languages = ['English', 'Hindi', 'Gujarati', 'Hinglish']
-    if (r.Languages) {
-      try { languages = JSON.parse(r.Languages) } catch (_) {}
-    }
+    if (r.Languages) { try { languages = JSON.parse(r.Languages) } catch (_) {} }
 
-    // Parse owner custom tags (legacy — kept for fallback)
     let ownerCustomTags = []
-    if (r.CustomTags) {
-      try { ownerCustomTags = JSON.parse(r.CustomTags) } catch (_) {}
-    }
+    if (r.CustomTags) { try { ownerCustomTags = JSON.parse(r.CustomTags) } catch (_) {} }
 
-    // Parse selected tags
     let selectedTags = []
-    if (r.SelectedTags) {
-      try { selectedTags = JSON.parse(r.SelectedTags) } catch (_) {}
-    }
+    if (r.SelectedTags) { try { selectedTags = JSON.parse(r.SelectedTags) } catch (_) {} }
     if (selectedTags.length === 0 && ownerCustomTags.length > 0) {
       selectedTags = ownerCustomTags.map(label => ({ id: null, label, type: 'custom' }))
     }
 
-    // Parse name variations (used by AI — never shown to visitor)
     let nameVariations = []
-    if (r.NameVariations) {
-      try { nameVariations = JSON.parse(r.NameVariations) } catch (_) {}
-    }
+    if (r.NameVariations) { try { nameVariations = JSON.parse(r.NameVariations) } catch (_) {} }
 
-    // Customer custom tag limit derived from plan
     let customerCustomTagLimit = 0
-    if      (plan.startsWith('ultimate')) customerCustomTagLimit = 5
-    else if (plan.startsWith('premium'))  customerCustomTagLimit = 2
+    if      (plan.trim().startsWith('ultimate')) customerCustomTagLimit = 5
+    else if (plan.trim().startsWith('premium'))  customerCustomTagLimit = 2
 
-    // Free plan review cap
     const isFreePlan    = plan === 'free'
     const freeReviewCap = 10
     const reviewCount   = r.ReviewCount || 0
@@ -134,7 +118,6 @@ export default async function handler(req, res) {
       ownerCustomTags,
       selectedTags,
       nameVariations,
-      // Personalization fields
       tagline:         r.Tagline         || '',
       greetingMessage: r.GreetingMessage || '',
       photoUrl:        r.PhotoURL        || '',
@@ -145,8 +128,7 @@ export default async function handler(req, res) {
       gender:          (r.Gender || 'neutral').toLowerCase(),
       prefix:          r.Prefix       || '',
       nfcDesign:       r.NFCDesign    || '',
-      reviewStyle:     r.ReviewStyle  || 'person',
-      // Dashboard fields
+      reviewStyle:     r.reviewStyle  || 'person',
       active:         r.Active          !== false,
       paymentType:    r.PaymentType     || '',
       expiryDate:     r.ExpiryDate      || null,
