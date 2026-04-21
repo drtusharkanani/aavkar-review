@@ -372,25 +372,17 @@ function drawBack(canvas, d) {
   // Divider
   ctx.fillStyle = hexAlpha(d.acc, 0.18); ctx.fillRect(530, 80, 1, H-160)
 
-  // ── LEFT SIDE — QR ───────────────────────────────
+  // ── LEFT SIDE — QR (larger, no label above) ─────────────────
   const qcx = 265
 
-  // "Scan to Review" label
-  ctx.font = '700 16px Poppins, sans-serif'
-  ctx.fillStyle = hexAlpha(d.text, 0.4)
-  ctx.letterSpacing = '2px'
-  ctx.textAlign = 'center'
-  ctx.fillText('SCAN TO REVIEW', qcx, 88)
-  ctx.letterSpacing = '0px'
-
-  // QR frame
-  const qSize = 220, qx = qcx - qSize/2, qy = 100
+  // QR frame — bigger, starts higher
+  const qSize = 290, qx = qcx - qSize/2, qy = 50
   ctx.fillStyle = '#fff'
   roundRect(ctx, qx-14, qy-14, qSize+28, qSize+28, 18)
   ctx.fill()
 
   // Accent corners on QR frame
-  const cc = d.acc, cw = 24, cs = 4
+  const cc = d.acc, cw = 28, cs = 5
   ;[
     [qx-14, qy-14], [qx+qSize-cw+14, qy-14],
     [qx-14, qy+qSize-cw+14], [qx+qSize-cw+14, qy+qSize-cw+14]
@@ -407,14 +399,14 @@ function drawBack(canvas, d) {
   // Draw QR image
   if (qrImg) ctx.drawImage(qrImg, qx, qy, qSize, qSize)
 
-  // URL below QR
+  // URL below QR — dark, readable
   ctx.font = '700 18px Poppins, sans-serif'
   ctx.fillStyle = d.acc
   ctx.textAlign = 'center'
   ctx.fillText('Scan to Review', qcx, qy + qSize + 44)
-  ctx.font = '400 13px Poppins, sans-serif'
-  ctx.fillStyle = hexAlpha(d.text, 0.3)
-  ctx.fillText(biz._qrUrl.replace('https://',''), qcx, qy + qSize + 66)
+  ctx.font = '400 12px Poppins, sans-serif'
+  ctx.fillStyle = hexAlpha(d.text, 0.5)
+  ctx.fillText(biz._qrUrl.replace('https://',''), qcx, qy + qSize + 64)
   ctx.textAlign = 'left'
 
   // ── RIGHT SIDE — STEPS ───────────────────────────
@@ -434,17 +426,17 @@ function drawBack(canvas, d) {
   ctx.fillText('GoodReview', rx + boxSize + 14, ry + 2)
   ry += 62
 
-  // Steps label
+  // Steps label — dark
   ctx.font = '600 13px Poppins, sans-serif'
-  ctx.fillStyle = hexAlpha(d.text, 0.25)
+  ctx.fillStyle = hexAlpha(d.text, 0.5)
   ctx.letterSpacing = '2px'
   ctx.fillText('HOW TO LEAVE A REVIEW', rx, ry)
   ctx.letterSpacing = '0px'
-  ry += 30
+  ry += 34
 
+  // 3 steps only — removed "Select your language"
   const steps = [
     'Scan QR code or tap NFC card',
-    'Select your language',
     'Pick your experience tags',
     'Copy review & post on Google Maps'
   ]
@@ -452,7 +444,7 @@ function drawBack(canvas, d) {
     // Number circle
     ctx.beginPath(); ctx.arc(rx+14, ry-7, 14, 0, Math.PI*2)
     ctx.fillStyle = hexAlpha(d.acc, 0.15); ctx.fill()
-    ctx.strokeStyle = hexAlpha(d.acc, 0.5); ctx.lineWidth = 1.5; ctx.stroke()
+    ctx.strokeStyle = d.acc; ctx.lineWidth = 1.5; ctx.stroke()
     ctx.font = '800 14px Poppins, sans-serif'
     ctx.fillStyle = d.acc
     ctx.textAlign = 'center'
@@ -460,24 +452,24 @@ function drawBack(canvas, d) {
     ctx.textAlign = 'left'
 
     ctx.font = '500 18px Poppins, sans-serif'
-    ctx.fillStyle = hexAlpha(d.text, 0.65)
+    ctx.fillStyle = hexAlpha(d.text, 0.85)  // darker text
     ctx.fillText(s, rx+40, ry-1)
-    ry += 46
+    ry += 52
   })
 
   // Google G + Stars
-  ry += 10
+  ry += 14
   ctx.font = '700 22px Poppins, sans-serif'
   ctx.fillStyle = d.acc
   ctx.fillText('G  ★★★★★', rx, ry)
   ry += 28
   ctx.font = '400 14px Poppins, sans-serif'
-  ctx.fillStyle = hexAlpha(d.text, 0.2)
+  ctx.fillStyle = hexAlpha(d.text, 0.4)
   ctx.fillText('Powered by Google Reviews', rx, ry)
 
   // URL bottom
-  ctx.font = '400 13px Poppins, sans-serif'
-  ctx.fillStyle = hexAlpha(d.text, 0.15)
+  ctx.font = '400 12px Poppins, sans-serif'
+  ctx.fillStyle = hexAlpha(d.text, 0.3)
   ctx.fillText(biz._qrUrl.replace('https://',''), rx, H - 22)
 }
 
