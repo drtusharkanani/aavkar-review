@@ -286,7 +286,7 @@ function drawFront(canvas, d) {
   // Tagline
   const tagline = biz._tagline || biz.tagline || 'Trusted Quality Service'
   ctx.font = 'italic 400 22px Georgia, serif'
-  ctx.fillStyle = d.textSoft
+  ctx.fillStyle = hexAlpha(d.text, 0.65)
   ctx.fillText(tagline.length > 36 ? tagline.slice(0,36)+'…' : tagline, 60, y)
   y += 56
 
@@ -298,8 +298,8 @@ function drawFront(canvas, d) {
   ctx.font = '800 24px Poppins, sans-serif'
   ctx.fillStyle = d.text
   ctx.fillText('📡  ' + (biz._tapText || 'Tap to share your experience'), 60, y); y += 30
-  ctx.font = '500 16px Poppins, sans-serif'
-  ctx.fillStyle = d.textSoft
+  ctx.font = '600 16px Poppins, sans-serif'
+  ctx.fillStyle = hexAlpha(d.text, 0.7)
   ctx.letterSpacing = '1.5px'
   ctx.fillText('TAKES ONLY 30 SECONDS', 88, y)
   ctx.letterSpacing = '0px'
@@ -340,8 +340,8 @@ function drawFront(canvas, d) {
   ctx.letterSpacing = '2px'
   ctx.fillText('TAP TO REVIEW', cx, cy + 90)
   ctx.letterSpacing = '0px'
-  ctx.font = '400 14px Poppins, sans-serif'
-  ctx.fillStyle = d.textSoft
+  ctx.font = '500 14px Poppins, sans-serif'
+  ctx.fillStyle = hexAlpha(d.text, 0.7)
   ctx.fillText('Your feedback helps others', cx, cy + 115)
   ctx.fillText('find trusted service', cx, cy + 134)
   ctx.textAlign = 'left'
@@ -376,7 +376,7 @@ function drawBack(canvas, d) {
   const qcx = 265
 
   // QR frame — bigger, starts higher
-  const qSize = 290, qx = qcx - qSize/2, qy = 50
+  const qSize = 320, qx = qcx - qSize/2, qy = (638 - 320) / 2 - 30
   ctx.fillStyle = '#fff'
   roundRect(ctx, qx-14, qy-14, qSize+28, qSize+28, 18)
   ctx.fill()
@@ -405,7 +405,7 @@ function drawBack(canvas, d) {
   ctx.textAlign = 'center'
   ctx.fillText('Scan to Review', qcx, qy + qSize + 44)
   ctx.font = '400 12px Poppins, sans-serif'
-  ctx.fillStyle = hexAlpha(d.text, 0.5)
+  ctx.fillStyle = hexAlpha(d.text, 0.7)
   ctx.fillText(biz._qrUrl.replace('https://',''), qcx, qy + qSize + 64)
   ctx.textAlign = 'left'
 
@@ -428,7 +428,7 @@ function drawBack(canvas, d) {
 
   // Steps label — dark
   ctx.font = '600 13px Poppins, sans-serif'
-  ctx.fillStyle = hexAlpha(d.text, 0.5)
+  ctx.fillStyle = hexAlpha(d.text, 0.8)
   ctx.letterSpacing = '2px'
   ctx.fillText('HOW TO LEAVE A REVIEW', rx, ry)
   ctx.letterSpacing = '0px'
@@ -451,8 +451,8 @@ function drawBack(canvas, d) {
     ctx.fillText(i+1, rx+14, ry-2)
     ctx.textAlign = 'left'
 
-    ctx.font = '500 18px Poppins, sans-serif'
-    ctx.fillStyle = hexAlpha(d.text, 0.85)  // darker text
+    ctx.font = '600 18px Poppins, sans-serif'
+    ctx.fillStyle = d.text  // full dark
     ctx.fillText(s, rx+40, ry-1)
     ry += 52
   })
@@ -464,12 +464,12 @@ function drawBack(canvas, d) {
   ctx.fillText('G  ★★★★★', rx, ry)
   ry += 28
   ctx.font = '400 14px Poppins, sans-serif'
-  ctx.fillStyle = hexAlpha(d.text, 0.4)
+  ctx.fillStyle = hexAlpha(d.text, 0.6)
   ctx.fillText('Powered by Google Reviews', rx, ry)
 
   // URL bottom
   ctx.font = '400 12px Poppins, sans-serif'
-  ctx.fillStyle = hexAlpha(d.text, 0.3)
+  ctx.fillStyle = hexAlpha(d.text, 0.55)
   ctx.fillText(biz._qrUrl.replace('https://',''), rx, H - 22)
 }
 
