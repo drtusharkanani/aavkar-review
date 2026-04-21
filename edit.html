@@ -161,6 +161,14 @@ select.input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xml
   <span class="resend-link disabled" id="resendLink" onclick="resendOtp()">Resend code</span>
 </div>
 
+
+<!-- BUSINESS PICKER (shown when email has multiple businesses) -->
+<div class="card" id="pickerCard" style="display:none">
+  <div class="section-title">🏢 Select Your Business</div>
+  <div class="info-box">Your email is linked to multiple businesses. Select which one to edit.</div>
+  <div id="pickerList" style="display:flex;flex-direction:column;gap:10px;margin-top:4px"></div>
+</div>
+
 <!-- LOADING -->
 <div class="loading" id="loadingDiv" style="display:none">
   <div class="spinner"></div>
@@ -594,6 +602,7 @@ let photoUrls      = { owner: '', cover: '' }
 let nfcDesign      = ''  // selected NFC design number 1-5
 let otpTimer       = null
 let timerSecs      = 0
+let selectedOwnerId = null  // set when user picks from multiple businesses
 
 // ═══════════════════════════════════════════════════════════════
 // SESSION
@@ -691,9 +700,18 @@ async function sendOtp() {
     })
     const d = await r.json()
     if (!r.ok) { btn.disabled=false; btn.textContent='Send Login Code →'; alert(d.error||'Failed'); return }
-    hide('loginCard'); show('otpCard')
-    document.getElementById('otpMsg').textContent = `Code sent to ${email}. Check your inbox.`
-    startTimer()
+    hide('loginCard')
+
+    // Check if multiple businesses
+    if (d.multiple && d.businesses?.length > 1) {
+      // Show business picker first, then OTP
+      renderBusinessPicker(d.businesses, email)
+      show('pickerCard')
+    } else {
+      show('otpCard')
+      document.getElementById('otpMsg').textContent = `Code sent to ${email}. Check your inbox.`
+      startTimer()
+    }
   } catch(e) {
     btn.disabled=false; btn.textContent='Send Login Code →'; alert('Network error')
   }
@@ -732,7 +750,7 @@ async function verifyOtp() {
   try {
     const r = await fetch('/api/otp', {
       method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ action:'verify', email, otp })
+      body: JSON.stringify({ action:'verify', email, otp, selectedOwnerId })
     })
     const d = await r.json()
     if (!r.ok) { btn.disabled=false; btn.textContent='Verify Code →'; showOtpErr(d.error||'Incorrect code'); return }
@@ -1404,6 +1422,40 @@ function selectSlotDesign(slot, id) {
   nfcSelected[slot] = id
   nfcDesign = nfcSelected.filter(Boolean).join(',')
   renderSlot(slot)
+}
+
+
+// ═══════════════════════════════════════════════════════════════
+// BUSINESS PICKER
+// ═══════════════════════════════════════════════════════════════
+function renderBusinessPicker(businesses, email) {
+  const list = document.getElementById('pickerList')
+  list.innerHTML = ''
+  businesses.forEach(b => {
+    const div = document.createElement('div')
+    div.style.cssText = 'padding:14px;border-radius:12px;border:2px solid var(--border);cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:12px'
+    div.innerHTML = `
+      <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--or),var(--or2));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff;flex-shrink:0">
+        ${(b.ownerName||'?').replace(/Dr\./i,'').trim().split(' ').map(w=>w[0]||'').slice(0,2).join('').toUpperCase()}
+      </div>
+      <div>
+        <div style="font-size:13px;font-weight:700;color:var(--text)">${b.businessName || b.ownerName}</div>
+        <div style="font-size:11px;color:var(--soft)">ID ${b.ownerId} · ${b.ownerName}</div>
+      </div>
+      <div style="margin-left:auto;font-size:18px">→</div>`
+    div.onmouseover = () => div.style.borderColor = 'var(--or)'
+    div.onmouseout  = () => div.style.borderColor = 'var(--border)'
+    div.onclick = () => selectBusiness(b.ownerId, email)
+    list.appendChild(div)
+  })
+}
+
+function selectBusiness(ownerId, email) {
+  selectedOwnerId = ownerId
+  hide('pickerCard')
+  show('otpCard')
+  document.getElementById('otpMsg').textContent = `Code sent to ${email}. Check your inbox.`
+  startTimer()
 }
 
 // ═══════════════════════════════════════════════════════════════
