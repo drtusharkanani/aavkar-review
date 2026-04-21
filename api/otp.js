@@ -80,15 +80,24 @@ export default async function handler(req, res) {
       }
     }
 
+    const businesses = atData.records.map(r => ({
+      ownerId:      r.fields.OwnerID,
+      ownerName:    r.fields.OwnerName    || '',
+      businessName: r.fields.BusinessName || '',
+    }))
+
     return res.status(200).json({
-      success: true,
-      message: `OTP sent to ${email}`,
-      ownerId: atData.records[0].fields.OwnerID
+      success:    true,
+      message:    `OTP sent to ${email}`,
+      ownerId:    atData.records[0].fields.OwnerID,
+      multiple:   businesses.length > 1,
+      businesses: businesses.length > 1 ? businesses : undefined
     })
   }
 
   // ── VERIFY OTP ────────────────────────────────────────────────
   if (action === 'verify') {
+    const selectedOwnerId = req.body.selectedOwnerId || null
     if (!otp) return res.status(400).json({ error: 'OTP required' })
 
     const stored = otpStore.get(email.toLowerCase())
@@ -116,9 +125,11 @@ export default async function handler(req, res) {
     otpStore.delete(email.toLowerCase())
 
     // Fetch full business data
-    const filter = encodeURIComponent(`({Email}="${email.toLowerCase()}")`)
+    const verifyFilter = selectedOwnerId
+      ? encodeURIComponent(`AND({Email}="${email.toLowerCase()}",{OwnerID}=${parseInt(selectedOwnerId)})`)
+      : encodeURIComponent(`({Email}="${email.toLowerCase()}")`)
     const atRes  = await fetch(
-      `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Doctors?filterByFormula=${filter}`,
+      `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Doctors?filterByFormula=${verifyFilter}`,
       { headers: { Authorization: `Bearer ${AIRTABLE_TOKEN}` } }
     )
     const atData = await atRes.json()
@@ -166,22 +177,6 @@ export default async function handler(req, res) {
         customTags,
         selectedTags,
         nameVariations,
-        // Dashboard stats
-        active:         f.Active          !== false,
-        reviewCount:    f.ReviewCount     || 0,
-        rating:         f.Rating          || null,
-        referralCount:  f.ReferralCount   || 0,
-        expiryDate:     f.ExpiryDate      || null,
-        paymentType:    f.PaymentType     || '',
-        shippingStatus: f.ShippingStatus  || '',
-        // Personalization fields
-        tagline:         f.Tagline         || '',
-        greetingMessage: f.GreetingMessage || '',
-        photoUrl:        f.PhotoURL        || '',
-        coverUrl:        f.CoverURL        || '',
-        businessHours:   f.BusinessHours   || '',
-        whatsapp:        f.WhatsApp        || '',
-        socialLinks:     (() => { try { return f.SocialLinks ? JSON.parse(f.SocialLinks) : {} } catch(_){ return {} } })(),
       }
     })
   }
